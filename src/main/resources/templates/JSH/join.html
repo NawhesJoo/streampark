@@ -4,33 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>프로필 생성</title>
 </head>
 <body>
     <h3>프로필 생성</h3>
-    <form th:action="@{/profile/join.do}" method="post">
+    <form th:action="@{/profile/create.do}" method="post" enctype="multipart/form-data">
         <div class="col-5">
-            <form action="/profile/join.do" method="post">
-                <div class="mb-3">
-                    <!-- <input type="text" name="member.id" th:value="${session.id}" placeholder="아이디"><br /> -->
-                    <input type="text" name="member.id" placeholder="아이디"><br />
-                    <input type="text" name="nickname" placeholder="닉네임"><br />
-                    
-                    <label for="exampleFormControlInput1" class="form-label">관심 키워드</label>
-                    <select class="form-select SearchSLC " name="keyword" id="keyword">
-                        <option id="op" value="애니">애니</option>
-                        <option id="op" value="액션">액션</option>
-                        <option id="op" value="범죄">범죄</option>
-                        <option id="op" value="멜로">멜로</option>
-                        <option id="op" value="SF">SF</option>
-                        <option id="op" value="판타지">판타지</option>
-                        <option id="op" value="코미디">코미디</option>
-                        <option id="op" value="로멘스">로멘스</option>
-                        <option id="op" value="버라이어티">버라이어티</option>
-                    </select> 
-                </div>
-                <button type="submit">프로필 생성</button>
-            </form>
+            <div class="mb-3">
+                <label for="ex_file" style="background-image: url(./Z-BG-IMAGE/default.png);"></label>
+                <input type="file" name="tmpfile" accept="image/*"/><br />
+            </div>
+            <div class="mb-3">
+                <input type="text" name="member.id" placeholder="아이디"><br />
+            </div>
+            <div class="mb-3">
+                <input type="text" name="nickname" placeholder="닉네임"><br />
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">관심 키워드</label>
+                <select class="form-select SearchSLC" name="keyword" id="keyword">
+                    <option value="애니">애니</option>
+                    <option value="액션">액션</option>
+                    <option value="범죄">범죄</option>
+                    <option value="멜로">멜로</option>
+                    <option value="SF">SF</option>
+                    <option value="판타지">판타지</option>
+                    <option value="코미디">코미디</option>
+                    <option value="로멘스">로멘스</option>
+                    <option value="버라이어티">버라이어티</option>
+                </select> 
+            </div>
+            <button type="submit">프로필 생성</button>
         </div>
     </form>
 </body>

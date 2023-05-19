@@ -36,8 +36,8 @@
 		<div class=" main row d-flex justify-content-center ">
 			<div class="row">
 				<div class="col " style="margin-top: 50px; margin-bottom: 50px;">
-					<button class="circle">
-					</button>
+					<button class="circle"></button>
+					<!-- 프로필 선택하는 버튼 위치 -->
 					</div>
 				<div class="col">
 					<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -84,11 +84,7 @@
 								<label for="ex_file"
 									style="background-image: url(./Z-BG-IMAGE/default.png);">
 								</label>
-									<form th:action="@{/profileimg/insertimage.do}" method="post" enctype="multipart/form-data">
-										<input type="text" name="board1.no" th:value="${board1.no}" /><br />
-										<input type="file" name="tmpfile" accept="image/*"/><br />
-										<input type="submit" value="이미지업로드" />
-									</form>
+								<input type="file" id="ex_file"> 
 							  </div>				
 						</div>
 						<div class="col-5">
@@ -148,6 +144,11 @@
 		integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer">
 		
+	</script>
+	<script>
+		function clickImage () {
+			document.getElementById("file").click();
+		}
 	</script>
 </body>
 </html>
