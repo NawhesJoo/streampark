@@ -59,7 +59,7 @@ public class Profile {
 
     //구매내역
     @ToString.Exclude
-    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Paymentlist paymentlist;
 
     // 시청목록
