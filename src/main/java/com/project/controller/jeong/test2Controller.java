@@ -3,12 +3,16 @@ package com.project.controller.jeong;
 import java.math.BigInteger;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.project.entity.Profile;
+import com.project.entity.Board;
+import com.project.entity.Qnareply;
+import com.project.repository.JeongRepositories.BoardRepository;
 import com.project.repository.JeongRepositories.MemberRepository;
 import com.project.repository.JeongRepositories.ProfileRepository;
+import com.project.repository.JeongRepositories.QnareplyRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,22 +22,36 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping(value = "/test2")
 public class test2Controller {
-    
-    final MemberRepository mRepository;
-    final ProfileRepository pRepository;
 
-    @GetMapping(value = "test.do")
-    public String testGET(){
+    final MemberRepository mRepository;
+    final BoardRepository bRepository;
+    final ProfileRepository pRepository;
+    final QnareplyRepository qRepository;
+
+    @GetMapping(value = "test1.do")
+    public String test1GET(Model model) {        
+        log.info("{}", "테스트 접속");
+        Board obj = bRepository.findById(BigInteger.valueOf(40)).orElse(null);
+        log.info("{}", obj);
+        if (obj.getQnareply().size() < 1) {
+            log.info("{}", obj.getQnareply());
+        }
+        model.addAttribute("obj", obj);
+
+        return "jeong/test/test1";        
+    }
+
+    @GetMapping(value = "test2.do")
+    public String test2GET() {
         try {
-            // Member test =  mRepository.findById("id1").orElse(null);
+            // Member test = mRepository.findById("id1").orElse(null);
             // Profile test = pRepository.findById(BigInteger.valueOf(31)).orElse(null);
             // log.info("test1 -> {}", test);
-            // mRepository.deleteById("id1");
-                        
+
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
         }
-        return "/jeong/test/index.html";
+        return "jeong/test/index.html";
     }
 }

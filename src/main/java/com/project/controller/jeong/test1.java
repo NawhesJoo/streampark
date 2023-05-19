@@ -17,12 +17,5 @@ public class test1 {
     
     final CastsRepository castRepo;
     
-    @GetMapping(value = "test.do")
-    public String testGET(){    
-        log.info("{}","테스트 접속");
-
-
-        return "jeong/test1";
-
-    }
+   
 }
