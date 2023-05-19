@@ -4,10 +4,17 @@
 * {
     font-family: 'IBM Plex Sans KR', sans-serif;
 }
+body{
+    max-height: 680px;
+    height: 100vh;
+    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)) ,url("../images/donald-duck-498512.jpg");
+
+}
 
 /* 메인타이틀 */
 .mainTitleSec{
-    margin-top: 260px;
+    margin-top: 280px;
 }
 .mainTitleSec .mainTitle{
     color: #EFC900;
@@ -16,8 +23,8 @@
 }
 /* 메인텍스트 */
 .mainTextSec{
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     color: #EFC900;
     font-size: 20px;
     font-weight: 600;
@@ -31,7 +38,43 @@
     height: 60px;
     font-size: 25px;
     font-weight: 500;
-    padding-top: ;
+    padding-top: 10px;
     text-align: center;
     vertical-align: middle;
+    margin-bottom: 10px;
 }
+.mainBtnSec .loginBtn:hover{
+    background-color: #fad727; 
+    color: #504300;  
+}
+.mainBtnSec p{
+    color: white;
+    display: inline-block;
+}
+
+.mainBtnSec .joinBtnSec a{
+    text-decoration-line: none;
+    color: #EFC900;   
+}
+.mainBtnSec .joinBtnSec a:hover{
+    text-decoration-line: none;
+    color: #a78b00;   
+}
+.mainBtnSec .findIdPwBtnSec a{
+    text-decoration-line: none;
+    color: #EFC900;
+}
+.mainBtnSec .findIdPwBtnSec a:hover{
+    text-decoration-line: none;
+    color: #a78b00;   
+}
+.mainBtnSec .findIdPwBtnSec{
+    text-align: right;
+}
+.joinBtnSec{
+    padding-left: 30px;
+}
+.findIdPwBtnSec{
+    padding-right: 30px;
+}
+
