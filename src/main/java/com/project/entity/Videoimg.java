@@ -48,6 +48,7 @@ public class Videoimg {
     // private BigInteger videocode;
 
     // 작품 목록
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "videocode", referencedColumnName = "videocode")
     private Videolist videolist;

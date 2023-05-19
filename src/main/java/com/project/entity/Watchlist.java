@@ -34,26 +34,27 @@ public class Watchlist {
     private BigInteger viewno;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    @UpdateTimestamp  //변경시에도 날짜 정보 변경
+    @UpdateTimestamp // 변경시에도 날짜 정보 변경
     private Date viewdate;
 
     // private BigInteger videocode;
 
-    // private BigInteger profileno;   
+    // private BigInteger profileno;
 
     // 프로필
-    @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profileno", referencedColumnName = "profileno")
     private Profile profile;
 
-    //작품 목록
+    // 작품 목록
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "videocode", referencedColumnName = "videocode")
     private Videolist videolist;
 
-    
-     // 리뷰
-     @ToString.Exclude
-     @OneToOne(mappedBy = "watchlist", cascade = CascadeType.ALL , fetch =FetchType.LAZY)
-     private Review review;
+    // 리뷰
+    @ToString.Exclude
+    @OneToOne(mappedBy = "watchlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Review review;
 }
