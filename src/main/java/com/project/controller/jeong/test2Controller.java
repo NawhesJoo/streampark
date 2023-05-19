@@ -31,12 +31,7 @@ public class test2Controller {
     @GetMapping(value = "test1.do")
     public String test1GET(Model model) {        
         log.info("{}", "테스트 접속");
-        Board obj = bRepository.findById(BigInteger.valueOf(40)).orElse(null);
-        log.info("{}", obj);
-        if (obj.getQnareply().size() < 1) {
-            log.info("{}", obj.getQnareply());
-        }
-        model.addAttribute("obj", obj);
+        log.info("{}",mRepository.findById("id").orElse(null));
 
         return "jeong/test/test1";        
     }
