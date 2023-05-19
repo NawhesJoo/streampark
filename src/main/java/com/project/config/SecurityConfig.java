@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
-@Configuration   // 환경설정파일. 서버가 구동되기전에 호출됨.
+// @Configuration   // 환경설정파일. 서버가 구동되기전에 호출됨.
 @EnableWebSecurity // 시큐리티를 사용
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class SecurityConfig {
             // .anyRequest().permitAll();
 
         // 403페이지 설정(접근권한 불가 시 표시할 화면)    
-        http.exceptionHandling().accessDeniedPage("/403page.do");
+        // http.exceptionHandling().accessDeniedPage("/403page.do");
         
 
         //post는 csrf를 전송해야하지만, 주소가 /api로 시작하는 모든url은  csrf가 없어도 됨
