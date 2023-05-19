@@ -19,7 +19,7 @@
     },
     "database": "Oracle",
     "databaseName": "",
-    "canvasType": "ERD",
+    "canvasType": "@vuerd/builtin-generator-code",
     "language": "Java",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -304,7 +304,7 @@
           "active": false,
           "left": 13.222,
           "top": 820.3642,
-          "zIndex": 13,
+          "zIndex": 12,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF0400"
@@ -482,7 +482,7 @@
           "active": false,
           "left": 39.3332,
           "top": 530.3963,
-          "zIndex": 14,
+          "zIndex": 13,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF4E00"
@@ -660,7 +660,7 @@
           "active": false,
           "left": 636.7043,
           "top": 22.6064,
-          "zIndex": 16,
+          "zIndex": 15,
           "widthName": 61.68701171875,
           "widthComment": 84.5703125,
           "color": "#FF9900"
@@ -1848,7 +1848,7 @@
           "active": false,
           "left": 82.5553,
           "top": 243.2248,
-          "zIndex": 20,
+          "zIndex": 17,
           "widthName": 60,
           "widthComment": 60,
           "color": "#8F3142"
@@ -2243,7 +2243,7 @@
           "active": false,
           "left": 691.8804,
           "top": 875.2245,
-          "zIndex": 15,
+          "zIndex": 14,
           "widthName": 69.69140625,
           "widthComment": 60
         },
@@ -2328,7 +2328,7 @@
           "active": false,
           "left": 684.9718,
           "top": 687.5273,
-          "zIndex": 12,
+          "zIndex": 11,
           "widthName": 62.0361328125,
           "widthComment": 89.140625
         },
@@ -2459,7 +2459,7 @@
           "active": false,
           "left": 66.6652,
           "top": 0,
-          "zIndex": 17,
+          "zIndex": 16,
           "widthName": 62.88037109375,
           "widthComment": 60
         },
