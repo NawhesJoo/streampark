@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -29,6 +30,7 @@ public class Actors {
     private String actors_name;
 
     //출연진
+    // @ToString.Exclude
     @OneToMany(mappedBy = "actors", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<Casts> casts = new ArrayList<>();
 }
