@@ -1,0 +1,187 @@
+body{
+	background-color: black;
+	
+}
+a:hover{
+    color: #a78b00;
+}
+
+.container{
+	display: block;
+	margin: 50px 50px 50px 50px;
+	
+}
+.prfileText{
+	color: #EFC900;
+	margin-left:30px;
+	margin-top: 50px; 
+	font-size: 60px;
+	font-weight: 700;
+}
+.text{
+	color: white;
+	margin-left: 140px;
+	margin-top: 70px;
+}
+.text1{
+	font-size: 30px;
+	font-weight: 600;
+}
+hr{
+	color: white;
+	width: 30px;
+	height: 3px;
+	background-color: white;
+	margin-left: 150px;
+	padding-left: 100px;
+}
+.main{
+	 display: grid;
+  place-items: center; 
+  justify-content: center;
+  vertical-align: middle;
+  text-align: center;
+  height: 400px;
+}
+.circle{
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	background-color: gray;
+	border: none;
+}
+
+
+.plus{
+	color: #EFC900;
+	width: 300px;
+	height: 300px;
+	border-radius: 50%;
+	background-color: black;
+	margin-left: 10px;
+	margin-right: 10px;
+	border: none;
+}
+.plus:hover{
+    color: #a78b00;
+}
+.logout{
+    font-size: larger;
+	color: #EFC900;
+	text-decoration: none;
+}
+.info{
+    margin-right: 80px;
+	color: #EFC900;
+	text-decoration: none;
+}
+.btn-close{
+    color: #EFC900;
+}
+.modalBtn:hover{
+    color: #a78b00;
+}
+.modal-content{
+    width: 1000px;
+    border-color: rgba(rgba(239, 201, 0, 0.9));
+    border: 1px solid rgba(239, 201, 0, 0.1);
+    background-color: rgba(0, 0, 0, 1);
+}
+.modal-title{
+    color: white;
+}
+
+.filebox label {
+    display: inline-block;
+    font-size: inherit;
+    background-size: cover;
+    width: 200px;
+    height: 200px;
+    color: #000000;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #EFC900;
+    cursor: pointer;
+    border: 1px solid  #EFC900;
+   
+    border-radius: 50%;
+   
+  }
+  
+.filebox label:hover {
+    opacity: 0.8;
+}
+.filebox input[type="file"] {  /* 파일 필드 숨기기 */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+}
+
+  /*프로필 이미지 추가 plus */
+.filebox label svg {
+    color: rgba(239, 201, 0, 0.3);
+}
+.filebox label svg:hover {
+    color: rgba(239, 201, 0, 0.9);
+}
+
+.profileModalLabel{
+    color: #EFC900;
+    font-weight: 500;
+}
+
+.modal-content .modal-body div p{
+    font-size: 20px;
+    font-weight: bold;
+}
+.modal-content .modal-body hr {
+    width: auto;
+    height: 2px;
+    margin-left: 0;
+    margin: 0;
+    color: #EFC900;
+    background-color: #EFC900;
+}
+
+/* 프로필 인풋 라벨 */
+.form-label{
+    color: #EFC900;
+}
+.form-control{
+    color: #ffffff;
+    background-color: black;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.form-control:focus{
+    box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+    color: #EFC900;
+    background-color: black;
+    border-color: #EFC900;
+}
+.form-control:hover{
+  
+    color: #EFC900;
+    background-color: black;
+    border-color: #EFC900;
+}
+.SearchSLC{
+  
+    color: #ffffff;
+    background-color: #000000;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.SearchSLC:focus{
+    box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+    color: #EFC900;
+    background-color: black;
+    border-color: #EFC900;
+}
+.SearchSLC:hover{
+    color: #EFC900;
+    background-color: black;
+    border-color: #EFC900;
+}
