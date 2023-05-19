@@ -18,6 +18,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -36,16 +37,19 @@ public class Paychk {
     private Date regdate;
 
     //멤버
+    @ToString.Exclude
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Member member;
 
     // 요금제
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grade", referencedColumnName = "grade")
     private Fee fee;
 
     //토큰 충전
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "token", referencedColumnName = "token")
     private Chargetoken chargetoken;

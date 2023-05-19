@@ -22,6 +22,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -46,11 +47,12 @@ public class Board {
     
     
     // 프로필 
+    @ToString.Exclude
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "profileno", referencedColumnName = "profileno")
     private Profile profile;
 
-    // 문의 답글 
+    // 문의 답글     
     @OneToMany(mappedBy = "board", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<Qnareply> qnareply = new ArrayList<>();
    

@@ -29,8 +29,8 @@ public class Actors {
 
     private String actors_name;
 
-    //출연진
+    // //출연진
     // @ToString.Exclude
-    @OneToMany(mappedBy = "actors", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-    private List<Casts> casts = new ArrayList<>();
+    // @OneToMany(mappedBy = "actors", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    // private List<Casts> casts = new ArrayList<>();
 }

@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
-@Configuration   // 환경설정파일. 서버가 구동되기전에 호출됨.
+// @Configuration   // 환경설정파일. 서버가 구동되기전에 호출됨.
 @EnableWebSecurity // 시큐리티를 사용
 @Slf4j
 @RequiredArgsConstructor
