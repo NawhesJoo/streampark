@@ -13,6 +13,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 @Data
 @Entity
 @Table(name = "REVIEWLIKES")
@@ -30,6 +31,7 @@ public class Reviewlikes {
     // private BigInteger review_no;
     
     //리뷰
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_no", referencedColumnName = "review_no")
     private Review Review_to_reviewlikes;

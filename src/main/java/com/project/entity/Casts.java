@@ -13,6 +13,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -30,11 +31,13 @@ public class Casts {
     private Profile board_to_profile; */
     
     //작품
+    @ToString.Exclude
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "videocode", referencedColumnName = "videocode")
     private Videolist casts_to_videocode;
 
     //배우
+    @ToString.Exclude
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "actors_no", referencedColumnName = "actors_no")
     private Actors actors;
