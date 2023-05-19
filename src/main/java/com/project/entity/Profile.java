@@ -50,22 +50,21 @@ public class Profile {
     private String keyword;
 
     // 멤버
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Member member;
 
-
     // ---- 위는 실제 컬럼
 
-    //구매내역
-    @ToString.Exclude
+    //구매내역    
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Paymentlist paymentlist;
+    private List<Paymentlist> paymentlist;
 
     // 시청목록
     @ToString.Exclude
-    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Watchlist watchlist;
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Watchlist> watchlist;
 
     // 프로필이미지
     @ToString.Exclude
