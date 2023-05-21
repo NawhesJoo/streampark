@@ -1,5 +1,6 @@
 package com.project.service.KDH;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public interface DHService {
     //관리자용 영상 추가(회원의 권한 정보와, 비디오의 정보)
     public void videolistInsert(Member admin, Videolist obj);
 	//작품이름으로 작품 코드 조회(영상을 조회하기위한 작품이름으로 작품코드 조회)
-	public Long selectnofromtitle(String title);
+	public BigInteger selectnofromtitle(String title);
 	//영상코드로 영상조회(조회된 작품코드로 작품을 조회한다.)
 	public VideolistView selectvideoOne(String title);
 	// //관리자용 영상 수정(조회된 작품의 정보를 수정)

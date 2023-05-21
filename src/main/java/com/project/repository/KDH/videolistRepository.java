@@ -9,5 +9,7 @@ import com.project.entity.Videolist;
 
 @Repository
 public interface videolistRepository extends JpaRepository<Videolist, BigInteger>{
+
+    Videolist findByTitleAndEpisode(String title, BigInteger episode);
     
 }

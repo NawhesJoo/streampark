@@ -1,5 +1,7 @@
 package com.project.service.KDH;
 
+import java.math.BigInteger;
+
 import org.springframework.stereotype.Service;
 
 import com.project.dto.VideolistView;
@@ -14,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class DHServiceImpl implements DHService{
     final videolistRepository videolistRepository;
     final memberRepository memberRepository;
-    //회원의 권한을 받아 검증후 비디오 이미지 추가
+    //회원의 권한을 받아 검증후 비디오  추가
     @Override
     public void videolistInsert(Member admin, Videolist obj) {
        admin.setRole("a");
@@ -26,11 +28,14 @@ public class DHServiceImpl implements DHService{
            videolistRepository.save(obj);
        }
     }
+    //비디오의 이름을 받아서 작품코드를 조회 episode가 1인것조회
     @Override
-    public Long selectnofromtitle(String title) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectnofromtitle'");
+    public BigInteger selectnofromtitle(String title) {
+        
+       return videolistRepository.findByTitleAndEpisode(title, BigInteger.valueOf(1)).getVideocode();
+
     }
+    //조회된 비디오 코드로 
     @Override
     public VideolistView selectvideoOne(String title) {
         // TODO Auto-generated method stub
