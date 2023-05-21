@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1:1문의글 작성</title>
+</head>
+<body>
+    <h2>1:1문의글 작성</h2>
+
+    <form th:action="@{/qna/insert.do}" method="post">
+        <input type="text" name="profile" value="87" /><br />
+        <input type="text" name="title" placeholder="제목을 입력해 주세요." /><br />
+        <textarea name="content" placeholder="내용을 입력해 주세요."></textarea><br />
+        <input type="submit" value="글쓰기" /><br />
+    </form>
+    <a th:href="@{/qna/selectlist.do}">취소</a>
+</body>
+</html> 

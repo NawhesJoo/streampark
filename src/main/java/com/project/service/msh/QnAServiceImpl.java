@@ -17,6 +17,7 @@ public class QnAServiceImpl implements QnAService {
 
     @Override
     public List<Board> selectBoardList() {
-            return qnaRepository.findAllByOrderByNoDesc();
+        return qnaRepository.findAllByOrderByNoDesc();
     }
+
 }
