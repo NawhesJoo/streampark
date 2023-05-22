@@ -12,7 +12,7 @@
     <table>
         <tr th:each="obj : ${list}">
             <a th:href="@{/profile/login.do}">
-                    <span th:text="${obj.profileno}"></span>
+                    <span th:text="${obj.nickname}"></span>
                 </a>
         </tr>
     </table>

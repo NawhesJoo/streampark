@@ -54,6 +54,7 @@ public class ProfileController {
         }
     }
 
+    // profileno를 누르면 프로필 로그인창으로 가는 동시에 세션에 profileno 추가
 
 
     // 프로필 생성
