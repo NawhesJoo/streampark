@@ -41,7 +41,10 @@
                     <td th:text="${obj.videolist.price}"></td>
                     <td th:text="${obj.videolist.episode}"></td>
                     <td th:text="${obj.viewdate}"></td>
-                    <td><button type="button" th:onclick="deleteAction([[${obj.viewno}]])">삭제</button></td>
+                    <td>
+                        <button type="button" th:onclick="deleteAction([[${obj.viewno}]])">삭제</button>
+                        <a th:href="@{/review/insert.do(profileno=${obj.profile.profileno}, viewno=${obj.viewno})}">리뷰쓰기</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -57,7 +57,7 @@ public class WatchlistController {
 
     // 127.0.0.1:9090/streampark/watchlist/selectlist.do
     @GetMapping(value = "/selectlist.do")
-    public String selectGET(Model model, @ModelAttribute Search obj) {
+    public String selectGET(Model model, @ModelAttribute Watchlist watchlist, @ModelAttribute Search obj) {
         try {
             // 페이지네이션
             if(obj.getPage() == 0) {
@@ -79,7 +79,7 @@ public class WatchlistController {
                 total = wlRepository.countByVideolist_chkageContaining(obj.getText());
             }
             // log.info(format, profileno);
-            log.info(format, obj.toString());
+            log.info(format, list2.toString());
             List<Watchlist> list = wlRepository.findByProfile_profilenoOrderByViewdateDesc(profileno);
             model.addAttribute("list", list);
             model.addAttribute("list2", list2);
