@@ -1,6 +1,5 @@
 package com.project.entity;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +31,7 @@ public class Board {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARD_NO")
-    private BigInteger no;
+    private Long no;
 
     private String title;
 

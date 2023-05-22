@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Document</title>
+</head>
+<body>
+    <h3>Watchlist List</h3>
+    <button th:onclick="formAction1(1)">일괄삭제</button>
+    <a th:href="@{/watchlist/insert.do}">시청목록 추가</a>
+    <form th:action="@{/watchlist/selectlist.do}" method="post" id="form">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="chkAll" onClick="allCheckboxes('chk[]', this.checked)"></th>
+                    <th>프로필번호</th>
+                    <th>비디오코드</th>
+                    <th>제목</th>
+                    <th>키워드</th>
+                    <th>PD</th>
+                    <th>시청 가능 연령</th>
+                    <th>개봉일</th>
+                    <th>가격</th>
+                    <th>회차</th>
+                    <th>등록일</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="obj : ${list}">
+                    <td><input type="checkbox" name="chk[]" th:value="${obj.viewno.longValue()}"/></td>
+                    <td th:text="${obj.profile.profileno}"></td>
+                    <td th:text="${obj.videolist.videocode}"></td>
+                    <td th:text="${obj.videolist.title}"></td>
+                    <td th:text="${obj.videolist.keyword}"></td>
+                    <td th:text="${obj.videolist.pd}"></td>
+                    <td th:text="${obj.videolist.chkage}"></td>
+                    <td th:text="${obj.videolist.opendate}"></td>
+                    <td th:text="${obj.videolist.price}"></td>
+                    <td th:text="${obj.videolist.episode}"></td>
+                    <td th:text="${obj.viewdate}"></td>
+                    <td><button type="button" th:onclick="deleteAction([[${obj.viewno}]])">삭제</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <form th:action="@{/watchlist/selectlist.do}" method="get" th:object="${search}">
+        <input type="hidden" name="page" value="1" />
+        <select name="${search.type}">
+            <option th:each="tmp, idx : ${search.typeCode}" th:value="${tmp}" th:text="${search.typeName[idx.index]}"></option>
+        </select>
+        <input type="text" th:field="${search.text}" placeholder="검색어" />
+        <input type="submit" value="검색" />
+    </form>
+    <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+        <a th:href="@{/watchlist/selectlist.do(page=${num}, type=${param.type}, text=${param.text})}" th:text="${num}"></a>
+    </th:block>
+
+    <form th:action="@{/watchlist/delete.do}" method="post" id="form2" style="display:none">
+        <input type="hidden" name="viewno" id="hidden_viewno" />
+    </form>
+
+    <script th:inline="javascript">
+        function deleteAction(viewno) {
+            if(confirm('삭제할까요?')) {
+                document.getElementById('hidden_viewno').value = viewno;
+                document.getElementById('form2').submit();
+            }
+        }
+
+        function formAction1(code) {
+        const form = document.getElementById('form');
+        if(code === 1) {
+            form.action=/*[[@{/watchlist/deletebatch.do}]]*/'';
+        }
+        form.submit();
+        }
+
+        // 체크박스 전체 선택 / 해제
+        function allCheckboxes(boxNames, chkMode) {
+            const e1 = document.getElementsByName(boxNames);
+            for(let i = 0; i < e1.length; i++) {
+                if(!e1[i].disabled) {
+                    e1[i].checked = chkMode;
+                }
+            }
+        }
+
+        // 전체 체크 여부
+        function isAllCheck(boxNames, allChkName){
+        const el = document.getElementsByName(boxNames);
+        let checkboxCnt = 0;
+        let checkedCnt = 0;
+        for(let i = 0; i < el.length; i++){
+            if(!el[i].disabled){
+            checkboxCnt += 1;
+            if(el[i].checked){
+                checkedCnt += 1;
+            }
+            }
+        }
+        
+        let chkMode = false;
+        //체크박스 개수와 체크 된 체크박스 개수와 일치할 경우
+        if(checkboxCnt == checkedCnt){
+            chkMode = true;
+        } else {  
+            chkMode = false;
+        }  
+        //일치할 경우 천제 체크 박스는 체크, 일치하지 않을 경우 해제
+        document.getElementById(allChkName).checked = chkMode;
+        }
+    </script>
+</body>
+</html>

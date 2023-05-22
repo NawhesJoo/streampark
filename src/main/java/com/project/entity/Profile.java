@@ -1,6 +1,5 @@
 package com.project.entity;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +32,7 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PROFILE_NO")
     @Column(name = "PROFILENO")
-    private BigInteger profileno;
+    private Long profileno;
 
     private String nickname;
 
@@ -45,7 +44,7 @@ public class Profile {
     @CreationTimestamp
     private Date regdate;
 
-    private BigInteger reviewban;
+    private Long reviewban;
 
     private String keyword;
 
