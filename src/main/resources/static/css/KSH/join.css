@@ -1,0 +1,25 @@
+.mainTitleSec{
+    margin-top: 160px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+.mainTitleSec .mainTitle{
+    color: #EFC900;
+    font-size: 60px;
+    font-weight: 700;
+}
+.joinInputSec{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.joinInputSec .joinInput .joinF{
+    width: 400px;
+}
+
+.modalbtnSec{
+    display: inline-block;
+}
+.modalbtn{
+    margin-left: auto;
+}

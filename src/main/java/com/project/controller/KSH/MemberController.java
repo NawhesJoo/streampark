@@ -18,6 +18,8 @@ import com.project.repository.KSH.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @Slf4j
@@ -55,7 +57,7 @@ public class MemberController {
             log.info(format, obj.toString());
 
             mRepository.save(obj);
-            return "redirect:/wellcome/.do";
+            return "redirect:/member/wellcome.do";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/member/join.do";
@@ -63,18 +65,18 @@ public class MemberController {
     }
 
     // 웰컴 페이지
-    @GetMapping(value = "wellcome.do")
+    @GetMapping(value = "/wellcome.do")
     public String wellcomeGET() {
         return "KSH/wellcome";
     }
 
     // 로그인 페이지
-    @GetMapping(value = "login.do")
+    @GetMapping(value = "/login.do")
     public String loginGET() {
         return "KSH/login";
     }
 
-    @PostMapping(value = "login.do")
+    @PostMapping(value = "/login.do")
     public String loginPOST(@ModelAttribute Member obj, Model model) {
         try {
             Member obj1 = mRepository.findById(obj.getId()).orElse(null);
@@ -91,5 +93,22 @@ public class MemberController {
             return "redirect:/member/login.do";
         }
     }
+
+    // 아이디 찾기
+    @GetMapping(value = "/findid.do")
+    public String findIdGET(){
+        return "KSH/findid";
+    }
+
+    @PostMapping(value = "/findid.do")
+    public String findIdPOST(){
+        return "KSH/findid";
+    }
+    // 비밀번호 찾기
+    @GetMapping(value="/findpw.do")
+    public String findPwGET() {
+        return "KSH/findPw";
+    }
+    
 
 }

@@ -115,7 +115,7 @@ p {
 
 .sb-nav-fixed #layoutTotal  #layoutContent {
     background-color: #070707;
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)) ,url("../images/donald-duck-498512.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)) ,url("../../images/KSH/donald-duck-498512.jpg");
     background-size: cover;
     padding-left: 225px;
     top: 56px;

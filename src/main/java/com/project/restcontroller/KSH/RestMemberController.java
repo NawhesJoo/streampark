@@ -1,6 +1,7 @@
 package com.project.restcontroller.KSH;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,14 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "api/member")
 @RequiredArgsConstructor
 public class RestMemberController {
-    
+
     final HttpSession httpSession;
     final MemberRepository mRepository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     @GetMapping(value = "/idcheck.json")
-    public Map<String, Object> idcheckGET(@RequestParam(name = "id") String id){
-        Map<String,Object> retMap = new HashMap<>();
+    public Map<String, Object> idcheckGET(@RequestParam(name = "id") String id) {
+        Map<String, Object> retMap = new HashMap<>();
         try {
             long ret = mRepository.countById(id);
             retMap.put("status", ret);
@@ -41,22 +42,61 @@ public class RestMemberController {
             retMap.put("status", 0);
         }
         return retMap;
-    }     
-    @PostMapping(value = "/login.json")  
-    public Map<String, Object> loginJsonGET(
-        @RequestBody Member obj1){
-            Map<String, Object> retMap = new HashMap<>();
+    }
+
+    @PostMapping(value = "/login.json")
+    public Map<String, Object> loginJsonPOST(
+            @RequestBody Member obj1) {
+        Map<String, Object> retMap = new HashMap<>();
+        retMap.put("status", 0);
+        try {
+            Optional<Member> obj = mRepository.findById(obj1.getId());
+            if (bcpe.matches(obj1.getPw(), obj.get().getPw())) {
+                retMap.put("status", 1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             retMap.put("status", 0);
-            try {
-                Optional<Member> obj = mRepository.findById(obj1.getId());
-                if(bcpe.matches(obj1.getPw(), obj.get().getPw())){
-                    retMap.put("status", 1);
-                }
-            } 
-            catch (Exception e) {
-                e.printStackTrace();
+        }
+        return retMap;
+    }
+
+    @PostMapping(value = "/findid.json")
+    public Map<String, Object> findidPOST(@RequestBody Member obj) {
+        Map<String, Object> retMap = new HashMap<>();
+        retMap.put("list", null);
+        retMap.put("status", 0);
+        try {
+            List<Member> list = mRepository.findByPhoneAndName(obj.getPhone(), obj.getName());
+            if(obj.getEmail().equals(list.get(0).getEmail())){
+                retMap.put("list", list);
+                retMap.put("status", 1);
+            }
+            else if(list.get(0).getEmail() == null || obj.getEmail() != list.get(0).getEmail()){
+                retMap.put("list", null);
                 retMap.put("status", 0);
             }
-            return retMap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("list", null);
+            retMap.put("status", 0);
+        }
+        return retMap;
+    }
+
+    @PostMapping(value = "/findpw.json")
+    public Map<String,Object> findpwPOST(@RequestBody Member obj){
+        Map<String,Object> retMap = new HashMap<>();
+        retMap.put("status", 0);
+        try {
+            Member obj1 = mRepository.findByIdAndName(obj.getId(), obj.getName());
+            if(obj1.getEmail().equals(obj.getEmail())){
+                retMap.put("status", 1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("status", 0);
+        }
+        return retMap;
     }
 }

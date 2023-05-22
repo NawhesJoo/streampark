@@ -8,7 +8,7 @@ body{
     max-height: 680px;
     height: 100vh;
     background-size: cover;
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)) ,url("../images/donald-duck-498512.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)) ,url("../../images/KSH/donald-duck-498512.jpg");
 
 }
 
