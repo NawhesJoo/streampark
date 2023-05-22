@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1:1문의글 작성</title>
 </head>
+
 <body>
     <h2>1:1문의글 작성</h2>
-
-    <form th:action="@{/qna/insert.do}" method="post">
-        <input type="text" name="profile" value="87" /><br />
-        <input type="text" name="title" placeholder="제목을 입력해 주세요." /><br />
-        <textarea name="content" placeholder="내용을 입력해 주세요."></textarea><br />
-        <input type="submit" value="글쓰기" /><br />
-    </form>
-    <a th:href="@{/qna/selectlist.do}">취소</a>
+    <div>
+        <form th:action="@{/qna/insert.do}" method="post">
+            <input type="text" name="profileno" value="87" /><br /> <!-- 임시로 87번으로 함 -->
+            <input type="text" id="title" maxlength='30' name="title" placeholder="제목을 입력하세요">최대 30자
+            <input type="password" id="password" name="password" maxlength='6'  value="1" placeholder="비밀번호">최대 6자<br />
+            <div id="content_div">
+                <textarea class="form-control" style="height:100%; width:100%;" maxlength='1000' id="content"
+                    name="content"></textarea>
+            </div>
+            <input type="submit" value="작성" /> <!-- DB에 저장 잘됨 -->
+            <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">취소</button> <!-- 작동 잘됨 -->
+        </form>
+    </div>
 </body>
-</html> 
+
+</html>

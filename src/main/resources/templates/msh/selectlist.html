@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +9,7 @@
 <body>
     <h2>1:1문의</h2>
 
-    <a th:href="@{/qna/insert.do}">글쓰기</a>
+    <button type="button" th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button>
     <form>
         <table>
             <thead>
@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="obj : ${list} ">
+                <tr th:each="obj : ${list} "> <!--  model.addAttribute("list", list)에서 보낸거를 ${}로 받아옴 -->
                     <td th:text="${obj.no}"></td>
                     <td><a th:href="@{/qna/selectone.do(no=${obj.no})}" th:text="${obj.title}"></a></td>
                     <td th:text="${obj.profile.nickname}"></td>

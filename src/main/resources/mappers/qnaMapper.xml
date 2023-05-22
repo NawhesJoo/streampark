@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.QnaMapper">
+
+    <!-- 문의글 작성 -->
+    <insert id="insertBoard" parameterType="com.project.dto.Board">
+        INSERT INTO BOARD(title,content,password,profileno)
+        VALUES (#{title},#{content},#{password},#{profileno})
+    </insert>
+    
+    <!-- 문의글 조회 -->
+     <select id="selectoneBoard" parameterType="BigInteger" resultType="com.project.dto.Board">
+        SELECT b.no, b.title, b.profileno, b.content, b.regdate FROM BOARD b WHERE no=#{no}
+    </select>
+
+    <!-- 문의글 수정 -->
+    <update id="updateBoard" parameterType="com.project.dto.Board">
+        UPDATE BOARD SET title=#{title}, content=#{content} WHERE no=#{no} AND password=#{password}
+    </update>
+
+    <!-- 문의글 삭제 -->
+    <delete id="deleteBoard" parameterType="com.project.dto.Board">
+        DELETE FROM BOARD WHERE no=#{no} AND password=#{password}
+    </delete>
+</mapper>

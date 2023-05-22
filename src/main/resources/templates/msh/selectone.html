@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #modal{
+            z-index : 1;
+            background-color:white;
+            position:fixed;
+            left:0;
+            top: 0;
+            width:100%;
+            height:100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>게시글상세</h3>
+    NO. : <label th:text="${board.no}"></label><br />
+    제목 : <label th:text="${board.title}"></label><br />
+    내용 : <label th:text="${board.content}"></label><br />
+    작성자 : <label th:text="${board.profileno}"></label><br />
+    작성일: <label th:text="${#dates.format(board.regdate, 'yyyy-MM-dd')}"></label><br />
+    <hr />
+    <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">목록으로</button>
+    <input type="button" value="수정" id="btnOpen" />
+    <input type="button" value="삭제" id="btnOpen" />
+
+    <div id='modal'>
+        <div id='content'>
+            <input type='button' value='X' class="close" id='btnClose' />
+            <label>암호를 입력하세요</label><br />
+            <input type='password' id='pwd' value='1234' />
+            <input type='button' value='check' id='btnCheck' />
+        </div>
+    </div>
+    <script>
+        var btnOpen = document.getElementById('btnOpen');
+        var btnCheck = document.getElementById('btnCheck');
+        var btnClose = document.getElementById('btnClose');
+
+        // modal 창을 감춤
+        var closeRtn = function () {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'none';
+
+        }
+
+        // modal 창을 보여줌
+        btnOpen.onclick = function () {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'block';
+
+        }
+
+        btnCheck.onclick = closeRtn;
+        btnClose.onclick = closeRtn;
+
+
+    </script>
+
+</body>
+
+</html>

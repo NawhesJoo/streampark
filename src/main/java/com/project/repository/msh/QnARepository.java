@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.entity.Board;
 
-public interface QnARepository extends JpaRepository<Board, BigInteger>{
+public interface QnaRepository extends JpaRepository<Board, BigInteger>{
 
-    public List<Board> findAllByOrderByNoDesc();
- 
-    
+    // 문의글 전체 목록
+    List<Board> findAllByOrderByNoDesc();
 }
