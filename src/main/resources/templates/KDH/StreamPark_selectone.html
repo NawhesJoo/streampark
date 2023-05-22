@@ -171,18 +171,35 @@
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                             
-                            <form th:action="@{/kdh/videoinsert.do}" method="post">
-                                                    <input type="text" name="title" placeholder="제목"><br/>
-                                                    <input type="text" name="keyword" placeholder="키워드"><br/>
-                                                    <input type="text" name="pd" placeholder="감독"><br/>
-                                                    <input type="text" name="chkage" placeholder="연령제한"><br/>
-                                                    <input type="text" name="opendate" placeholder="개봉일자"><br/>
-                                                    <input type="number" name="episode" placeholder="회차"><br/>
-                                                    <input type="number" name="price" placeholder="가격" ><br/>
-                                                    <input type="text" name="linkurl" placeholder="링크주소"><br/>
-                                                    <input type="submit" value="등록">
-                                                </form>
-                            <!-- --------------------------- -->
+                            <table class="container table table-hover border border-dark">
+                                <thead style="background-color: lightgray;">
+                                    <tr>
+                                        <th scope="col">비디오코드</th>
+                                        <th scope="col">제목</th>
+                                        <th scope="col">키워드</th>
+                                        <th scope="col">PD</th>
+                                        <th scope="col">출연배우</th>
+                                        <th scope="col">연령제한</th>
+                                        <th scope="col">개봉일자</th>
+                                        <th scope="col">가격</th>
+                                        <th scope="col">등록일자</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                            <td scope="row" th:text="${video.videocode}"></td>
+                                            <td  th:text="${video.title}"></td>
+                                            <td  th:text="${video.keyword}"></td>
+                                            <td  th:text="${video.pd}"></td>
+                                            <td  th:text="${video.chkage}"></td>
+                                            <td  th:text="${video.opendate}"></td>
+                                            <td  th:text="${video.price}" ></td>
+                                            <td  th:text="${video.regdate}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a th:href="@{/kdh/videoupdate.do(title=${video.title})}"><button>영상수정</button></a>
+                                <a th:href="@{/kdh/videodelete.do(title=${video.title})}"><button>영상삭제</button></a>
+                                <!-- --------------------------- -->
                         </div>
                     </div>
                 </div>

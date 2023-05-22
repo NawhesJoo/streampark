@@ -6,25 +6,22 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.VideolistView;
-import com.project.entity.Actors;
-import com.project.entity.Casts;
+import com.project.dto.Videolistdto;
 import com.project.entity.Member;
-import com.project.entity.Videoimg;
-import com.project.entity.Videolist;
 
 @Service
 public interface DHService {
 
     //관리자용 영상 추가(회원의 권한 정보와, 비디오의 정보)
-    public void videolistInsert(Member admin, Videolist obj);
+    public void videolistInsert(Member admin, Videolistdto obj);
 	//작품이름으로 작품 코드 조회(영상을 조회하기위한 작품이름으로 작품코드 조회)
 	public BigInteger selectnofromtitle(String title);
 	//영상코드로 영상조회(조회된 작품코드로 작품을 조회한다.)
-	public VideolistView selectvideoOne(String title);
-	// //관리자용 영상 수정(조회된 작품의 정보를 수정)
-	// public int  videolistUpdate(Member admin, Videolist obj, String nowtitle);
-	// //관리자용 영상 삭제(회원의 권한 정보와, 제목을 받아서 삭제)O
-	// public int  videolistDelete(Member admin, String title);
+	public VideolistView selectvideoOne(BigInteger videocode );
+	//관리자용 영상 수정(조회된 작품의 정보를 수정)
+	public void  videolistUpdate(Member admin, Videolistdto obj, String nowtitle);
+	//관리자용 영상 삭제(회원의 권한 정보와, 제목을 받아서 삭제)O
+	public void  videolistDelete(Member admin, String title);
 
 	// //관리자용 작품에 배우 등록(작품이름으로 작품코드리스트를 받아서  작품리스트에 배우등록)
 	// public int addactorinvideo(Videolist videocode, Actors no );
@@ -42,8 +39,8 @@ public interface DHService {
 	// public int  castsInsertactorchk(Long actors_no, Long videocode);
 
 
-	// //전체 작품목록 조회
-	// public List<VideolistView> selectvideolist();
+	//전체 작품목록 조회
+	public List<VideolistView> selectvideolist();
 	// // public List<Videolist> selectVideoList(@Param("column") String column, 
 	// // 		@Param("text")String text);
 	

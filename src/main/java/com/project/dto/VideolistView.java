@@ -28,5 +28,6 @@ public class VideolistView {
     private Date regdate;
     
     private long imageNo; // 대표 이미지 번호를 저장할 임시변수
+
     }
 

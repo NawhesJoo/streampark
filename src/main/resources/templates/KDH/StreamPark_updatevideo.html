@@ -87,7 +87,7 @@
                             <!-- 사이드바 메뉴 영역 -->
                             <!-- 경로 지정에 주의할 것 -->
                             <!-- CONTENT -->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            <a class="nav-link collapsed"  data-bs-toggle="collapse"
                                 data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 CONTENT
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -103,7 +103,7 @@
                                 </nav>
                             </div>
                             <!-- MYPAGE -->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            <a class="nav-link collapsed"  data-bs-toggle="collapse"
                                 data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
                                 MYPAGE
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -120,7 +120,7 @@
                                 </nav>
                             </div>
                             <!-- PAY -->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            <a class="nav-link collapsed" data-bs-toggle="collapse"
                                 data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
                                 PAY
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -134,7 +134,7 @@
                                 </nav>
                             </div>
                             <!-- MANAGE -->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            <a class="nav-link collapsed"  data-bs-toggle="collapse"
                                 data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages3">
                                 MANAGE
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -171,17 +171,17 @@
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                             
-                            <form th:action="@{/kdh/videoinsert.do}" method="post">
-                                                    <input type="text" name="title" placeholder="제목"><br/>
-                                                    <input type="text" name="keyword" placeholder="키워드"><br/>
-                                                    <input type="text" name="pd" placeholder="감독"><br/>
-                                                    <input type="text" name="chkage" placeholder="연령제한"><br/>
-                                                    <input type="text" name="opendate" placeholder="개봉일자"><br/>
-                                                    <input type="number" name="episode" placeholder="회차"><br/>
-                                                    <input type="number" name="price" placeholder="가격" ><br/>
-                                                    <input type="text" name="linkurl" placeholder="링크주소"><br/>
-                                                    <input type="submit" value="등록">
-                                                </form>
+                            <form th:action="@{/kdh/videoupdate.do}" method="post" th:object="${video}">
+                                <input type="text" name="title" th:field="${video.title}"><br/>
+                                <input type="text" name="keyword" th:field="${video.keyword}"><br/>
+                                <input type="text" name="pd" th:field="${video.pd}"><br/>
+                                <input type="text" name="chkage" th:field="${video.chkage}"><br/>
+                                <input type="text" name="opendate" th:field="${video.opendate}"><br/>
+                                <input type="text" name="episode" th:field="${video.episode}"><br/>
+                                <input type="text" name="price" th:field="${video.price}" ><br/>
+                                <input type="text" name="linkurl" th:field="${video.linkurl}"><br/>
+                                <input type="submit" value="수정">
+                            </form>
                             <!-- --------------------------- -->
                         </div>
                     </div>

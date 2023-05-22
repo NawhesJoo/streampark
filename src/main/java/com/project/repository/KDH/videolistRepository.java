@@ -12,4 +12,8 @@ public interface videolistRepository extends JpaRepository<Videolist, BigInteger
 
     Videolist findByTitleAndEpisode(String title, BigInteger episode);
     
+    int deleteByTitle(String title);
+
+    Videolist findByTitle(String title);
+    
 }

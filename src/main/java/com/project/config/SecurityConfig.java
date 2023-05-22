@@ -33,7 +33,7 @@ public class SecurityConfig {
         
 
         //post는 csrf를 전송해야하지만, 주소가 /api로 시작하는 모든url은  csrf가 없어도 됨
-        http.csrf().ignoringAntMatchers("/api/**");
+        http.csrf().ignoringAntMatchers("/streampark/**");
 
         return http.build();
     }

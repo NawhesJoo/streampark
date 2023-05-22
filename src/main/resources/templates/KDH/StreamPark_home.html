@@ -171,17 +171,26 @@
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                             
-                            <form th:action="@{/kdh/videoinsert.do}" method="post">
-                                                    <input type="text" name="title" placeholder="제목"><br/>
-                                                    <input type="text" name="keyword" placeholder="키워드"><br/>
-                                                    <input type="text" name="pd" placeholder="감독"><br/>
-                                                    <input type="text" name="chkage" placeholder="연령제한"><br/>
-                                                    <input type="text" name="opendate" placeholder="개봉일자"><br/>
-                                                    <input type="number" name="episode" placeholder="회차"><br/>
-                                                    <input type="number" name="price" placeholder="가격" ><br/>
-                                                    <input type="text" name="linkurl" placeholder="링크주소"><br/>
-                                                    <input type="submit" value="등록">
-                                                </form>
+                            <table class="container table table-hover border border-dark">
+                                <thead style="background-color: lightgray;">
+                                    <tr>
+                                        <th scope="col">비디오코드</th>
+                                        <th scope="col">제목</th>
+                                        <th scope="col">키워드</th>
+                                        <th scope="col">연령제한</th>
+                                        <th scope="col">가격</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr th:each="one : ${list}">
+                                            <td scope="row" th:text="${one.videocode}"></td>
+                                            <td><a th:href="@{/kdh/selectone.do(title=${one.title})}"  th:text="${one.title}"></a></td>
+                                            <td  th:text="${one.keyword}"></td>
+                                            <td  th:text="${one.chkage}"></td>
+                                            <td  th:text="${one.price}" ></td>
+                                        </tr>
+                                </tbody>
+                            </table>
                             <!-- --------------------------- -->
                         </div>
                     </div>

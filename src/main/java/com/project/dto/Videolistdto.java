@@ -6,7 +6,7 @@ import lombok.Data;
 
 // 작품목록
 @Data
-public class Videolist {
+public class Videolistdto {
   // 작품코드
   private Long videocode;
   // 작품 제목
@@ -16,7 +16,7 @@ public class Videolist {
   // 감독
   private String pd;
   // 연령제한
-  private Long chkage;
+  private String chkage;
   // 등록일자
   private Date regdate;
   // 개봉일자

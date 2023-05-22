@@ -6,7 +6,7 @@ import com.project.entity.Member;
 
 
 
-public interface memberRepository extends JpaRepository<Member, String>{
+public interface member1Repository extends JpaRepository<Member, String>{
     
 
 
