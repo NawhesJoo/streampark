@@ -33,7 +33,7 @@ public class test2Controller {
         log.info("{}", "테스트 접속");
         log.info("{}",mRepository.findById("id").orElse(null));
 
-        return "jeong/test/test1";        
+        return "/jeong/test/test1";        
     }
 
     @GetMapping(value = "test2.do")
