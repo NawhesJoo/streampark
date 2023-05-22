@@ -35,10 +35,12 @@
 		<hr class="title_line" />
 		<div class=" main row d-flex justify-content-center ">
 			<div class="row">
-				<div class="col " style="margin-top: 50px; margin-bottom: 50px;">
-					<button class="circle"></button>
+				<th:block th:each="profile : ${profiles}" value="${nickname}">
+				<div class="col" style="margin-top: 50px; margin-bottom: 50px;">
+					<button class="circle" style="background-image: url('../static/images/Navy_pepe.jpg');"></button>
 					<!-- 프로필 선택하는 버튼 위치 -->
 					</div>
+				</th:block>	
 				<div class="col">
 					<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
@@ -65,58 +67,58 @@
 
 	</div>
 	<!-- 프로필 추가 모달 -->
-	<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg modal-dialog-centered ">
-		<div class="modal-content container">		
-			<div class="modal-body mb-2">
-				<div class="modalBtn text-end ">
-					<button type="button" class=" btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+	  <div class="modal-content container">
+		<div class="modal-body mb-2">
+		  <div class="modalBtn text-end">
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div style="display: inline-block;">
+			<p style="display: inline-block; color: #EFC900;">프로필</p>
+			<p style="display: inline-block; color: #ffffff;">을 추가하세요.</p>
+		  </div>
+		  <hr style="width: 20px;" />
+		  <div class="container">
+			<div class="row">
+			  <div class="col-6">
+				<div class="filebox">
+				  <label for="ex_file" style="background-image: url(../images/default.png);"></label>
+				  <input type="file" id="ex_file" name="file" />
 				</div>
-				<div style="display: inline-block;">
-					<p  style="display: inline-block; color: #EFC900;">프로필</p>
-					<p style="display: inline-block; color: #ffffff;">을 추가하세요.</p>
+			  </div>
+			  <div class="col-5">
+				<div class="mb-3">
+				  <label for="exampleFormControlInput1" class="form-label">프로필 닉네임</label>
+				  <input type="text" class="form-control" id="exampleFormControlInput1" name="nickname" placeholder="닉네임" required/>
 				</div>
-				<hr style="width: 20px;"/>
-				<div class="container">
-					<div class="row">
-						<div class="col-6">
-							<div class="filebox">
-								<label for="ex_file"
-									style="background-image: url(./Z-BG-IMAGE/default.png);">
-								</label>
-								<input type="file" id="ex_file"> 
-							  </div>				
-						</div>
-						<div class="col-5">
-							<div class="mb-3">
-								<label for="exampleFormControlInput1" class="form-label">프로필 닉네임</label>
-								<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="닉네임">
-							</div>
-							<div class="mb-3">
-								<label for="exampleFormControlInput1" class="form-label">관심 키워드</label>
-								<select class="form-select SearchSLC " name="keyword" id="keyword">
-									<option id="op" value="애니">애니</option>
-									<option id="op" value="액션">액션</option>
-									<option id="op" value="범죄">범죄</option>
-									<option id="op" value="멜로">멜로</option>
-									<option id="op" value="SF">SF</option>
-									<option id="op" value="판타지">판타지</option>
-									<option id="op" value="코미디">코미디</option>
-									<option id="op" value="로멘스">로멘스</option>
-									<option id="op" value="버라이어티">버라이어티</option>
-								</select> 
-							</div>
-						</div>
-					</div>
+				<div class="mb-3">
+				  <label for="exampleFormControlInput1" class="form-label">관심 키워드</label>
+				  <select class="form-select SearchSLC" name="keyword" id="keyword" required>
+					<option value="애니">애니</option>
+					<option value="액션">액션</option>
+					<option value="범죄">범죄</option>
+					<option value="멜로">멜로</option>
+					<option value="SF">SF</option>
+					<option value="판타지">판타지</option>
+					<option value="코미디">코미디</option>
+					<option value="로멘스">로멘스</option>
+					<option value="버라이어티">버라이어티</option>
+				  </select>
 				</div>
+			  </div>
 			</div>
-			<div class="mx-2 mb-2 text-end">
-				<button type="button" class="btn btn-sm btn-warning">Save changes</button>
-				<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-			</div>
+		  </div>
 		</div>
+		<div class="mx-2 mb-2 text-end">
+		  <form th:action="@{/profile/create.do}" method="post" enctype="multipart/form-data">
+			<button type="submit" class="btn btn-sm btn-warning">프로필 생성</button>
+		  </form>
+		  <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>
 		</div>
+	  </div>
 	</div>
+  </div>
 
 
 
@@ -146,9 +148,11 @@
 		
 	</script>
 	<script>
+
 		function clickImage () {
 			document.getElementById("file").click();
 		}
+
 	</script>
 </body>
 </html>

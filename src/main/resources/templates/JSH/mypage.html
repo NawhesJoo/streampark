@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+</head>
+<body>
+    <h3>mypage</h3>
+    <h3>닉네임 변경</h3>
+    <form th:action="@{/profile/update.do}" method="post">
+        현재 닉네임: <input type="text" name="nickname" th:value="${obj.nickname}" readonly/><br />
+        변경할 닉네임: <input type="text" name="newnickname" placeholder="변경할 닉네임"/><br />
+        암호: <input type="password" name="profilepw" placeholder="암호"/><br />
+        <input type="submit" value="변경">
+    </form>
+    <br />
+
+    <h3>암호 변경</h3>
+    
+</body>
+</html>

@@ -50,7 +50,7 @@ public class Profile {
     private String keyword;
 
     // 멤버
-    // @ToString.Exclude
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Member member;
