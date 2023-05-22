@@ -4,7 +4,7 @@ import lombok.Data;
 
 // 출연진
 @Data
-public class Casts {
+public class Castsdto {
   // 출연진번호(시퀀스)
   private Long castsNo;
   // 작품코드

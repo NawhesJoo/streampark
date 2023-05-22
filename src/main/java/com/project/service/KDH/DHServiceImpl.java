@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.dto.Actorsdto;
+import com.project.dto.Castsdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
 import com.project.entity.Member;
@@ -71,6 +73,37 @@ public class DHServiceImpl implements DHService{
     @Override
     public List<VideolistView> selectvideolist() {
        return kdhMapper.selectvideolist();
+    }
+    @Override
+    public int addactorinvideo(Videolistdto videocode, Actorsdto no) {
+      return kdhMapper.castsInsertactor(videocode.getVideocode(), no.getActorsNo());
+    }
+    @Override
+    public int removeactorinvideo(Videolistdto videocode, Castsdto no) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeactorinvideo'");
+    }
+    @Override
+    public List<Actorsdto> selectactors() {
+         return kdhMapper.selectActors();
+    }
+    @Override
+    public int addactorlist(String name) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addactorlist'");
+    }
+    @Override
+    public List<Long> selectactorsinvideo(BigInteger videocode) {
+        return kdhMapper.selectActorsinvideo(videocode);
+    }
+    @Override
+    public Actorsdto selectnotoname(Long no) {
+        return kdhMapper.selectnotoname(no);
+    }
+    @Override
+    public int castsInsertactorchk(Long actors_no, Long videocode) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'castsInsertactorchk'");
     }
     
 

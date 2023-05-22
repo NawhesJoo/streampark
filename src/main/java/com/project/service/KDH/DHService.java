@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.dto.Actorsdto;
+import com.project.dto.Castsdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
 import com.project.entity.Member;
@@ -23,20 +25,20 @@ public interface DHService {
 	//관리자용 영상 삭제(회원의 권한 정보와, 제목을 받아서 삭제)O
 	public void  videolistDelete(Member admin, String title);
 
-	// //관리자용 작품에 배우 등록(작품이름으로 작품코드리스트를 받아서  작품리스트에 배우등록)
-	// public int addactorinvideo(Videolist videocode, Actors no );
-	// //관리자용 배우 삭제(작품이름으로 작품코드리스트받아서 작품리스트에서 배우 삭제)
-	// public int removeactorinvideo(Videolist videocode, Casts no );
-	// //관리자용 전체배우 조회(전체 배우리스트 조회)
-	// public List<Actors> selectactors();
-	// //관리자용 배우 목록 추가(전체 배우리스트에 없는 배우등록)
-	// public int addactorlist(String name);
-	// //관리자용 현재 작품에 등록된 배우코드 조회
-	// public List<Long> selectactorsinvideo(Casts videocode);
-	// //배우코드로 배우이름 조회
-	// public Actors selectnotoname(Long no);
-	// //현재등록된 배우 중복확인
-	// public int  castsInsertactorchk(Long actors_no, Long videocode);
+	//관리자용 작품에 배우 등록(작품이름으로 작품코드리스트를 받아서  작품리스트에 배우등록)
+	public int addactorinvideo(Videolistdto videocode, Actorsdto no );
+	//관리자용 배우 삭제(작품이름으로 작품코드리스트받아서 작품리스트에서 배우 삭제)
+	public int removeactorinvideo(Videolistdto videocode, Castsdto no );
+	//관리자용 전체배우 조회(전체 배우리스트 조회)
+	public List<Actorsdto> selectactors();
+	//관리자용 배우 목록 추가(전체 배우리스트에 없는 배우등록)
+	public int addactorlist(String name);
+	//관리자용 현재 작품에 등록된 배우코드 조회
+	public List<Long> selectactorsinvideo(BigInteger videocode);
+	//배우코드로 배우이름 조회
+	public Actorsdto selectnotoname(Long no);
+	//현재등록된 배우 중복확인
+	public int  castsInsertactorchk(Long actors_no, Long videocode);
 
 
 	//전체 작품목록 조회
