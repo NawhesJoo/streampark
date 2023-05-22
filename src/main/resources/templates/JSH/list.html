@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 선택</title>
+</head>
+<body>
+    <h3>프로필 목록<h3>
+    <hr />
+    <table>
+        <tr th:each="obj : ${list}">
+            <a th:href="@{/profile/login.do}">
+                    <span th:text="${obj.profileno}"></span>
+                </a>
+        </tr>
+    </table>
+    <a th:href="@{/profile/create.do}"><button>일괄추가</button></a>
+</body>
+</html>
