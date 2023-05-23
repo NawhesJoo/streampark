@@ -24,6 +24,7 @@
                     <th>개봉일</th>
                     <th>가격</th>
                     <th>회차</th>
+                    <th>리뷰작성 테스트</th>
                     <th>등록일</th>
                     <th></th>
                 </tr>
@@ -40,10 +41,13 @@
                     <td th:text="${obj.videolist.opendate}"></td>
                     <td th:text="${obj.videolist.price}"></td>
                     <td th:text="${obj.videolist.episode}"></td>
+                    <td th:text="${obj.profile.reviewban}"></td>
                     <td th:text="${obj.viewdate}"></td>
                     <td>
                         <button type="button" th:onclick="deleteAction([[${obj.viewno}]])">삭제</button>
-                        <a th:href="@{/review/insert.do(profileno=${obj.profile.profileno}, viewno=${obj.viewno})}">리뷰쓰기</button>
+                        <span th:if="${obj.profile.reviewban} == '0'">
+                            <a th:href="@{/review/insert.do(profileno=${obj.profile.profileno}, viewno=${obj.viewno})}"><button type="button">리뷰쓰기</button></a>
+                        </span>
                     </td>
                 </tr>
             </tbody>
@@ -57,9 +61,9 @@
         <input type="text" th:field="${search.text}" placeholder="검색어" />
         <input type="submit" value="검색" />
     </form>
-    <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+    <!-- <th:block th:each="num : ${#numbers.sequence(1, pages)}">
         <a th:href="@{/watchlist/selectlist.do(page=${num}, type=${param.type}, text=${param.text})}" th:text="${num}"></a>
-    </th:block>
+    </th:block> -->
 
     <form th:action="@{/watchlist/delete.do}" method="post" id="form2" style="display:none">
         <input type="hidden" name="viewno" id="hidden_viewno" />

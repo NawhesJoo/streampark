@@ -7,12 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>Watchlist Insert</h3>
-    <form th:action="@{/review/insert.do}" method="post">
-        <input type="text" name="profileno" th:value="${profileno}" /><br />
-        <input type="text" name="watchlist.viewno" th:value="${viewno}" /><br />
+    <h3>Review 수정</h3>
+    <form th:action="@{/review/update.do}" method="post">
+        <input type="text" name="review_no" th:value="${review_no}" readonly /><br />
+        <input type="text" name="profileno" th:value="${profileno}" readonly /><br />
         <textarea rows="5" cols="50" name="content" placeholder="댓글 내용 입력" ></textarea><br />
         <input type="submit" value="제출" />
     </form>
+    
 </body>
 </html>

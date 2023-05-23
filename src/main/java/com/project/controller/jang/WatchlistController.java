@@ -27,7 +27,7 @@ public class WatchlistController {
 
     final String format = "WatchlistController => {}";
     final WatchlistRepository wlRepository;
-    final BigInteger profileno = BigInteger.valueOf(87);
+    final BigInteger profileno = BigInteger.valueOf(6);
 
     @PostMapping(value = "/deletebatch.do")
     public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
@@ -67,16 +67,16 @@ public class WatchlistController {
 
             // 제목 검색
             List<Watchlist> list2 = wlRepository.findByVideolist_titleIgnoreCaseContainingOrderByViewdateDesc(obj.getText(), pageRequest);
-            long total = wlRepository.countByVideolist_titleContaining(obj.getText());
+            // long total = wlRepository.countByVideolist_titleContaining(obj.getText());
 
             // PD 검색
             if(obj.getType().equals("pd")) {
                 list2 = wlRepository.findByVideolist_pdIgnoreCaseContainingOrderByViewdateDesc(obj.getText(), pageRequest);
-                total = wlRepository.countByVideolist_pdContaining(obj.getText());
+                // total = wlRepository.countByVideolist_pdContaining(obj.getText());
             }
             else if(obj.getType().equals("chkage")) {
                 list2 = wlRepository.findByVideolist_chkageIgnoreCaseContainingOrderByViewdateDesc(obj.getText(), pageRequest);
-                total = wlRepository.countByVideolist_chkageContaining(obj.getText());
+                // total = wlRepository.countByVideolist_chkageContaining(obj.getText());
             }
             // log.info(format, profileno);
             log.info(format, list2.toString());
@@ -84,7 +84,7 @@ public class WatchlistController {
             model.addAttribute("list", list);
             model.addAttribute("list2", list2);
             model.addAttribute("search", obj);
-            model.addAttribute("pages", (total-1) + 1 / 10);
+            // model.addAttribute("pages", (total-1) + 1 / 10);
 
             return "/jang/watchlist/selectlist";
         }

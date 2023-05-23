@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Document</title>
+</head>
+<body>
+    <h3>Review(All)</h3>
+    <a th:href="@{/watchlist/selectlist.do}">시청 목록</a>
+    <form th:action="@{/review/selectlist.do}" method="post" id="form">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>리뷰번호</th>
+                    <th>작성자 번호</th>
+                    <th>작품명</th>
+                    <th>리뷰내용</th>
+                    <th>좋아요</th>
+                    <th>신고</th>
+                    <th>등록일</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="obj : ${list}">
+                    <td th:text="${obj.review_no.longValue()}"></td>
+                    <td th:text="${obj.profileno}"></td>
+                    <td th:text="${obj.watchlist.videolist.title}"></td>
+                    <td th:text="${obj.content}"></td>
+                    <td th:text="${obj.likes}"></td>
+                    <td th:text="${obj.reportcnt}"></td>
+                    <td th:text="${obj.regdate}"></td>
+                    <td>
+                        <span th:if="${obj.profileno} == '6'">
+                            <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button">수정</button></a>
+                            <button type="button" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
+                        </span>
+                        <button type="button" id="likebtn" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
+                        <button type="button" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <form th:action="@{/review/delete.do}" method="post" id="form2" style="display:none">
+        <input type="hidden" name="review_no" id="hidden_review_no" />
+        <input type="hidden" name="profileno" id="hidden_profileno" />
+    </form>
+
+    <form th:action="@{/review/update.do}" method="get" id="form3" style="display:none">
+        <input type="hidden" name="review_no" id="hidden_review_no" />
+        <input type="hidden" name="profileno" id="hidden_profileno" />
+    </form>
+
+    <form th:action="@{/api/review/likesplus.json}" method="get" id="form4" style="display:none">
+        <input type="hidden" name="review_no" id="hidden_review_no" />
+        <input type="hidden" name="profileno" id="hidden_profileno" />
+    </form>
+
+
+    <script th:inline="javascript">
+        function deleteAction(review_no,profileno) {
+            if(confirm('삭제할까요?')) {
+                document.getElementById('hidden_review_no').value = review_no;
+                document.getElementById('hidden_profileno').value = profileno;
+                document.getElementById('form2').submit();
+            }
+        }
+
+        function updateAction(review_no,profileno) {
+            document.getElementById('hidden_review_no').value = review_no;
+            document.getElementById('hidden_profileno').value = profileno;
+            document.getElementById('form3').submit();
+        }
+
+        async function likespluscnt(review_no, profileno) {
+            document.getElementById('hidden_review_no').value = review_no;
+            document.getElementById('hidden_profileno').value = profileno;
+            $.ajax({
+                url : "@{/api/review/likesplus.json}",
+                headers : {"Content-Type":"application/json"},
+                body : {},
+                data : await axios.put(url, body, {headers}),
+                
+                success:function(result) {
+                    if(data.result === 1) {
+                        window.location.reload();
+                    }
+                    else {
+                        alert();
+                    }
+                }
+
+            })
+
+        }
+
+    </script>
+</body>
+</html>
