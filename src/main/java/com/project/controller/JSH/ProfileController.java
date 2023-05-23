@@ -1,5 +1,6 @@
 package com.project.controller.JSH;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -42,6 +43,7 @@ public class ProfileController {
     @GetMapping(value = "/profilelist.do")
     public String profilelistGET(Model model, HttpSession session){
         try{
+            // String id = (String) session.getAttribute("id");
             String id = "1";
             List<Profile> list = pService.selectprofile(id);
             model.addAttribute("list", list);
@@ -53,8 +55,6 @@ public class ProfileController {
             return "/JSH/list";
         }
     }
-
-    // profileno를 누르면 프로필 로그인창으로 가는 동시에 세션에 profileno 추가
 
 
     // 프로필 생성
@@ -85,27 +85,28 @@ public class ProfileController {
 
     // 프로필 로그인
     @GetMapping(value = "/login.do")
-    public String loginGET() {
+    public String loginGET(Model model, @RequestParam(name = "profileno") BigDecimal profileno,
+        @RequestParam(name = "nickname", required = false) String nickname) {
+        model.addAttribute("profileno", profileno);
+        model.addAttribute("nickname", nickname);
         return "/JSH/logintest";
     }
+    
 
     @PostMapping(value = "/login.do")
     public String loginPOST(@RequestParam("nickname") String nickname,
-                            @RequestParam(value = "profilepw", required = false) String profilePw,
-                            Model model, HttpSession session) {
+            @RequestParam(value = "profilepw", required = false) String profilePw, Model model, HttpSession session) {
         session.getAttribute(nickname);
         if (profilePw == null || profilePw.isEmpty()) {
-            // profilePw 값이 null이거나 빈 문자열인 경우에는 nickname만 입력된 경우이므로 로그인 성공
-            session.setAttribute("nickname", nickname); // 세션에 nickname 저장
+            session.setAttribute("nickname", nickname);
             return "redirect:/profile/home.do";
         } else {
-            // profilePw 값이 null이 아니고 비어있지 않은 경우에는 nickname과 profilepw가 모두 입력된 경우이므로 추가적인 로그인 처리를 수행할 수 있음
-            // 비밀번호 검증 등의 로직을 수행할 수 있음
-
+            pService.loginProfile(nickname, profilePw);
+            session.setAttribute("nickname", nickname);
         }
         log.info("nickname => {}", nickname.toString());
         log.info("profilePw => {}", profilePw.toString());
-        return "redirect:/profile/home.do?" + nickname; // 로그인 후 이동할 경로
+        return "/profile/home.do";
     }
 
     @GetMapping(value = "/home.do")
@@ -117,43 +118,4 @@ public class ProfileController {
             return "redirect:/profile/login.do"; // 로그인되지 않은 경우 로그인 폼으로 리다이렉트
         }
     }
-
-
-
-    // 닉네임 변경
-    @GetMapping(value = "/updatenickname.do")
-    // public String updatenicknameGET(HttpSession session) {
-    //     String nickname = (String) session.getAttribute("nickname");
-    public String updatenicknameGET(){
-        return "/JSH/mypage";
-    }
-
-    @PostMapping(value = "/updatenickname.do")
-    public String updatenicknamePOST(
-        @ModelAttribute("profile") Profile profile,
-        @RequestParam("newnickname") String newNickname,
-        @RequestParam("profilepw") String profilepw,
-        Model model) {
-    try {
-        String currentnickname = "a1";
-        Profile profile1 = pService.findByNickname(currentnickname);
-        profile1.setNickname(newNickname);
-
-        if (bcpe.matches(profilepw, profile1.getProfilepw())) {
-            pMapper.updateNickname(profile1.getNickname(), newNickname, profilepw);
-        } else {
-            return "/JSH/logintest";
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-        return "/JSH/mypage";
-    }
-
-    model.addAttribute("profile", profile);
-    return "/JSH/hometest";
-}
-    
-
-    // 프로필 삭제
-
 }

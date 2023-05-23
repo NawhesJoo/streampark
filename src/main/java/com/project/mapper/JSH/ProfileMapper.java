@@ -25,4 +25,8 @@ public interface ProfileMapper {
         " INSERT into profile (keyword, id, nickname) values (#{keyword}, #{id}, #{nickname}) "
     })
     public int createProfile(@Param("keyword") String keyword, @Param("id") String id, @Param("nickname") String nickname);
+    @Select ({
+        "SELECT * FROM Profile WHERE nickname = #{nickname} and profilepw = #{profilepw}"
+    })
+    public Profiledto loginProfile(@Param("nickname") String nickname, @Param("profilepw") String profilepw);
 }

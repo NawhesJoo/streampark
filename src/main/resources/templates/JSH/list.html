@@ -11,11 +11,11 @@
     <hr />
     <table>
         <tr th:each="obj : ${list}">
-            <a th:href="@{/profile/login.do}">
+            <a th:href="@{/profile/login.do(profileno=${obj.profileno}, nickname=${obj.nickname})}">
                     <span th:text="${obj.nickname}"></span>
-                </a>
+            </a>
         </tr>
     </table>
-    <a th:href="@{/profile/create.do}"><button>일괄추가</button></a>
+    <a th:href="@{/profile/create.do}"><button>프로필 추가</button></a>
 </body>
 </html>

@@ -10,12 +10,12 @@
     <h1>Profile login Page</h1>
     <form method="post" th:action="@{/profile/login.do}">
         <label for="nickname">닉네임 :</label>
-        <input type="text" id="nickname" name="nickname" th:value="${nickname}" required>
+        <input type="text" id="nickname" name="nickname" th:value="${nickname}" readonly required>
         <br>
         <label for="profilepw">암호 :</label>
         <input type="password" id="profilepw" name="profilepw">
         <br>
-        <input type="submit" value="Login">
+        <input type="submit" value="접속">
     </form>
 </body>
 </html>

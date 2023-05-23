@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.dto.Profiledto;
 import com.project.entity.Profile;
 import com.project.mapper.JSH.ProfileMapper;
 import com.project.repository.ProfileRepository;
@@ -40,6 +41,11 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public int updateNickname(String nickname, String newNickname, String profilepw) {
         return pMapper.updateNickname(nickname, newNickname, profilepw);
+    }
+
+    @Override
+    public Profiledto loginProfile(String nickname, String profilepw) {
+        return pMapper.loginProfile(nickname, profilepw);
     }
 
 }
