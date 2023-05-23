@@ -1,0 +1,85 @@
+<form th:action="@{/member/info.do}" method="post" id="form1">
+    <input type="hidden" name="menu" value="1">
+    <div class="my-1 row">
+        <label for="id" class="col-sm-2 col-form-label">id</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" th:value="${member.id}" name="id" id="id" readonly>
+        </div>
+    </div>
+    <div class="my-1 row">
+        <label for="name" class="col-sm-2 col-form-label">name</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" th:value="${member.name}" name="name" id="name">
+        </div>
+    </div>
+    <div class="my-1 row">
+        <label for="email" class="col-sm-2 col-form-label">email</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" th:value="${member.email}" name="email" id="email">
+        </div>
+    </div>
+    <div class="my-1 row">
+        <label for="birth" class="col-sm-2 col-form-label">birth</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="date" th:value="${member.birth}" name="birth" id="birth">
+        </div>
+    </div>
+    <div class="my-1 row">
+        <label for="telInput" class="col-sm-2 col-form-label">phone</label>
+        <div class="col-sm-10">
+            <input type="tel" class="joinF form-control m-input" th:value="${member.phone}" name="phone" id="telInput"
+                required pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" />
+        </div>
+    </div>
+    <input type="hidden" th:value="${member.gender}" id="genderch">
+    <div >
+        <div class="form-check" style="display: inline-block;">
+            <input class="fci form-check-input" name="gender" type="radio" value="M" id="CheckMale">
+            <label class="fci form-check-label" for="CheckMale">
+                Male
+            </label>
+        </div>
+        <div class="form-check" style="display: inline-block;">
+            <input class="form-check-input" name="gender" type="radio" value="F" id="CheckFemale">
+            <label class="form-check-label" for="CheckFemale">
+                Female
+            </label>
+        </div>
+    </div>
+    <input type="button" value="수정" th:onclick="updateinfo()">
+</form>
+<!-- 모달 창 -->
+<div class="modal fade modal-centered" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content d-flex " style="background-color: black;">
+            <div style="text-align: center; height : 80px; padding-top: 20px; padding-bottom: 0px;">
+                <p class="mx-1" id="idlist" style="color:white;"></p>
+                <p class="mx-1" id="alertMsg" style="color:white;"></p>
+            </div>
+            <div class="modal-footer" style="border-top: none ;">
+                <button type="button" id="pwchange" class="me-2 btn btn-sm btn-warning"
+                    data-bs-target="#exampleModalToggle2" hidden data-bs-toggle="modal">수정 하시겠습니까?</button>
+                <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()"
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- 모달 -->
+ <div class="modal fade" id="myInfoChangedModal" tabindex="-1" role="dialog"
+ aria-labelledby="myInfoChangedModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+     <div class="modal-content " style="background-color: black;">
+         <div class="modal-header" style="border-bottom: none ;">
+             <h5 class="modal-title" id="myInfoChangedModalLabel">정보 변경 완료</h5>
+         </div>
+         <div class="modal-body">
+             내 정보가 성공적으로 변경되었습니다.
+         </div>
+         <div class="modal-footer" style="border-top: none ;">
+             <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+         </div>
+     </div>
+ </div>
+</div>

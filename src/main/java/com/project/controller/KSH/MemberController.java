@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.entity.Member;
 import com.project.repository.KSH.MemberRepository;
@@ -18,8 +19,6 @@ import com.project.repository.KSH.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @Slf4j
@@ -96,19 +95,90 @@ public class MemberController {
 
     // 아이디 찾기
     @GetMapping(value = "/findid.do")
-    public String findIdGET(){
+    public String findIdGET() {
         return "KSH/findid";
     }
 
     @PostMapping(value = "/findid.do")
-    public String findIdPOST(){
+    public String findIdPOST() {
         return "KSH/findid";
     }
+
     // 비밀번호 찾기
-    @GetMapping(value="/findpw.do")
-    public String findPwGET() {
+    @GetMapping(value = "/findpw.do")
+    public String findPwGET(Model model) {
+        model.addAttribute("pwChangeOk", 0);
         return "KSH/findPw";
     }
-    
 
+    @PostMapping(value = "/findpw.do")
+    public String findPwPOST(Model model,
+            @RequestParam(name = "id1") String id,
+            @RequestParam(name = "changePw") String changePw) {
+        try {
+            log.info("{},{}", id, changePw);
+            Member obj1 = mRepository.findById(id).get();
+            obj1.setPw(bcpe.encode(changePw));
+            mRepository.save(obj1);
+
+            model.addAttribute("passwordChanged", true); // 비밀번호 변경 성공 여부를 모델에 추가
+            return "redirect:/member/findpw.do?passwordChanged=true";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/member/findpw.do";
+        }
+    }
+    // 정보 페이지
+    @GetMapping(value = "/info.do")
+    public String infoGET(Model model,
+        @RequestParam(name = "menu", defaultValue = "0", required = false)String menu){
+        String id = "1";
+            log.info("{}",menu);
+        try {
+            if(menu.equals("0")){
+                menu = "1";
+                return "redirect:/member/info.do?menu=" + menu; 
+            }
+            if(menu.equals("1")){
+                Member member = mRepository.findById(id).get();
+                model.addAttribute("member", member);
+            }
+            model.addAttribute("menu", menu);
+            return "/KSH/infomenus/info";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/KSH/infomenus/info";
+        }
+    }
+    @PostMapping(value = "/info.do")
+    public String infoPOST(@ModelAttribute Member obj, Model model,
+        @RequestParam(name = "menu")String menu){
+            String id = "1";
+            String myInfoChanged = "false";
+            try {
+                if(menu.equals("1")){
+                    Member obj1 = mRepository.findById(id).get();
+                    obj1.setName(obj.getName());
+                    obj1.setEmail(obj.getEmail());
+                    obj1.setBirth(obj.getBirth());
+                    obj1.setPhone(obj.getPhone());
+                    obj1.setGender(obj.getGender());
+                    Member ret = mRepository.save(obj1);
+
+                    if(ret != null){
+                        model.addAttribute("myInfoChanged", true); //  변경 성공 여부를 모델에 추가
+                        myInfoChanged = "true";
+                    }
+                    else{
+                        model.addAttribute("myInfoChanged", false); //  변경 성공 여부를 모델에 추가
+                        myInfoChanged = "false";
+                    }
+                }
+                return "redirect:/member/info.do?menu=" + menu + "&myInfoChanged=" + myInfoChanged;
+            } 
+            catch (Exception e) {
+                e.printStackTrace();
+                return "redirect:/member/info.do?menu=" + menu; 
+            }
+    }
 }

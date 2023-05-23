@@ -38,13 +38,13 @@
         <div class="row">
             <div class="col">
                 <div class="findIdInput">
-                    <form th:action="@{/member/findpw.do}">
+                    <div>
                         <input class="joinF form-control" id="email" value="1@s.df" name="email" type="email"
                             placeholder="email">
                         <input class="joinF form-control" id="id" name="id" type="text" placeholder="id">
                         <input class="joinF form-control" id="name" name="name" type="text" placeholder="name">
                         <input type="button" th:onclick="findPw()" value="비번찾기">
-                    </form>
+                    </div>
                     <a th:href="@{/member/findid.do}" class="findIdBtn">아이디 찾기</a>
                     <a th:href="@{/member/login.do}" class="loginBtn btn btn-warning">로그인 하러가기</a>
                 </div>
@@ -54,19 +54,21 @@
         <div class="modal fade modal-centered" id="alertModal" tabindex="-1" role="dialog"
             aria-labelledby="alertModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
-                <div class="modal-content d-flex " style="background-color: black; width: 260px; height: 125px">
+                <div class="modal-content d-flex " style="background-color: black;">
                     <div style="text-align: center; height : 80px; padding-top: 20px; padding-bottom: 0px;">
                         <p class="mx-1" id="idlist" style="color:white;"></p>
                         <p class="mx-1" id="alertMsg" style="color:white;"></p>
                     </div>
-                    <div class="d-flex justify-content-center modalbtnSec mx-1 py-2">
+                    <div class="modal-footer" style="border-top: none ;">
                         <button type="button" id="pwchange" class="me-2 btn btn-sm btn-warning"
                             data-bs-target="#exampleModalToggle2" hidden data-bs-toggle="modal">비밀번호 변경</button>
-                        <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()"
+                            data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 바꿀 비밀번호 입력 모달창 -->
         <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
             tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -75,17 +77,48 @@
                         <h1 style="color: white;" class="modal-title fs-5" id="exampleModalToggleLabel2">비밀번호 변경</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div  class="modal-body "style="border-bottom: none ;">
-                        <input class="form-control mb-2" type="text" placeholder="바꿀 비밀번호">
-                        <input class="form-control mb-2" type="text" placeholder="바꿀 비밀번호 확인">
+                    <div class="modal-body " style="border-bottom: none ;">
+                        <!-- 여기서 바꿀 비밀번호 입력 -->
+                        <p style="color: white;" id="alertMsgPW"></p>
+                        <form id="form1" th:action="@{/member/findpw.do}" method="post">
+                            <input class="joinF form-control" id="id1" name="id1" type="text" placeholder="id">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="infoOption">
+                                <label class="form-check-label" for="infoOption">
+                                    비밀번호를 변경하시겠습니까?
+                                </label>
+                            </div>
+                            <input class="form-control mb-2" id="changePw" name="changePw" type="text"
+                                placeholder="변경할 비밀번호">
+                            <input class="form-control mb-2" id="changePwChk" type="text" placeholder="변경할 비밀번호 확인">
+                        </form>
                     </div>
                     <div class="modal-footer" style="border-top: none ;">
-                        <button class="btn btn-sm btn-warning">Back to first</button>
-                        <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()" data-bs-dismiss="modal">Close</button>
+                        <button class="btn btn-sm btn-warning" th:onclick="changePw()">비밀번호 변경</button>
+                        <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()"
+                            data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 모달 -->
+        <div class="modal fade" id="passwordChangedModal" tabindex="-1" role="dialog"
+            aria-labelledby="passwordChangedModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content " style="background-color: black;">
+                    <div class="modal-header" style="border-bottom: none ;">
+                        <h5 class="modal-title" id="passwordChangedModalLabel">비밀번호 변경 완료</h5>
+                    </div>
+                    <div class="modal-body">
+                        비밀번호가 성공적으로 변경되었습니다.
+                    </div>
+                    <div class="modal-footer" style="border-top: none ;">
+                        <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"
             integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
@@ -106,9 +139,34 @@
             crossorigin="anonymous" referrerpolicy="no-referrer">
             </script>
         <script th:inline="javascript">
-            function reload(){
-                location.reload()
-            }
+            $(document).ready(function () {
+                // URL 매개변수에서 passwordChanged 값 가져오기
+                const urlParams = new URLSearchParams(window.location.search);
+                const passwordChanged = urlParams.get('passwordChanged');
+                const closeModal = document.querySelector('#closeModal');
+
+                if (passwordChanged === 'true') {
+                    // 비밀번호 변경이 완료되었을 경우 모달 자동으로 표시
+                    $('#passwordChangedModal').modal('show');
+                }
+                closeModal.addEventListener('click', function () {
+                    $('#passwordChangedModal').modal('hide');
+                });
+
+            });
+            // 체크박스 클릭시 id 값을 가져온다
+            var infoOption = document.querySelector("#infoOption");
+            infoOption.addEventListener("click", function () {
+                if (infoOption.checked == true) {
+                    var id = document.querySelector('#id').value;
+                    document.querySelector('#id1').value = id;
+                }
+                else {
+                    document.querySelector('#id1').value = "";
+                }
+            });
+
+            "redirect:/member/info.do?menu=" + menu;
             async function findPw() {
                 const email = document.querySelector('#email');
                 const id = document.querySelector('#id');
@@ -148,7 +206,30 @@
                     $('#alertModal').modal('show');
                     return false;
                 }
-                
+            }
+            async function changePw() {
+                const changePw = document.querySelector('#changePw');
+                const changePwChk = document.querySelector('#changePwChk');
+                const form1 = document.querySelector('#form1');
+
+                if (!changePw.value || changePw.value.length <= 0) {
+                    document.getElementById("alertMsgPW").innerText = '변경할비밀번호를 입력하세요';
+                    return false;
+                }
+                if (changePw.value.length <= 5) {
+                    document.getElementById("alertMsgPW").innerText = '변경할 비밀번호는 6자 이상으로 해야합니다.';
+                    return false;
+                }
+                if (!changePwChk.value || changePwChk.value.length <= 0) {
+                    document.getElementById("alertMsgPW").innerText = '변경할 비밀번호 확인을 입력하세요';
+                    return false;
+                }
+                if (changePw.value != changePwChk.value) {
+                    document.getElementById("alertMsgPW").innerText = '변경할 비밀번호와 비밀번호 확인이 일치하지 않습니다';
+                    return false;
+                }
+
+                form1.submit();
             }
         </script>
 </body>
