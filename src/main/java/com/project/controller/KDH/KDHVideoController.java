@@ -1,9 +1,17 @@
 package com.project.controller.KDH;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,16 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.dto.Actorsdto;
+import com.project.dto.Videoimgdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
 import com.project.entity.Member;
+import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
+import com.project.repository.KDH.VideoimgRepository;
 import com.project.repository.KDH.videolistRepository;
 import com.project.service.KDH.DHService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -31,8 +41,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Slf4j
 public class KDHVideoController {
     final videolistRepository videolistRepository;
+    final VideoimgRepository videoimgRepository;
     final DHService dhService;
-
+    final ResourceLoader resourceLoader; // resource폴더의 파일을 읽기위한 객체 생성
+    @Value("${default.image}")
+    String defaultImage;
     @GetMapping(value = "/error.do")
     public String errorGET() {
         return "/KDH/error";
@@ -93,7 +106,12 @@ public class KDHVideoController {
 
     @GetMapping(value = "/home.do")
     public String homeGET(Model model) {
-        List<VideolistView> list = dhService.selectvideolist();
+        List<Videolistdto> list = dhService.selectvideolist();
+        for(Videolistdto obj :list){
+            System.out.println(obj.getVideocode());
+           Long imgno =dhService.selectvideoimgOne((obj.getVideocode()));
+            obj.setImgno(imgno);
+        }
         model.addAttribute("list", list);
         return "/KDH/StreamPark_home";
     }
@@ -206,4 +224,23 @@ public class KDHVideoController {
         
     }
     
+
+    @GetMapping(value = "/image")
+    public ResponseEntity<byte[]> image(@RequestParam(name = "no", defaultValue = "0") BigInteger no) throws IOException {
+
+       Videoimg obj = videoimgRepository.findById(no).orElse(null);
+        HttpHeaders headers = new HttpHeaders();
+        if (obj != null) {
+            if (obj.getFilesize().longValue() > 0) {
+                headers.setContentType(MediaType.parseMediaType(obj.getFiletype()));
+                return new ResponseEntity<>(obj.getFiledata(), headers, HttpStatus.OK);
+
+            }
+        }
+        // InputStream is =
+        // resourceLoader.getResource("classpath:/static/images/default.png").getInputStream();
+        InputStream is = resourceLoader.getResource(defaultImage).getInputStream();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+    }
 }

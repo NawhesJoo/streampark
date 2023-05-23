@@ -81,7 +81,7 @@ public class DHServiceImpl implements DHService {
     }
 
     @Override
-    public List<VideolistView> selectvideolist() {
+    public List<Videolistdto> selectvideolist() {
         return kdhMapper.selectvideolist();
     }
 
@@ -128,6 +128,12 @@ public class DHServiceImpl implements DHService {
     public List<Videolist> selectvideofordelete(String title) {
       List<Videolist> list=videolistRepository.findByTitle(title);
       return list;
+    }
+
+    @Override
+    public Long selectvideoimgOne(Long videocode) {
+        System.out.println(kdhMapper.selectimgnotovideocode(videocode));
+        return kdhMapper.selectimgnotovideocode(videocode);
     }
 
 }

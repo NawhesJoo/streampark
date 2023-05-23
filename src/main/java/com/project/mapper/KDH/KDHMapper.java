@@ -39,7 +39,7 @@ public interface KDHMapper {
     @Select({
 		"  SELECT  * FROM Videolist WHERE episode= 1   "
 	})
-	public List<VideolistView> selectvideolist();
+	public List<Videolistdto> selectvideolist();
     //casts에 비디오코드로 배우 추가
     @Insert({
 		"  INSERT INTO casts (videocode, actors_no)  ",
@@ -83,6 +83,12 @@ public interface KDHMapper {
 		"  VALUES(#{actors_name})  "
 	})
 	public int actorInsert(@Param("actors_name") String actors_name);
+
+	//비디오코드로 사진번호 조회
+	@Select({
+		"  SELECT no FROM Videoimg WHERE videocode =#{videocode}"
+	})
+	public Long selectimgnotovideocode(@Param("videocode") Long videocode);
 
 //     //전체 영상 조회
 // 	@Select({

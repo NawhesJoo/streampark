@@ -44,7 +44,7 @@ public interface DHService {
 
 
 	//전체 작품목록 조회
-	public List<VideolistView> selectvideolist();
+	public List<Videolistdto> selectvideolist();
 	// // public List<Videolist> selectVideoList(@Param("column") String column, 
 	// // 		@Param("text")String text);
 	
@@ -66,8 +66,8 @@ public interface DHService {
 	// public int updatevideoimg(Videoimg videoimg);
 	// //작품 사진 삭제(작품제목으로 코드 받아서  코드로 사진 번호 조회 후 번호로 삭제)
 	// public int deletevideoimg(Videoimg vimgno);
-	// //작품 사진 하나조회
-	// public Videoimg selectvideoimgOne(Videoimg vimgno);
+	//작품 사진 하나조회
+	public Long selectvideoimgOne(Long videocode);
 
 	// //제일많이 본영상 조회
 	// public List<VideolistView> countplayingvideolist();

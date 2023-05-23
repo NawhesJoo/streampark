@@ -27,4 +27,7 @@ public class Videolistdto {
   private Long episode;
   // 유튜브링크
   private String linkurl;
+
+
+  private Long imgno;
 }
