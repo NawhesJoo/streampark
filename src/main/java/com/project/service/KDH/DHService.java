@@ -6,38 +6,40 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Actorsdto;
-import com.project.dto.Castsdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
 import com.project.entity.Member;
+import com.project.entity.Videolist;
 
 @Service
 public interface DHService {
 
-    //관리자용 영상 추가(회원의 권한 정보와, 비디오의 정보)
+    //관리자용 영상 추가(회원의 권한 정보와, 비디오의 정보)---------------------------
     public void videolistInsert(Member admin, Videolistdto obj);
 	//작품이름으로 작품 코드 조회(영상을 조회하기위한 작품이름으로 작품코드 조회)
-	public BigInteger selectnofromtitle(String title);
+	public Videolist selectnofromtitle(String title);
 	//영상코드로 영상조회(조회된 작품코드로 작품을 조회한다.)
 	public VideolistView selectvideoOne(BigInteger videocode );
 	//관리자용 영상 수정(조회된 작품의 정보를 수정)
 	public void  videolistUpdate(Member admin, Videolistdto obj, String nowtitle);
+	// //관리자용 영상 삭제를 위한 제목을 받으면 모든회차의 비디오코드 조회
+	public List<Videolist> selectvideofordelete(String title);
 	//관리자용 영상 삭제(회원의 권한 정보와, 제목을 받아서 삭제)O
 	public void  videolistDelete(Member admin, String title);
 
-	//관리자용 작품에 배우 등록(작품이름으로 작품코드리스트를 받아서  작품리스트에 배우등록)
+	//관리자용 작품에 배우 등록(작품이름으로 작품코드리스트를 받아서  작품리스트에 배우등록)------------------------
 	public int addactorinvideo(Videolistdto videocode, Actorsdto no );
-	//관리자용 배우 삭제(작품이름으로 작품코드리스트받아서 작품리스트에서 배우 삭제)
-	public int removeactorinvideo(Videolistdto videocode, Castsdto no );
-	//관리자용 전체배우 조회(전체 배우리스트 조회)
+	//관리자용 배우 삭제(작품이름으로 작품코드리스트받아서 작품리스트에서 배우 삭제)---------------------------
+	public int removeactorinvideo(Videolistdto videocode, Actorsdto no );
+	//관리자용 전체배우 조회(전체 배우리스트 조회)----------------------------------
 	public List<Actorsdto> selectactors();
-	//관리자용 배우 목록 추가(전체 배우리스트에 없는 배우등록)
+	//관리자용 배우 목록 추가(전체 배우리스트에 없는 배우등록)--------
 	public int addactorlist(String name);
-	//관리자용 현재 작품에 등록된 배우코드 조회
+	//관리자용 현재 작품에 등록된 배우코드 조회--------------------------
 	public List<Long> selectactorsinvideo(BigInteger videocode);
-	//배우코드로 배우이름 조회
+	//배우코드로 배우이름 조회-----------------------------------
 	public Actorsdto selectnotoname(Long no);
-	//현재등록된 배우 중복확인
+	//현재등록된 배우 중복확인-------------------------------------------
 	public int  castsInsertactorchk(Long actors_no, Long videocode);
 
 

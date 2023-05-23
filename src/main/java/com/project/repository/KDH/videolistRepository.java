@@ -1,6 +1,7 @@
 package com.project.repository.KDH;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ public interface videolistRepository extends JpaRepository<Videolist, BigInteger
     
     int deleteByTitle(String title);
 
-    Videolist findByTitle(String title);
+    List<Videolist> findByTitle(String title);
+
+    BigInteger countByTitle(String title);
     
 }

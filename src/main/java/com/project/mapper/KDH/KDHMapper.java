@@ -3,6 +3,7 @@ package com.project.mapper.KDH;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +18,7 @@ import com.project.dto.Videolistdto;
 public interface KDHMapper {
     
     @Select({
-		"  SELECT v.* FROM VideolistView v  WHERE Videocode=#{videocode}  "
+		"  SELECT v.* FROM VideolistView v  WHERE v.videocode=#{videocode}  "
 	})
 	public VideolistView selectVideoOne(@Param("videocode") BigInteger videocode); 
 
@@ -26,7 +27,7 @@ public interface KDHMapper {
 		"  UPDATE videolist SET title=#{obj.title}, keyword= #{obj.keyword}, pd=#{obj.pd}, chkage=#{obj.chkage}, opendate=#{obj.opendate} ,price=#{obj.price}, linkurl=#{obj.linkurl}  ",
 	    "  WHERE  title=#{nowtitle}  "
 	})
-    public int videolistUpdate(@Param("obj")Videolistdto obj, String nowtitle);
+    public int videolistUpdate(@Param("obj")Videolistdto obj, @Param("nowtitle") String nowtitle);
     
 
     @Insert({
@@ -36,7 +37,7 @@ public interface KDHMapper {
 	public int videolistInsert(@Param("obj") Videolistdto obj);
 
     @Select({
-		"  SELECT  * FROM VideolistView WHERE episode= 1   "
+		"  SELECT  * FROM Videolist WHERE episode= 1   "
 	})
 	public List<VideolistView> selectvideolist();
     //casts에 비디오코드로 배우 추가
@@ -64,9 +65,24 @@ public interface KDHMapper {
 	})
 	public Actorsdto selectnotoname(@Param("code") Long code);
 
-    
+    //현재등록된 배우 중복확인
+	@Select({
+		"  SELECT COUNT(*) cnt FROM casts WHERE videocode=#{videocode} AND actors_no=#{actors_no} "
+	})
+	public int  castsInsertactorchk(@Param("actors_no") Long actors_no, @Param("videocode") Long videocode  );
 
+    //casts에 배우삭제
+	@Delete({
+		"  DELETE FROM casts WHERE videocode=#{videocode} AND actors_no=#{actors_no}  "
+	})
+	public int castsDeleteactor(@Param("videocode") Long videocode, @Param("actors_no") Long actors_no);
 
+    	//actors에 배우가 없으면 추가
+	@Insert({
+		"  INSERT INTO actors (actors_name)  ",
+		"  VALUES(#{actors_name})  "
+	})
+	public int actorInsert(@Param("actors_name") String actors_name);
 
 //     //전체 영상 조회
 // 	@Select({

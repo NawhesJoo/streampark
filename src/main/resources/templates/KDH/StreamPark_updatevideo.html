@@ -144,7 +144,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" th:href="@{/kdh/boardlist.do}">문의 목록</a>
                                     <a class="nav-link" th:href="@{/kdh/reviewmanage.do}">리뷰 관리</a>
-                                    <a class="nav-link" th:href="@{/kdh/videoregister.do}">작품 등록</a>
+                                    <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
                                 </nav>
                             </div>
                         </div> 
@@ -172,6 +172,7 @@
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                             
                             <form th:action="@{/kdh/videoupdate.do}" method="post" th:object="${video}">
+                                <input type="hidden" name="nowtitle" th:value="${video.title}"><br/>
                                 <input type="text" name="title" th:field="${video.title}"><br/>
                                 <input type="text" name="keyword" th:field="${video.keyword}"><br/>
                                 <input type="text" name="pd" th:field="${video.pd}"><br/>

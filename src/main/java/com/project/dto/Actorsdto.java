@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Actorsdto {
   // 배우번호(시퀀스)
-  private Long actorsNo;
+  private Long actors_No;
   // 배우이름
-  private String actorsName;
+  private String actors_Name;
 }
