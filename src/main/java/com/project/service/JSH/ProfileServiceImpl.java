@@ -53,4 +53,14 @@ public class ProfileServiceImpl implements ProfileService{
         return pMapper.updateNickname1(nickname, newNickname);
     }
 
+    @Override
+    public int deleteProfile(String nickname, String profilepw) {
+        return pMapper.deleteProfile(nickname, profilepw);
+    }
+
+    @Override
+    public int deleteProfileNoPw(String nickname) {
+        return pMapper.deleteProfileNoPw(nickname);
+    }
+
 }

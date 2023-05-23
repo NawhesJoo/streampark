@@ -107,9 +107,7 @@ public class ProfileController {
         model.addAttribute("nickname", nickname);
         Profile profile1 = pRepository.findByNickname(nickname);
         if(profile1.getProfilepw() == null){
-            
             session.setAttribute("nickname", nickname);
-            
             return "redirect:/profile/home.do";
         }
         return "/JSH/logintest";

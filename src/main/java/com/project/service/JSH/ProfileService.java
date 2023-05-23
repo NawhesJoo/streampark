@@ -32,4 +32,9 @@ public interface ProfileService {
     // 암호 없는 프로필 닉네임 변경
     public int updateNickname1(String nickname, String newNickname);
 
+    // 프로필 삭제
+    public int deleteProfile(String nickname, String profilepw);
+
+    // 암호 없는 프로필 삭제
+    public int deleteProfileNoPw(String nickname);
 }

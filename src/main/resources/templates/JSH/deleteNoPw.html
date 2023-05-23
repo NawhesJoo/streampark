@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>프로필 삭제</h3>
+    <form th:action="@{/mypage/deleteNoPw.do}" method="post">
+        <button type="submit" onclick="return confirmDelete();">삭제</button>
+    </form>
+    <a th:href="@{/mypage/updatenickname.do}"><button>돌아가기</button></a>
+
+    <script>
+        function confirmDelete() {
+            return confirm("보유한 코인을 포함한 모든 정보도 함께 삭제됩니다. 삭제하시겠습니까?");
+        }
+    </script>
+</body>
+</html>

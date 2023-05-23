@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -98,6 +99,67 @@ public class ProfileMypageController {
     //         return "/JSH/updatepw";
     //     }
 
+
+
     // 프로필 삭제
+    @GetMapping(value = "/delete.do")
+    public String deleteGET(HttpSession session){
+    String nickname = (String) session.getAttribute("nickname");
+    Profile profile = pRepository.findByNickname(nickname);
+    if(profile.getProfilepw() != null){
+        return "/JSH/delete";
+    }
+    return "redirect:/mypage/deleteNoPw.do";
+    }
+
+    // 암호 있을 때
+    @PostMapping(value = "/delete.do")
+    public String deletePOST(HttpSession session, Model model,
+            @RequestParam("profilepw") String profilepw){
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile1 = pRepository.findByNickname(nickname);
+        try{
+            if(bcpe.encode(profilepw) == profile1.getProfilepw()){
+            pMapper.deleteProfile(nickname, profilepw);
+            pRepository.save(profile1);
+            session.removeAttribute("nickname");
+            return "redirect:/profile/profilelist.do";
+            }
+            if (!bcpe.encode(profilepw).equals(profile1.getProfilepw())) {
+                model.addAttribute("error", "암호가 일치하지 않습니다.");
+                return "/JSH/delete";
+            }
+            return "/JSH/delete";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "redirect:/profile/delete.do";
+        }
+    }
+
+
+    // 암호가 없을 때
+    @GetMapping(value ="/deleteNoPw.do")
+    public String deleteNoPwGET(HttpSession session){
+        session.getAttribute("nickname");
+        return "/JSH/deleteNoPw";
+    }
+
+    @PostMapping(value = "/deleteNoPw.do")
+    public String deleteNoPwPOST(HttpSession session){
+        try{
+            String nickname = (String) session.getAttribute("nickname");
+            Profile profile = pRepository.findByNickname(nickname);
+            pMapper.deleteProfileNoPw(nickname);
+            pRepository.save(profile);
+            session.removeAttribute("nickname");
+            return "redirect:/profile/profilelist.do";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "/JSH/delete";
+        }
+    }
+
+    // 완료
+
 
 }

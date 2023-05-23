@@ -1,5 +1,6 @@
 package com.project.mapper.JSH;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,4 +36,14 @@ public interface ProfileMapper {
         "SELECT * FROM Profile WHERE nickname = #{nickname} and profilepw = #{profilepw}"
     })
     public Profiledto loginProfile(@Param("nickname") String nickname, @Param("profilepw") String profilepw);
+
+    @Delete ({
+        "DELETE FROM profile WHERE nickname = #{nickname} and profilepw =#{profilepw}"
+    })
+    public int deleteProfile(@Param("nickname") String nickname, @Param("profilepw") String profilepw);
+
+    @Delete ({
+        "DELETE FROM profile WHERE nickname = #{nickname}"
+    })
+    public int deleteProfileNoPw(@Param("nickname") String nickname);
 }
