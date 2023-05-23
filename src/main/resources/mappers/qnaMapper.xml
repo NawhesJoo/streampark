@@ -21,6 +21,6 @@
 
     <!-- 문의글 삭제 -->
     <delete id="deleteBoard" parameterType="com.project.dto.Board">
-        DELETE FROM BOARD WHERE no=#{no} AND password=#{password}
+        DELETE FROM BOARD WHERE no=#{no}
     </delete>
 </mapper>

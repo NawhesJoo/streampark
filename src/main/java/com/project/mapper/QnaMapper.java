@@ -20,7 +20,7 @@ public interface QnaMapper {
 	public int updateBoard(Board board);
 	
 	//게시글삭제
-	public int deleteBoard(Board board);
+	public int deleteBoard(Long no);
 
 
 

@@ -6,48 +6,6 @@
 </head>
 
 <body>
-	<div layout:fragment="content">
-		<div>
-			<form name="delete-form" action="/qna/delete.do" autocomplete="off" method="post">  
-				<div>
-					<input type="hidden" name="no" th:value="${no}" />
-					<br />
-					글을 작성할 때 입력했던 비밀번호를 적어주세요.
-					<input type="password" id="password" name="password" maxlength="6" placeholder="비밀번호" />
-					<input type="button" class="btn btn-outline-primary mr-7" onclick="checkPassword()" value="비밀번호 확인" />
-					<br />
-					<input type="button" id="submitBtn"  class="btn btn-outline-primary mr-2" value="삭제" />
-					<button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">취소</button>	<!-- 나중에 selectone으로 -->
-				</div>
-			</form>
-			
-		</div>
-	</div>
-	<script>
-		function checkPassword(){	
-			var no = $('input[name=no]').val();
-			var password = $('input[name=password]').val();
-			
-			$.ajax({
-		type: 'GET',
-		url: '/board/delete/getPassword',
-		data : {idx,password},
-		success: function(result) {
-			if(result.password == password){
-				$('#submiBtn').attr('disabled',false);
-			}
-			else{
-				alert("비밀번호가 일치하지않습니다");
-			}
-		}
-		,
-		error: function(result) {
-		},
-		complete: function() {
-		}
-		
-	})
-}
-</script>
+	
 </body>
 </html>

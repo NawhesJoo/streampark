@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.entity.Board;
-import com.project.entity.Profile;
 import com.project.mapper.QnaMapper;
-import com.project.repository.msh.QnARepository;
 import com.project.service.msh.QnaService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class QnAController {
     final String format = "QnA => {}";
     final QnaService qnaService;
-    final QnaMapper qnAMapper;
+    final QnaMapper qnaMapper;
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
@@ -49,7 +47,6 @@ public class QnAController {
             return "redirect:/home.do";
         }
     }
-
     // 문의글 등록POST
     @PostMapping(value = "/insert.do")
     public String insertPOST(@ModelAttribute com.project.dto.Board board) {
@@ -58,10 +55,9 @@ public class QnAController {
             board.setPassword(bcpe.encode(board.getPassword()));
             int ret = qnaService.insertBoard(board);
             log.info(format, board.toString());
-            log.info(format, ret);
+            log.info("ret = {}", ret);
 
             return "redirect:/qna/selectlist.do"; // return "/msh/selectlist"일때 list 못받아오고 url안바뀜
-            // return "redirect:/qna/selectone.do"; 나중에 바로 조회화면으로 할거임
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -78,18 +74,19 @@ public class QnAController {
     }
     
     // 글삭제
-    @GetMapping(value = "/delete.do")
-    public String deldeteGET(@RequestParam(name = "no") Long no
-                            ,@RequestParam(name = "password") String password) {
-        try {
-            com.project.dto.Board board = new com.project.dto.Board();
-	        board.setNo(no);
-            int ret = qnaService.deleteBoard(board);
-            return "/msh/delete";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/home.do";
-        }
-    }
+    // @PostMapping(value = "/delete.do")
+    // public String delete(@RequestParam(name = "no") Long no) {
+    //     try {
+    //         com.project.dto.Board board = new com.project.dto.Board();
+	//         board.setNo(no); //dto Biginteger
+      
+    //         int ret = qnaService.deleteBoard(no);
+    //         log.info("ret = ", ret);
+    //         return "redirect:/selectlist.do";
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/home.do";
+    //     }
+    // }
 
 }

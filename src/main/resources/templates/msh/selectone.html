@@ -55,45 +55,86 @@
     <hr />
     <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">목록으로</button>
     <input type="button" value="수정" id="updateBtn" />
-    <input type="button" value="삭제" id="deleteBtn" />
+    <input type="button" value="삭제" id="deleteBtn" onclick="checkPassword()"/>
 
 
     <div id='modal'>
         <div id='content'>
-            <input type='button' value='X' class="close" id='btnClose' />
-            <label>암호~</label><br />
-            <input type='password' id='pwd' value='1' />
+            <input type='button' value='X' class="close" id='btnClose' onclick="closeModal()" />
+            <label>암호를 입력해 주세요.</label><br />
+            <input type='password' id='passwordInput' value='1' />
             <input type='button' value='입력' id='btnCheck' />
         </div>
     </div>
+
+
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.4.min.js"></script>
     <script>
-        var updateBtn = document.getElementById('updateBtn');
-        var deleteBtn = document.getElementById('deleteBtn');
-        var btnCheck  = document.getElementById('btnCheck');
-        var btnClose  = document.getElementById('btnClose');
-
-        // modal창 끔
-        var closeRtn = function () {
-            var modal = document.getElementById('modal');
-            modal.style.display = 'none';
-        }
-
-        // modal창 나타남
+        // 수정버튼 modal창 => 작동됨
         updateBtn.onclick = function () {
             var modal = document.getElementById('modal');
             modal.style.display = 'block';
+
         }
+        // 삭제버튼 modal창 => 작동됨
         deleteBtn.onclick = function () {
             var modal = document.getElementById('modal');
             modal.style.display = 'block';
+
         }
 
-        btnCheck.onclick = closeRtn;
-        btnClose.onclick = closeRtn;
+        // 모달 닫기 => 작동됨
+        function closeModal() {
+            var modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+
+        // 비밀번호 입력칸에서 값을 가져오는 함수
+        // function getPassword() {
+        //     return document.getElementById('passwordInput').value; // 모달에서 비밀번호 입력값을 ID를 사용하여 값을 가져옴
+        // }
+
+        // 게시글 삭제
+        // Ajax 요청 보내기
+        function checkPassword() {
+            var password = $('input[name=password]').val();
+          
+            $.ajax({
+                url: '/delete.do', // 비밀번호를 체크할 서버의 컨트롤러 경로
+                method: 'POST',
+                data: { password },//: getPassword() 함수쓰면 이거 안으로 넣음
+                success: function (result) { // 정상적으로 응답 받았을 경우 
+                    // 비밀번호 체크에 대한 응답 처리
+                    if (result.password == password) {
+                        
+                    }
+                    else {
+                        alert("비밀번호가 일치하지않습니다");
+                    }
+                },
+                error: function (result) {// 응답을 받지 못하거나 정상적인 응답이지만 데이터 형식을 확인할 수 없는 경우
+                    // 오류 처리
+                    console.log(error);
+                }
+            });
+        };
 
 
+
+
+
+        // // 비밀번호 확인
+        // btnCheck.onclick = function () {
+        //     var password = document.getElementById("pw").value;
+        //     // if (hash('sha256', password)
+        //     if (password === "${board.password}") { // 여기에 비밀번호를 올바르게 설정해주세요.
+        //         alert("게시글이 삭제되었습니다.");
+        //         closeModal();
+        //     } else {
+        //         alert("비밀번호가 올바르지 않습니다.");
+        //     }
+        // }
     </script>
-
 </body>
 
 </html>

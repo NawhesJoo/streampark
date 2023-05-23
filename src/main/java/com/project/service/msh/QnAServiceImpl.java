@@ -58,9 +58,9 @@ public class QnaServiceImpl implements QnaService {
 
     // 문의글 삭제
     @Override
-    public int deleteBoard(Board board) {
+    public int deleteBoard(Long no) {
         try {
-            return qnaMapper.deleteBoard(board);
+            return qnaMapper.deleteBoard(no);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
