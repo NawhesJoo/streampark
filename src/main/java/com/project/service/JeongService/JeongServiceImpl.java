@@ -2,8 +2,11 @@ package com.project.service.JeongService;
 
 import java.math.BigInteger;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Component;
 
+import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
 import com.project.repository.JeongRepositories.MemberRepository;
@@ -12,18 +15,21 @@ import com.project.repository.JeongRepositories.ProfileRepository;
 import com.project.repository.JeongRepositories.Projections.MemberProjection;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Component
-public class JeongServiceImpl implements JeongService{
+@Slf4j
+public class JeongServiceImpl implements JeongService {
 
+    final HttpSession httpSession;
     final ProfileRepository proRepository;
     final MemberRepository memRepository;
     final PaychkRepository payRepository;
-    //  proRepository.findById(BigInteger.valueOf(88)).orElse(null);
+    // proRepository.findById(BigInteger.valueOf(88)).orElse(null);
 
     @Override
-    public int insertPaychk(Paychk obj) {
+    public int insertPaychkMembership(Paychk obj) {
         try {
             payRepository.save(obj);
             return 1;
@@ -35,7 +41,7 @@ public class JeongServiceImpl implements JeongService{
 
     @Override
     public Profile findProfileById(long profileno) {
-        try {            
+        try {
             return proRepository.findById(BigInteger.valueOf(profileno)).orElse(null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,5 +66,24 @@ public class JeongServiceImpl implements JeongService{
             return null;
         }
     }
-    
+
+    @Override
+    public int insertPaychkToken(Paychk obj) {
+        try {
+            String id = (String) httpSession.getAttribute("id");
+            Member member = memRepository.findById(id).orElse(null);
+            
+            long token = member.getToken().longValue() + Long.parseLong(obj.getChargetoken().getToken());
+            
+            member.setToken(BigInteger.valueOf(token));
+            
+            payRepository.save(obj);
+            memRepository.save(member);
+
+            return 1;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
 }

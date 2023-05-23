@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -7,84 +8,93 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- 1. 부트스트렙용 css CDN 추가 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
     <!-- 부트스트렙용 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/radiostyle.css}'>
 
-     <!-- jQuery 추가 -->
-     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-     integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
-     
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+
     <!-- font awesome용 스크립트 CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src='main.js?ver='></script>
+    <!-- <script src='main.js'></script> -->
 
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
-            if(sidebarToggle){
+            if (sidebarToggle) {
 
-                sidebarToggle.click(function(){
-                  console.log('숨기기');  
-                  event.preventDefault();
-                  document.body.classList.toggle('sb-sidenav-toggled');
-                  localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                sidebarToggle.click(function () {
+                    console.log('숨기기');
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
                 });
-                
+
             }
         });
     </script>
 
 </head>
+
 <body class="sb-nav-fixed">
     <!-- 내비게이션 영역 -->
-   <nav class="sb-topnav navbar navbar-expand navbar-dark ">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark ">
         <!-- 내비게이션 브랜드 -->
         <a class="navbar-brand ps-3" href="#">
             <strong>STREAM PARK</strong>
         </a>
         <!-- 내비게이션 사이드바 버튼 -->
-        <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
-                <path d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z"/>
-                <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z"/>
-              </svg>
+        <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0"
+            id="sidebarToggle" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
+                <path
+                    d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z" />
+                <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z" />
+            </svg>
         </button>
-         <!--내비게이션 써치 -->
-         <div class="d-none d-md-inline-block form-inline ms-auto ">
-             <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
+        <!--내비게이션 써치 -->
+        <div class="d-none d-md-inline-block form-inline ms-auto ">
+            <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
                 <option id="op" value="title">제목</option>
                 <option id="op" value="keyword">키워드</option>
                 <option id="op" value="castactor">배우</option>
                 <option id="op" value="pd">감독</option>
-            </select> 
-         </div>
-         <form class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group" >
-                <input id="searchInput" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..." aria-label="검색어 입력 ..."
-                    aria-describedby="btnSearch">
+            </select>
+        </div>
+        <form class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input id="searchInput" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..."
+                    aria-label="검색어 입력 ..." aria-describedby="btnSearch">
                 <button class="btn btn-warning" id="btnSearch" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </form>
-   </nav>
-   <!-- 전체화면 영역-->     
-   <div id="layoutTotal">
-    <!-- 전체화면 왼쪽메뉴 영역 sb는 cs에서하는 것-->
+    </nav>
+    <!-- 전체화면 영역-->
+    <div id="layoutTotal">
+        <!-- 전체화면 왼쪽메뉴 영역 sb는 cs에서하는 것-->
         <div id="layoutLeftSide">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class=" sb-sidenav-menu" >
+                <div class=" sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">
                             <!-- 사이드바 프로필 영역 -->
                             <button class="align-middle profileCle"><a href="#"></a></button>
-                            <strong class="d-inline-block text-truncate align-middle profileName" style="max-width: 139px;">프로필 닉네임1sad2</strong>
+                            <strong class="d-inline-block text-truncate align-middle profileName"
+                                style="max-width: 139px;">프로필 닉네임1sad2</strong>
                             <a class="logoutBtn " href="#">로그아웃</a>
                             <hr style="border-width: 2px;">
                             <!-- 사이드바 메뉴 영역 -->
@@ -133,7 +143,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" th:href="@{/pay/membership.do}">멤버쉽 가입,변경</a>
                                     <a class="nav-link" th:href="@{/pay/token.do}">토큰 결제</a>
-                                    <a class="nav-link" href="#">결제 내역</a>
+                                    <a class="nav-link" th:href="@{/pay/paychk.do}">결제 내역</a>
                                 </nav>
                             </div>
                             <!-- MANAGE -->
@@ -150,30 +160,78 @@
                                     <a class="nav-link" href="#">작품 등록</a>
                                 </nav>
                             </div>
-                        </div> 
-                    </div>       
+                        </div>
+                    </div>
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">로그인 중 : 여기에 로그인 된 아이디</div>
                 </div>
             </nav>
         </div>
-         <!-- 전체화면 오른쪽메인화면 영역 -->
-         <div id="layoutContent">
+        <!-- 전체화면 오른쪽메인화면 영역 -->
+        <div id="layoutContent">
             <main>
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <h1 class="mainConName">컨텐츠</h1>   
-                            <hr class="mainConBar" />
+                            <h1 class="mainConName">결제 내역</h1>
+                            <hr class="mainConBar" style="width: 245px;" />
+                            <div class="row">
+                                <div class="col" style="margin-left: 280px;">
+                                    <a th:href="@{/pay/paychk.do}">전체 내역</a>
+                                    <a th:href="@{/pay/paychk.do(type=token)}">토큰 내역</a>
+                                    <a th:href="@{/pay/paychk.do(type=membership)}">멤버쉽 내역</a>
+                                </div>
+                            </div>
+
+
 
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row pt-5">
+                        <div class="col-1">
+
+                        </div>
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
-                            
+                            <div th:if="${param.type == null}">
+                                <div th:each="obj:${plist}" style="color: white;">
+
+                                    <label th:text="${obj.type}"></label>
+                                    <label th:text="${obj.regdate}"></label>
+                                    <label th:text="${obj.member.id}"></label>
+                                    <label th:text="${obj.fee.grade}"></label>
+                                    <label th:text="${obj.chargetoken.token}"></label>
+                                    <hr>
+
+                                </div>
+                            </div>
+                            <div th:if="${param.type != null and #strings.equals(param.type,'token')}">
+                                <div th:each="obj:${tlist}" style="color: white;">
+
+                                    <label th:text="${obj.type}"></label>
+                                    <label th:text="${obj.regdate}"></label>
+                                    <label th:text="${obj.member.id}"></label>
+                                    <label th:text="${obj.fee.grade}"></label>
+                                    <label th:text="${obj.chargetoken.token}"></label>
+                                    <hr>
+
+                                </div>
+                            </div>
+                            <div th:if="${param.type != null and #strings.equals(param.type,'membership')}">
+                                <div th:each="obj :${mlist}" style="color: white;">
+
+                                    <label th:text="${obj.type}"></label>
+                                    <label th:text="${obj.regdate}"></label>
+                                    <label th:text="${obj.member.id}"></label>
+                                    <label th:text="${obj.fee.grade}"></label>
+                                    <label th:text="${obj.chargetoken.token}"></label>
+                                    <hr>
+
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,10 +246,19 @@
                 </div>
             </footer>
         </div>
-   </div>
-   <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+        integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
         </script>
+
+
 </body>
+
 </html>
