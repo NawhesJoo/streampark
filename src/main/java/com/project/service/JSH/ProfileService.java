@@ -29,4 +29,7 @@ public interface ProfileService {
     // 닉네임 변경
     public int updateNickname(String nickname, String newNickname, String profilepw);
 
+    // 암호 없는 프로필 닉네임 변경
+    public int updateNickname1(String nickname, String newNickname);
+
 }

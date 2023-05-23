@@ -1,6 +1,6 @@
 package com.project.controller.JSH;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.entity.Member;
 import com.project.entity.Profile;
@@ -65,57 +66,85 @@ public class ProfileController {
     }
 
     @PostMapping(value = "/create.do")
-    public String createPOST(@ModelAttribute("profile") Profile profile,
-        HttpSession session) {
-    // 세션에서 멤버 ID 가져오기
-    // String memberId = (String) session.getAttribute("id");
-    String memberId = "12";
+        public String createPOST(@ModelAttribute("profile") Profile profile,
+            @RequestParam("nickname") String nickname,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        // 세션에서 멤버 ID 가져오기
+        // String memberId = (String) session.getAttribute("id");
+        String memberId = "1";
 
-    // 프로필 정보 설정
-    Member member = new Member();
-    member.setId(memberId);
-    profile.setMember(member);
-    log.info("profile =>", profile);
-    // 프로필 저장
-    pRepository.save(profile);
+        // 프로필 정보 설정
+        Member member = new Member();
+        member.setId(memberId);
+        profile.setMember(member);
+        profile.setNickname(nickname);
+        log.info("profile =>", profile);
+        // 프로필 저장
+        pRepository.save(profile);
 
-    // 프로필 생성 후 리다이렉트할 페이지 지정
-    return "/JSH/hometest";
-    }   // 완료
+        // 프로필 생성 후 리다이렉트할 페이지 지정
+        return "redirect:/profile/profilelist.do";
+        }   // 완료
+
+
+    // // 닉네임 중복 확인
+    // @PostMapping(value = "/checkDuplicate")
+    // @ResponseBody
+    // public ResponseEntity<String> checkDuplicate(@RequestParam("nickname") String nickname) {
+    //     if (pService.countByNickname(nickname) != 0) {
+    //         return ResponseEntity.ok("duplicate");
+    //     } else {
+    //         return ResponseEntity.ok("unique");
+    //     }
+    // }
+
 
     // 프로필 로그인
     @GetMapping(value = "/login.do")
-    public String loginGET(Model model, @RequestParam(name = "profileno") BigDecimal profileno,
-        @RequestParam(name = "nickname", required = false) String nickname) {
-        model.addAttribute("profileno", profileno);
+    public String loginGET(@RequestParam(name = "nickname", required = false) String nickname,
+        Model model, HttpSession session) {
         model.addAttribute("nickname", nickname);
+        Profile profile1 = pRepository.findByNickname(nickname);
+        if(profile1.getProfilepw() == null){
+            
+            session.setAttribute("nickname", nickname);
+            
+            return "redirect:/profile/home.do";
+        }
         return "/JSH/logintest";
     }
     
 
     @PostMapping(value = "/login.do")
-    public String loginPOST(@RequestParam("nickname") String nickname,
-            @RequestParam(value = "profilepw", required = false) String profilePw, Model model, HttpSession session) {
-        session.getAttribute(nickname);
-        if (profilePw == null || profilePw.isEmpty()) {
-            session.setAttribute("nickname", nickname);
-            return "redirect:/profile/home.do";
-        } else {
-            pService.loginProfile(nickname, profilePw);
-            session.setAttribute("nickname", nickname);
+        public String loginPOST(@RequestParam("nickname") String nickname,
+            @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session) {
+            Profile profile1 = pRepository.findByNickname(nickname);
+            BigInteger profileno = profile1.getProfileno();
+            try{
+                if (bcpe.matches(profilepw, profile1.getProfilepw())) {
+                    pService.loginProfile(nickname, profilepw);
+                    session.setAttribute("profileno", profileno);
+                    session.setAttribute("nickname", nickname);
+                }
+                return "redirect:/profile/home.do";
+            } catch (Exception e){
+                e.printStackTrace();
+                return "redirect:profile/login.do";
+            }
         }
-        log.info("nickname => {}", nickname.toString());
-        log.info("profilePw => {}", profilePw.toString());
-        return "/profile/home.do";
-    }
+    
+
 
     @GetMapping(value = "/home.do")
-    public String showHomePage(HttpSession session) {
-        String nickname = (String) session.getAttribute("nickname");
-        if (nickname != null) {
-            return "/JSH/hometest"; // 로그인된 경우 홈 페이지 경로
-        } else {
-            return "redirect:/profile/login.do"; // 로그인되지 않은 경우 로그인 폼으로 리다이렉트
+        public String showHomePage(HttpSession session) {
+            String nickname = (String) session.getAttribute("nickname");
+            log.info("nickname => {}",nickname);
+            log.info("{}",session.getAttribute("profileno"));
+            if (nickname != null) {
+                return "/JSH/hometest"; // 로그인된 경우 홈 페이지 경로
+            } else {
+                return "redirect:/profile/login.do"; // 로그인되지 않은 경우 로그인 폼으로 리다이렉트
+            }
         }
-    }
 }

@@ -5,20 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로필 생성</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 <body>
     <h3>프로필 생성</h3>
-    <form th:action="@{/profile/create.do}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/profile/create.do}" method="post" enctype="multipart/form-data" id="profileForm" onsubmit="return checkDuplicate()">
         <div class="col-5">
             <div class="mb-3">
                 <label for="ex_file" style="background-image: url(./Z-BG-IMAGE/default.png);"></label>
                 <input type="file" name="tmpfile" accept="image/*"/><br />
             </div>
             <div class="mb-3">
-                <input type="text" name="memberid" placeholder="아이디"><br />
-            </div>
-            <div class="mb-3">
-                <input type="text" name="nickname" placeholder="닉네임"><br />
+                <input type="text" name="nickname" id="nickname" placeholder="닉네임" required><br />
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">관심 키워드</label>

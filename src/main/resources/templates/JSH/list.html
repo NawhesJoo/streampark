@@ -11,7 +11,7 @@
     <hr />
     <table>
         <tr th:each="obj : ${list}">
-            <a th:href="@{/profile/login.do(profileno=${obj.profileno}, nickname=${obj.nickname})}">
+            <a th:href="@{/profile/login.do(nickname=${obj.nickname})}">
                     <span th:text="${obj.nickname}"></span>
             </a>
         </tr>

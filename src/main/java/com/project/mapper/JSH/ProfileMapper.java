@@ -21,10 +21,16 @@ public interface ProfileMapper {
     })
     public int updateNickname(@Param("nickname") String nickname, @Param("newnickname") String newNickname, @Param("profilepw") String profilepw);
 
+    @Update ({
+        "UPDATE Profile SET nickname = #{newnickname} WHERE nickname = #{nickname}"
+    })
+    public int updateNickname1(@Param("nickname") String nickname, @Param("newnickname") String newNickname);
+
     @Insert ({
         " INSERT into profile (keyword, id, nickname) values (#{keyword}, #{id}, #{nickname}) "
     })
     public int createProfile(@Param("keyword") String keyword, @Param("id") String id, @Param("nickname") String nickname);
+
     @Select ({
         "SELECT * FROM Profile WHERE nickname = #{nickname} and profilepw = #{profilepw}"
     })

@@ -8,16 +8,20 @@
 </head>
 <body>
     <h3>mypage</h3>
+    <a th:href="@{/mypage/updatenickname.do}"><button>닉네임 변경</button></a>
+    <a th:href="@{/mypage/updatepw.do}"><button>암호 변경</button></a>
+    <a th:href="@{/mypage/updatenickname.do}"><button>선호 키워드 변경</button></a>
+    <a th:href="@{/mypage/updatenickname.do}"><button>프로필 이미지 수정</button></a>
+
     <h3>닉네임 변경</h3>
-    <form th:action="@{/profile/update.do}" method="post">
-        현재 닉네임: <input type="text" name="nickname" th:value="${obj.nickname}" readonly/><br />
+    <form th:action="@{/mypage/updatenickname.do}" method="post">
+        현재 닉네임: <input type="text" name="nickname" th:value="${session.nickname}" placeholder="nickname"readonly/><br />
         변경할 닉네임: <input type="text" name="newnickname" placeholder="변경할 닉네임"/><br />
         암호: <input type="password" name="profilepw" placeholder="암호"/><br />
         <input type="submit" value="변경">
     </form>
     <br />
 
-    <h3>암호 변경</h3>
     
 </body>
 </html>

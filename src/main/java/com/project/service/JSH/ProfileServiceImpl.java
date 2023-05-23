@@ -48,4 +48,9 @@ public class ProfileServiceImpl implements ProfileService{
         return pMapper.loginProfile(nickname, profilepw);
     }
 
+    @Override
+    public int updateNickname1(String nickname, String newNickname) {
+        return pMapper.updateNickname1(nickname, newNickname);
+    }
+
 }
