@@ -3,7 +3,6 @@ package com.project.controller.jang;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.project.dto.Search;
 import com.project.entity.Watchlist;
 import com.project.repository.JangRepositories.WatchlistRepository;
 
@@ -57,36 +55,17 @@ public class WatchlistController {
 
     // 127.0.0.1:9090/streampark/watchlist/selectlist.do
     @GetMapping(value = "/selectlist.do")
-    public String selectGET(Model model, @ModelAttribute Watchlist watchlist, @ModelAttribute Search obj) {
-        try {
-            // 페이지네이션
-            if(obj.getPage() == 0) {
-                return "redirect:/watchlist/selectlist.do?page=1&type=title&text=";
-            }
-            PageRequest pageRequest = PageRequest.of((obj.getPage()-1), 10);
+    public String selectGET(Model model, @RequestParam(name = "text", required = false) String text) {
+            try {
+                
+                List<Watchlist> list2 = wlRepository.findByVideolist_keywordIgnoreCaseContainingOrderByViewdateDesc(text);
+                List<Watchlist> list = wlRepository.findByProfile_profilenoOrderByViewdateDesc(profileno);
+                // log.info(format,videolist.toString());
+                model.addAttribute("list", list);
+                model.addAttribute("list2", list2);
+                // model.addAttribute("pages", (total-1) + 1 / 10);
 
-            // 제목 검색
-            List<Watchlist> list2 = wlRepository.findByVideolist_titleIgnoreCaseContainingOrderByViewdateDesc(obj.getText(), pageRequest);
-            // long total = wlRepository.countByVideolist_titleContaining(obj.getText());
-
-            // PD 검색
-            if(obj.getType().equals("pd")) {
-                list2 = wlRepository.findByVideolist_pdIgnoreCaseContainingOrderByViewdateDesc(obj.getText(), pageRequest);
-                // total = wlRepository.countByVideolist_pdContaining(obj.getText());
-            }
-            else if(obj.getType().equals("chkage")) {
-                list2 = wlRepository.findByVideolist_chkageIgnoreCaseContainingOrderByViewdateDesc(obj.getText(), pageRequest);
-                // total = wlRepository.countByVideolist_chkageContaining(obj.getText());
-            }
-            // log.info(format, profileno);
-            log.info(format, list2.toString());
-            List<Watchlist> list = wlRepository.findByProfile_profilenoOrderByViewdateDesc(profileno);
-            model.addAttribute("list", list);
-            model.addAttribute("list2", list2);
-            model.addAttribute("search", obj);
-            // model.addAttribute("pages", (total-1) + 1 / 10);
-
-            return "/jang/watchlist/selectlist";
+                return "/jang/watchlist/selectlist";
         }
         catch(Exception e) {
             e.printStackTrace();
