@@ -41,7 +41,7 @@ public class RestQnAController {
 
             log.info("password = {}", bcpe.encode(board.getPassword()));
             if (bcpe.matches(board.getPassword(), ret.getPassword())) {
-                // 삭제 작업 수행
+                // 수정 작업 수행
                 qnaService.updateBoard(board);
                 retMap.put("status", 200);
                 retMap.put("ret", 1);

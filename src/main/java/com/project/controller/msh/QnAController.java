@@ -67,7 +67,7 @@ public class QnAController {
     // 문의글 조회
     @GetMapping(value="/selectone.do")
     public String selectoneGET(Model model,@RequestParam(name = "no") Long no){
-        log.info("no = {}",no);
+        // log.info("no = {}",no);
         com.project.dto.Board board = qnaService.selectoneBoard(no);
         // log.info(format, board.toString());
         model.addAttribute("board", board);
