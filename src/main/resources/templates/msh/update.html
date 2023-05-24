@@ -6,19 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>문의글수정</title>
-    
+
 </head>
+
 <body>
     <div>
         <h3>문의글글수정</h3>
         <hr />
         <form th:action="@{/board/update.do}" method="post">
-            <input type="text" name="title" th:value="${obj.title}"><br/>
-            <input type="text" name="content" th:value="${obj.content}"><br/>
-            <input type="text"  th:value="${obj.regdate}" readonly><br/>
+            <input type="text" name="title" th:value="${obj.title}"><br />
+            <div id="content_div">
+                <textarea class="form-control" style="height:100%; width:100%;" maxlength='1000' id="content"
+                    name="content" th:value="${obj.content}"></textarea>
+            </div><br />
+            <input type="text" th:value="${obj.regdate}" readonly><br />
             <input type="submit" value="수정">
         </form>
 
     </div>
 </body>
+
 </html>

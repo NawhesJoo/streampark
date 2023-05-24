@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #modal1,#modal2 {
+        #modal1,
+        #modal2 {
             display: none;
             z-index: 1;
             background-color: rgba(0, 0, 0, .3);
@@ -66,7 +67,7 @@
             <input type='button' value='X' class="close" id='btnClose' onclick="closeModal()" />
             <label>암호를 입력해 주세요.</label><br />
             <input type='password' id='passwordInput1' />
-            <input type='button' value='수정하기' id='btnCheck' onclick="updatePassword()" />
+            <input type='button' value='수정하기' id='btnCheck' onclick="updateCheck()" />
         </div>
     </div>
     <!-- 삭제모달 -->
@@ -75,7 +76,7 @@
             <input type='button' value='X' class="close" id='btnClose' onclick="closeModal()" />
             <label>암호를 입력해 주세요.</label><br />
             <input type='password' id='passwordInput2' />
-            <input type='button' value='삭제하기' id='btnCheck' onclick="deletePassword()" />
+            <input type='button' value='삭제하기' id='btnCheck' onclick="deleteCheck()" />
         </div>
     </div>
 
@@ -100,20 +101,21 @@
             modal2.style.display = "none";
         }
 
+
         // 수정함수
-        async function updatePassword() { //함수는 자동으로 호출되지 않음.
+        async function updateCheck() {
             const passwordInput = document.getElementById('passwordInput1');
-            const password = passwordInput.value;
-            const url = /*[[@{/api/qna/update.do}]]*/"";
-            const body = { profileno: "87",no: /*[[${board.no}]]*/"", password: password };
+            const password = passwordInput.value;//passwordInput1의 value를 password로 저장
+            const url = /*[[@{/qna/update.do}]]*/""; //여기로 가서
+            const body = { profileno: "87", no: /*[[${board.no}]]*/"", password: password };
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.put(url, { headers: headers, data: body }); //@UpdateMapping
             console.log('result', data); //status,ret 찍어서 나옴
 
-            if(data.ret==1){ // 수정 성공 시 처리
+            if (data.ret == 1) { // 수정 성공 시 처리
                 alert('수정.');               //알람뜨고
                 modal1.style.display = "none";          //모달창 꺼지고
-                window.location.href="selectone.do?no="+no;   //해당 글로 감
+                window.location.href = "update.do?no=" + no;   //해당 글로 감
             } else { // 수정 실패 시 처리
                 alert('비밀번호가 틀립니다.');
                 modal1.style.display = "none";
@@ -121,19 +123,19 @@
         }
 
         //삭제 함수
-        async function deletePassword() { //함수는 자동으로 호출되지 않음.
+        async function deleteCheck() {
             const passwordInput = document.getElementById('passwordInput2');
             const password = passwordInput.value;
-            const url = /*[[@{/api/qna/delete.do}]]*/"";
-            const body = { profileno: "87",no: /*[[${board.no}]]*/"", password: password };
+            const url = /*[[@{/api/qna/delete.do}]]*/""; // 통신할 웹문서
+            const body = { profileno: "87", no: /*[[${board.no}]]*/"", password: password };
             const headers = { "Content-Type": "application/json" };
-            const { data } = await axios.delete(url, { headers: headers, data: body }); //@DeleteMapping
+            const { data } = await axios.delete(url, { headers: headers, data: body }); // 인자로 보낼 데이터, @DeleteMapping
             console.log('result', data); //status,ret 찍어서 나옴
 
-            if(data.ret==1){ // 삭제 성공 시 처리
+            if (data.ret == 1) { // 삭제 성공 시 처리
                 alert('삭제되었습니다.');               //알람뜨고
                 modal2.style.display = "none";          //모달창 꺼지고
-                window.location.href="selectlist.do";   //목록으로 감
+                window.location.href = "selectlist.do";   //목록으로 감
             } else { // 삭제 실패 시 처리
                 alert('비밀번호가 틀립니다.');
                 modal2.style.display = "none";
@@ -143,12 +145,12 @@
         // function getPassword() {
         //     return document.getElementById('passwordInput').value; // 모달에서 비밀번호 입력값을 ID를 사용하여 값을 가져옴
         // }
-        // 게시글 삭제
+        // 게시글 수정
         // Ajax 요청 보내기
-        // function checkPassword() {
+        // function updateCheck() {
         //     var password = $('#passwordInput').val(); //passwordInput에 입력받은 값을 password로 지정
         //     $.ajax({
-        //         url: '/delete.do', // 비밀번호를 체크할 서버의 컨트롤러 경로 delete인지 selectone 인지
+        //         url: '/update.do', // 비밀번호를 체크할 서버의 컨트롤러 경로 delete인지 selectone 인지
         //         method: 'POST',
         //         data: { password }, //: getPassword()
         //         success: function (result) { // 정상적으로 응답 받았을 경우
