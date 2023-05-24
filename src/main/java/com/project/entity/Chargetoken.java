@@ -1,12 +1,13 @@
 package com.project.entity;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -26,6 +27,6 @@ public class Chargetoken {
 
     //결제내역
     @ToString.Exclude
-    @OneToOne(mappedBy = "chargetoken", cascade = CascadeType.ALL , fetch =FetchType.LAZY)
-    private Paychk paychk;
+    @OneToMany(mappedBy = "chargetoken", cascade = CascadeType.ALL , fetch =FetchType.LAZY)
+    private List<Paychk> paychk;
 }

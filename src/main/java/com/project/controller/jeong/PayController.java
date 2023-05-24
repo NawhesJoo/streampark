@@ -57,7 +57,8 @@ public class PayController {
             obj.setFee(fee);
             obj.setMember(member);
             obj.setType("M");
-            obj.setChargetoken(chargetoken);
+            obj.setChargetoken(chargetoken);         
+            obj.setPrice(BigInteger.valueOf(price));   
             ret = jService.insertPaychkMembership(obj);
         } else if (token != 0) { // 토큰 결제시 
             chargetoken.setToken(String.valueOf(token)); // 받아온 토큰 갯수 설정
@@ -67,14 +68,15 @@ public class PayController {
             obj.setMember(member);
             obj.setType("T");
             obj.setChargetoken(chargetoken);
+            obj.setPrice(BigInteger.valueOf(price));   
             ret = jService.insertPaychkToken(obj);
         }
 
         if (ret == 1) {
-            return "redirect:/home/index.do";
+            return "redirect:/jeong/index.do";
 
         } else {
-            return "redirect:/home/index.do";
+            return "redirect:/jeong/index.do";
         }
 
     }
@@ -109,9 +111,11 @@ public class PayController {
         Profile profile = jService.findProfileById(88);
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         Paychk paychk = jService.findPaychkTopByRegdate();
+        Paychk paychk2 = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
 
         // log.info("membershipGET profile -> {}", profile);
         log.info("membershipGET paychk -> {}", paychk);
+        log.info("membershipGET paychk2 -> {}", paychk2);
 
         httpSession.setAttribute("id", member.getId());
         httpSession.setAttribute("nickname", profile.getNickname());
@@ -130,7 +134,7 @@ public class PayController {
         model.addAttribute("role", "C");
         model.addAttribute("token", member.getToken());
         model.addAttribute("currentTokens", member.getToken());
-        model.addAttribute("grade", 1);
+        model.addAttribute("grade", paychk.getFee().getGrade());
 
         return "/jeong/StreamPark_membership";
     }

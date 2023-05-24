@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(value = "/home")
+@RequestMapping(value = "/jeong")
 public class HomeContorller {
     final HttpSession httpSession;
     final JeongService jService;

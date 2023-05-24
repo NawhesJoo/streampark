@@ -26,5 +26,8 @@ public interface JeongService {
     //날짜 내림차순으로 한뒤 제일 최신것 가져오기
     Paychk findPaychkTopByRegdate();
 
+    //타입 아이디 검색 후 날짜 내림차순으로 한뒤 제일 최신것 가져오기
+    Paychk findPaychkMemberidAndTypeTopByRegdate(String id, String type);
+
 
 }
