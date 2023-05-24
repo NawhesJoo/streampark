@@ -1,7 +1,17 @@
 package com.project.controller.JSH;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +20,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.entity.Member;
 import com.project.entity.Profile;
+import com.project.entity.Profileimg;
 import com.project.mapper.JSH.ProfileMapper;
 import com.project.repository.ProfileRepository;
+import com.project.repository.ProfileimgRepository;
 import com.project.service.JSH.ProfileService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,8 +42,11 @@ public class ProfileMypageController {
     final ProfileMapper pMapper;
     final ProfileService pService;
     final ProfileRepository pRepository;
+    final ProfileimgRepository piRepository;
     final HttpSession httpSession;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+    @Value("${default.image}") String DEFAULTIMAGE;
+    final ResourceLoader resourceLoader;
     
     // 닉네임 변경
     @GetMapping(value = "/updatenickname.do")
@@ -157,9 +173,108 @@ public class ProfileMypageController {
             e.printStackTrace();
             return "/JSH/delete";
         }
+    }   // 완료
+
+
+    // 선호 키워드 변경
+    @GetMapping(value = "/updatekeyword.do")
+    public String updatekeywordGET(){
+        return "/JSH/updatekeyword";
     }
 
-    // 완료
+    @PostMapping(value = "/updatekeyword.do")
+    public String updatekeywordPOST(@ModelAttribute("profile") Profile profile,
+        @RequestParam("keyword") String keyword,
+        HttpSession session){
+            String nickname = (String) session.getAttribute("nickname");
+            Profile profile1 = pRepository.findByNickname(nickname);
+            profile1.setKeyword(keyword);
+            pRepository.save(profile1);
+            return "redirect:/mypage/updatenickname.do";
+    } // 완료
 
+
+    // 프로필 이미지
+
+    @GetMapping(value = "/profileimage")
+    public ResponseEntity<byte[]> image(@RequestParam(name = "profileno", defaultValue = "0") BigInteger profileno) throws IOException{
+        Profileimg obj = piRepository.findByProfile_Profileno(profileno);
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+
+        if( obj != null ){ // 이미지가 존재할 경우
+                headers.setContentType( MediaType.parseMediaType( obj.getFiletype() ) );
+                return new ResponseEntity<>( obj.getFiledata() , headers, HttpStatus.OK);
+        }
+        
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream(); // exception 발생됨.
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>( is.readAllBytes(), headers, HttpStatus.OK);
+    }
+
+    // 프로필 이미지 추가 및 수정
+    @GetMapping(value = "/profileimg.do")
+    public String profileimgGET(HttpSession session, Model model){
+        model.addAttribute("profileno", session.getAttribute("profileno")) ;
+        log.info("session => {}", session.getAttribute("profileno"));
+        return "/JSH/profileimg";
+    }
+
+
+    @PostMapping(value = "/profileimg.do")
+    public String profileimgPOST(@RequestParam(name="tmpfile") MultipartFile file, HttpSession session){
+
+        BigInteger profileno = (BigInteger) session.getAttribute("profileno");
+        Profileimg profileimg1 = piRepository.findByProfile_Profileno(profileno);
+        try{
+            if( file.isEmpty()){
+                return "redirect:/mypage/profileimg.do";
+            }
+            if(profileimg1 != null){
+            profileimg1.setFilesize( BigInteger.valueOf(file.getSize()) );
+            profileimg1.setFiledata( file.getInputStream().readAllBytes() );
+            profileimg1.setFiletype( file.getContentType() );
+            profileimg1.setFilename( file.getOriginalFilename() );
+
+            piRepository.save(profileimg1);
+            return "redirect:/mypage/profileimg.do";
+            }
+                Profileimg profileimg = new Profileimg();
+                Profile profile = new Profile();
+
+                profileimg.setFilesize( BigInteger.valueOf(file.getSize()) );
+                profileimg.setFiledata( file.getInputStream().readAllBytes() );
+                profileimg.setFiletype( file.getContentType() );
+                profileimg.setFilename( file.getOriginalFilename() );
+                
+                profile.setProfileno(profileno);
+                profileimg.setProfile(profile);
+                piRepository.save(profileimg);
+                return "redirect:/mypage/profileimg.do";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "redirect:/mypage/profileimg.do";
+        }
+    } // 완료
+
+
+
+    // 프로필 이미지 삭제
+    @PostMapping(value = "/deleteprofileimg.do")
+    public String deleteprofileimgPOST(HttpSession session){
+        BigInteger profileno = (BigInteger) session.getAttribute("profileno");
+        Profileimg profileimg = piRepository.findByProfile_Profileno(profileno);
+        try{
+            if(profileimg != null){
+            pService.deleteProfileimg(profileno);
+            return "redirect:/mypage/profileimg.do";
+            }
+            return "redirect:/mypage/profileimg.do";
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return "redirect:/mypage/profileimg.do";
+        }
+    }
 
 }

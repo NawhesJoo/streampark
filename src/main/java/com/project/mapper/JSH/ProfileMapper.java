@@ -46,4 +46,9 @@ public interface ProfileMapper {
         "DELETE FROM profile WHERE nickname = #{nickname}"
     })
     public int deleteProfileNoPw(@Param("nickname") String nickname);
+
+    @Update ({
+        "UPDATE Profile SET keyword = #{keyword} WHERE nickname = #{nickname}"
+    })
+    public int updateKeyword(@Param("nickname") String nickname, @Param("keyword") String keyword);
 }

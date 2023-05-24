@@ -1,12 +1,16 @@
 package com.project.mapper.JSH;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.math.BigInteger;
 
-import com.project.dto.Profileimg;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ProfileimgMapper {
     
-    // 이미지 등록
-    public int insertProfileimgOne(Profileimg obj);
+    // 이미지 삭제
+    @Delete ({
+        "DELETE from Profileimg WHERE profileno = #{profileno}"
+    })
+    public int deleteProfileimg(BigInteger profileno);
 }

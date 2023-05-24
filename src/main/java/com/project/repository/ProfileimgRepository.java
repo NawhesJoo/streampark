@@ -12,5 +12,5 @@ import com.project.entity.Profileimg;
 public interface ProfileimgRepository extends JpaRepository<Profileimg, BigDecimal>{
     
     Profileimg findByProfile_Profileno(BigInteger profileno);
-    
+
 }

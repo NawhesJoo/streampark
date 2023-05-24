@@ -1,6 +1,5 @@
 package com.project.controller.JSH;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.entity.Member;
 import com.project.entity.Profile;
@@ -49,6 +47,8 @@ public class ProfileController {
             List<Profile> list = pService.selectprofile(id);
             model.addAttribute("list", list);
             log.info("list => {}", list.toString());
+            session.removeAttribute("nickname");
+            session.removeAttribute("profileno");
             return "/JSH/list";
         }
         catch(Exception e){
@@ -68,8 +68,7 @@ public class ProfileController {
     @PostMapping(value = "/create.do")
         public String createPOST(@ModelAttribute("profile") Profile profile,
             @RequestParam("nickname") String nickname,
-            HttpSession session,
-            RedirectAttributes redirectAttributes) {
+            HttpSession session) {
         // 세션에서 멤버 ID 가져오기
         // String memberId = (String) session.getAttribute("id");
         String memberId = "1";
@@ -107,6 +106,7 @@ public class ProfileController {
         model.addAttribute("nickname", nickname);
         Profile profile1 = pRepository.findByNickname(nickname);
         if(profile1.getProfilepw() == null){
+            session.setAttribute("profileno", profile1.getProfileno());
             session.setAttribute("nickname", nickname);
             return "redirect:/profile/home.do";
         }
@@ -118,11 +118,10 @@ public class ProfileController {
         public String loginPOST(@RequestParam("nickname") String nickname,
             @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session) {
             Profile profile1 = pRepository.findByNickname(nickname);
-            BigInteger profileno = profile1.getProfileno();
             try{
                 if (bcpe.matches(profilepw, profile1.getProfilepw())) {
                     pService.loginProfile(nickname, profilepw);
-                    session.setAttribute("profileno", profileno);
+                    session.setAttribute("profileno", profile1.getProfileno());
                     session.setAttribute("nickname", nickname);
                 }
                 return "redirect:/profile/home.do";

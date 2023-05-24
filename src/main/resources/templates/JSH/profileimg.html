@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <a th:href="@{/mypage/updatenickname.do}"><button>닉네임 변경</button></a>
+    
+    <h3>프로필 이미지</h3>
+
+    <img th:src="@{/mypage/profileimage(profileno=${profileno})}">
+
+    <table>
+        <tbody>
+            <tr th:each=" imgurl : ${imageList}" style="display: inline-block;">
+                <td> <img th:src="${imgurl}" alt="" style="height: 150px; width: 150px;"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    이미지 등록
+    <form th:action="@{/mypage/profileimg.do}" method="post" enctype="multipart/form-data" onsubmit="return confirmUpload()">        
+        <input type="text" name="profileno" id="profileno" th:value="${session.profileno}" readonly>
+        <input type="file" name="tmpfile" accept="image/*" ><br>
+        <input type="submit" value="이미지 업로드">
+    </form>
+    <form th:action="@{/mypage/deleteprofileimg.do}" method="post" enctype="multipart/form-data">
+        <button onclick="confirmDelete(event)">이미지 삭제</button>
+    </form>
+        
+    <script>
+        function confirmUpload() {
+            return confirm("이미지를 등록하시겠습니까?");
+        }
+
+        function confirmDelete(event) {
+            event.preventDefault(); // 기본 동작(폼 제출)을 중지
+
+            if (confirm("이미지를 삭제하시겠습니까?")) {
+                // 확인 버튼을 눌렀을 때 수행할 동작을 여기에 작성
+                event.target.closest('form').submit(); // 현재 폼 제출
+            }
+            // 취소 버튼을 눌렀을 때 아무 동작도 하지 않음
+        }
+    </script>
+
+</body>
+</html>

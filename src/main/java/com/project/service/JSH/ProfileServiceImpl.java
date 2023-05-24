@@ -1,13 +1,17 @@
 package com.project.service.JSH;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Profiledto;
 import com.project.entity.Profile;
+import com.project.entity.Profileimg;
 import com.project.mapper.JSH.ProfileMapper;
+import com.project.mapper.JSH.ProfileimgMapper;
 import com.project.repository.ProfileRepository;
+import com.project.repository.ProfileimgRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 public class ProfileServiceImpl implements ProfileService{
     
     final ProfileRepository pRepository;
+    final ProfileimgRepository piRepository;
     final ProfileMapper pMapper;
+    final ProfileimgMapper piMapper;
     
     @Override
     public int createProfile(String keyword, String id, String nickname) {
@@ -61,6 +67,21 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public int deleteProfileNoPw(String nickname) {
         return pMapper.deleteProfileNoPw(nickname);
+    }
+
+    @Override
+    public int updateKeyword(String nickname, String keyword) {
+        return pMapper.updateKeyword(nickname, keyword);
+    }
+
+    @Override
+    public Profileimg findByProfile_profileno(BigInteger profileno) {
+        return piRepository.findByProfile_Profileno(profileno);
+    }
+
+    @Override
+    public int deleteProfileimg(BigInteger profileno) {
+        return piMapper.deleteProfileimg(profileno);
     }
 
 }

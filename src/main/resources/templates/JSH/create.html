@@ -10,12 +10,8 @@
 </head>
 <body>
     <h3>프로필 생성</h3>
-    <form th:action="@{/profile/create.do}" method="post" enctype="multipart/form-data" id="profileForm" onsubmit="return checkDuplicate()">
+    <form th:action="@{/profile/create.do}" method="post" id="form">
         <div class="col-5">
-            <div class="mb-3">
-                <label for="ex_file" style="background-image: url(./Z-BG-IMAGE/default.png);"></label>
-                <input type="file" name="tmpfile" accept="image/*"/><br />
-            </div>
             <div class="mb-3">
                 <input type="text" name="nickname" id="nickname" placeholder="닉네임" required><br />
             </div>
@@ -33,8 +29,26 @@
                     <option value="버라이어티">버라이어티</option>
                 </select> 
             </div>
-            <button type="submit">프로필 생성</button>
+            <button type="button" th:onclick="checkNickname()">프로필 생성</button>
+            
         </div>
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:inline="javascript">
+
+        async function checkNickname() {
+            const url = "[[@{/api/profile/nickname.do}]]";
+            const headers = {"Content-Type":"application/json"};
+            const { data } = await axios.get(url, { headers:headers });
+
+            if(data.status === 200){
+                document.getElementById('form').submit();
+            }
+            else{
+                alert(data.message);
+            }
+        }
+    </script>
 </body>
 </html>
