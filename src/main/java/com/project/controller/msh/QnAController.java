@@ -66,27 +66,13 @@ public class QnAController {
 
     // 문의글 조회
     @GetMapping(value="/selectone.do")
-    public String selectoneGET(Model model,@RequestParam(name = "no") BigInteger no){
+    public String selectoneGET(Model model,@RequestParam(name = "no") Long no){
+        log.info("no = {}",no);
         com.project.dto.Board board = qnaService.selectoneBoard(no);
-        log.info(format, board.toString());
+        // log.info(format, board.toString());
         model.addAttribute("board", board);
         return "/msh/selectone";
     }
     
-    // 글삭제
-    // @PostMapping(value = "/delete.do")
-    // public String delete(@RequestParam(name = "no") Long no) {
-    //     try {
-    //         com.project.dto.Board board = new com.project.dto.Board();
-	//         board.setNo(no); //dto Biginteger
-      
-    //         int ret = qnaService.deleteBoard(no);
-    //         log.info("ret = ", ret);
-    //         return "redirect:/selectlist.do";
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return "redirect:/home.do";
-    //     }
-    // }
 
 }

@@ -36,7 +36,7 @@ public class QnaServiceImpl implements QnaService {
 
     // 문의글 조회
     @Override
-    public Board selectoneBoard(BigInteger no) {
+    public Board selectoneBoard(Long no) {
         try {
             return qnaMapper.selectoneBoard(no);
         } catch (Exception e) {
@@ -58,9 +58,9 @@ public class QnaServiceImpl implements QnaService {
 
     // 문의글 삭제
     @Override
-    public int deleteBoard(Long no) {
+    public int deleteBoard(Board board) {
         try {
-            return qnaMapper.deleteBoard(no);
+            return qnaMapper.deleteBoard(board);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

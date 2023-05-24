@@ -10,17 +10,17 @@
     </insert>
     
     <!-- 문의글 조회 -->
-     <select id="selectoneBoard" parameterType="BigInteger" resultType="com.project.dto.Board">
-        SELECT b.no, b.title, b.profileno, b.content, b.regdate FROM BOARD b WHERE no=#{no}
+     <select id="selectoneBoard" parameterType="Long" resultType="com.project.dto.Board">
+        SELECT b.* FROM BOARD b WHERE no=#{no}
     </select>
 
     <!-- 문의글 수정 -->
     <update id="updateBoard" parameterType="com.project.dto.Board">
-        UPDATE BOARD SET title=#{title}, content=#{content} WHERE no=#{no} AND password=#{password}
+        UPDATE BOARD SET title=#{title}, content=#{content} WHERE no=#{no} AND profileno=#{profileno}
     </update>
 
     <!-- 문의글 삭제 -->
     <delete id="deleteBoard" parameterType="com.project.dto.Board">
-        DELETE FROM BOARD WHERE no=#{no}
+        DELETE FROM BOARD WHERE no=#{no} AND profileno=#{profileno}
     </delete>
 </mapper>
