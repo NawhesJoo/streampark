@@ -48,16 +48,16 @@ public interface DHService {
 	// // public List<Videolist> selectVideoList(@Param("column") String column, 
 	// // 		@Param("text")String text);
 	
-	// //고객용 영상 검색
-	// public List<VideolistView>  videolistSearch(String comboboxvalue, String  search);
-	// //고객용 영상 분류검색
-	// public List<VideolistView>  videolistGroupSearch(String category);
-	// //고객용 영상 분류하위장르검색
-	// public List<VideolistView>  videolistGroupKeywordButton(String category, String genre);
-	// //고객용 영상 연령제한
-	// public Videolist  videolistCHKage(Long videocode);
-	// //고객용 영상 작품 개봉날짜 순서로 정렬
-	// public List<VideolistView>  videolistRecently();
+	//고객용 영상 검색
+	public List<Videolistdto>  videolistSearch(String comboboxvalue, String  search);
+	//고객용 영상 분류검색
+	public List<Videolistdto>  videolistGroupSearch(String category);
+	//고객용 영상 분류하위장르검색
+	public List<Videolistdto>  videolistGroupKeywordButton(String category, String genre);
+	//고객용 영상 연령제한
+	public Videolist  videolistCHKage(Long videocode);
+	//고객용 영상 작품 개봉날짜 순서로 정렬
+	public List<Videolist>  videolistRecently(BigInteger episode);
 
 
 	// //작품 사진 등록

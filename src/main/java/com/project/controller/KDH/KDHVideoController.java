@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.dto.Actorsdto;
-import com.project.dto.Videoimgdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
 import com.project.entity.Member;
@@ -60,7 +59,6 @@ public class KDHVideoController {
             return "redirect:/kdh/error.do";
         }
     }
-
     @PostMapping(value = "/videoinsert.do")
     public String videoinsertPOST(@ModelAttribute Videolistdto videolist) {
         try {
@@ -75,7 +73,6 @@ public class KDHVideoController {
             return "redirect:/kdh/error.do";
         }
     }
-
     @GetMapping(value = "/videoupdate.do")
     public String videoupdateGET(@RequestParam(name = "title") String title, Model model) {
         try {
@@ -89,7 +86,6 @@ public class KDHVideoController {
             return "redirect:/kdh/error.do";
         }
     }
-
     @PostMapping(value = "/videoupdate.do")
     public String videoupdatePOST(Model model,@ModelAttribute Videolistdto videolist, @RequestParam(name = "title") String title,@RequestParam(name="nowtitle") String nowtitle) {
         try {
@@ -103,19 +99,17 @@ public class KDHVideoController {
             return "redirect:/kdh/error.do";
         }
     }
-
     @GetMapping(value = "/home.do")
     public String homeGET(Model model) {
         List<Videolistdto> list = dhService.selectvideolist();
         for(Videolistdto obj :list){
-            System.out.println(obj.getVideocode());
+            // System.out.println(obj.getVideocode());
            Long imgno =dhService.selectvideoimgOne((obj.getVideocode()));
             obj.setImgno(imgno);
         }
         model.addAttribute("list", list);
         return "/KDH/StreamPark_home";
     }
-
     @GetMapping(value = "/selectone.do")
     public String selectoneGET(@RequestParam(name = "title") String title, Model model) {
         BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
@@ -123,6 +117,7 @@ public class KDHVideoController {
         model.addAttribute("video", video);
         return "/KDH/StreamPark_selectone";
     }
+    //배우관리 ------------------------------------------------------------------------------------
     @GetMapping(value = "/manageactor.do")
     public String manageactorGET(@RequestParam(name = "title") String title, Model model) {
         try {
@@ -153,16 +148,16 @@ public class KDHVideoController {
     @PostMapping(value = "/castsinsert.do")
     public String castsinsertPOST(@RequestParam(name="title") String title, @RequestParam(name = "chk[]") String[] chk){
         try {
-            System.out.println(title);
+            // System.out.println(title);
             BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
-            System.out.println(chk.length);
+            // System.out.println(chk.length);
             for(int i=0; i<chk.length; i++){
                 Videolistdto videolist =new Videolistdto();
                 Actorsdto actors = new Actorsdto();
                 videolist.setVideocode(videocode.longValue());
                 actors.setActors_No(Long.parseLong(chk[i]));
-                System.out.println(chk[i]);
-                System.out.println(videocode);
+                // System.out.println(chk[i]);
+                // System.out.println(videocode);
                BigInteger epi= videolistRepository.countByTitle(title);
                 if(dhService.castsInsertactorchk(Long.parseLong(chk[i]), videocode.longValue())<=0){
                     for(int j=0; j<epi.intValue(); j++){
@@ -224,7 +219,7 @@ public class KDHVideoController {
         
     }
     
-
+    //이미지 관리 --------------------------------------------------------------------------------------------------
     @GetMapping(value = "/image")
     public ResponseEntity<byte[]> image(@RequestParam(name = "no", defaultValue = "0") BigInteger no) throws IOException {
 
@@ -243,4 +238,72 @@ public class KDHVideoController {
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
     }
+
+
+    //작품검색------------------------------------------------------------------------------------------------------------
+    @GetMapping(value = "/search.do")
+    public String videosearchGET(@RequestParam(name ="searchtag" )String comboboxvalue, @RequestParam(name = "search") String search, Model model ){
+        try {
+            List<Videolistdto> list =dhService.videolistSearch(comboboxvalue, search);
+            for(Videolistdto obj :list){
+               Long imgno =dhService.selectvideoimgOne((obj.getVideocode()));
+                obj.setImgno(imgno);
+            }
+            model.addAttribute("list", list);
+            return "/KDH/StreamPark_search";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+    }
+    @GetMapping(value = "/group.do")
+    public String videogroupGET(@RequestParam(name ="group" )String category, Model model ){
+        try {
+            List<Videolistdto> list =dhService.videolistGroupSearch(category);
+            for(Videolistdto obj :list){
+               Long imgno =dhService.selectvideoimgOne((obj.getVideocode()));
+                obj.setImgno(imgno);
+            }
+            model.addAttribute("list", list);
+            return "/KDH/StreamPark_group";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+    }
+    @GetMapping(value = "/groupgenre.do")
+    public String videogroupgenreGET(@RequestParam(name ="group" )String category,@RequestParam(name = "genre") String genre ,Model model ){
+        try {
+            List<Videolistdto> list =dhService.videolistGroupKeywordButton(category, genre);
+            for(Videolistdto obj :list){
+               Long imgno =dhService.selectvideoimgOne((obj.getVideocode()));
+                obj.setImgno(imgno);
+            }
+            model.addAttribute("list", list);
+            return "/KDH/StreamPark_groupgenre";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+    }
+    @GetMapping(value = "/recent.do")
+    public String videorecentGET(Model model ){
+        try {
+            List<Videolist> list =dhService.videolistRecently(BigInteger.valueOf(1));
+            for(Videolist obj :list){
+               Long imgno =dhService.selectvideoimgOne((obj.getVideocode().longValue()));
+                obj.setImgno(imgno);
+            }
+            model.addAttribute("list", list);
+            return "/KDH/StreamPark_groupgenre";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+    }
+
 }

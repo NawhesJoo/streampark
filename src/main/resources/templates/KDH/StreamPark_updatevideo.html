@@ -53,21 +53,25 @@
               </svg>
         </button>
          <!--내비게이션 써치 -->
-         <div class="d-none d-md-inline-block form-inline ms-auto ">
-             <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
-                <option id="op" value="title">제목</option>
-                <option id="op" value="keyword">키워드</option>
-                <option id="op" value="castactor">배우</option>
-                <option id="op" value="pd">감독</option>
-            </select> 
-         </div>
-         <form class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group" >
-                <input id="searchInput" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..." aria-label="검색어 입력 ..."
-                    aria-describedby="btnSearch">
-                <button class="btn btn-warning" id="btnSearch" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
+         <form id="formsearch" th:action="@{/kdh/search.do}" method="get"  >
+            <div id="asd">
+                <div class="d-none d-md-inline-block form-inline ms-auto" >
+                    <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
+                        <option id="op" value="title">제목</option>
+                        <option id="op" value="keyword">키워드</option>
+                        <option id="op" value="castactor">배우</option>
+                        <option id="op" value="pd">감독</option>
+                    </select>
+                </div>
+                <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..."
+                            aria-label="검색어 입력 ..." aria-describedby="btnSearch">
+                        <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
    </nav>
@@ -95,9 +99,9 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" th:href="@{/kdh/genre.do(genre=movie)}">영화</a>
-                                    <a class="nav-link" th:href="@{/kdh/genre.do(genre=drama)}">>드라마</a>
-                                    <a class="nav-link" th:href="@{/kdh/genre.do(genre=animation)}">>애니</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=드라마)}">>드라마</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=애니)}">>애니</a>
                                     <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
                                     <a class="nav-link" th:href="@{/kdh/best.do}">best</a>
                                 </nav>

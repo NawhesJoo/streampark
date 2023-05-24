@@ -90,6 +90,30 @@ public interface KDHMapper {
 	})
 	public Long selectimgnotovideocode(@Param("videocode") Long videocode);
 
+		//작품검색(제목,키워드,감독,배우)
+	@Select({ "  SELECT *  FROM VIDEOLIST  WHERE EPISODE =1 AND ${comboboxvalue}  LIKE '%'||#{search}||'%'  " })
+	public List<Videolistdto> videolistSearch( @Param("comboboxvalue") String comboboxvalue,@Param("search") String search);
+	//분류 검색(영화, 드라마, 애니)
+	@Select({ "  SELECT v.* FROM VIDEOLIST v WHERE EPISODE =1 AND v.KEYWORD  LIKE '%'||#{category}||'%'  " })
+	public List<Videolistdto> videolistGroupSearch(@Param("category") String category);
+	//분류하위 항목 장르검색
+	@Select({ "  SELECT v.*  FROM VIDEOLIST v WHERE EPISODE =1 AND v.KEYWORD LIKE '%'||#{category}||'%' AND v.KEYWORD LIKE '%'||#{genre}||'%'  " })
+	public List<Videolistdto> videolistGroupKeywordButton(@Param("category") String category, @Param("genre") String genre);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //     //전체 영상 조회
 // 	@Select({
 // 		"  SELECT  * FROM VideolistView WHERE episode= 1   "

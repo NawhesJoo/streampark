@@ -36,6 +36,7 @@ public class Paychk {
     @CreationTimestamp
     private Date regdate;
 
+    private BigInteger price;
     //멤버
     @ToString.Exclude
     @ManyToOne(fetch=FetchType.LAZY)

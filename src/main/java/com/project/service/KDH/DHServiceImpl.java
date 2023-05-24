@@ -38,7 +38,6 @@ public class DHServiceImpl implements DHService {
             }
         }
     }
-
     // 비디오의 이름을 받아서 작품코드를 조회 episode가 1인것조회
     @Override
     public Videolist selectnofromtitle(String title) {
@@ -46,7 +45,6 @@ public class DHServiceImpl implements DHService {
         // BigInteger.valueOf(1)).getVideocode());
         return videolistRepository.findByTitleAndEpisode(title, BigInteger.valueOf(1));
     }
-
     // 조회된 비디오 코드로 비디오 리스트 뷰에서 비디오하나 조회
     @Override
     public VideolistView selectvideoOne(BigInteger videocode) {
@@ -54,9 +52,6 @@ public class DHServiceImpl implements DHService {
         return kdhMapper.selectVideoOne(videocode);
 
     }
-
-    
-
     // 회원의 권한 확인후 관리자 확인되면 작품의 이름똑같은 모든 비디오를 수정함
     @Override
     public void videolistUpdate(Member admin, Videolistdto obj, String nowtitle) {
@@ -68,7 +63,6 @@ public class DHServiceImpl implements DHService {
             kdhMapper.videolistUpdate(obj, nowtitle);
         }
     }
-
     @Override
     public void videolistDelete(Member admin, String title) {
         admin.setRole("a");
@@ -80,11 +74,11 @@ public class DHServiceImpl implements DHService {
         }
     }
 
+
     @Override
     public List<Videolistdto> selectvideolist() {
         return kdhMapper.selectvideolist();
     }
-
     @Override
     public int addactorinvideo(Videolistdto videocode, Actorsdto no) {
     //    Long epi = videocode.getEpisode();
@@ -93,47 +87,64 @@ public class DHServiceImpl implements DHService {
     //    }
        return 1;
     }
-
     @Override
     public int removeactorinvideo(Videolistdto videocode, Actorsdto no) {
         return kdhMapper.castsDeleteactor(videocode.getVideocode(), no.getActors_No());
     }
-
     @Override
     public List<Actorsdto> selectactors() {
         return kdhMapper.selectActors();
     }
-
     @Override
     public int addactorlist(String name) {
         return kdhMapper.actorInsert(name);
     }
-
     @Override
     public List<Long> selectactorsinvideo(BigInteger videocode) {
         return kdhMapper.selectActorsinvideo(videocode);
     }
-
     @Override
     public Actorsdto selectnotoname(Long no) {
         return kdhMapper.selectnotoname(no);
     }
-
     @Override
     public int castsInsertactorchk(Long actors_no, Long videocode) {
         return kdhMapper.castsInsertactorchk(actors_no, videocode);
     }
-
     @Override
     public List<Videolist> selectvideofordelete(String title) {
       List<Videolist> list=videolistRepository.findByTitle(title);
       return list;
     }
-
     @Override
     public Long selectvideoimgOne(Long videocode) {
-        System.out.println(kdhMapper.selectimgnotovideocode(videocode));
+        // System.out.println(kdhMapper.selectimgnotovideocode(videocode));
         return kdhMapper.selectimgnotovideocode(videocode);
+    }
+   
+   
+   
+    @Override
+    public List<Videolistdto> videolistSearch(String comboboxvalue, String search) {
+        return kdhMapper.videolistSearch(comboboxvalue, search);
+    }
+    @Override
+    public List<Videolistdto> videolistGroupSearch(String category) {
+       return kdhMapper.videolistGroupSearch(category);
+    }
+    @Override
+    public List<Videolistdto> videolistGroupKeywordButton(String category, String genre) {
+        return kdhMapper.videolistGroupKeywordButton(category, genre);
+    }
+    @Override
+    public Videolist videolistCHKage(Long videocode) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'videolistCHKage'");
+    }
+    @Override
+    public List<Videolist> videolistRecently(BigInteger episode) {
+        
+         return videolistRepository.findByEpisodeOrderByOpendateDesc(episode);
     }
 
 }

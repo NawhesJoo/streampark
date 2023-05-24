@@ -178,39 +178,26 @@
                             <table class="container table table-hover border border-dark">
                                 <thead style="background-color: lightgray;">
                                     <tr>
+                                        <th scope="col">이미지</th>
                                         <th scope="col">비디오코드</th>
                                         <th scope="col">제목</th>
                                         <th scope="col">키워드</th>
-                                        <th scope="col">PD</th>
-                                        <th scope="col">출연배우</th>
                                         <th scope="col">연령제한</th>
-                                        <th scope="col">개봉일자</th>
                                         <th scope="col">가격</th>
-                                        <th scope="col">등록일자</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                            <td scope="row" th:text="${video.videocode}"></td>
-                                            <td  th:text="${video.title}"></td>
-                                            <td  th:text="${video.keyword}"></td>
-                                            <td  th:text="${video.pd}"></td>
-                                            <td  th:text="${video.castactor}"></td>
-                                            <td  th:text="${video.chkage}"></td>
-                                            <td  th:text="${video.opendate}"></td>
-                                            <td  th:text="${video.price}" ></td>
-                                            <td  th:text="${video.regdate}"></td>
+                                        <tr th:each="one : ${list}">
+                                            <td><img th:src="@{/kdh/image(no=${one.imgno})}" style="width:50px; height: 50px;"></td>
+                                            <td scope="row" th:text="${one.videocode}"></td>
+                                            <td><a th:href="@{/kdh/selectone.do(title=${one.title})}"  th:text="${one.title}"></a></td>
+                                            <td  th:text="${one.keyword}"></td>
+                                            <td  th:text="${one.chkage}"></td>
+                                            <td  th:text="${one.price}" ></td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                                <a th:href="@{/kdh/videoupdate.do(title=${video.title})}"><button>영상수정</button></a>
-                                <button onclick="playchkage()">영상시청</button>
-                                <a th:href="@{/kdh/manageactor.do(title=${video.title})}"><button>배우관리</button></a>
-                                <form th:action="@{/kdh/videodelete.do}" method="post">
-                                    <input type="hidden" name="title" th:value="${video.title}">
-                                    <input type="submit" value="영상삭제">
-                                </form>
-                                
-                                <!-- --------------------------- -->
+                                </tbody>
+                            </table>
+                            <!-- --------------------------- -->
                         </div>
                     </div>
                 </div>
@@ -231,7 +218,7 @@
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
         </script>
         <script>
-             function searchaction() {
+function searchaction() {
             const searchtag = document.getElementById("searchtag");
             var form = document.getElementById("formsearch");
             var search = document.getElementById("search")

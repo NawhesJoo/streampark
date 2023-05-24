@@ -120,6 +120,10 @@ p {
     padding-left: 225px;
     top: 56px;
 }
+#formsearch{
+    margin-left: auto;
+}
+
 
 /* 전체 레이아웃 */
 #layoutTotal {
