@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.ReviewMapper"> <!-- Mapper명이 일치해야 함-->
+    <update id="reviewlikes" parameterType="java.util.Map">
+        UPDATE REVIEW SET likes=likes+1 WHERE review_no=#{no} AND profileno=#{pno}
+    </update>
+
+    <update id="reviewreport" parameterType="java.util.Map">
+        UPDATE REVIEW SET reportcnt=reportcnt+1 WHERE review_no=#{no} AND profileno=#{pno}
+    </update>
+
+    <select id="reviewreportselect" parameterType="long">
+        SELECT r.reportcnt FROM REVIEW r WHERE review_no=#{no}
+    </select>
+
+    <delete id="reviewreportdelete" parameterType="long">
+        DELETE FROM REVIEW WHERE review_no=#{no}
+    </delete>
+
+
+
+</mapper>
