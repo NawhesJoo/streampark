@@ -176,6 +176,7 @@
                             <form id="form1" action="groupgenre.do" method="get">
                                 <input type="hidden" name ="group" th:value="${param.group}"/>
                                         <select   id="comboboxvalue" onchange="changegenrevalue(this);">
+                                            <option  th:text="${genre}"></option>
                                             <option name="genre" value="" >전체</option>
                                             <option name="genre" value="액션">액션</option>
                                             <option name="genre" value="범죄">범죄</option>

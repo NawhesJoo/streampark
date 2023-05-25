@@ -20,5 +20,8 @@ public interface videolistRepository extends JpaRepository<Videolist, BigInteger
     BigInteger countByTitle(String title);
 
     List<Videolist> findByEpisodeOrderByOpendateDesc(BigInteger episode);
+
+    List<Videolist> findByTitleOrderByEpisodeAsc(String title);
+    
     
 }

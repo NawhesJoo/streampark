@@ -3,6 +3,7 @@ package com.project.controller.KDH;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.dto.Actorsdto;
+import com.project.dto.Memberdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
-import com.project.entity.Member;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
 import com.project.repository.KDH.VideoimgRepository;
@@ -62,7 +63,7 @@ public class KDHVideoController {
     @PostMapping(value = "/videoinsert.do")
     public String videoinsertPOST(@ModelAttribute Videolistdto videolist) {
         try {
-            Member member = new Member(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
+            Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
             member.setRole("a");
             log.info("{}", videolist.toString());
             log.info("{}회", videolist.getEpisode().intValue());
@@ -89,7 +90,7 @@ public class KDHVideoController {
     @PostMapping(value = "/videoupdate.do")
     public String videoupdatePOST(Model model,@ModelAttribute Videolistdto videolist, @RequestParam(name = "title") String title,@RequestParam(name="nowtitle") String nowtitle) {
         try {
-            Member member = new Member(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
+            Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
             member.setRole("a");
             dhService.videolistUpdate(member, videolist, nowtitle);
             return "redirect:/kdh/selectone.do?title="+videolist.getTitle();
@@ -114,9 +115,40 @@ public class KDHVideoController {
     public String selectoneGET(@RequestParam(name = "title") String title, Model model) {
         BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
         VideolistView video = dhService.selectvideoOne(videocode);
+        List<Videolist> list1 = videolistRepository.findByTitleOrderByEpisodeAsc(title);
         model.addAttribute("video", video);
+        model.addAttribute("list1", list1);
         return "/KDH/StreamPark_selectone";
     }
+
+    @PostMapping(value = "/chkage.do")
+    public String videoupdatePOST( Model model,@RequestParam(name = "title") String title, @RequestParam(name="epi") BigInteger episode ) {
+        try {
+            BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
+            Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
+            member.setBirth("1997-11-09");
+           int ret = dhService.videolistCHKage(videocode.longValue(), member);
+           title= URLEncoder.encode(title, "UTF-8");//redirect 한글깨짐현상 해결
+           if(ret ==1){
+               return "redirect:/kdh/videoplay.do?title="+title+"&episode="+episode;
+           }
+            else{
+                return "redirect:/kdh/selectone.do?title="+title;
+            }
+            // return "redirect:/kdh/home.do";
+                } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+    }
+    @GetMapping(value = "/videoplay.do")
+    public String videoplayGET(Model model,@RequestParam(name = "title") String title, @RequestParam(name="episode") BigInteger episode) {
+        Videolist link=videolistRepository.findByTitleAndEpisode(title, episode);
+        model.addAttribute("link", link);
+        // model.addAttribute("list1", list1);
+        return "/KDH/StreamPark_videoplay";
+    }
+
     //배우관리 ------------------------------------------------------------------------------------
     @GetMapping(value = "/manageactor.do")
     public String manageactorGET(@RequestParam(name = "title") String title, Model model) {
@@ -281,6 +313,7 @@ public class KDHVideoController {
                Long imgno =dhService.selectvideoimgOne((obj.getVideocode()));
                 obj.setImgno(imgno);
             }
+            model.addAttribute("genre",genre );
             model.addAttribute("list", list);
             return "/KDH/StreamPark_groupgenre";
             

@@ -6,26 +6,26 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Actorsdto;
+import com.project.dto.Memberdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
-import com.project.entity.Member;
 import com.project.entity.Videolist;
 
 @Service
 public interface DHService {
 
     //관리자용 영상 추가(회원의 권한 정보와, 비디오의 정보)---------------------------
-    public void videolistInsert(Member admin, Videolistdto obj);
+    public void videolistInsert(Memberdto admin, Videolistdto obj);
 	//작품이름으로 작품 코드 조회(영상을 조회하기위한 작품이름으로 작품코드 조회)
 	public Videolist selectnofromtitle(String title);
 	//영상코드로 영상조회(조회된 작품코드로 작품을 조회한다.)
 	public VideolistView selectvideoOne(BigInteger videocode );
 	//관리자용 영상 수정(조회된 작품의 정보를 수정)
-	public void  videolistUpdate(Member admin, Videolistdto obj, String nowtitle);
+	public void  videolistUpdate(Memberdto admin, Videolistdto obj, String nowtitle);
 	// //관리자용 영상 삭제를 위한 제목을 받으면 모든회차의 비디오코드 조회
 	public List<Videolist> selectvideofordelete(String title);
 	//관리자용 영상 삭제(회원의 권한 정보와, 제목을 받아서 삭제)O
-	public void  videolistDelete(Member admin, String title);
+	public void  videolistDelete(Memberdto admin, String title);
 
 	//관리자용 작품에 배우 등록(작품이름으로 작품코드리스트를 받아서  작품리스트에 배우등록)------------------------
 	public int addactorinvideo(Videolistdto videocode, Actorsdto no );
@@ -55,7 +55,7 @@ public interface DHService {
 	//고객용 영상 분류하위장르검색
 	public List<Videolistdto>  videolistGroupKeywordButton(String category, String genre);
 	//고객용 영상 연령제한
-	public Videolist  videolistCHKage(Long videocode);
+	public int  videolistCHKage(Long videocode, Memberdto member);
 	//고객용 영상 작품 개봉날짜 순서로 정렬
 	public List<Videolist>  videolistRecently(BigInteger episode);
 
