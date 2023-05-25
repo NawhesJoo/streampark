@@ -56,29 +56,54 @@ public class ProfileMypageController {
 
     @PostMapping(value = "/updatenickname.do")
         public String updatenicknamePOST(
-            @ModelAttribute("newnickname") String newnickname,
+            @RequestParam("newnickname") String newnickname,
             @RequestParam("profilepw") String profilepw,
             HttpSession session) {
 
+            log.info("newnickname => {}", newnickname); 
+            log.info("profilepw => {}", profilepw); 
             String nickname = (String) session.getAttribute("nickname");
-            try {
-            Profile profile1 = pService.findByNickname(nickname);
-            profile1.setNickname(newnickname);
-            if(profilepw == null){
-                pService.updateNickname1(nickname, newnickname);
-                pRepository.save(profile1);
-                session.removeAttribute("nickname");
-                return "redirect:/profile/profilelist.do";
-            }
-            else if (profilepw != null || !profilepw.isEmpty() || bcpe.matches(profilepw, profile1.getProfilepw())) {
-                pService.updateNickname(nickname, newnickname, profilepw);
-            } 
+                
+            Profile profile = pRepository.findByNickname(nickname);
+            log.info("Profile => {}", profile.toString());
+        try {
+            profile.setNickname(newnickname);
+            pRepository.save(profile);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "redirect:/profile/profilelist.do";
     }
     
+
+    // 프로필 암호 수정
+    @GetMapping(value = "/updatepw.do")
+    public String updatepwGET(HttpSession session){
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile = pService.findByNickname(nickname);
+        if(profile.getProfilepw() == null){
+            return "/JSH/createpw";
+        }
+        return "/JSH/updatepw";
+    }
+
+    @PostMapping(value = "/updatepw.do")
+    public String updatepwPOST(HttpSession session,
+        @RequestParam("profilepw") String profilepw,
+        @ModelAttribute("newprofilepw") String newprofilepw){
+        String nickname = (String) session.getAttribute("nickname");
+        try{
+            Profile profile = pRepository.findByNickname(nickname);
+            profile.setProfilepw(bcpe.encode(newprofilepw));
+            pRepository.save(profile);
+            return "redirect:/mypage/updatenickname.do";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "redirect:/mypage/updatepw.do";
+        }
+    }
+
+
 
     // 프로필 암호 생성
     @PostMapping(value = "/createpw.do")
@@ -99,23 +124,6 @@ public class ProfileMypageController {
 
 
 
-    // 프로필 암호 수정
-    @GetMapping(value = "/updatepw.do")
-        public String updatepwGET(HttpSession session){
-            String nickname = (String) session.getAttribute("nickname");
-            Profile profile = pService.findByNickname(nickname);
-            if(profile.getProfilepw() == null){
-                return "/JSH/createpw";
-            }
-            return "/JSH/updatepw";
-        }
-
-    // @PostMapping(value = "/updatepw.do")
-    //     public String updatepwPOST(){
-    //         return "/JSH/updatepw";
-    //     }
-
-
 
     // 프로필 삭제
     @GetMapping(value = "/delete.do")
@@ -131,9 +139,10 @@ public class ProfileMypageController {
     // 암호 있을 때
     @PostMapping(value = "/delete.do")
     public String deletePOST(HttpSession session, Model model,
-            @RequestParam("profilepw") String profilepw){
-        String nickname = (String) session.getAttribute("nickname");
-        Profile profile1 = pRepository.findByNickname(nickname);
+            @RequestParam("profilepw") String profilepw,
+            @RequestParam("newprofilepw") String newprofilepw){
+            String nickname = (String) session.getAttribute("nickname");
+            Profile profile1 = pRepository.findByNickname(nickname);
         try{
             if(bcpe.encode(profilepw) == profile1.getProfilepw()){
             pMapper.deleteProfile(nickname, profilepw);

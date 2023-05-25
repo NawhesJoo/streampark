@@ -84,4 +84,9 @@ public class ProfileServiceImpl implements ProfileService{
         return piMapper.deleteProfileimg(profileno);
     }
 
+    @Override
+    public int updateProfilepw(String nickname, String newprofilepw) {
+        return pMapper.updateProfilepw(nickname, newprofilepw);
+    }
+
 }

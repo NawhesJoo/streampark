@@ -38,12 +38,23 @@
     <script th:inline="javascript">
 
         async function checkNickname() {
-            const url = "[[@{/api/profile/nickname.do}]]";
+            const nickname = document.getElementById('nickname').value;
+            // http://127.0.0.1:9090/streampark/api/profile/nickname.do?nickname=12
+
+            let url = /*[[@{/api/profile/nickname.do}]]*/"";
+
+            url += "?nickname=" + nickname;
+            console.log(url);
+
             const headers = {"Content-Type":"application/json"};
             const { data } = await axios.get(url, { headers:headers });
 
-            if(data.status === 200){
+            if(data.result === 1){
+                alert("프로필이 생성되었습니다.");
                 document.getElementById('form').submit();
+            }
+            else if(data.result === 0){
+                alert("중복된 닉네임입니다. 다른 닉네임을 사용해주세요.");
             }
             else{
                 alert(data.message);

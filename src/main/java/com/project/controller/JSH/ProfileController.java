@@ -40,28 +40,28 @@ public class ProfileController {
 
     // 프로필 선택창
     @GetMapping(value = "/profilelist.do")
-    public String profilelistGET(Model model, HttpSession session){
-        try{
-            // String id = (String) session.getAttribute("id");
-            String id = "1";
-            List<Profile> list = pService.selectprofile(id);
-            model.addAttribute("list", list);
-            log.info("list => {}", list.toString());
-            session.removeAttribute("nickname");
-            session.removeAttribute("profileno");
-            return "/JSH/list";
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return "/JSH/list";
-        }
+        public String profilelistGET(Model model, HttpSession session){
+            try{
+                // String id = (String) session.getAttribute("id");
+                String id = "1";
+                List<Profile> list = pService.selectprofile(id);
+                model.addAttribute("list", list);
+                log.info("list => {}", list.toString());
+                session.removeAttribute("nickname");
+                session.removeAttribute("profileno");
+                return "/JSH/list";
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                return "/JSH/list";
+            }
     }
 
 
     // 프로필 생성
     @GetMapping(value = "/create.do")
-    public String createGET(Model model){
-        model.addAttribute("profile", new Profile());
+        public String createGET(Model model){
+            model.addAttribute("profile", new Profile());
         return "/JSH/create";
     }
 
@@ -69,34 +69,23 @@ public class ProfileController {
         public String createPOST(@ModelAttribute("profile") Profile profile,
             @RequestParam("nickname") String nickname,
             HttpSession session) {
-        // 세션에서 멤버 ID 가져오기
-        // String memberId = (String) session.getAttribute("id");
-        String memberId = "1";
+            // 세션에서 멤버 ID 가져오기
+            // String memberId = (String) session.getAttribute("id");
+            String memberId = "1";
 
-        // 프로필 정보 설정
-        Member member = new Member();
-        member.setId(memberId);
-        profile.setMember(member);
-        profile.setNickname(nickname);
-        log.info("profile =>", profile);
-        // 프로필 저장
-        pRepository.save(profile);
+            // 프로필 정보 설정
+            Member member = new Member();
+            member.setId(memberId);
+            profile.setMember(member);
+            profile.setNickname(nickname);
+            //log.info("profile =>", profile);
+            // 프로필 저장
+            pRepository.save(profile);
 
-        // 프로필 생성 후 리다이렉트할 페이지 지정
-        return "redirect:/profile/profilelist.do";
+            // 프로필 생성 후 리다이렉트할 페이지 지정
+            return "redirect:/profile/profilelist.do";
         }   // 완료
 
-
-    // // 닉네임 중복 확인
-    // @PostMapping(value = "/checkDuplicate")
-    // @ResponseBody
-    // public ResponseEntity<String> checkDuplicate(@RequestParam("nickname") String nickname) {
-    //     if (pService.countByNickname(nickname) != 0) {
-    //         return ResponseEntity.ok("duplicate");
-    //     } else {
-    //         return ResponseEntity.ok("unique");
-    //     }
-    // }
 
 
     // 프로필 로그인
@@ -117,13 +106,10 @@ public class ProfileController {
     @PostMapping(value = "/login.do")
         public String loginPOST(@RequestParam("nickname") String nickname,
             @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session) {
-            Profile profile1 = pRepository.findByNickname(nickname);
+            Profile profile = pRepository.findByNickname(nickname);
             try{
-                if (bcpe.matches(profilepw, profile1.getProfilepw())) {
-                    pService.loginProfile(nickname, profilepw);
-                    session.setAttribute("profileno", profile1.getProfileno());
-                    session.setAttribute("nickname", nickname);
-                }
+                session.setAttribute("profileno", profile.getProfileno());
+                session.setAttribute("nickname", nickname);
                 return "redirect:/profile/home.do";
             } catch (Exception e){
                 e.printStackTrace();

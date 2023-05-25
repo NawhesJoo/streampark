@@ -48,4 +48,7 @@ public interface ProfileService {
 
     // 프로필 이미지 삭제
     public int deleteProfileimg(BigInteger profileno);
+
+    // 프로필 암호 변경
+    public int updateProfilepw(String nickname, String newprofilepw);
 }

@@ -17,6 +17,8 @@ public class Profiledto {
   private String id;
   // 프로필 암호
   private String profilepw;
+  // 바꿀 암호
+  private String newprofilepw;
   // 등록날짜
   private Date regdate;
   // 0,1
