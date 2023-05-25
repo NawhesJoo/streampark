@@ -27,45 +27,46 @@ public class RestQnAController {
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
     // final String format = "password => {}";
 
+    
     // 문의글 수정
-    // @PutMapping(value = "/update.do")
-    // public Map<String, Object> updateQnA(@RequestBody Board board) {
-    // Map<String, Object> retMap = new HashMap<>();
-    // try {
-    // log.info("Board = {}", board.toString());
-    // Board ret = qnaService.selectoneBoard(board.getNo());
-    // log.info("{}", ret);
+    @PutMapping(value = "/update.do")
+    public Map<String, Object> updateQnA(@RequestBody Board board) {
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            // log.info("AfterInputPW = {}", board.toString());   //no,입력한 password,profileno 3개만 나옴
+            Board retBoard = qnaService.selectoneBoard(board);
+            // log.info("AfterInputPWSelect = {}", retBoard);   // no,profileno에 맞는 retBoard가 나옴
 
-    // // 실패시 전송할 데이터, 밑으로 가면 200에서 다시 0으로 바뀌니까 위에 있음.
-    // retMap.put("status", 0);
+            // 실패시 전송할 데이터, 밑으로 가면 200에서 다시 0으로 바뀌니까 위에 있음.
+            retMap.put("status", 0);
 
-    // log.info("password = {}", bcpe.encode(board.getPassword()));
-    // if (bcpe.matches(board.getPassword(), ret.getPassword())) {
-    // // 수정 작업 수행
-    // qnaService.updateBoard(board);
-    // retMap.put("status", 200);
-    // retMap.put("ret", 1);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // return retMap;
-    // }
+            // log.info("password = {}", bcpe.encode(board.getPassword()));    //해시된 비번나옴
+            if (bcpe.matches(board.getPassword(), retBoard.getPassword())) {
+                // 수정 작업 수행
+                retMap.put("status", 200);
+                retMap.put("ret", 1);
+            }
+            //log.info("LastStep = {}", retBoard); //여기까지는 제목,내용 나옴 근데 DB에는 없음
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retMap;
+    }
 
     // 문의글 삭제
     @DeleteMapping(value = "/delete.do")
     public Map<String, Object> deleteQnA(@RequestBody Board board) {
         Map<String, Object> retMap = new HashMap<>();
         try {
-            log.info("Board = {}", board.toString());
-            Board ret = qnaService.selectoneBoard(board.getNo());
-            log.info("{}", ret);
+            log.info("Board = {}", board.toString());   //no,입력한 password,profileno나옴
+            Board retBoard = qnaService.selectoneBoard(board);
+            log.info("{}", retBoard);   // no,profileno에 맞는 retBoard가 나옴
 
             // 실패시 전송할 데이터, 밑으로 가면 200에서 다시 0으로 바뀌니까 위에 있음.
             retMap.put("status", 0);
 
-            log.info("password = {}", bcpe.encode(board.getPassword()));
-            if (bcpe.matches(board.getPassword(), ret.getPassword())) {
+            // log.info("password = {}", bcpe.encode(board.getPassword()));    //해시된 비번나옴
+            if (bcpe.matches(board.getPassword(), retBoard.getPassword())) {
                 // 삭제 작업 수행
                 qnaService.deleteBoard(board);
                 retMap.put("status", 200);

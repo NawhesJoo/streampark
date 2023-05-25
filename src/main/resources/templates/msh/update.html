@@ -11,16 +11,18 @@
 
 <body>
     <div>
-        <h3>문의글글수정</h3>
-        <hr />
-        <form th:action="@{/board/update.do}" method="post">
-            <input type="text" name="title" th:value="${obj.title}"><br />
+        <h3>문의글수정</h3>
+        <form th:action="@{/qna/update.do}" method="post">
+            <input type="hidden" name="no" th:value="${board.no}" readonly><br/>
+            <input type="hidden" name="profileno" th:value="${board.profileno}"><br/>
+            <input type="text" name="title" th:value="${board.title}"><br />
             <div id="content_div">
-                <textarea class="form-control" style="height:100%; width:100%;" maxlength='1000' id="content"
-                    name="content" th:value="${obj.content}"></textarea>
+                <textarea class="form-control" type="text" style="height:100%; width:100%;" maxlength='1000' id="QnAcontent"
+                    name="content" th:text="${board.content}"></textarea>
             </div><br />
-            <input type="text" th:value="${obj.regdate}" readonly><br />
+            <input type="text" th:value="${board.regdate}" readonly><br />
             <input type="submit" value="수정">
+            <button type="button" th:onclick="|location.href='@{/qna/selectone.do(no=${board.no})}'|">돌아가기</button>
         </form>
 
     </div>

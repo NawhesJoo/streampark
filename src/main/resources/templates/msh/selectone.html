@@ -106,17 +106,17 @@
         async function updateCheck() {
             const passwordInput = document.getElementById('passwordInput1');
             const password = passwordInput.value;//passwordInput1의 value를 password로 저장
-            const url = /*[[@{/qna/update.do}]]*/""; //여기로 가서
+            const url = /*[[@{/api/qna/update.do}]]*/""; //여기로 가서
             const body = { profileno: "87", no: /*[[${board.no}]]*/"", password: password };
             const headers = { "Content-Type": "application/json" };
-            const { data } = await axios.put(url, { headers: headers, data: body }); //@UpdateMapping
+            const { data } = await axios.put(url, body, { headers: headers}); //@UpdateMapping
             console.log('result', data); //status,ret 찍어서 나옴
 
-            if (data.ret == 1) { // 수정 성공 시 처리
-                alert('수정.');               //알람뜨고
-                modal1.style.display = "none";          //모달창 꺼지고
-                window.location.href = "update.do?no=" + no;   //해당 글로 감
-            } else { // 수정 실패 시 처리
+            if (data.ret == 1) { // 비밀번호 일치
+                alert('수정페이지로 이동합니다.');
+                modal1.style.display = "none";  //모달창 꺼지고
+                window.location.href = "update.do?no=[[${board.no}]]";  //해당 번호의 글로 감
+            } else { // 비밀번호 불일치
                 alert('비밀번호가 틀립니다.');
                 modal1.style.display = "none";
             }

@@ -1,6 +1,5 @@
 package com.project.service.msh;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public interface QnaService {
     public int insertBoard(Board board);
 
     // 문의글 조회
-    public Board selectoneBoard(Long long1);
+    public Board selectoneBoard(Board board);
 
     // 게시글수정
     public int updateBoard(Board board);
