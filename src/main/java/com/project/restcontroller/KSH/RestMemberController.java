@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Member;
+import com.project.entity.MemberProjection;
 import com.project.repository.KSH.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class RestMemberController {
     final HttpSession httpSession;
     final MemberRepository mRepository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+    
 
     @GetMapping(value = "/idcheck.json")
     public Map<String, Object> idcheckGET(@RequestParam(name = "id") String id) {
@@ -37,6 +39,25 @@ public class RestMemberController {
         try {
             long ret = mRepository.countById(id);
             retMap.put("status", ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("status", 0);
+        }
+        return retMap;
+    }
+
+    @GetMapping(value = "/pwcheck.json")
+    public Map<String, Object> pwcheckGET(@RequestParam(name = "pw") String pw) {
+        String id = "1";
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            Member obj = mRepository.findById(id).get();
+            if(bcpe.matches(pw, obj.getPw())){
+                retMap.put("status", 1);
+            }
+            else{
+                retMap.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             retMap.put("status", 0);
@@ -67,12 +88,11 @@ public class RestMemberController {
         retMap.put("list", null);
         retMap.put("status", 0);
         try {
-            List<Member> list = mRepository.findByPhoneAndName(obj.getPhone(), obj.getName());
-            if(obj.getEmail().equals(list.get(0).getEmail())){
+            List<MemberProjection> list = mRepository.findByPhoneAndName(obj.getPhone(), obj.getName());
+            if (obj.getEmail().equals(list.get(0).getEmail())) {
                 retMap.put("list", list);
                 retMap.put("status", 1);
-            }
-            else if(list.get(0).getEmail() == null || obj.getEmail() != list.get(0).getEmail()){
+            } else if (list.get(0).getEmail() == null || obj.getEmail() != list.get(0).getEmail()) {
                 retMap.put("list", null);
                 retMap.put("status", 0);
             }
@@ -85,12 +105,12 @@ public class RestMemberController {
     }
 
     @PostMapping(value = "/findpw.json")
-    public Map<String,Object> findpwPOST(@RequestBody Member obj){
-        Map<String,Object> retMap = new HashMap<>();
+    public Map<String, Object> findpwPOST(@RequestBody Member obj) {
+        Map<String, Object> retMap = new HashMap<>();
         retMap.put("status", 0);
         try {
-            Member obj1 = mRepository.findByIdAndName(obj.getId(), obj.getName());
-            if(obj1.getEmail().equals(obj.getEmail())){
+            MemberProjection obj1 = mRepository.findByIdAndName(obj.getId(), obj.getName());
+            if (obj1.getEmail().equals(obj.getEmail())) {
                 retMap.put("status", 1);
             }
         } catch (Exception e) {

@@ -1,14 +1,136 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-</head>
-<body>
-    <p>sdfszgszergyzhg</p>
-</body>
-</html>
+<h3>회원 탈퇴</h3>
+<hr class="border border-warning  opacity-100">
+<div class="inputSection">
+    <form th:action="@{/member/info.do}" method="post" id="form3">
+        <input type="hidden" name="menu" value="3">
+        <label for="pw" class=" col-form-label">pw</label>
+        <div class="">
+            <input class="form-control" type="text" name="pw1" id="pw" placeholder="비밀번호"
+                th:onkeyup="ajaxPWCheck(this)">
+        </div>
+        <label for="chkText" class=" col-form-label">회원탈퇴</label>
+        <div class="">
+            <input class="form-control" type="text" name="chkText" id="chkText" placeholder="[회원탈퇴]를 입력하세요"
+                th:onkeyup="ajaxPWCheck(this)">
+        </div>
+        <div class="submit">
+            <input type="button" class="btn btn-sm btn-warning" th:onclick="deleteId()" value="회원 탈퇴">
+        </div>
+    </form>
+
+    <!-- 모달 창 -->
+    <div class="modal fade modal-centered" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+            <div class="modal-content d-flex " style="background-color: black; border-color: rgba(239, 201, 0, 0.6) ;">
+                <div style="text-align: center; height : 80px; padding-top: 20px; padding-bottom: 0px;">
+                    <p class="mx-1" id="idlist" style="color:white;"></p>
+                    <p class="mx-1" id="alertMsg" style="color:white;"></p>
+                </div>
+                <div class="modal-footer" style="border-top: none ;">
+                    <button type="button" id="pwchange" class="me-2 btn btn-sm btn-warning"
+                        data-bs-target="#exampleModalToggle2" hidden data-bs-toggle="modal">수정 하시겠습니까?</button>
+                    <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()"
+                        data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 수정확인 모달창 창 -->
+<div class="modal fade" id="checkChangeModal" tabindex="-1" role="dialog" aria-labelledby="checkChangeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content " style="background-color: black; border-color: rgba(239, 201, 0, 0.6) ;">
+            <div class="modal-header" style="border-bottom: none ;">
+                <h5 class="modal-title" id="checkChangeModalLabel">회원탈퇴 확인</h5>
+            </div>
+            <div class="modal-body">
+                정말로 탈퇴하시겠습니까?
+            </div>
+            <div class="modal-footer" style="border-top: none ;">
+                <button type="button" class="btn btn-sm btn-warning" th:onclick="form3Action()">탈퇴 확인</button>
+                <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()"
+                    data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
+
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"
+    integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    </script>
+<!-- axios -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+    integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+<script th:inline="javascript">
+    // 비밀번호 중복 검사
+    var pwcheck = 0;
+    async function ajaxPWCheck(e) {
+        const pw = document.querySelector('#pw');
+
+        const url = '/streampark/api/member/pwcheck.json?pw=' + e.value;
+        const headers = { "Content-Type": "application/json" };
+        const { data } = await axios.get(url, { headers });
+
+        if (data.status === 0) {
+            // document.getElementById("pw").classList.remove("is-valid");
+            // document.getElementById("pw").classList.add("is-invalid");
+            pwcheck = 0;
+            return false;
+        }
+        if (data.status === 1) {
+            // document.getElementById("pw").classList.remove("is-invalid");
+            // document.getElementById("pw").classList.add("is-valid");
+            pwcheck = 1;
+            return false;
+        }
+    }
+    async function deleteId() {
+        const pw = document.querySelector('#pw');
+        const chkText = document.querySelector('#chkText');
+        const from3 = document.querySelector('#form3');
+        if (!pw.value || pw.value.length <= 0) {
+            document.getElementById("alertMsg").innerText = '비밀번호를 입력하세요';
+            $('#alertModal').modal('show');
+            pw.focus();
+            return false;
+        }
+        if (!chkText.value || chkText.value.length <= 0) {
+            document.getElementById("alertMsg").innerText = '회원탈퇴를 입력하세요';
+            $('#alertModal').modal('show');
+            chkText.focus();
+            return false;
+        }
+        if (chkText.value != '회원탈퇴') {
+            document.getElementById("alertMsg").innerText = '회원탈퇴를 정확히 입력하세요';
+            $('#alertModal').modal('show');
+            chkText.focus();
+            return false;
+        }
+        if (pwcheck == 0) {
+            document.getElementById("alertMsg").innerText = '기존 비밀번호가 일치하지 않습니다.';
+            $('#alertModal').modal('show');
+            pw.focus();
+            return false;
+        }
+        $('#checkChangeModal').modal('show');
+    }
+    function form3Action() {
+        const from3 = document.querySelector('#form3');
+        form3.submit();
+    }
+</script>

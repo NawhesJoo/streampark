@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.entity.Member;
+import com.project.entity.MemberProjection;
 
 
 
@@ -17,8 +18,8 @@ public interface MemberRepository extends JpaRepository<Member, String>{
 
     Member findByIdAndPw(String id, String pw);
     Optional<Member> findById(String id);
-    Member findByIdAndName (String id, String name);
-    List<Member> findByPhoneAndName(String phone, String name);
+    MemberProjection findByIdAndName (String id, String name);
+    List<MemberProjection> findByPhoneAndName(String phone, String name);
 
 
 }

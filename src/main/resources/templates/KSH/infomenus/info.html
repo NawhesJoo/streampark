@@ -9,7 +9,7 @@
     <!-- 1. 부트스트렙용 css CDN 추가 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/KSH/info.css}'>
     <!-- 부트스트렙용 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
@@ -21,210 +21,124 @@
 
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="mainTitleSec">
-                    <h1 class="mainTitle">STREAM PARK</h1>
+        <div class="row d-flex justify-content-center">
+            <div class=" col-9 ">
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <div class="mainTitleSec">
+                            <h1 class="mainTitle">STREAM PARK</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <div class="navSec navbar">
+                            <a th:href="@{/member/info.do?menu=1}">내 정보 수정</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=2}">비밀 번호 수정</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=3}">회원 탈퇴</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=4}">요금제 가입</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=5}">요금제 변경</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col d-flex justify-content-center">
+                        <div class="mainSec">
+                            <div th:switch="${menu}">
+                                <div class="main" th:case="1" th:include="/KSH/infomenus/case1" id="case1"></div>
+                                <div class="main" th:case="2" th:include="/KSH/infomenus/case2" id="case2"></div>
+                                <div class="main" th:case="3" th:include="/KSH/infomenus/case3" id="case3"></div>
+                                <div th:case="4" th:include="/KSH/infomenus/case4" id="case4"></div>
+                                <div th:case="5" th:include="/KSH/infomenus/case5" id="case5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <footer>
+                            <a th:href="@{/member/profile/select.do}">프로필 선택으로</a>
+                            <a th:href="@{/member/profile/logout.do}">로그아웃</a>
+                        </footer>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="navSec">
-                    <a th:href="@{/member/info.do?menu=1}">내 정보 수정</a>
-                    <a th:href="@{/member/info.do?menu=2}">비밀 번호 수정</a>
-                    <a th:href="@{/member/info.do?menu=3}">회원 탈퇴</a>
-                    <a th:href="@{/member/info.do?menu=4}">요금제 가입</a>
-                    <a th:href="@{/member/info.do?menu=5}">요금제 변경</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="mainSec">
-                    <div th:switch="${menu}">
-                        <div th:case="1" th:include="/KSH/infomenus/case1" id="case1"></div>
-                        <div th:case="2" th:include="/KSH/infomenus/case2" id="case2"></div>
-                        <div th:case="3" th:include="/KSH/infomenus/case3" id="case3"></div>
-                        <div th:case="4" th:include="/KSH/infomenus/case4" id="case4"></div>
-                        <div th:case="4" th:include="/KSH/infomenus/case5" id="case4"></div>
+            <!-- 변경 완료 모달 -->
+            <div class="modal fade" id="myInfoChangedModal" tabindex="-1" role="dialog"
+                aria-labelledby="myInfoChangedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content " style="background-color: black; border-color: rgba(239, 201, 0, 0.6) ;">
+                        <div class="modal-header" style="border-bottom: none ;">
+                            <h5 class="modal-title" id="myInfoChangedModalLabel">정보 변경 완료</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p id="myInfoChangedMSG">
+
+                            </p>
+                        </div>
+                        <div class="modal-footer" style="border-top: none ;">
+                            <button type="button" id="closeModal" class="btn btn-secondary"
+                                data-dismiss="modal">닫기</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-       
+    </div>
+    <script th:inline="javascript">
+        // 모달 close를 누를 때 창이 세로고침되는 스크립트
+        function reload() {
+            location.reload();
+        }
+        if (performance.navigation.type === 1) {
+            const newURL = removeQueryParameter(window.location.href, 'myInfoChanged');
+            window.history.replaceState({}, document.title, newURL);
+        }
 
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
-
-            </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-
-            </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"
-            integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer">
-
-            </script>
-        <!-- axios -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
-            integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer">
-            </script>
-        <script th:inline="javascript">
-            if (performance.navigation.type === 1) {
-                const newURL = removeQueryParameter(window.location.href, 'myInfoChanged');
-                window.history.replaceState({}, document.title, newURL);
-            }
-
-            function removeQueryParameter(url, param) {
-                const urlParts = url.split('?');
-                if (urlParts.length >= 2) {
-                    const queryParameters = urlParts[1].split('&');
-                    const updatedParameters = queryParameters.filter(function (queryParam) {
-                        return !queryParam.startsWith(param + '=');
-                    });
-                    if (updatedParameters.length > 0) {
-                        return urlParts[0] + '?' + updatedParameters.join('&');
-                    } else {
-                        return urlParts[0];
-                    }
-                } else {
-                    return url;
-                }
-            }
-            $(document).ready(function () {
-                // URL 매개변수에서 passwordChanged 값 가져오기
-                const urlParams = new URLSearchParams(window.location.search);
-                const myInfoChanged = urlParams.get('myInfoChanged');
-                const closeModal = document.querySelector('#closeModal');
-
-                if (myInfoChanged === 'true') {
-                    // 비밀번호 변경이 완료되었을 경우 모달 자동으로 표시
-                    $('#myInfoChangedModal').modal('show');
-                }
-                closeModal.addEventListener('click', function () {
-                    $('#myInfoChangedModal').modal('hide');
+        function removeQueryParameter(url, param) {
+            const urlParts = url.split('?');
+            if (urlParts.length >= 2) {
+                const queryParameters = urlParts[1].split('&');
+                const updatedParameters = queryParameters.filter(function (queryParam) {
+                    return !queryParam.startsWith(param + '=');
                 });
-
-            });
-            window.onload = function () {
-                const gender = document.getElementById('genderch');
-                const listgender = $('input[name=gender]:checked').val();
-                if (genderch.value == 'M') {
-                    document.getElementById('CheckMale').checked = true;
-                } else if (genderch.value == 'F') {
-                    document.getElementById('CheckFemale').checked = true;
-                }
-            };
-            function reload() {
-                location.reload();
-            }
-            async function updateinfo() {
-                const id = document.querySelector('#id');
-                const name = document.querySelector('#name');
-                const email = document.querySelector('#email');
-                const birth = document.querySelector('#birth');
-                const phone = document.querySelector('#telInput');
-                const form1 = document.querySelector('#form1');
-                const listgender = $('input[name=gender]:checked').val();
-                if (!name.value || name.value.length <= 0) {
-                    document.getElementById("alertMsg").innerText = '수정할 이름을 입력하세요';
-                    $('#alertModal').modal('show');
-                    name.focus();
-                    return false;
-
-                }
-                if (!phone.value || phone.value.length <= 0) {
-                    document.getElementById("alertMsg").innerText = '수정할 휴대전화번호를 입력하세요';
-                    $('#alertModal').modal('show');
-                    phone.focus();
-                    return false;
-                }
-                if (!birth.value || birth.value.length <= 0) {
-                    document.getElementById("alertMsg").innerText = '수정할 생년월일을 입력하세요';
-                    $('#alertModal').modal('show');
-                    birth.focus();
-                    return false;
-                }
-
-                if (!email.value || email.value.length <= 0) {
-                    document.getElementById("alertMsg").innerText = '수정할 이메일을 입력하세요';
-                    $('#alertModal').modal('show');
-                    email.focus();
-                    return false;
-                }
-                if (listgender == null) {
-                    document.getElementById("alertMsg").innerText = '성별을 선택하세요';
-                    $('#alertModal').modal('show');
-                    return false;
-                }
-                form1.submit();
-            }
-            function autoHypenTel(str) {
-                str = str.replace(/[^0-9]/g, '');
-                var tmp = '';
-
-                if (str.substring(0, 2) == 02) {
-                    // 서울 전화번호일 경우 10자리까지만 나타나고 그 이상의 자리수는 자동삭제
-                    if (str.length < 3) {
-                        return str;
-                    } else if (str.length < 6) {
-                        tmp += str.substr(0, 2);
-                        tmp += '-';
-                        tmp += str.substr(2);
-                        return tmp;
-                    } else if (str.length < 10) {
-                        tmp += str.substr(0, 2);
-                        tmp += '-';
-                        tmp += str.substr(2, 3);
-                        tmp += '-';
-                        tmp += str.substr(5);
-                        return tmp;
-                    } else {
-                        tmp += str.substr(0, 2);
-                        tmp += '-';
-                        tmp += str.substr(2, 4);
-                        tmp += '-';
-                        tmp += str.substr(6, 4);
-                        return tmp;
-                    }
+                if (updatedParameters.length > 0) {
+                    return urlParts[0] + '?' + updatedParameters.join('&');
                 } else {
-                    // 핸드폰 및 다른 지역 전화번호 일 경우
-                    if (str.length < 4) {
-                        return str;
-                    } else if (str.length < 7) {
-                        tmp += str.substr(0, 3);
-                        tmp += '-';
-                        tmp += str.substr(3);
-                        return tmp;
-                    } else if (str.length < 11) {
-                        tmp += str.substr(0, 3);
-                        tmp += '-';
-                        tmp += str.substr(3, 3);
-                        tmp += '-';
-                        tmp += str.substr(6);
-                        return tmp;
-                    } else {
-                        tmp += str.substr(0, 3);
-                        tmp += '-';
-                        tmp += str.substr(3, 4);
-                        tmp += '-';
-                        tmp += str.substr(7);
-                        return tmp;
-                    }
+                    return urlParts[0];
                 }
-
-                return str;
+            } else {
+                return url;
             }
-            $('#telInput').keyup(function (event) {
-                event = event || window.event;
-                var _val = this.value.trim();
-                this.value = autoHypenTel(_val);
+        }
+
+        $(document).ready(function () {
+            // URL 매개변수에서 passwordChanged 값 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            const myInfoChanged = urlParams.get('myInfoChanged');
+            const closeModal = document.querySelector('#closeModal');
+            const myInfoChangedMSG = document.querySelector('#myInfoChangedMSG');
+
+            if (myInfoChanged === 'true') {
+                // 비밀번호 변경이 완료되었을 경우 모달 자동으로 표시
+                document.getElementById('myInfoChangedMSG').innerText = '정보가 성공적으로 변경되었습니다.';
+                $('#myInfoChangedModal').modal('show');
+            }
+            if (myInfoChanged === 'false') {
+                // 비밀번호 변경이 완료되었을 경우 모달 자동으로 표시
+                document.getElementById('myInfoChangedMSG').innerText = '정보가 변경에 실패했습니다.';
+                $('#myInfoChangedModal').modal('show');
+            }
+            closeModal.addEventListener('click', function () {
+                $('#myInfoChangedModal').modal('hide');
             });
-        </script>
+
+        });
+    </script>
 </body>
 
 </html>
