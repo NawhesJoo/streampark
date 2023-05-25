@@ -12,4 +12,8 @@ import com.project.entity.Review;
 public interface ReviewRepository extends JpaRepository<Review, BigInteger> {
     
     List<Review> findAllByOrderByRegdateDesc();
+
+    List<Review> findAllByOrderByLikesDesc();
+
+    // List<Review> findByReviewlikes_chklikesOrderByReviewnoDesc();
 }

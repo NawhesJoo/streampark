@@ -53,13 +53,14 @@
             </tbody>
         </table>
     </form>
-    <form th:action="@{/watchlist/selectlist.do}" method="get">
-        <input type="text" name="text" placeholder="검색어" />
+    <form th:action="@{/watchlist/selectlist.do}" method="get" th:object="${search}">
+        <select th:field="${search.type}">
+            <option th:each="tmp, idx : ${search.typeCode}" th:value="${tmp}" th:text="${search.typeName[idx.index]}"></option>
+        </select>
+        <input type="text" th:field="${search.text}" placeholder="검색어" />
         <input type="submit" value="검색" />
     </form>
-    <!-- <th:block th:each="num : ${#numbers.sequence(1, pages)}">
-        <a th:href="@{/watchlist/selectlist.do(page=${num}, type=${param.type}, text=${param.text})}" th:text="${num}"></a>
-    </th:block> -->
+  
 
     <form th:action="@{/watchlist/delete.do}" method="post" id="form2" style="display:none">
         <input type="hidden" name="viewno" id="hidden_viewno" />

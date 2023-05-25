@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.dto.Search;
 import com.project.entity.Watchlist;
+import com.project.mapper.WatchlistMapper;
 import com.project.repository.JangRepositories.WatchlistRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,12 +27,13 @@ public class WatchlistController {
 
     final String format = "WatchlistController => {}";
     final WatchlistRepository wlRepository;
+    final WatchlistMapper wlMapper;
     final BigInteger profileno = BigInteger.valueOf(6);
 
     @PostMapping(value = "/deletebatch.do")
     public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
         try {
-            log.info(format,chk.toString());
+            // log.info(format,chk.toString());
             wlRepository.deleteAllById(chk);
             return "redirect:/watchlist/selectlist.do";
         }
@@ -43,7 +46,7 @@ public class WatchlistController {
     @PostMapping(value = "/delete.do")
     public String deletePOST(@RequestParam(name = "viewno") BigInteger viewno){
         try {
-            log.info(format,viewno.toString());
+            // log.info(format,viewno.toString());
             wlRepository.deleteById(viewno);
             return "redirect:/watchlist/selectlist.do";
         }
@@ -55,15 +58,34 @@ public class WatchlistController {
 
     // 127.0.0.1:9090/streampark/watchlist/selectlist.do
     @GetMapping(value = "/selectlist.do")
-    public String selectGET(Model model, @RequestParam(name = "text", required = false) String text) {
+    public String selectGET(Model model, @RequestParam(name = "type", defaultValue = "title", required = false) String type, @RequestParam(name = "text", required = false) String text, @ModelAttribute Search obj) {
             try {
                 
-                List<Watchlist> list2 = wlRepository.findByVideolist_keywordIgnoreCaseContainingOrderByViewdateDesc(text);
-                List<Watchlist> list = wlRepository.findByProfile_profilenoOrderByViewdateDesc(profileno);
-                // log.info(format,videolist.toString());
-                model.addAttribute("list", list);
-                model.addAttribute("list2", list2);
-                // model.addAttribute("pages", (total-1) + 1 / 10);
+                log.info(format, type);
+                log.info(format, text);
+                if(type.equals("title") && text==null) {
+                    List<Watchlist> list = wlRepository.findByProfile_profilenoOrderByViewdateDesc(profileno);
+                    model.addAttribute("list", list);
+                }
+                
+               
+                else if(type.equals("title")) {
+                    List<Watchlist> list = wlRepository.findByVideolist_titleIgnoreCaseContainingOrderByViewdateDesc(text, profileno);
+                    model.addAttribute("list", list);
+                    
+                }
+                else if(type.equals("pd")) {
+                    List<Watchlist> list = wlRepository.findByVideolist_pdIgnoreCaseContainingOrderByViewdateDesc(text, profileno); 
+                    model.addAttribute("list", list);
+                }
+                else if(type.equals("chkage")) {
+                    List<Watchlist> list = wlRepository.findByVideolist_chkageIgnoreCaseContainingOrderByViewdateDesc(text, profileno);    
+                    model.addAttribute("list", list);
+                }
+
+                // model.addAttribute("list", list);
+                
+
 
                 return "/jang/watchlist/selectlist";
         }
@@ -76,8 +98,8 @@ public class WatchlistController {
     @PostMapping(value = "/insert.do")
     public String insertPOST(@ModelAttribute Watchlist watchlist) {
         try {
-            log.info(format, watchlist.getProfile().getProfileno());
-            log.info(format, watchlist.getVideolist().getVideocode()); 
+            // log.info(format, watchlist.getProfile().getProfileno());
+            // log.info(format, watchlist.getVideolist().getVideocode()); 
             wlRepository.save(watchlist);
             return "redirect:/watchlist/selectlist.do";
         }

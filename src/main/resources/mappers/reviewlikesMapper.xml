@@ -10,7 +10,7 @@
         UPDATE REVIEW SET reportcnt=reportcnt+1 WHERE review_no=#{no} AND profileno=#{pno}
     </update>
 
-    <select id="reviewreportselect" parameterType="long">
+    <select id="reviewreportselect" parameterType="long" resultType="long">
         SELECT r.reportcnt FROM REVIEW r WHERE review_no=#{no}
     </select>
 
