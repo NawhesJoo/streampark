@@ -1,8 +1,12 @@
 package com.project.service.JeongService;
 
+import java.math.BigInteger;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.project.entity.Fee;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
 import com.project.repository.JeongRepositories.Projections.MemberProjection;
@@ -28,6 +32,11 @@ public interface JeongService {
 
     //타입 아이디 검색 후 날짜 내림차순으로 한뒤 제일 최신것 가져오기
     Paychk findPaychkMemberidAndTypeTopByRegdate(String id, String type);
+
+    List<Fee> findFeeAll();
+
+    //요금제 등급에 맞는 정보 가져오기
+    Fee findFeeById(BigInteger grade);
 
 
 }

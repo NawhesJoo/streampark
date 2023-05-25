@@ -1,9 +1,11 @@
 package com.project.service.JeongService;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.project.entity.Fee;
@@ -28,16 +30,18 @@ public class JeongServiceImpl implements JeongService {
     final ProfileRepository proRepository;
     final MemberRepository memRepository;
     final PaychkRepository payRepository;
-    final FeeRepository feeRepository;
+    final FeeRepository feeRepository;    
     // proRepository.findById(BigInteger.valueOf(88)).orElse(null);
 
     @Override
     public int insertPaychkMembership(Paychk obj) {
+        //멤버쉽 등록
         try {
             String id = (String) httpSession.getAttribute("id");
             Member member = memRepository.findById(id).orElse(null);
             Fee fee = feeRepository.findById(obj.getFee().getGrade()).orElse(null);            
             long token = member.getToken().longValue() - ((fee.getPrice().longValue()/100) - (obj.getPrice().longValue()/100));
+            member.setMembershipchk(obj.getFee().getGrade());
             member.setToken(BigInteger.valueOf(token));
             log.info("obj ->{}", obj.toString());
             payRepository.save(obj);
@@ -100,6 +104,26 @@ public class JeongServiceImpl implements JeongService {
     public Paychk findPaychkMemberidAndTypeTopByRegdate(String id, String type) {
         try {
             return payRepository.findTop1ByMember_idAndTypeOrderByRegdateDesc(id, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Fee findFeeById(BigInteger grade) {
+        try {
+            return feeRepository.findById(grade).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Fee> findFeeAll() {
+        try {                        
+            return feeRepository.findAll(Sort.by(Sort.Direction.ASC,"grade"));
         } catch (Exception e) {
             e.printStackTrace();
             return null;

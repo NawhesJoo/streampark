@@ -17,7 +17,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "CHARGETOKEN")
 public class Chargetoken {
-    
+
     @Id
     private String token;
 
@@ -25,8 +25,8 @@ public class Chargetoken {
 
     private BigInteger quantity;
 
-    //결제내역
+    // 결제내역
     @ToString.Exclude
-    @OneToMany(mappedBy = "chargetoken", cascade = CascadeType.ALL , fetch =FetchType.LAZY)
+    @OneToMany(mappedBy = "chargetoken", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Paychk> paychk;
 }
