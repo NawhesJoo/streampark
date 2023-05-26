@@ -1,0 +1,80 @@
+@charset "UTF8";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+
+* {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+}
+body{
+    max-height: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)) ,url("../../images/KSH/donald-duck-4985121.jpg");
+
+}
+
+/* 메인타이틀 */
+.mainTitleSec{
+    margin-top: 280px;
+}
+.mainTitleSec .mainTitle{
+    color: #EFC900;
+    font-size: 80px;
+    font-weight: 700;
+}
+/* 메인텍스트 */
+.mainTextSec{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: #EFC900;
+    font-size: 20px;
+    font-weight: 600;
+}
+.mainTextSec .mainText p {
+    margin-bottom: 6px;
+}
+/* 메인버튼 */
+.mainBtnSec .loginBtn{
+    width: 600px;
+    height: 60px;
+    font-size: 25px;
+    font-weight: 500;
+    padding-top: 10px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+.mainBtnSec .loginBtn:hover{
+    background-color: #fad727; 
+    color: #504300;  
+}
+.mainBtnSec p{
+    color: white;
+    display: inline-block;
+}
+
+.mainBtnSec .joinBtnSec a{
+    text-decoration-line: none;
+    color: #EFC900;   
+}
+.mainBtnSec .joinBtnSec a:hover{
+    text-decoration-line: none;
+    color: #a78b00;   
+}
+.mainBtnSec .findIdPwBtnSec a{
+    text-decoration-line: none;
+    color: #EFC900;
+}
+.mainBtnSec .findIdPwBtnSec a:hover{
+    text-decoration-line: none;
+    color: #a78b00;   
+}
+.mainBtnSec .findIdPwBtnSec{
+    text-align: right;
+}
+.joinBtnSec{
+    padding-left: 30px;
+}
+.findIdPwBtnSec{
+    padding-right: 30px;
+}
+

@@ -15,9 +15,9 @@ import com.project.dto.Videolistdto;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
 import com.project.mapper.KDH.KDHMapper;
-import com.project.repository.KDH.VideoimgRepository;
-import com.project.repository.KDH.member1Repository;
-import com.project.repository.KDH.videolistRepository;
+import com.project.repository.MemberRepository;
+import com.project.repository.VideoimgRepository;
+import com.project.repository.videolistRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class DHServiceImpl implements DHService {
     final videolistRepository videolistRepository;
     final VideoimgRepository videoimgRepository;
-    final member1Repository memberRepository;
+    final MemberRepository memberRepository;
     final KDHMapper kdhMapper;
 
     // 회원의 권한을 받아 검증후 비디오 추가 회차정보를 입력받으면 그횟수만큼 비디오횟차를 올려서 추가

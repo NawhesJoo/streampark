@@ -29,7 +29,7 @@ import lombok.ToString;
 @Table(name = "BOARD")
 @SequenceGenerator(name = "SEQ_BOARD_NO", sequenceName = "SEQ_BOARD_NO", initialValue = 1, allocationSize = 1)
 public class Board {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARD_NO")
     private BigInteger no;
@@ -38,22 +38,21 @@ public class Board {
 
     @Lob
     private String content;
-    
+
     private String password;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @CreationTimestamp
     private Date regdate;
-    
-    
-    // 프로필 
+
+    // 프로필
     @ToString.Exclude
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profileno", referencedColumnName = "profileno")
     private Profile profile;
 
-    // 문의 답글     
-    @OneToMany(mappedBy = "board", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    // 문의 답글
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Qnareply> qnareply = new ArrayList<>();
-   
+
 }

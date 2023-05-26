@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Document</title>
+</head>
+<body>
+    <h3>Review 수정</h3>
+    <form th:action="@{/review/update.do}" method="post">
+        <input type="text" name="review_no" th:value="${review_no}" readonly /><br />
+        <input type="text" name="profileno" th:value="${profileno}" readonly /><br />
+        <textarea rows="5" cols="50" name="content" placeholder="댓글 내용 입력" ></textarea><br />
+        <input type="submit" value="제출" />
+    </form>
+    
+</body>
+</html>
