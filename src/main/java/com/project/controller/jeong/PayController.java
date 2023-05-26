@@ -20,9 +20,8 @@ import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
-import com.project.entity.Review;
-import com.project.repository.JeongRepositories.PaychkRepository;
-import com.project.repository.JeongRepositories.Projections.MemberProjection;
+import com.project.repository.PaychkRepository;
+import com.project.repository.Projections.MemberProjection;
 import com.project.service.JeongService.JeongService;
 
 import lombok.RequiredArgsConstructor;

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.dto.Jeong.CustomUser;
 import com.project.entity.Member;
-import com.project.repository.JeongRepositories.MemberRepository;
+import com.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

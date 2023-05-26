@@ -1,4 +1,4 @@
-package com.project.repository.JeongRepositories.Projections;
+package com.project.repository.Projections;
 
 import java.math.BigInteger;
 

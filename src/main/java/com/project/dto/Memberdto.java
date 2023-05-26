@@ -6,7 +6,7 @@ import lombok.Data;
 
 // 회원
 @Data
-public class Member {
+public class Memberdto {
   // 아이디
   private String id;
   // 암호

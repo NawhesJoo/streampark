@@ -6,7 +6,7 @@ import lombok.Data;
 
 // 비디오 이미지
 @Data
-public class Videoimg {
+public class Videoimgdto {
   private Long no;
   private String filename;
   private byte[] filedata;

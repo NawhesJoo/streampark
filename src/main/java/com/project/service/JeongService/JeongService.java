@@ -10,7 +10,7 @@ import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
-import com.project.repository.JeongRepositories.Projections.MemberProjection;
+import com.project.repository.Projections.MemberProjection;
 
 @Service
 @Component

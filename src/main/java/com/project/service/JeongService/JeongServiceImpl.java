@@ -12,11 +12,11 @@ import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
-import com.project.repository.JeongRepositories.FeeRepository;
-import com.project.repository.JeongRepositories.MemberRepository;
-import com.project.repository.JeongRepositories.PaychkRepository;
-import com.project.repository.JeongRepositories.ProfileRepository;
-import com.project.repository.JeongRepositories.Projections.MemberProjection;
+import com.project.repository.FeeRepository;
+import com.project.repository.MemberRepository;
+import com.project.repository.PaychkRepository;
+import com.project.repository.ProfileRepository;
+import com.project.repository.Projections.MemberProjection;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

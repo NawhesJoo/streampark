@@ -1,4 +1,4 @@
-package com.project.repository.JeongRepositories;
+package com.project.repository;
 
 import java.math.BigInteger;
 import java.util.List;
