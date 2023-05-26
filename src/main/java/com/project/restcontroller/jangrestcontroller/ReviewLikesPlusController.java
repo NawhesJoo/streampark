@@ -1,4 +1,4 @@
-package com.project.jangrestcontroller;
+package com.project.restcontroller.jangrestcontroller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mapper.ReviewMapper;
-import com.project.repository.JangRepositories.ReviewRepository;
+import com.project.repository.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.dto.Search;
 import com.project.entity.Watchlist;
 import com.project.mapper.WatchlistMapper;
-import com.project.repository.JangRepositories.WatchlistRepository;
+import com.project.repository.WatchlistRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
