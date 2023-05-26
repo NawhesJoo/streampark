@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="obj : ${list} "> <!--  model.addAttribute("list", list)에서 보낸거를 ${}로 받아옴 -->
+                <tr th:each="obj : ${list} "> <!--  model.addAttribute("list", list)에서 보낸 "list"를 ${}로 받아옴 -->
                     <td th:text="${obj.no}"></td>
                     <td><a th:href="@{/qna/selectone.do(no=${obj.no})}" th:text="${obj.title}"></a></td>
                     <td th:text="${obj.profile.nickname}"></td>

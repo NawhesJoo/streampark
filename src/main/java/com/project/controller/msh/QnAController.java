@@ -31,8 +31,7 @@ public class QnAController {
     final QnaService qnaService;
     final QnaMapper qnaMapper;
     final HttpSession httpSession;
-    final String message = "";
-	final String href = "";
+    
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
@@ -82,15 +81,22 @@ public class QnAController {
             httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
             Long profileno = (Long) httpSession.getAttribute("profileno");
             log.info("profileno = {}", profileno);
-    
 
             Board obj = new Board();
             obj.setNo(no);
             obj.setProfileno(profileno);
             log.info("QnASelectone = {}", obj.toString());
             Board board = qnaService.selectoneBoard(obj);
-            model.addAttribute("board", board);
-            return "/msh/selectone";
+
+            if (board != null) {
+                // 조회된 게시물이 있을 경우
+                model.addAttribute("board", board);
+                return "/msh/selectone";
+            } else {
+                // 조회할 수 없는 경우
+                model.addAttribute("errorMessage");
+                return "/msh/error";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/qna/selectlist.do";
