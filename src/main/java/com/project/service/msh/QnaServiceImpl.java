@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.dto.Board;
 import com.project.mapper.QnaMapper;
-import com.project.repository.msh.QnaRepository;
+import com.project.repository.QnaRepository;
 
 import lombok.RequiredArgsConstructor;
 

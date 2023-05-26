@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>암호변경</h3>
+    <form method="post" th:action="@{/mypage/updatepw.do}" id="form">
+        <label for="nickname">닉네임 :</label>
+        <input type="text" id="nickname" name="nickname" th:value="${session.nickname}" readonly required>
+        <br>
+        <label for="profilepw">현재 암호 :</label>
+        <input type="password" id="profilepw" name="profilepw"><br />
+        <label for="newprofilepw">변경할 암호 :</label>
+        <input type="password" id="newprofilepw" name="newprofilepw"><br />
+        <label for="newprofilepw">변경할 암호 확인 :</label>
+        <input type="password" id="newprofilepwchk" name="newprofilepwchk"><br />
+        <br>
+        <button type="button" th:onclick="updateProfilepw()">변경</button>
+    </form>
+    <form method="get" th:action="@{/mypage/updatenickname.do}"><button>뒤로가기</button></form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:inline="javascript">
+
+        async function updateProfilepw() {
+
+            const nickname = document.getElementById('nickname').value;
+            const profilepw = document.getElementById('profilepw').value;
+            const newprofilepw = document.getElementById('newprofilepw').value;
+            const newprofilepwchk = document.getElementById('newprofilepwchk').value;
+            
+            
+            // http://127.0.0.1:9090/streampark/api/profile/profilepw.do?nickname=nickname&profilepw=1
+            
+            let url = /*[[@{/api/profile/profilepw.do}]]*/"";
+            
+            url += "?nickname=" + nickname + "&profilepw=" + profilepw
+            console.log(url);
+            
+            const headers = {"Content-Type":"application/json"};
+            const { data } = await axios.get(url, { headers:headers });
+            
+            if(profilepw.length < 1 ){
+                alert('현재 암호를 입력해주세요.');
+                return false;
+            }
+
+            if(newprofilepw.length < 1){
+                alert('변경할 암호를 입력해주세요.');
+                return false;
+            }
+
+            if(newprofilepw != newprofilepwchk){
+                alert('암호가 일치하지 않습니다.');
+                return false;
+            }
+
+            if(data.result === 1){
+                document.getElementById('form').submit();
+                alert('암호가 변경되었습니다.');
+            }
+            else if(data.result === 0){
+                alert("현재 암호가 일치하지 않습니다.");
+            }
+            else{
+                alert(data.message);
+            }
+        }
+    </script>    
+
+</body>
+</html>
