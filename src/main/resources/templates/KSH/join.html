@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>STREAM PARK</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- 1. 부트스트렙용 css CDN 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/KSH/join.css}'>
+    <!-- 부트스트렙용 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row  d-flex justify-content-center">
+            <div class="col-6">
+                <div class="mainTitleSec">
+                    <h1 class="mainTitle">STREAMPARK</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row  d-flex justify-content-center">
+            <div class="col-6">
+                <div class="subMainTitleSec">
+                    <h3 class="subMainTitle">회원가입</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row  d-flex justify-content-center">
+            <div class="col-6">
+                <div class="joinInputSec">
+                    <div class="joinInput">
+                        <form th:action="@{/member/join.do}" method="post" id="form">
+                            <label for="id" id="idLb" class="form-label">id사용 확인</label>
+                            <input class="joinF form-control" id="id" name="id" type="text" placeholder="아이디"
+                                th:onkeyup="ajaxIDCheck(this)">
+                            <input class="joinF form-control" id="pw" name="pw" type="password" placeholder="비밀번호">
+                            <input class="joinF form-control" id="chkpw" name="chkpw" type="password"
+                                placeholder="비밀번호 확인">
+                            <input class="joinF form-control" id="name" name="name" type="text" placeholder="이름">
+                            <input type="tel" class="joinF form-control m-input" name="phone" id="telInput" required
+                                pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13"
+                                placeholder="전화번호 예) 010-1234-5678" />
+                            <input class="joinF form-control" id="birth" name="birth" type="date" placeholder="생년월일">
+                            <input class="joinF form-control" id="email" name="email" type="email" placeholder="이메일">
+                            <div class="row mb-3">
+                                <div class="form-check col checkCol">
+                                    <input class="fci form-check-input" name="gender" type="radio" value="M"
+                                        id="CheckMale">
+                                    <label class="form-check-label" for="CheckMale">
+                                        Male
+                                    </label>
+                                </div>
+                                <div class="form-check col">
+                                    <input class="fci form-check-input" name="gender" type="radio" value="F"
+                                        id="CheckFemale">
+                                    <label class="form-check-label" for="CheckFemale">
+                                        Female
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn SIGNbtn btn-sm btn-warning mb-2" type="button" data-toggle="modal"
+                                data-target="#alertModal" th:onclick="signup()">SIGN UP</button>
+                        </form>
+                        <div class="atagSec d-flex justify-content-between row">
+                            <div class="col">
+                                <a th:href="@{/member/login.do}">로그인</a>
+                            </div>
+                            <div class="col toMainSec">
+                                <a th:href="@{/member/main.do}">메인으로</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 유효성 검사 모달 창 -->
+    <div class="modal fade modal-centered" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+            <div class="modal-content d-flex " style="background-color: black; border-color: rgba(239, 201, 0, 0.6) ;">
+                <div style="text-align: center; height : 80px; padding-top: 20px; padding-bottom: 0px;">
+                    <p class="mx-1" id="idlist" style="color:white;"></p>
+                    <p class="mx-1" id="alertMsg" style="color:white;"></p>
+                </div>
+                <div class="modal-footer" style="border-top: none ;">
+                    <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()"
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
+
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"
+        integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+
+        </script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+        integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+        </script>
+
+
+    <script th:inline="javascript">
+        // 아이디 유효성검사 (중복)
+        var idcheck = 0;
+        async function ajaxIDCheck(e) {
+            const id = document.querySelector('#id');
+            const value = e.value.trim(); // 입력된 값의 앞뒤 공백을 제거합니다.
+            const idLb = document.querySelector('#idLb');
+            if (value === '') {
+                idcheck = 0;
+                document.getElementById("id").classList.remove("is-valid");
+                document.getElementById("id").classList.remove("is-invalid");
+                idLb.style.color = "rgba(0, 0, 0, 0.01)";
+                idLb.innerText = "id사용 확인"; // 텍스트 초기화
+                return false;
+            }
+
+            const url = '/streampark/api/member/idcheck.json?id=' + e.value;
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.get(url, { headers });
+            console.log(data);
+            if (data.status === 1) {
+                idcheck = 0;
+                document.getElementById("id").classList.remove("is-valid");
+                document.getElementById("id").classList.add("is-invalid");
+                idLb.style.color = "red";
+                idLb.innerText = "이미 사용중인 ID입니다";
+                return false;
+            }
+            if (id.value.length <= 5) {
+                idcheck = 0;
+                document.getElementById("id").classList.remove("is-valid");
+                document.getElementById("id").classList.add("is-invalid");
+                idLb.style.color = "red";
+                idLb.innerText = "아이디는 6자 이상이어야 합니다.";
+                return false;
+            }
+            if (data.status === 0 && id.value.length >= 5) {
+                idcheck = 1;
+                document.getElementById("id").classList.remove("is-invalid");
+                document.getElementById("id").classList.add("is-valid");
+                idLb.style.color = "green";
+                idLb.innerText = "사용가능한 ID입니다";
+
+                return false;
+            }
+        }
+        function autoHypenTel(str) {
+            str = str.replace(/[^0-9]/g, '');
+            var tmp = '';
+
+            if (str.substring(0, 2) == 02) {
+                // 서울 전화번호일 경우 10자리까지만 나타나고 그 이상의 자리수는 자동삭제
+                if (str.length < 3) {
+                    return str;
+                } else if (str.length < 6) {
+                    tmp += str.substr(0, 2);
+                    tmp += '-';
+                    tmp += str.substr(2);
+                    return tmp;
+                } else if (str.length < 10) {
+                    tmp += str.substr(0, 2);
+                    tmp += '-';
+                    tmp += str.substr(2, 3);
+                    tmp += '-';
+                    tmp += str.substr(5);
+                    return tmp;
+                } else {
+                    tmp += str.substr(0, 2);
+                    tmp += '-';
+                    tmp += str.substr(2, 4);
+                    tmp += '-';
+                    tmp += str.substr(6, 4);
+                    return tmp;
+                }
+            } else {
+                // 핸드폰 및 다른 지역 전화번호 일 경우
+                if (str.length < 4) {
+                    return str;
+                } else if (str.length < 7) {
+                    tmp += str.substr(0, 3);
+                    tmp += '-';
+                    tmp += str.substr(3);
+                    return tmp;
+                } else if (str.length < 11) {
+                    tmp += str.substr(0, 3);
+                    tmp += '-';
+                    tmp += str.substr(3, 3);
+                    tmp += '-';
+                    tmp += str.substr(6);
+                    return tmp;
+                } else {
+                    tmp += str.substr(0, 3);
+                    tmp += '-';
+                    tmp += str.substr(3, 4);
+                    tmp += '-';
+                    tmp += str.substr(7);
+                    return tmp;
+                }
+            }
+
+            return str;
+        }
+        $('#telInput').keyup(function (event) {
+            event = event || window.event;
+            var _val = this.value.trim();
+            this.value = autoHypenTel(_val);
+        });
+
+        // 유효성 검사
+        async function signup() {
+
+            const listgender = $('input[name=gender]:checked').val();
+            const form = document.getElementById('form');
+            const id = document.querySelector('#id');
+            const pw = document.querySelector('#pw');
+            const chkpw = document.querySelector('#chkpw');
+            const name = document.querySelector('#name');
+            const phone = document.querySelector('#telInput');
+            const birth = document.querySelector('#birth');
+            const email = document.querySelector('#email');
+
+            if (!id.value || id.value.length <= 0) {
+                document.getElementById("alertMsg").innerText = '아이디를 입력하세요';
+                $('#alertModal').modal('show');
+                id.focus();
+                return false;
+            }
+            if (id.value.length <= 5) {
+                document.getElementById("alertMsg").innerText = '아이디는 6자 이상으로 하세요';
+                $('#alertModal').modal('show');
+                id.focus();
+                return false;
+            }
+            if (idcheck == 0) {
+                document.getElementById("alertMsg").innerText = '중복된 아이디 입니다';
+                $('#alertModal').modal('show');
+                id.focus();
+                return false;
+            }
+            if (!pw.value || pw.value.length <= 0) {
+                document.getElementById("alertMsg").innerText = '비밀번호를 입력하세요';
+                $('#alertModal').modal('show');
+                pw.focus();
+                return false;
+            }
+            if (pw.value.length <= 5) {
+                document.getElementById("alertMsg").innerText = '비밀번호는 6자 이상으로 하세요';
+                $('#alertModal').modal('show');
+                pw.focus();
+                return false;
+            }
+            if (!chkpw.value || chkpw.value.length <= 0) {
+                document.getElementById("alertMsg").innerText = '비밀번호 확인을 입력하세요';
+                $('#alertModal').modal('show');
+                chkpw.focus();
+                return false;
+            }
+            if (pw.value != chkpw.value) {
+                document.getElementById("alertMsg").innerText = '비밀번호 확인이 일치하지 않습니다';
+                $('#alertModal').modal('show');
+                chkpw.focus();
+                return false;
+            }
+            if (!name.value || name.value.length <= 0) {
+                document.getElementById("alertMsg").innerText = '이름을 입력하세요';
+                $('#alertModal').modal('show');
+                name.focus();
+                return false;
+            }
+            if (!phone.value || phone.value.length <= 0) {
+                document.getElementById("alertMsg").innerText = '휴대전화번호를 입력하세요';
+                $('#alertModal').modal('show');
+                phone.focus();
+                return false;
+            }
+            if (!birth.value || birth.value.length <= 0) {
+                document.getElementById("alertMsg").innerText = '생년월일을 입력하세요';
+                $('#alertModal').modal('show');
+                birth.focus();
+                return false;
+            }
+
+            if (!email.value || email.value.length <= 0) {
+                document.getElementById("alertMsg").innerText = '이메일을 입력하세요';
+                $('#alertModal').modal('show');
+                email.focus();
+                return false;
+            }
+            if (listgender == null) {
+                document.getElementById("alertMsg").innerText = '성별을 선택하세요';
+                $('#alertModal').modal('show');
+                return false;
+            }
+            form.submit();
+        }
+    </script>
+</body>
+
+</html>
