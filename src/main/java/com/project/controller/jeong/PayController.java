@@ -43,7 +43,17 @@ public class PayController {
     @PostMapping(value = "/update.do")
     public String updatePOST(@RequestParam(name = "grade") int grade) {
         log.info("updatepost -> {}", grade);
-        return "redirect:/jeong/index.do";
+        String id = (String) httpSession.getAttribute("id");
+        Member member = new Member();
+        member.setId(id);
+        member.setMembershipchk(BigInteger.valueOf(grade));
+        int ret = jService.updateMembership(member);
+        if (ret == 1) {
+            return "redirect:/jeong/index.do";
+
+        }else{
+            return "redirect:/jeong/index.do";
+        }
     }
 
     @PostMapping(value = "/pay.do")

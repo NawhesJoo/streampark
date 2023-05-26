@@ -130,4 +130,18 @@ public class JeongServiceImpl implements JeongService {
         }
     }
 
+    @Override
+    public int updateMembership(Member member) {
+        try {
+            Member obj = memRepository.findById(member.getId()).orElse(null);
+            obj.setMembershipchk(member.getMembershipchk());
+            log.info("updatemembership ->{}", obj);
+            memRepository.save(obj);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
 }

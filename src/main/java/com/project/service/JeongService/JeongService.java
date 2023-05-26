@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.project.entity.Fee;
+import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
 import com.project.repository.JeongRepositories.Projections.MemberProjection;
@@ -20,6 +21,9 @@ public interface JeongService {
     
     //Paychk 등록(멤버쉽)
     int insertPaychkToken(Paychk obj);
+
+    //멤버쉽 등급 변경(chk)
+    int updateMembership(Member member);
     
     //프로필 기본키로 프로필 가져오기
     Profile findProfileById(long profileno);
