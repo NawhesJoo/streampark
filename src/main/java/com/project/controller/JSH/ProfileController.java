@@ -1,6 +1,9 @@
 package com.project.controller.JSH;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.entity.Member;
 import com.project.entity.Profile;
 import com.project.mapper.JSH.ProfileMapper;
+import com.project.repository.MemberRepository;
 import com.project.repository.ProfileRepository;
 import com.project.repository.ProfileimgRepository;
 import com.project.service.JSH.ProfileService;
@@ -32,6 +36,7 @@ public class ProfileController {
     final String format = "ProfileContrller => {}";
     final ProfileService pService;
     final ProfileMapper pMapper;
+    final MemberRepository mRepository;
     final ProfileRepository pRepository;
     final ProfileimgRepository piRepository;
     final HttpSession httpSession;
@@ -46,8 +51,22 @@ public class ProfileController {
             try{
                 // String id = (String) session.getAttribute("id");
                 String id = "1";
+                // Member member = mRepository.findById(id).orElse(null);
+                
+                // BigInteger membershipchk = member.getMembershipchk();
+                // model.addAttribute("membershipchk", membershipchk);
+
+                // Date date = member.getRegdate();
+                // Calendar cal = Calendar.getInstance();
+                // cal.setTime(date);
+                // cal.add(Calendar.DATE,30);
+                // log.info("cal =>", cal.toString());
+                // log.info("date =>", date.toString());
+                
+
                 ArrayList<Profile> list = pService.selectprofile(id);
                 model.addAttribute("list", list);
+                
                 log.info("list => {}", list.toString());
                 session.removeAttribute("nickname");
                 session.removeAttribute("profileno");
