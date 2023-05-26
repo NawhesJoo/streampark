@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Document</title>
+</head>
+<body>
+    <h3>Watchlist Insert</h3>
+    <form th:action="@{/watchlist/insert.do}" method="post">
+        <input type="text" name="profile.profileno" placeholder="프로필번호" />
+        <input type="text" name="videolist.videocode" placeholder="비디오코드" />
+        <input type="submit" value="제출" />
+    </form>
+</body>
+</html>
