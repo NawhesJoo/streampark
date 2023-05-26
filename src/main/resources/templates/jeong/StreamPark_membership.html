@@ -327,6 +327,15 @@
                                     <input type="button" class="btn btn-warning" value="변경" onclick="change();">
                                 </div>
 
+                                <div id="google_recaptha">
+
+                                    <div class="g-recaptcha" data-sitekey="6LcUtD8mAAAAAIFCnfWJ7B1knP2JG2C94_rTUS5A">
+                                    </div>
+                                </div>
+                                <input type="button" value="확인용" onclick="chkcapcha()">
+                                <div>
+                                    <!-- <input type="hidden" id="g-recaptcha" name="g-recaptcha"> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -367,6 +376,8 @@
             </div>
         </div>
     </form>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <!-- <script src="https://www.google.com/recaptcha/api.js?render=6Lf6vT8mAAAAANKNISDxXMLhSZt8hKT1dLl-bdZ2"></script>     -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
@@ -379,8 +390,26 @@
         </script>
 
     <script th:inline="javascript">
+        // grecaptcha.ready(function () {
+        //     grecaptcha.execute('6Lf6vT8mAAAAANKNISDxXMLhSZt8hKT1dLl-bdZ2', { action: 'homepage' }).then(function (token) {
+        //         // 토큰을 받아다가 g-recaptcha 에다가 값을 넣어줍니다.
+        //         document.getElementById('g-recaptcha').value = token;
+        //     });
+        // });
+
+
+        function chkcapcha() {
+            if (grecaptcha.getResponse() == "") {
+                alert("리캡챠를 체크해야 합니다.");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+
         function change() {
-            if(!confirm('멤버쉽은 만료 이후 변경됩니다')){
+            if (!confirm('멤버쉽은 만료 이후 변경됩니다')) {
                 return;
             }
             var listVar = $('input[name=pricing]:checked').val();
@@ -397,176 +426,176 @@
         }
 
 
-            function requestPay(price, grade) {
-                // IMP.request_pay(param, callback) 결제창 호출
-                var IMP = window.IMP;
-                IMP.init("imp37613730");
+        function requestPay(price, grade) {
+            // IMP.request_pay(param, callback) 결제창 호출
+            var IMP = window.IMP;
+            IMP.init("imp37613730");
 
-                IMP.request_pay({ // param
-                    pg: "html5_inicis",
-                    pay_method: "card",
-                    merchant_uid: `/*[[${id}]]*/_${new Date().getTime()} `,
-                    name: "결제 테스트",
-                    amount: price,
-                    buyer_email: "gildong@gmail.com",
-                    buyer_name: "홍길동",
-                    buyer_tel: "010-0000-0000",
-                    buyer_addr: "대한민국 어딘가",
-                    buyer_postcode: "00000"
-                }, function (rsp) { // callback
-                    if (rsp.success) {
-                        // 결제 성공 시 로직
-                        console.log('결제성공' + rsp);
-                        const form = document.getElementById('payform');
-                        form.submit();
-
-
-                    } else {
-                        // 결제 실패 시 로직
-                        console.log('결제실패' + rsp);
-                        const form = document.getElementById('payform');
-                        form.submit();
-
-                    }
-                    console.log('test' + rsp);
-                });
-            }
-
-            function chkconfirm() {
-                // alert('chkconfirm');
-                // console.log('chkconfirm');
-                if (/*[[${ cal == -1} ]]*/) {
-                    //멤버십 유효기간 내
-                    alert('이미 멤버십을 사용중입니다.');
-                    window.location.href = /*[[@{/jeong/index.do}]]*/;
-                    return;
-
-                }
-                else if (/*[[${ cal == 0 or cal == 1}]]*/) {
-                    //멤버십 만료
-                    if (/*[[${token >=0 }]]*/) {
-                        if (confirm("이미 토큰이 있습니다 멤버십으로 전환 하시겠습니까?")) {
-
-                        }
-                        else {
-                            window.location.href = /*[[@{/jeong/index.do}]]*/;
-                            return;
-                        }
-                    }
-                }
-
-            }
-            function memberships() {
-                const grade = document.getElementById('membershipgrade');
-                const price = document.getElementById('membershipprice');
-
-                var radio = document.getElementsByName('memberships');
-
-                var chk = 0;
-
-                for (var i = 0; i < radio.length; i++) {
-                    if (radio[i].checked) {
-                        chk = i;
-                    }
-                }
-                console.log(chk + 1);
-                if (chk + 1 == 1) {
-                    //수정?
-                    grade.value = chk + 1;
-                    if (/*[[${ currentTokens * 100  > 9500 }]]*/) {
-                        price.value = 0;
-                    } else {
-                        price.value = 9500 - (/*[[${ currentTokens * 100 }]]*/);
-                    }
-
-                } else if (chk + 1 == 2) {
-                    grade.value = chk + 1;
-                    if (/*[[${ currentTokens * 100  > 12000 }]]*/) {
-                        price.value = 0;
-                    } else {
-                        price.value = 12000 - (/*[[${ currentTokens * 100 }]]*/);
-                    }
-                } else if (chk + 1 == 3) {
-                    grade.value = chk + 1;
-                    if (/*[[${ currentTokens * 100  > 14500 }]]*/) {
-                        price.value = 0;
-                    } else {
-                        price.value = 14500 - (/*[[${ currentTokens * 100 }]]*/);
-                    }
-                }
-                console.log(grade.value);
-                console.log(price.value);
-            }
-            function memberships1() {
-                const grade = document.getElementById('membershipgrade');
-                const price = document.getElementById('membershipprice');
-
-                var radio = document.getElementsByName('memberships');
-
-                var chk = 0;
-
-                for (var i = 0; i < radio.length; i++) {
-                    if (radio[i].checked) {
-                        chk = i;
-                    }
-                }
-                console.log(chk + 1);
-                if (chk + 1 == 1) {
-                    //수정?
-                    grade.value = chk + 1;
-
-                    price.value = 9500;
-
-
-                } else if (chk + 1 == 2) {
-                    grade.value = chk + 1;
-
-                    price.value = 12000;
-
-
-                } else if (chk + 1 == 3) {
-                    grade.value = chk + 1;
-                    price.value = 14500;
-                }
-                console.log(grade.value);
-                console.log(price.value);
-            }
-            function chkpay() {
-                if (/*[[token]]*/> 0) {
-                    if (confirm('토큰을 사용하시겠습니까? 토큰은 1개당 100원으로 계산합니다')) {
-                        memberships();
-                    } else {
-                        memberships1();
-                    }
-                }
-                else {
-                    memberships1();
-                }
-
-            }
-            function dopay() {
-                const grade = document.getElementById('membershipgrade');
-                const price = document.getElementById('membershipprice');
-                if (price.value < 1) {
+            IMP.request_pay({ // param
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: `/*[[${id}]]*/_${new Date().getTime()} `,
+                name: "결제 테스트",
+                amount: price,
+                buyer_email: "gildong@gmail.com",
+                buyer_name: "홍길동",
+                buyer_tel: "010-0000-0000",
+                buyer_addr: "대한민국 어딘가",
+                buyer_postcode: "00000"
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                    // 결제 성공 시 로직
+                    console.log('결제성공' + rsp);
                     const form = document.getElementById('payform');
                     form.submit();
-                } else {
-                    requestPay(price.value, grade.value);
-                }
-            }
-            function blockMemberships() {
-                const radio = document.getElementsByName('pricing');
 
-                if (/*[[${not #strings.isEmpty(grade)}]]*/) {
-                    const i =/*[[${grade-1}]]*/;
-                    radio[i].disabled = true;
+
                 } else {
+                    // 결제 실패 시 로직
+                    console.log('결제실패' + rsp);
+                    const form = document.getElementById('payform');
+                    form.submit();
 
                 }
+                console.log('test' + rsp);
+            });
+        }
+
+        function chkconfirm() {
+            // alert('chkconfirm');
+            // console.log('chkconfirm');
+            if (/*[[${ cal == -1} ]]*/) {
+                //멤버십 유효기간 내
+                alert('이미 멤버십을 사용중입니다.');
+                window.location.href = /*[[@{/jeong/index.do}]]*/;
+                return;
 
             }
-            // chkconfirm();
-            blockMemberships();
+            else if (/*[[${ cal == 0 or cal == 1}]]*/) {
+                //멤버십 만료
+                if (/*[[${token >=0 }]]*/) {
+                    if (confirm("이미 토큰이 있습니다 멤버십으로 전환 하시겠습니까?")) {
+
+                    }
+                    else {
+                        window.location.href = /*[[@{/jeong/index.do}]]*/;
+                        return;
+                    }
+                }
+            }
+
+        }
+        function memberships() {
+            const grade = document.getElementById('membershipgrade');
+            const price = document.getElementById('membershipprice');
+
+            var radio = document.getElementsByName('memberships');
+
+            var chk = 0;
+
+            for (var i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    chk = i;
+                }
+            }
+            console.log(chk + 1);
+            if (chk + 1 == 1) {
+                //수정?
+                grade.value = chk + 1;
+                if (/*[[${ currentTokens * 100  > 9500 }]]*/) {
+                    price.value = 0;
+                } else {
+                    price.value = 9500 - (/*[[${ currentTokens * 100 }]]*/);
+                }
+
+            } else if (chk + 1 == 2) {
+                grade.value = chk + 1;
+                if (/*[[${ currentTokens * 100  > 12000 }]]*/) {
+                    price.value = 0;
+                } else {
+                    price.value = 12000 - (/*[[${ currentTokens * 100 }]]*/);
+                }
+            } else if (chk + 1 == 3) {
+                grade.value = chk + 1;
+                if (/*[[${ currentTokens * 100  > 14500 }]]*/) {
+                    price.value = 0;
+                } else {
+                    price.value = 14500 - (/*[[${ currentTokens * 100 }]]*/);
+                }
+            }
+            console.log(grade.value);
+            console.log(price.value);
+        }
+        function memberships1() {
+            const grade = document.getElementById('membershipgrade');
+            const price = document.getElementById('membershipprice');
+
+            var radio = document.getElementsByName('memberships');
+
+            var chk = 0;
+
+            for (var i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    chk = i;
+                }
+            }
+            console.log(chk + 1);
+            if (chk + 1 == 1) {
+                //수정?
+                grade.value = chk + 1;
+
+                price.value = 9500;
+
+
+            } else if (chk + 1 == 2) {
+                grade.value = chk + 1;
+
+                price.value = 12000;
+
+
+            } else if (chk + 1 == 3) {
+                grade.value = chk + 1;
+                price.value = 14500;
+            }
+            console.log(grade.value);
+            console.log(price.value);
+        }
+        function chkpay() {
+            if (/*[[token]]*/> 0) {
+                if (confirm('토큰을 사용하시겠습니까? 토큰은 1개당 100원으로 계산합니다')) {
+                    memberships();
+                } else {
+                    memberships1();
+                }
+            }
+            else {
+                memberships1();
+            }
+
+        }
+        function dopay() {
+            const grade = document.getElementById('membershipgrade');
+            const price = document.getElementById('membershipprice');
+            if (price.value < 1) {
+                const form = document.getElementById('payform');
+                form.submit();
+            } else {
+                requestPay(price.value, grade.value);
+            }
+        }
+        function blockMemberships() {
+            const radio = document.getElementsByName('pricing');
+
+            if (/*[[${not #strings.isEmpty(grade)}]]*/) {
+                const i =/*[[${grade-1}]]*/;
+                radio[i].disabled = true;
+            } else {
+
+            }
+
+        }
+        // chkconfirm();
+        blockMemberships();
 
     </script>
 </body>
