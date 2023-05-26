@@ -1,0 +1,160 @@
+@charset "UTF8";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+
+* {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+body {
+    max-height: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("../../images/KSH/donald-duck-4985121.jpg");
+}
+
+/* 타이틀 */
+.mainTitleSec {
+    padding-top: 100px;
+    padding-bottom: 20px;
+}
+
+.mainTitleSec .mainTitle {
+    font-size: 50px;
+    color: #EFC900;
+    font-weight: 600;
+}
+
+/* 네비게이션 */
+.navSec {
+
+    color: white;
+    display: inline-flex;
+    padding-bottom:30px;
+}
+
+.navSec a {
+    color: white;
+    text-decoration-line: none;
+    margin-right: 15px;
+}
+.navSec a.on{
+    color: #EFC900;
+  }
+.navSec a:hover{
+    color: #EFC900;
+}
+
+.navSec p {
+    margin-bottom: 0px;
+    margin-right: 15px;
+}
+
+/* 메인 */
+
+.mainSec .main{
+    max-width: 330px;
+   
+}
+
+.inputSection {
+    padding-left: 30px;
+}
+
+.mainSec .form-control {
+    border-color: rgba(92, 85, 48, 0.6);
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 300px;
+    color: #EFC900;
+}
+.mainSec .form-control:focus{
+    border-color: #EFC900;
+	box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+}
+
+.mainSec label {
+    color: #EFC900;
+
+}
+
+.mainSec h3 {
+    color: #EFC900;
+
+}
+
+.mainSec hr {
+    border-color: rgba(239, 201, 0, 1);
+    height: 2px;
+    width: 100px;
+}
+form{
+    padding-top: 10px;
+}
+
+.form-check-input{
+    background-color: black;
+    border-color: #EFC900;
+}
+.form-check-input:focus{
+    border-color: #EFC900;
+	box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+}
+.form-check-input:checked {
+    background-color: #EFC900;
+    border-color: #EFC900;
+}
+
+/* 버튼 폰트 */
+.main .btn{
+    margin-top: 10px;
+    font-weight: 600;
+}
+.main .submit{
+    display: flex;
+    justify-content: flex-end;
+}
+.modal h5 {
+    color: #EFC900;
+}
+.modal .modal-body {
+    color: white;
+}
+footer{
+    padding-left: 30px;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 330px;
+}
+footer a{
+    text-decoration-line: none;
+    color: #EFC900;
+}
+footer a:hover{
+    color: rgba(239, 201, 0, 0.6);
+}
+
+/* 입력[type=date] 요소 선택 */
+input[type="date"] {
+    /* 기본 화살표 아이콘 숨김 */
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    /* 배경 이미지를 사용하여 사용자 정의 아이콘 추가 */
+    background-repeat: no-repeat;
+    background-position: right center;
+    /* 아이콘을 위한 여백 조정 */
+    padding-right: 10px;
+  }
+  
+/* 아이콘 스타일링 */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    /* 아이콘 색상 설정 */
+    color: red; /* 원하는 색상으로 변경 */
+    background-color: #EFC900;
+    border-radius: 50%;
+    /* 아이콘의 크기와 위치 조정 */
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+  }
+
