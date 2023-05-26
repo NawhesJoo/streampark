@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Data;
 import lombok.ToString;
@@ -28,6 +28,7 @@ public class Reviewlikes {
 
     private BigInteger profileno;
 
+    @ColumnDefault("0")
     private BigInteger chklikes;   
 
     // private BigInteger review_no;

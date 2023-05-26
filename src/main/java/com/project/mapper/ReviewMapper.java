@@ -20,5 +20,6 @@ public interface ReviewMapper {
 
     // 일정 개수의 신고를 받으면 삭제
     public int reviewreportdelete(long review_no);
+
     
 }
