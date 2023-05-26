@@ -125,7 +125,9 @@ p {
 #layoutTotal {
     display: flex;
 }
-
+#formsearch{
+    margin-left: auto;
+}
 #layoutTotal #layoutLeftSide {
     flex-basis: 225px;
     flex-shrink: 0;
