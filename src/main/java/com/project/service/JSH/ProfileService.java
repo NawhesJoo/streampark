@@ -1,7 +1,7 @@
 package com.project.service.JSH;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public interface ProfileService {
     public Profiledto loginProfile(@Param("nickname") String nickname, @Param("profilepw") String profilepw);
 
     //프로필 정보 가져오기
-    public List<Profile> selectprofile(@Param("id") String id);
+    public ArrayList<Profile> selectprofile(@Param("id") String id);
     
     // 닉네임으로 프로필 가져오기
     public Profile findByNickname(String nickname);

@@ -1,23 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h3>프로필 삭제</h3>
-    <form th:action="@{/mypage/delete.do}" method="post">
-        닉네임: <input type="text" name="nickname" th:value="${session.nickname}" placeholder="nickname"readonly/><br />
-        암호: <input type="password" name="profilepw" placeholder="암호" required/><br />
-        <input type="submit" value="삭제">
+<h3>프로필 삭제</h3>
+<form th:action="@{/mypage/delete.do}" method="post" id="deleteForm">
+    닉네임: <input type="text" name="nickname" id="nickname" th:value="${session.nickname}" placeholder="nickname" readonly/><br />
+    <!-- profilepwchk가 true인 경우에만 암호 입력 필드 추가 -->
+    <div th:if="${profilepwchk}">
+        암호: <input type="password" name="profilepw" id="profilepw" placeholder="암호" required/><br />
+    </div>
+    <div th:unless="${profilepwchk}">
+        <input type="hidden" name="profilepw" id="profilepw" />
+    </div>
+    <button type="button" th:onclick="confirmDelete()">삭제</button>
+</form>
+<a th:href="@{/mypage/updatenickname.do}"><button>돌아가기</button></a>
 
-        <script th:if="${error}">
-            alert("암호가 일치하지 않습니다."); // 알림창에 알림 메시지 표시
-        </script>
-    </form>
-    <a th:href="@{/mypage/updatenickname.do}"><button>돌아가기</button></a>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script th:inline="javascript">
 
-</body>
-</html>
+    function confirmDelete() {
+        const confirmed = confirm("모든 정보가 삭제되고, 복구할 수 없습니다. 프로필을 삭제하시겠습니까?");
+        if (confirmed) {
+            deleteProfile();
+        }
+    }
+
+    async function deleteProfile() {
+        const nickname = document.getElementById('nickname').value;
+        const profilepw = document.getElementById('profilepw').value;
+        // http://127.0.0.1:9090/streampark/api/profile/nickname.do?nickname=12
+
+        let url = /*[[@{/api/profile/profilepw.do}]]*/"";
+
+        url += "?nickname=" + nickname + "&profilepw=" + profilepw;
+        console.log(url);
+
+        const headers = {"Content-Type":"application/json"};
+        const { data } = await axios.get(url, { headers:headers });
+
+        if(data.result === 1){
+            alert("프로필이 삭제되었습니다.");
+            document.getElementById('deleteForm').submit();
+        }
+        else if(data.result === 0){
+            alert("암호가 일치하지 않습니다.");
+        }
+        else{
+            alert(data.message);
+        }
+    }
+</script>

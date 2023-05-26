@@ -1,6 +1,6 @@
 package com.project.controller.JSH;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
@@ -39,12 +39,14 @@ public class ProfileController {
 
 
     // 프로필 선택창
+    // paychk에서 가장 최신의 M(멤버쉽)하나를 가져와서 regdate 만료 확인(+ 30일)
+    // 현재 멤버쉽은 GRADE 값
     @GetMapping(value = "/profilelist.do")
         public String profilelistGET(Model model, HttpSession session){
             try{
                 // String id = (String) session.getAttribute("id");
                 String id = "1";
-                List<Profile> list = pService.selectprofile(id);
+                ArrayList<Profile> list = pService.selectprofile(id);
                 model.addAttribute("list", list);
                 log.info("list => {}", list.toString());
                 session.removeAttribute("nickname");

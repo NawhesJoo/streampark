@@ -1,7 +1,7 @@
 package com.project.service.JSH;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public List<Profile> selectprofile(String id) {
+    public ArrayList<Profile> selectprofile(String id) {
        return pRepository.findByMember_id(id);
     }
     

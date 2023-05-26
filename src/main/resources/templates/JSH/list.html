@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로필 선택</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h3>프로필 목록<h3>
@@ -12,7 +17,7 @@
     <table>
         <tr th:each="obj : ${list}">
             <a th:href="@{/profile/login.do(nickname=${obj.nickname})}">
-                    <span th:text="${obj.nickname}"></span>
+                <span th:text="${obj.nickname}"></span>
             </a>
         </tr>
     </table>

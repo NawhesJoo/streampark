@@ -50,7 +50,14 @@ public class ProfileMypageController {
     
     // 닉네임 변경
     @GetMapping(value = "/updatenickname.do")
-        public String updatenicknameGET(){
+        public String updatenicknameGET(HttpSession session, Model model){
+            String nickname = (String) session.getAttribute("nickname");
+            Profile profile = pRepository.findByNickname(nickname);
+            String profilepw = profile.getProfilepw();
+            model.addAttribute("profilepw", profilepw);        
+            if (profile.getProfilepw() != null){
+                model.addAttribute("profilepwchk", true);
+            }
             return "/JSH/mypage";
         }
 
@@ -65,6 +72,7 @@ public class ProfileMypageController {
             String nickname = (String) session.getAttribute("nickname");
                 
             Profile profile = pRepository.findByNickname(nickname);
+            
             log.info("Profile => {}", profile.toString());
         try {
             profile.setNickname(newnickname);
@@ -127,49 +135,17 @@ public class ProfileMypageController {
 
     // 프로필 삭제
     @GetMapping(value = "/delete.do")
-    public String deleteGET(HttpSession session){
+    public String deleteGET(HttpSession session, Model model){
     String nickname = (String) session.getAttribute("nickname");
     Profile profile = pRepository.findByNickname(nickname);
-    if(profile.getProfilepw() != null){
-        return "/JSH/delete";
+    if (profile.getProfilepw() != null){
+        model.addAttribute("profilepwchk", true);
     }
-    return "redirect:/mypage/deleteNoPw.do";
+    return "/JSH/delete";
     }
 
-    // 암호 있을 때
+
     @PostMapping(value = "/delete.do")
-    public String deletePOST(HttpSession session, Model model,
-            @RequestParam("profilepw") String profilepw,
-            @RequestParam("newprofilepw") String newprofilepw){
-            String nickname = (String) session.getAttribute("nickname");
-            Profile profile1 = pRepository.findByNickname(nickname);
-        try{
-            if(bcpe.encode(profilepw) == profile1.getProfilepw()){
-            pMapper.deleteProfile(nickname, profilepw);
-            pRepository.save(profile1);
-            session.removeAttribute("nickname");
-            return "redirect:/profile/profilelist.do";
-            }
-            if (!bcpe.encode(profilepw).equals(profile1.getProfilepw())) {
-                model.addAttribute("error", "암호가 일치하지 않습니다.");
-                return "/JSH/delete";
-            }
-            return "/JSH/delete";
-        } catch (Exception e){
-            e.printStackTrace();
-            return "redirect:/profile/delete.do";
-        }
-    }
-
-
-    // 암호가 없을 때
-    @GetMapping(value ="/deleteNoPw.do")
-    public String deleteNoPwGET(HttpSession session){
-        session.getAttribute("nickname");
-        return "/JSH/deleteNoPw";
-    }
-
-    @PostMapping(value = "/deleteNoPw.do")
     public String deleteNoPwPOST(HttpSession session){
         try{
             String nickname = (String) session.getAttribute("nickname");
