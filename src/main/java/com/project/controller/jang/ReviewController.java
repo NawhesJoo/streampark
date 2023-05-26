@@ -27,6 +27,31 @@ public class ReviewController {
     final BigInteger profileno2 = BigInteger.valueOf(6);
     final ReviewRepository rRepository;
 
+    @PostMapping(value = "/selectlistorderbylikes.do")
+    public String selectlikes() {
+        try {  
+            return "redirect:/review/selectlist.do";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    @GetMapping(value = "/selectlistorderbylikes.do")
+    public String selectlikes(Model model, @RequestParam(name = "likes") BigInteger likes) {
+        try {
+            log.info(format, likes);
+            List<Review> list = rRepository.findAllByOrderByLikesDesc();
+            model.addAttribute("list", list);
+            return "/jang/review/selectlistorderbylikes";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
     @PostMapping(value = "/update.do")
     public String updatePOST(@ModelAttribute Review review) {
         try {
@@ -80,9 +105,8 @@ public class ReviewController {
 
     // 127.0.0.1:9090/streampark/review/selectlist.do
     @GetMapping(value = "/selectlist.do")
-    public String selectlistGET(@ModelAttribute Review review, Model model) {
+    public String selectlistGET(@RequestParam(name = "videocode", required = false) BigInteger videocode, @ModelAttribute Review review, Model model) {
         try {
-            // log.info(format, review.toString());
             List<Review> list = rRepository.findAllByOrderByRegdateDesc();
             model.addAttribute("list", list);
             return "/jang/review/selectlist";

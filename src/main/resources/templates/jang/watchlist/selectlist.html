@@ -9,7 +9,8 @@
 <body>
     <h3>Watchlist List</h3>
     <button th:onclick="formAction1(1)">일괄삭제</button>
-    <a th:href="@{/watchlist/insert.do}">시청목록 추가</a>
+    <a th:href="@{/watchlist/insert.do}"><button type="button">시청목록 추가</button></a>
+    <a th:href="@{/review/selectlist.do}"><button type="button">전체 리뷰보기</button></a>
     <form th:action="@{/watchlist/selectlist.do}" method="post" id="form">
         <table border="1">
             <thead>

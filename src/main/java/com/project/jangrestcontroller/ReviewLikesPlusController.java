@@ -4,17 +4,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.entity.Review;
 import com.project.mapper.ReviewMapper;
 import com.project.repository.JangRepositories.ReviewRepository;
 
@@ -32,12 +28,6 @@ public class ReviewLikesPlusController {
     final ReviewRepository rRepository;
     final BigInteger profileno = BigInteger.valueOf(6);
 
-    @GetMapping(value="likesmanysort.json")
-    public List<Review> likesmanysort(@RequestParam(name = "likes") BigInteger likes) {
-        List<Review> list = rRepository.findAllByOrderByLikesDesc();
-        return list;
-      
-    }  
 
     @PutMapping(value="/reportplus.json")
     public Map<String, Object> reportpluscntPUT(@RequestBody Map<String, Object> recvMap) {
