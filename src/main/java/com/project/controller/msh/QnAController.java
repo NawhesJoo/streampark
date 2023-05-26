@@ -76,13 +76,12 @@ public class QnAController {
     }
 
     // 내가 쓴 문의글 조회
-    @ResponseBody
     @GetMapping(value = "/selectone.do")
-    public String selectoneGET(Model model, @RequestParam(name = "no") Long no) {
+    public String selectoneGET(Model model,@RequestParam(name = "no") Long no) {
         try {
             httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
             Long profileno = (Long) httpSession.getAttribute("profileno");
-            // log.info("profileno = {}", profileno);
+            log.info("profileno = {}", profileno);
     
 
             Board obj = new Board();
@@ -104,10 +103,20 @@ public class QnAController {
         if (no == 0) { // 번호 없으면 다시 목록으로 돌아감
             return "redirect:selectlist.do";
         }
-        // Board board = qnaService.selectoneBoard(no); // no에 맞는 글 조회
-        // log.info("QnAUpdate of selectone = {}", board); //수정화면으로 넘어와서의 board값
+        httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
+        Long profileno = (Long) httpSession.getAttribute("profileno");
+        log.info("profileno = {}", profileno);
 
-        // model.addAttribute("board", board); // "board"에 조회된 board를 담아서 update.html로 보냄
+
+        Board obj = new Board();
+        obj.setNo(no);
+        obj.setProfileno(profileno);
+        // log.info("QnASelectone = {}", obj.toString());
+        
+        Board board = qnaService.selectoneBoard(obj); // no에 맞는 글 조회
+        log.info("QnAUpdate of selectone = {}", board); //수정화면으로 넘어와서의 board값
+
+        model.addAttribute("board", board); // "board"에 조회된 board를 담아서 update.html로 보냄
         return "/msh/update";
     }
     @PostMapping(value = "/update.do")
