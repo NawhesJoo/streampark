@@ -1,4 +1,4 @@
-package com.project.repository.KDH;
+package com.project.repository;
 
 import java.math.BigInteger;
 

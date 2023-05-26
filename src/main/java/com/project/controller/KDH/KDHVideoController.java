@@ -28,8 +28,8 @@ import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
-import com.project.repository.KDH.VideoimgRepository;
-import com.project.repository.KDH.videolistRepository;
+import com.project.repository.VideoimgRepository;
+import com.project.repository.videolistRepository;
 import com.project.service.KDH.DHService;
 
 import lombok.RequiredArgsConstructor;

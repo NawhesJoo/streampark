@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.entity.Profile;
-import com.project.repository.JeongRepositories.Projections.MemberProjection;
+import com.project.repository.Projections.MemberProjection;
 import com.project.service.JeongService.JeongService;
 
 import lombok.RequiredArgsConstructor;
