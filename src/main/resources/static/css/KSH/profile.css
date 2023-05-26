@@ -111,15 +111,6 @@ hr{
 .filebox label:hover {
     opacity: 0.8;
 }
-.filebox input[type="file"] {  /* 파일 필드 숨기기 */
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip:rect(0,0,0,0);
-    border: 0;
-}
 
   /*프로필 이미지 추가 plus */
 .filebox label svg {
