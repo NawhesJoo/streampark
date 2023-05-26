@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,18 +11,79 @@
 <body>
     <h2>1:1문의글 작성</h2>
     <div>
-        <form th:action="@{/qna/insert.do}" method="post">
+        <form id="insertForm" th:action="@{/qna/insert.do}" method="post">
             <input type="text" name="profileno" value="87" /><br /> <!-- 임시로 87번으로 함 -->
-            <input type="text" id="title" maxlength='30' name="title" placeholder="제목을 입력하세요">최대 30자
-            <input type="password" id="password" name="password" maxlength='6'  value="1" placeholder="비밀번호">최대 6자<br />
+            <input type="text" id="title" maxlength='30' name="title" placeholder="제목을 입력하세요">
+            <input type="password" id="password" name="password" maxlength='6' value="1" placeholder="비밀번호" /><br />
             <div id="content_div">
                 <textarea class="form-control" style="height:100%; width:100%;" maxlength='1000' id="content"
                     name="content"></textarea>
             </div>
-            <input type="submit" value="작성" /> <!-- DB에 저장 잘됨 -->
+            <input type="button" id="insert" onclick="insertQnA()" value="작성"/> <!-- DB에 저장 잘됨 -->
             <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">취소</button> <!-- 작동 잘됨 -->
         </form>
     </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        function insertQnA() {
+            var title = $("#title").val()
+            var content = $("#content").val()
+            var pw = $("#password").val();
+            var num = pw.search(/[0-9]/g);
+            var eng = pw.search(/[a-z]/ig);
+            var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            // var form = document.getElementById("insertForm");
+            if (title.length <= 0) {
+                alert('제목을 입력하세요.');
+                title.focus();
+                return false; // 함수 종료, 전송하지 않음
+            }
+            if (content.length <= 0) {
+                alert('내용을 입력하세요.');
+                content.focus();
+                return false; // 함수 종료, 전송하지 않음
+            }
+            if (pw.length < 1 || pw.length > 15) { //일단 1고정
+                alert("4~15자로 입력해주세요.");
+                return false;
+            // } else if (pw.search(/\s/) != -1) {
+            //     alert("비밀번호는 공백 없이 입력해주세요.");
+            //     return false;
+            // } else if (num < 0 || eng < 0 || spe < 0) {
+            //     alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+            //     return false;
+            } else {
+                console.log("통과");
+            }
+            $("#insertForm").submit();
+        }
+
+        // function chkPW() {
+
+        //     var pw = $("#password").val();
+        //     var num = pw.search(/[0-9]/g);
+        //     var eng = pw.search(/[a-z]/ig);
+        //     var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+        //     if (pw.length < 8 || pw.length > 20) {
+
+        //         alert("8자리 ~ 20자리 이내로 입력해주세요.");
+        //         return false;
+        //     } else if (pw.search(/\s/) != -1) {
+        //         alert("비밀번호는 공백 없이 입력해주세요.");
+        //         return false;
+        //     } else if (num < 0 || eng < 0 || spe < 0) {
+        //         alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+        //         return false;
+        //     } else {
+        //         console.log("통과");
+        //         return true;
+        //     }
+
+        // }
+
+    </script>
 </body>
 
 </html>

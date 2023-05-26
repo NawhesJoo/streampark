@@ -78,8 +78,9 @@ public class QnAController {
     @GetMapping(value = "/selectone.do")
     public String selectoneGET(Model model,@RequestParam(name = "no") Long no) {
         try {
-            httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
-            Long profileno = (Long) httpSession.getAttribute("profileno");
+            // httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
+            // Long profileno = (Long) httpSession.getAttribute("profileno");
+            Long profileno = 87L;
             log.info("profileno = {}", profileno);
 
             Board obj = new Board();
@@ -103,14 +104,15 @@ public class QnAController {
         }
     }
 
-    // 문의글 수정
+    // 문의글 수정 GET
     @GetMapping(value = "/update.do")
     public String updateGET(@RequestParam(name = "no", defaultValue = "0", required = false) Long no, Model model) {
         if (no == 0) { // 번호 없으면 다시 목록으로 돌아감
             return "redirect:selectlist.do";
         }
-        httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
-        Long profileno = (Long) httpSession.getAttribute("profileno");
+         // httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
+            // Long profileno = (Long) httpSession.getAttribute("profileno");
+            Long profileno = 87L;
         log.info("profileno = {}", profileno);
 
 
@@ -125,6 +127,7 @@ public class QnAController {
         model.addAttribute("board", board); // "board"에 조회된 board를 담아서 update.html로 보냄
         return "/msh/update";
     }
+    // 문의글 수정 POST
     @PostMapping(value = "/update.do")
     public String updatePOST(@ModelAttribute Board board) {
         int ret = qnaService.updateBoard(board);

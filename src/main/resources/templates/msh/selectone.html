@@ -50,6 +50,7 @@
 </head>
 
 <body>
+    <!-- 게시글 -->
     <h3>게시글상세</h3>
     NO. : <label th:text="${board.no}"></label><br />
     제목 : <label th:text="${board.title}"></label><br />
@@ -60,6 +61,21 @@
     <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">목록으로</button>
     <input type="button" value="수정" id="updateBtn" />
     <input type="button" value="삭제" id="deleteBtn" />
+
+    <!-- 답글 -->
+	<div class="card my-4">
+		<h5 class="card-header">답변</h5>
+		<div class="card-body">
+			<form name="comment-form" action="/board/comment/write" method="post" autocomplete="off">
+				<div class="form-group">
+					<input type="hidden" name="idx" th:value="*{idx}" />
+					<textarea name="content" class="form-control" rows="3"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</div>
+
 
     <!-- 수정모달 -->
     <div id='modal1'>
@@ -141,36 +157,7 @@
                 modal2.style.display = "none";
             }
         }
-        // 비밀번호 입력칸에서 값을 가져오는 함수
-        // function getPassword() {
-        //     return document.getElementById('passwordInput').value; // 모달에서 비밀번호 입력값을 ID를 사용하여 값을 가져옴
-        // }
-        // 게시글 수정
-        // Ajax 요청 보내기
-        // function updateCheck() {
-        //     var password = $('#passwordInput').val(); //passwordInput에 입력받은 값을 password로 지정
-        //     $.ajax({
-        //         url: '/update.do', // 비밀번호를 체크할 서버의 컨트롤러 경로 delete인지 selectone 인지
-        //         method: 'POST',
-        //         data: { password }, //: getPassword()
-        //         success: function (result) { // 정상적으로 응답 받았을 경우
-        //             // 비밀번호 체크에 대한 응답 처리
-        //             if (result == true) {
-        //                 alert("일치");
-        //             } else {
-        //                 alert("비밀번호가 일치하지 않습니다.");
-        //             }
-        //         },
-        //         error: function (error) {
-        //             console.log(error);
-        //         }
-        //     });
-        // }
-
-        // function deleteQna() {
-
-        //     window.location.href = '/delete.do';
-        // }
+        
     </script>
 </body>
 
