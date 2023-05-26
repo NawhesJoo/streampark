@@ -16,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,6 +54,9 @@ public class Videolist {
     @Lob
     private String linkurl;
 
+    //임시변수
+    @Transient
+    private Long imgno;
     // 연결
 
     //출연진

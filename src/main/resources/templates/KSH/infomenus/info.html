@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>STREAM PARK</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- 1. 부트스트렙용 css CDN 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/KSH/info.css}'>
+    <!-- 부트스트렙용 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class=" col-9 ">
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <div class="mainTitleSec">
+                            <h1 class="mainTitle">STREAM PARK</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <div class="navSec navbar">
+                            <a th:href="@{/member/info.do?menu=1}">내 정보 수정</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=2}">비밀 번호 수정</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=3}">회원 탈퇴</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=4}">요금제 가입</a>
+                            <p>-</p>
+                            <a th:href="@{/member/info.do?menu=5}">요금제 변경</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col d-flex justify-content-center">
+                        <div class="mainSec">
+                            <div th:switch="${menu}">
+                                <div class="main" th:case="1" th:include="/KSH/infomenus/case1" id="case1"></div>
+                                <div class="main" th:case="2" th:include="/KSH/infomenus/case2" id="case2"></div>
+                                <div class="main" th:case="3" th:include="/KSH/infomenus/case3" id="case3"></div>
+                                <div th:case="4" th:include="/KSH/infomenus/case4" id="case4"></div>
+                                <div th:case="5" th:include="/KSH/infomenus/case5" id="case5"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <footer>
+                            <a th:href="@{/member/select.do}">프로필 선택으로</a>
+                            <a th:href="@{/member/logout.do}">로그아웃</a>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+            <!-- 변경 완료 모달 -->
+            <div class="modal fade" id="myInfoChangedModal" tabindex="-1" role="dialog"
+                aria-labelledby="myInfoChangedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content " style="background-color: black; border-color: rgba(239, 201, 0, 0.6) ;">
+                        <div class="modal-header" style="border-bottom: none ;">
+                            <h5 class="modal-title" id="myInfoChangedModalLabel">정보 변경 완료</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p id="myInfoChangedMSG">
+
+                            </p>
+                        </div>
+                        <div class="modal-footer" style="border-top: none ;">
+                            <button type="button" id="closeModal" class="btn btn-secondary"
+                                data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        // 모달 close를 누를 때 창이 세로고침되는 스크립트
+        function reload() {
+            location.reload();
+        }
+        if (performance.navigation.type === 1) {
+            const newURL = removeQueryParameter(window.location.href, 'myInfoChanged');
+            window.history.replaceState({}, document.title, newURL);
+        }
+
+        function removeQueryParameter(url, param) {
+            const urlParts = url.split('?');
+            if (urlParts.length >= 2) {
+                const queryParameters = urlParts[1].split('&');
+                const updatedParameters = queryParameters.filter(function (queryParam) {
+                    return !queryParam.startsWith(param + '=');
+                });
+                if (updatedParameters.length > 0) {
+                    return urlParts[0] + '?' + updatedParameters.join('&');
+                } else {
+                    return urlParts[0];
+                }
+            } else {
+                return url;
+            }
+        }
+
+        $(document).ready(function () {
+            // URL 매개변수에서 passwordChanged 값 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            const myInfoChanged = urlParams.get('myInfoChanged');
+            const closeModal = document.querySelector('#closeModal');
+            const myInfoChangedMSG = document.querySelector('#myInfoChangedMSG');
+
+            if (myInfoChanged === 'true') {
+                // 비밀번호 변경이 완료되었을 경우 모달 자동으로 표시
+                document.getElementById('myInfoChangedMSG').innerText = '정보가 성공적으로 변경되었습니다.';
+                $('#myInfoChangedModal').modal('show');
+            }
+            if (myInfoChanged === 'false') {
+                // 비밀번호 변경이 완료되었을 경우 모달 자동으로 표시
+                document.getElementById('myInfoChangedMSG').innerText = '정보가 변경에 실패했습니다.';
+                $('#myInfoChangedModal').modal('show');
+            }
+            closeModal.addEventListener('click', function () {
+                $('#myInfoChangedModal').modal('hide');
+            });
+
+        });
+    </script>
+</body>
+
+</html>

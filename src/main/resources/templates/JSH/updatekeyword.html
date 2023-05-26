@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form th:action="@{/mypage/updatekeyword.do}" method="post" id="myForm">
+        <label for="exampleFormControlInput1" class="form-label">관심 키워드</label>
+        <select class="form-select SearchSLC" name="keyword" id="keyword">
+            <option value="애니">애니</option>
+            <option value="액션">액션</option>
+            <option value="범죄">범죄</option>
+            <option value="멜로">멜로</option>
+            <option value="SF">SF</option>
+            <option value="판타지">판타지</option>
+            <option value="코미디">코미디</option>
+            <option value="로멘스">로멘스</option>
+            <option value="버라이어티">버라이어티</option>
+        </select>
+        <br />
+        <button type="button" onclick="confirmChange()">변경</button>
+        <a th:href="@{/mypage/updatenickname.do}"><button>취소</button></a>
+    </form>                 
+
+    <script>
+        function confirmChange() {
+            if (confirm("변경하시겠습니까?")) {
+                document.getElementById('myForm').submit(); // form을 submit
+            }
+        }
+    </script>
+</body>
+</html>

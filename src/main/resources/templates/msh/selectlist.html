@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1:1문의</title>
+</head>
+<body>
+    <h2>1:1문의</h2>
+
+    <button type="button" th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button>
+    <form>
+        <table>
+            <thead>
+                <tr>
+                    <th>NO.</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>처리상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="obj : ${list} "> <!--  model.addAttribute("list", list)에서 보낸 "list"를 ${}로 받아옴 -->
+                    <td th:text="${obj.no}"></td>
+                    <td><a th:href="@{/qna/selectone.do(no=${obj.no})}" th:text="${obj.title}"></a></td>
+                    <td th:text="${obj.profile.nickname}"></td>
+                    <td th:text="${#dates.format(obj.regdate, 'yyyy-MM-dd')}"></td>
+                    <td th:if="${obj.qnareply.size()>=1}">답변완료</td>
+                    <td th:if="${obj.qnareply.size()<=1}">미답변</td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>

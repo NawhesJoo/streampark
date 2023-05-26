@@ -16,6 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -48,10 +49,12 @@ public class Member {
     private Date regdate;
 
     // 프로필
+    @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Profile> profile = new ArrayList<>();
 
     // 결제 내역
+    @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Paychk> paychk = new ArrayList<>();
 
