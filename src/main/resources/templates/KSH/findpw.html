@@ -39,7 +39,7 @@
             <div class="col">
                 <div class="findIdInput">
                     <div>
-                        <input class="joinF form-control" id="email" value="1@s.df" name="email" type="email"
+                        <input class="joinF form-control" id="email" name="email" type="email"
                             placeholder="email">
                         <input class="joinF form-control" id="id" name="id" type="text" placeholder="id">
                         <input class="joinF form-control" id="name" name="name" type="text" placeholder="name">
@@ -81,7 +81,8 @@
                     <div class="modal-footer" style="border-top: none ;">
                         <button type="button" id="pwchange" class="me-2 btn btn-sm btn-warning"
                             data-bs-target="#exampleModalToggle2" hidden data-bs-toggle="modal">비밀번호 변경</button>
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" th:onclick="reload()">Close</button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"
+                            th:onclick="reload()">Close</button>
                     </div>
                 </div>
             </div>
@@ -108,7 +109,8 @@
                             </div>
                             <input class="joinF dsf form-control mb-2" id="changePw" name="changePw" type="text"
                                 placeholder="변경할 비밀번호">
-                            <input class="joinF dsf form-control mb-2" id="changePwChk" type="text" placeholder="변경할 비밀번호 확인">
+                            <input class="joinF dsf form-control mb-2" id="changePwChk" type="text"
+                                placeholder="변경할 비밀번호 확인">
                         </form>
                     </div>
                     <div class="modal-footer" style="border-top: none ;">
@@ -157,11 +159,11 @@
             crossorigin="anonymous" referrerpolicy="no-referrer">
             </script>
         <script th:inline="javascript">
+            function reload() {
+                location.reload();
+            }
             $(document).ready(function () {
 
-                function reload() {
-                    location.reload();
-                }
 
                 if (performance.navigation.type === 1) {
                     const newURL = removeQueryParameter(window.location.href, 'passwordChanged');
@@ -257,7 +259,7 @@
                 const id1 = document.querySelector('#id1');
                 const form1 = document.querySelector('#form1');
 
-                if(!id1.value || id1.value.length <= 0){
+                if (!id1.value || id1.value.length <= 0) {
                     document.getElementById("alertMsgPW").innerText = '비밀번호 변경에 동의 하세요';
                     return false;
                 }
@@ -266,10 +268,10 @@
                     document.getElementById("alertMsgPW").innerText = '변경할비밀번호를 입력하세요';
                     return false;
                 }
-                // if (changePw.value.length <= 5) {
-                //     document.getElementById("alertMsgPW").innerText = '변경할 비밀번호는 6자 이상으로 해야합니다.';
-                //     return false;
-                // }
+                if (changePw.value.length <= 5) {
+                    document.getElementById("alertMsgPW").innerText = '변경할 비밀번호는 6자 이상으로 해야합니다.';
+                    return false;
+                }
                 if (!changePwChk.value || changePwChk.value.length <= 0) {
                     document.getElementById("alertMsgPW").innerText = '변경할 비밀번호 확인을 입력하세요';
                     return false;

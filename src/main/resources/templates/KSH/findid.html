@@ -210,6 +210,12 @@
                     const id = item.id;
                     ids.push(id);
                 }
+                if (data.list.length == 1) {
+                    document.getElementById("alertMsg").innerText = ids;
+                    document.getElementById("idlist").innerText = '당신의 아이디 ';
+                    $('#alertModal').modal('show');
+                    return false;
+                }
                 if (data.list != null) {
                     document.getElementById("alertMsg").innerText = ids;
                     document.getElementById("idlist").innerText = '당신의 아이디 리스트';

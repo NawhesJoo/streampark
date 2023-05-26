@@ -37,6 +37,9 @@ body {
     text-decoration-line: none;
     margin-right: 15px;
 }
+.navSec a.on{
+    color: #EFC900;
+  }
 .navSec a:hover{
     color: #EFC900;
 }
@@ -154,3 +157,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 16px;
     margin-left: 5px;
   }
+
