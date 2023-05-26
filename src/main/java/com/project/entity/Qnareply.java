@@ -19,6 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -38,11 +39,13 @@ public class Qnareply {
     private Date regdate;
 
     // 문의
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "no", referencedColumnName = "no")
     private Board board;
 
     //프로필
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profileno", referencedColumnName = "profileno")
     private Profile profile;

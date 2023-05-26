@@ -48,6 +48,7 @@ public class Profileimg {
     // private BigInteger profileno;
 
     //프로필
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROFILENO", referencedColumnName = "PROFILENO")
     private Profile profile;

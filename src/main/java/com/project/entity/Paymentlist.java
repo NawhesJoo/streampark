@@ -18,6 +18,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -37,14 +38,16 @@ public class Paymentlist {
     @UpdateTimestamp
     private Date regdate;
 
-    // 프로필
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "profileno", referencedColumnName = "profileno")
-    private Profile profile;
-
     //작품
+    @ToString.Exclude
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "videocode", referencedColumnName = "videocode")
     private Videolist videolist;
+
+    // 프로필
+    @ToString.Exclude
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "profileno", referencedColumnName = "profileno" )
+    private Profile profile;    
     
 }

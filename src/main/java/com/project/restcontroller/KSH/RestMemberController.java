@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Member;
 import com.project.entity.MemberProjection;
-import com.project.repository.KSH.MemberRepository;
+import com.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

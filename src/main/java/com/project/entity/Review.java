@@ -23,6 +23,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -54,6 +55,7 @@ public class Review {
     private List<Reviewlikes> board = new ArrayList<>();
 
     // 시청목록
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "viewno", referencedColumnName = "viewno")
     private Watchlist watchlist;

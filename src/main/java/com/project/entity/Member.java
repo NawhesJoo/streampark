@@ -22,7 +22,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "MEMBER")
 public class Member {
-    
+
     @Id
     private String id;
 
@@ -30,7 +30,7 @@ public class Member {
 
     private String name;
 
-    private String phone; 
+    private String phone;
 
     private String birth;
 
@@ -48,19 +48,14 @@ public class Member {
     @CreationTimestamp
     private Date regdate;
 
-
-    
-    // 결제 내역
-    @ToString.Exclude
-    @OneToMany(mappedBy = "member", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-    private List<Paychk> paychk = new ArrayList<>();
-
     // 프로필
     @ToString.Exclude
-    @OneToMany(mappedBy = "member", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Profile> profile = new ArrayList<>();
 
-
-    
+    // 결제 내역
+    @ToString.Exclude
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Paychk> paychk = new ArrayList<>();
 
 }
