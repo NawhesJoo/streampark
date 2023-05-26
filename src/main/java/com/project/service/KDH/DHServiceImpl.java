@@ -6,13 +6,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.dto.Actorsdto;
 import com.project.dto.Memberdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
+import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
 import com.project.mapper.KDH.KDHMapper;
+import com.project.repository.KDH.VideoimgRepository;
 import com.project.repository.KDH.member1Repository;
 import com.project.repository.KDH.videolistRepository;
 
@@ -22,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DHServiceImpl implements DHService {
     final videolistRepository videolistRepository;
+    final VideoimgRepository videoimgRepository;
     final member1Repository memberRepository;
     final KDHMapper kdhMapper;
 
@@ -178,6 +182,35 @@ public class DHServiceImpl implements DHService {
             else{
                 return 1;
             }
+        }
+    }
+
+    @Override
+    public int insertvideoimg(MultipartFile file, Videolist video) {
+        try {
+            Videoimg vi = new Videoimg();
+            vi.setVideolist(video);
+            vi.setFilesize(BigInteger.valueOf(file.getSize()));
+            vi.setFiletype(file.getContentType());
+            vi.setFiledata(file.getInputStream().readAllBytes());
+            vi.setFilename(file.getOriginalFilename());
+             videoimgRepository.save(vi);
+             return 1;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    @Override
+    public int deletevideoimg(Long vimgno) {
+        try {
+            videoimgRepository.deleteById(BigInteger.valueOf(vimgno));
+            return 1;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 

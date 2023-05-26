@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.dto.Actorsdto;
 import com.project.dto.Memberdto;
@@ -60,20 +61,16 @@ public interface DHService {
 	public List<Videolist>  videolistRecently(BigInteger episode);
 
 
-	// //작품 사진 등록
-	// public int insertvideoimg(Videoimg videoimg);
+	//작품 사진 등록
+	public int insertvideoimg(MultipartFile file, Videolist video);
 	// //작품사진 수정
 	// public int updatevideoimg(Videoimg videoimg);
-	// //작품 사진 삭제(작품제목으로 코드 받아서  코드로 사진 번호 조회 후 번호로 삭제)
-	// public int deletevideoimg(Videoimg vimgno);
+	//작품 사진 삭제(작품제목으로 코드 받아서  코드로 사진 번호 조회 후 번호로 삭제)
+	public int deletevideoimg(Long vimgno);
 	//작품 사진 하나조회
 	public Long selectvideoimgOne(Long videocode);
 
-	// //제일많이 본영상 조회
-	// public List<VideolistView> countplayingvideolist();
 
-	// //리뷰 많은 수 조회
-	// public List<VideolistView> countreviewvideolist();
 
 
 }
