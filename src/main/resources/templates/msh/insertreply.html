@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>답변 작성</title>
+</head>
+
+<body>
+    <h2>답변 작성</h2>
+    <div>
+        <form id="insertForm" th:action="@{/qna/reply/insert.do}" method="post">
+            <div id="content_div">
+                <textarea class="form-control" style="height:100%; width:100%;" maxlength='1000' id="content"
+                    name="content"></textarea>
+            </div>
+            <input type="button" id="insert" onclick="insertReply()" value="답변등록" />
+            <input type="button" value="취소" onClick="history.go(-1)" />
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        function insertQnA() {
+            var content = $("#content").val()
+
+            if (content.length <= 0) {
+                alert('답변 내용을 입력하세요.');
+                content.focus();
+                return false; // 함수 종료, 전송하지 않음
+            } else {
+                console.log("통과");
+            }
+            $("#insertForm").submit();
+        }
+    </script>
+</body>
+
+</html>

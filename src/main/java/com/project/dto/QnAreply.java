@@ -6,15 +6,15 @@ import lombok.Data;
 
 // 문의 답글
 @Data
-public class QnAreply {
+public class QnaReply {
   // 답글번호
   private Long replyno;
+  // 게시글번호
+  private Long no;
   // 내용
   private String content;
-  // 작성날짜
-  private Date regdate;
-  // 게시판번호
-  private Long no;
   // 프로필 번호
   private Long profileno;
+  // 작성날짜
+  private Date regdate;
 }
