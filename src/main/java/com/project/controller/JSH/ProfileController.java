@@ -1,12 +1,18 @@
 package com.project.controller.JSH;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.entity.Member;
 import com.project.entity.Profile;
+import com.project.entity.Profileimg;
 import com.project.mapper.JSH.ProfileMapper;
 import com.project.repository.MemberRepository;
 import com.project.repository.ProfileRepository;
@@ -41,42 +48,60 @@ public class ProfileController {
     final ProfileimgRepository piRepository;
     final HttpSession httpSession;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+    @Value("${default.image}")
+    private String DEFAULTIMAGE;
+    final ResourceLoader resourceLoader;
 
+
+    @GetMapping(value = "/profileimage")
+    public ResponseEntity<byte[]> image(@RequestParam(name = "profileno", defaultValue = "0") BigInteger profileno) throws IOException{
+        Profileimg obj = piRepository.findByProfile_Profileno(profileno);
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+
+        if( obj != null ){ // 이미지가 존재할 경우
+                headers.setContentType( MediaType.parseMediaType( obj.getFiletype() ) );
+                return new ResponseEntity<>( obj.getFiledata() , headers, HttpStatus.OK);
+        }
+        
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream(); // exception 발생됨.
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>( is.readAllBytes(), headers, HttpStatus.OK);
+    }
 
     // 프로필 선택창
     // paychk에서 가장 최신의 M(멤버쉽)하나를 가져와서 regdate 만료 확인(+ 30일)
     // 현재 멤버쉽은 GRADE 값
     @GetMapping(value = "/profilelist.do")
-        public String profilelistGET(Model model, HttpSession session){
-            try{
-                // String id = (String) session.getAttribute("id");
-                String id = "1";
-                // Member member = mRepository.findById(id).orElse(null);
-                
-                // BigInteger membershipchk = member.getMembershipchk();
-                // model.addAttribute("membershipchk", membershipchk);
-
-                // Date date = member.getRegdate();
-                // Calendar cal = Calendar.getInstance();
-                // cal.setTime(date);
-                // cal.add(Calendar.DATE,30);
-                // log.info("cal =>", cal.toString());
-                // log.info("date =>", date.toString());
-                
-
-                ArrayList<Profile> list = pService.selectprofile(id);
-                model.addAttribute("list", list);
-                
-                log.info("list => {}", list.toString());
-                session.removeAttribute("nickname");
-                session.removeAttribute("profileno");
-                return "/JSH/list";
+    public String profilelistGET(Model model, HttpSession session) {
+        try {
+            // String id = (String) session.getAttribute("id");
+            String id = "1";
+            log.info("list id => {}", id);
+    
+            ArrayList<Profile> list = pService.selectprofile(id);
+            model.addAttribute("list", list);
+    
+            for (Profile profile : list) {
+                BigInteger profileno = profile.getProfileno();
+                Profileimg profileimg = piRepository.findByProfile_Profileno(profileno);
+    
+                if (profileimg != null) {
+                    model.addAttribute("profileno", profileno);
+                    break;
+                }
             }
-            catch(Exception e){
-                e.printStackTrace();
-                return "/JSH/list";
-            }
+    
+            log.info("list => {}", list.toString());
+            session.removeAttribute("nickname");
+            session.removeAttribute("profileno");
+            return "/JSH/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/JSH/list";
+        }
     }
+    
 
 
     // 프로필 생성

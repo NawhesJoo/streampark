@@ -119,7 +119,8 @@ public class ProfileMypageController {
      HttpSession session){
          String nickname = (String) session.getAttribute("nickname");
          log.info("nickname", nickname);
-        String memberId = "1";
+        // String memberId = "1";
+        String memberId = (String) session.getAttribute("id");
         Profile profile1 = pRepository.findByNickname(nickname);
         Member member = new Member();
         member.setId(memberId);
