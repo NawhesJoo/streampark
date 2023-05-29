@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.entity.Member;
+import com.project.entity.Paychk;
 import com.project.entity.Profile;
 import com.project.entity.Profileimg;
 import com.project.mapper.JSH.ProfileMapper;
@@ -76,12 +80,11 @@ public class ProfileController {
     public String profilelistGET(Model model, HttpSession session) {
         try {
             // String id = (String) session.getAttribute("id");
-            String id = "1";
+            String id = "a1";
             log.info("list id => {}", id);
-    
+
             ArrayList<Profile> list = pService.selectprofile(id);
             model.addAttribute("list", list);
-    
             for (Profile profile : list) {
                 BigInteger profileno = profile.getProfileno();
                 Profileimg profileimg = piRepository.findByProfile_Profileno(profileno);
@@ -91,8 +94,31 @@ public class ProfileController {
                     break;
                 }
             }
-    
-            log.info("list => {}", list.toString());
+            // log.info("list => {}", list.toString());
+
+            // 만료 날짜
+            List<Paychk> list1 = pMapper.selectPaychk(id);
+            Paychk latestPaychk = list1.get(0);
+
+            log.info("paychk => {}", latestPaychk.toString());
+
+            // 만료 날짜와 현재 시간 비교
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(latestPaychk.getRegdate());
+            calendar.add(Calendar.MONTH, 1);
+            Date oneMonthAfter = calendar.getTime();
+
+            // 현재 날짜 가져오기
+            Date currentDate = new Date();
+
+            // 날짜 비교
+            if (currentDate.after(oneMonthAfter)) { // 만료되었다면 
+                model.addAttribute("chk", "0");
+            } else { // 아직 남아있을 때
+                model.addAttribute("chk", "1");
+            }
+
+
             session.removeAttribute("nickname");
             session.removeAttribute("profileno");
             return "/JSH/list";
@@ -117,7 +143,7 @@ public class ProfileController {
             HttpSession session) {
             // 세션에서 멤버 ID 가져오기
             // String memberId = (String) session.getAttribute("id");
-            String memberId = "1";
+            String memberId = "a1";
 
             // 프로필 정보 설정
             Member member = new Member();

@@ -2,10 +2,12 @@ package com.project.service.JSH;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Profiledto;
+import com.project.entity.Paychk;
 import com.project.entity.Profile;
 import com.project.entity.Profileimg;
 import com.project.mapper.JSH.ProfileMapper;
@@ -87,6 +89,11 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public int updateProfilepw(String nickname, String newprofilepw) {
         return pMapper.updateProfilepw(nickname, newprofilepw);
+    }
+
+    @Override
+    public List<Paychk> selectPaychk(String id) {
+        return pMapper.selectPaychk(id);
     }
 
 }
