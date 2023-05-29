@@ -161,6 +161,7 @@ public class KDHVideoController {
     public String videoplayGET(Model model, @RequestParam(name = "title") String title,
             @RequestParam(name = "episode") BigInteger episode) {
         Videolist link = videolistRepository.findByTitleAndEpisode(title, episode);
+        model.addAttribute("title", title);
         model.addAttribute("link", link);
         // model.addAttribute("list1", list1);
         return "/KDH/StreamPark_videoplay";
