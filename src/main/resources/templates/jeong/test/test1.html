@@ -10,6 +10,17 @@
 
 <body>
     <h2>테스트 용</h2>
+
+    <input type="text" name="email" id="email" value="">
+    <input type="button" value="확인" onclick="confirmEmail()">
+
+    <br>
+    <hr>
+    <input type="text" name="code" id="code" value="">
+    <input type="button" value="인증 확인" onclick="chkemail()">
+    <label for="Timer">남은 시간:</label>
+    <input id="Timer" type="text" value="" readonly />
+
     <!-- <th:block th:if="${obj.qnareply.size() <= 1}">
         <div>미답변</div>
         <label th:text="${obj.no}"></label>
@@ -18,6 +29,36 @@
         <div>답변</div>
         <label th:text="${obj.no}"></label>
     </th:block> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+
+    <script th:inline="javascript">
+        async function confirmEmail() { //함수는 자동으로 호출되지 않음
+            const email1 = document.getElementById('email');
+            email1.readOnly = true;
+            const url = /*[[@{/api/test1/emailconfirm.do}]]*/"";
+            const headers = { "Content-Type": "application/json" };
+            const body = { email: email1.value };
+            const { data } = await axios.post(url, body, { headers: headers });
+            console.log('반환되는 결과', data);
+        }
+
+        async function chkemail() { //함수는 자동으로 호출되지 않음
+            const email1 = document.getElementById('email');
+            const code = document.getElementById('code');
+            const url = /*[[@{/api/test1/emailchk.do}]]*/"";
+            const headers = { "Content-Type": "application/json" };
+            const body = { email: email1.value, code: code.value };
+            const { data } = await axios.post(url, body, { headers: headers });
+            console.log('반환되는 결과', data);
+            if (data.status == 200) {
+                window.location.href = "https://www.naver.com";
+            }
+        }
+
+
+        // init(); //수동으로 함수 호출함.
+    </script>
 </body>
 
 </html>

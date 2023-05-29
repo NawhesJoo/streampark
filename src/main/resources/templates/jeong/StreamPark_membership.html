@@ -257,24 +257,37 @@
                             <div th:if="${#strings.equals(param.menu, '2') }">
                                 <!-- 현재 멤버쉽 -->
                                 <!-- <label th:text="${cal}"></label> -->
-                                <div style="display:inline-block;">
-                                    <div>
-                                        <div class="card0" th:if="${cal == -1}">
-                                            <input type="text" class="card0" id="card0" name="nowmembership" readonly>
-                                            <label class="label1" for="card0">
-                                                <h5 th:text="${fee.name}">BASIC</h5>
-                                                <h2 th:text="${fee.price}">
-                                                    9500
-                                                    <!-- <span>2023.06.22 만료</span> -->
-                                                </h2>
-                                                <span th:text="${expired}"></span>
-                                            </label>
 
-                                        </div>
-
+                                <div class="row" >
+                                    <div class="col-4 card10 m-5" th:if="${cal == -1}">
+                                        <input type="text" class="card10" id="card10" name="nowmembership" readonly>
+                                        <label class="label1" for="card10">
+                                            <h5 th:text="${fee.name}">BASIC</h5>
+                                            <h2 th:text="${fee.price}">
+                                                9500
+                                                <!-- <span>2023.06.22 만료</span> -->
+                                            </h2>
+                                            <span th:text="${expired}"></span>
+                                        </label>
 
                                     </div>
+                                    <div class="col-4 card10 m-5" th:if="${cal == -1}">
+                                        <input type="text" class="card10" id="card10" name="nowmembership" readonly>
+                                        <label class="label1" for="card10">
+                                            <h5 th:text="${fee.name}">BASIC</h5>
+                                            <h2 th:text="${fee.price}">
+                                                9500
+                                                <!-- <span>2023.06.22 만료</span> -->
+                                            </h2>
+                                            <span th:text="${expired}"></span>
+                                        </label>
+
+                                    </div>
+
+
+
                                 </div>
+
 
                                 <!-- 멤버쉽 목록 -->
                                 <form th:action="@{/pay/update.do}" method="post" id="form1">

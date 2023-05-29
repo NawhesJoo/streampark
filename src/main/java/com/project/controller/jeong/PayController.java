@@ -140,7 +140,7 @@ public class PayController {
         httpSession.setAttribute("role", "C");
 
         log.info("{}", feelist);
-        // log.info("membershipGET profile -> {}", profile);
+        log.info("membershipGET profile -> {}", profile);
         log.info("membershipGET paychk -> {}", paychk);
         // log.info("membershipGET paychk2 -> {}", paychk2);
 
