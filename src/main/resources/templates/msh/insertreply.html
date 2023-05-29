@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <h2>답변 작성</h2>
+    <h3>답변 작성</h3>
     <div>
-        <form id="insertForm" th:action="@{/qna/reply/insert.do}" method="post">
+        <form id="insertForm" th:action="@{/qna/reply/insert}" method="post">
             <div id="content_div">
                 <textarea class="form-control" style="height:100%; width:100%;" maxlength='1000' id="content"
                     name="content"></textarea>

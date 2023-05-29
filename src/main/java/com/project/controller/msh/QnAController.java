@@ -1,5 +1,6 @@
 package com.project.controller.msh;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.dto.Board;
 import com.project.dto.QnaReply;
 import com.project.mapper.QnaMapper;
+import com.project.repository.QnaRepository;
 import com.project.service.msh.QnaService;
 import com.project.service.msh.ReplyService;
 
@@ -32,6 +34,7 @@ public class QnAController {
     final ReplyService replyService;
     final QnaMapper qnaMapper;
     final HttpSession httpSession;
+    final QnaRepository qRepository;
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
@@ -83,26 +86,28 @@ public class QnAController {
             Long profileno = 87L;
             log.info("profileno = {}", profileno);
 
+            // 문의부분
             Board obj = new Board();
             obj.setNo(no);
             obj.setProfileno(profileno);
-            log.info("QnASelectone = {}", obj.toString()); // no, profileno 확인
+            // log.info("QnASelectone = {}", obj.toString()); // no, profileno 확인
             Board board = qnaService.selectoneBoard(obj);
 
-            // QnaReply reply = replyService.selectoneReply(no);
-            // log.info("QnaReply = {}", reply.toString()); // reply 확인
-
-            if (board != null) {
-                // 조회된 게시물이 있을 경우
+            // 답변부분
+            // QnaReply obj1 = new QnaReply();
+            // obj1.setNo(no);
+            // obj1.setProfileno(93L);
+            // log.info("QnaReply = {}", obj1.toString()); // no, profileno 확인
+            QnaReply reply = replyService.selectoneReply(no);
+            log.info("reply = {}", reply); // 넘겨받음
+            
+            if (board != null) {// no, profileno에 맞는 게시물이 있을 경우
                 model.addAttribute("board", board);
-                // model.addAttribute("reply", reply);
+                model.addAttribute("reply", reply);
                 return "/msh/selectone";
-                // } else if (board != null && reply == null) {
-                // model.addAttribute("board", board);
-                // return "/msh/selectone";
-                // } else if (board == null && reply != null) {
-                // model.addAttribute("reply", reply);
-                // return "/msh/selectone";
+            // } else if (board != null && reply == null) {
+            //     model.addAttribute("board", board);
+            //     return "/msh/selectone";
             } else {
                 // 본인게시글이 아닌경우
                 model.addAttribute("errorMessage");
@@ -131,7 +136,7 @@ public class QnAController {
         // log.info("QnASelectone = {}", obj.toString());
 
         Board board = qnaService.selectoneBoard(obj); // no에 맞는 글 조회
-        log.info("QnAUpdate of selectone = {}", board); // 수정화면으로 넘어와서의 board값
+        log.info("Before Update = {}", board); // 비밀번호 입력 후 수정화면으로 넘어와서의 board값
 
         model.addAttribute("board", board); // "board"에 조회된 board를 담아서 update.html로 보냄
         return "/msh/update";
@@ -141,7 +146,7 @@ public class QnAController {
     @PostMapping(value = "/update.do")
     public String updatePOST(@ModelAttribute Board board) {
         int ret = qnaService.updateBoard(board);
-        log.info("QnAUpdate = {}", board);
+        log.info("After Update = {}", board);
         if (ret == 1) {
             return "redirect:selectone.do?no=" + board.getNo();
         }
@@ -149,10 +154,10 @@ public class QnAController {
     }
 
     // 답변 등록GET
-    @GetMapping(value = "/reply/insert.do")
-    public String insertReplyGET() {
+    @GetMapping(value = "/reply/insert")
+    public String insertReplyGET(@RequestParam(name = "no") Long no) {
         try {
-            return "/msh/insertreply";
+            return "/msh/insertReply";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -160,7 +165,7 @@ public class QnAController {
     }
 
     // 답변 등록POST
-    @PostMapping(value = "/reply/insert.do")
+    @PostMapping(value = "/reply/insert")
     public String insertReplyPOST(@ModelAttribute QnaReply qnaReply, HttpServletRequest request) {
         try {
             // httpSession.setAttribute("role", "A");
@@ -174,4 +179,38 @@ public class QnAController {
             return "redirect:/home.do";
         }
     }
+
+    // 답변 수정 GET
+    @GetMapping(value = "/reply/update")
+    public String updateReplyGET(@RequestParam(name = "no", defaultValue = "0", required = false) Long no, Model model) {
+        if (no == 0) { // 번호 없으면 다시 목록으로 돌아감
+            return "redirect:selectlist.do";
+        }
+        Long profileno = 93L; //관리자프로필번호 들어와야함. 임사로 93줌
+        // log.info("profileno = {}", profileno);
+
+        QnaReply obj = new QnaReply();
+        obj.setNo(no);
+        obj.setProfileno(profileno);
+        // log.info("QnASelectone = {}", obj.toString());
+
+        QnaReply reply = replyService.selectoneReply(no); // no에 맞는 답변 조회
+        log.info("Before Update Reply = {}", reply); // 수정화면으로 넘어와서의 reply값
+
+        model.addAttribute("reply", reply); // "reply"에 조회된 reply 담아서 updateReply.html로 보냄
+        return "/msh/updateReply";
+    }
+    // 답변 수정 POST
+    @PostMapping(value = "/reply/update")
+    public String updateReplyPOST(@ModelAttribute QnaReply qnaReply) {
+        int ret = replyService.updateReply(qnaReply);
+        log.info("ret = {}", ret);
+        log.info("After Update Reply = {}", qnaReply);
+        if (ret == 1) {
+            return "redirect:/qna/selectone.do?no=" + qnaReply.getNo();
+        }
+        return "redirect:/qna/selectlist.do"; // 실패시 목록으로 감
+    }
+
+
 }

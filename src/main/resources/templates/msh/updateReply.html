@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>답변수정</title>
+
+</head>
+
+<body>
+    <div>
+        <h3>답변수정</h3>
+        <form th:action="@{/qna/reply/update}" method="post">
+            <input type="hidden" name="no" th:value="${reply.no}" readonly><br/>
+            <input type="hidden" name="replyno" th:value="${reply.replyno}"><br/>
+            <div id="content_div">
+                <textarea class="form-control" type="text" style="height:100%; width:100%;" maxlength='1000' id="content"
+                    name="content" th:text="${reply.content}"></textarea>
+            </div><br />
+            <input type="submit" value="수정">
+            <button type="button" th:onclick="|location.href='@{/qna/selectone.do(no=${reply.no})}'|">돌아가기</button>
+        </form>
+
+    </div>
+</body>
+
+</html>

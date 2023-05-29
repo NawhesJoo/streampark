@@ -20,7 +20,6 @@
                 <textarea class="form-control" type="text" style="height:100%; width:100%;" maxlength='1000' id="QnAcontent"
                     name="content" th:text="${board.content}"></textarea>
             </div><br />
-            <input type="text" th:value="${board.regdate}" readonly><br />
             <input type="submit" value="수정">
             <button type="button" th:onclick="|location.href='@{/qna/selectone.do(no=${board.no})}'|">돌아가기</button>
         </form>

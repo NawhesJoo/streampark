@@ -13,4 +13,6 @@ public interface QnaRepository extends JpaRepository<Board, BigInteger>{
 
     // 문의글 전체 목록
     List<Board> findAllByOrderByNoDesc();
+
+    
 }

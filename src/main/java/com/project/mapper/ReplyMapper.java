@@ -7,7 +7,7 @@ import com.project.dto.QnaReply;
 @Mapper
 public interface ReplyMapper {
 
-    // 문의글 조회
+    // 답변 조회
     public QnaReply selectoneReply(Long no);
 
     // 답변 작성
