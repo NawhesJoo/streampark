@@ -5,6 +5,9 @@
     font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
+a{
+    text-decoration-line: none;
+}
 
 hr {
     margin: 1rem 0;
@@ -76,7 +79,10 @@ p {
     border-radius: 16px;
     background-color: black;
 }
-
+.SearchSLC:focus {
+    border-color: #EFC900;
+    box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+}
 #btnSearch{
     border-radius: 0px 16px  16px 0px; 
 }
@@ -115,7 +121,7 @@ p {
 
 .sb-nav-fixed #layoutTotal  #layoutContent {
     background-color: #070707;
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)) ,url("../../images/KSH/donald-duck-498512.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)) ,url("../images/KSH/donald-duck-4985121.jpg");
     background-size: cover;
     padding-left: 225px;
     top: 56px;
@@ -281,7 +287,6 @@ p {
 .sb-sidenav-dark .sb-sidenav-menu .nav-link:hover,
 .sb-sidenav-dark .sb-sidenav-menu .nav-link:active {
     color: #efc900;
-    font-weight: 600;
 }
 
 .sb-sidenav-dark .sb-sidenav-footer {
@@ -292,4 +297,56 @@ p {
 #Error404 {
     margin-left: -130px;
     margin-bottom: -70px;
+}
+
+#formsearch{
+    margin-left: auto;
+}
+/* 카드 */
+.cardSec{
+    padding: 10px;
+}
+.card{
+	background-color: black;
+	
+	
+}
+.card-title{
+    text-decoration-line: none;
+	font-size: 1.0rem;
+}
+
+.card-body {
+	color: white;
+  	display: flex;
+ 	flex-direction: column;
+ 	justify-content: center;
+  	align-items: center;
+  	height: 100%;
+  	border-radius: 10px, 10px, 10px, 10px;
+}
+
+.card:hover{
+    opacity: 0.85;
+}
+
+/* 배경이미지 없어야 하는 곳에 */
+.sb-nav-fixed #layoutTotal  #layoutContent.no-background{
+    background-image: none;
+}
+
+/* 장르셀렉트 */
+.genreForm{
+    padding-left: 260px;
+    padding-bottom: 20px;
+}
+
+.genreForm select{
+    border-radius: 14px;
+    border-color: #efc900;
+    color: #EFC900;
+    background-color: #000000;
+}
+.genreForm select:focus{
+    box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
 }
