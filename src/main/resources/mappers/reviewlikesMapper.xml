@@ -18,5 +18,8 @@
         DELETE FROM REVIEW WHERE review_no=#{no}
     </delete>
 
+    <update id="reviewlikesminus" parameterType="java.util.Map">
+        UPDATE REVIEW SET likes=likes-1 WHERE review_no=#{no} AND profileno=#{pno}
+    </update>
 
 </mapper>

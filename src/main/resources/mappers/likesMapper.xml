@@ -3,20 +3,25 @@
 
 <mapper namespace="com.project.mapper.ReviewLikesMapper">
     <insert id="insertProfile" parameterType="Reviewlikes">
-        INSERT INTO REVIEWLIKES (profileno, chklikes, review_No) SELECT #{profileno}, 1, #{reviewNo} FROM DUAL A WHERE NOT EXISTS (SELECT * FROM REVIEWLIKES WHERE profileno=#{profileno} AND chklikes=1 AND review_No=#{reviewNo});
+        INSERT INTO REVIEWLIKES (profileno, review_No) SELECT #{profileno}, #{review_No} FROM DUAL A WHERE NOT EXISTS (SELECT * FROM REVIEWLIKES WHERE profileno=#{profileno} AND review_No=#{review_No});
     </insert>
 
     <select id="selectReviewlikesNo"  resultType="Reviewlikes">
-        SELECT rl.reviewlikes_No FROM reviewlikes rl;
+        SELECT * FROM reviewlikes WHERE profileno=#{profileno} AND review_No=#{review_No};
     </select>
 
     <select id="selectChklikes" parameterType="long" resultType="Reviewlikes">
-        SELECT rl.chklikes FROM REVIEWLIKES rl WHERE reviewlikes_No=#{reviewlikesNo}
+        SELECT rl.chklikes FROM REVIEWLIKES rl WHERE reviewlikes_No=#{reviewlikes_No}
     </select>
 
     <update id="decreaseChklikes" parameterType="Reviewlikes">
-        UPDATE REVIEWLIKES SET chklikes=chklikes-1 WHERE reviewlikes_No=#{reviewlikesNo}
+        UPDATE REVIEWLIKES SET chklikes=chklikes-1 WHERE chklikes=1 AND reviewlikes_No=#{reviewlikes_No}
     </update>
+
+    <update id="increaseChklikes" parameterType="Reviewlikes">
+        UPDATE REVIEWLIKES SET chklikes=chklikes+1 WHERE chklikes=0 AND reviewlikes_No=#{reviewlikes_No}
+    </update>
+
 
 
 </mapper>

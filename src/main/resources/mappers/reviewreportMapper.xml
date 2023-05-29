@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.ReviewReportMapper">
+    <insert id="insertProfile2" parameterType="Reviewreport">
+        INSERT INTO REVIEWREPORT (profileno, review_No) SELECT #{profileno}, #{review_No} FROM DUAL A WHERE NOT EXISTS (SELECT * FROM REVIEWREPORT WHERE profileno=#{profileno} AND review_No=#{review_No});
+    </insert>
+
+    <select id="selectReviewreportNo"  resultType="Reviewreport">
+        SELECT * FROM REVIEWREPORT WHERE profileno=#{profileno} AND review_No=#{review_No};
+    </select>
+
+    <select id="selectChkreport" parameterType="long" resultType="Reviewreport">
+        SELECT rr.chkreport FROM REVIEWREPORT rr WHERE reviewreport_No=#{reviewreport_No}
+    </select>
+
+    <update id="increaseChkreport" parameterType="Reviewlikes">
+        UPDATE REVIEWREPORT SET chkreport=chkreport+1 WHERE chkreport=0 AND reviewreport_No=#{reviewreport_No}
+    </update>
+
+
+
+</mapper>

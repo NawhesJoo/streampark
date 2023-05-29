@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -66,
-    "scrollLeft": -995,
-    "zoomLevel": 0.8,
+    "scrollTop": -245,
+    "scrollLeft": -395,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -19,7 +19,7 @@
     },
     "database": "Oracle",
     "databaseName": "",
-    "canvasType": "ERD",
+    "canvasType": "@vuerd/builtin-sql-ddl",
     "language": "Java",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -1693,7 +1693,7 @@
           "active": false,
           "left": 1521.7109375,
           "top": 159.0565,
-          "zIndex": 1,
+          "zIndex": 34,
           "widthName": 60,
           "widthComment": 60,
           "color": "#92BE48"
@@ -1957,7 +1957,7 @@
           "active": false,
           "left": 1610.1259765625,
           "top": 451.1022,
-          "zIndex": 3,
+          "zIndex": 18,
           "widthName": 64.71484375,
           "widthComment": 84.5703125,
           "color": "#CA8045"
@@ -2465,6 +2465,114 @@
         },
         "visible": true,
         "id": "2f1ffb37-66dc-4033-bb30-f26e3c6fd48b"
+      },
+      {
+        "name": "reviewreport",
+        "comment": "리뷰 신고수",
+        "columns": [
+          {
+            "name": "reviewreport_no",
+            "comment": "시퀀스",
+            "dataType": "NUMBER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 96.7197265625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "9701a5e9-67ca-4752-b639-b1936218484b"
+          },
+          {
+            "name": "profileno",
+            "comment": "포로필번호",
+            "dataType": "NUMBER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 67,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "22720dd4-ffa8-46c8-8897-d076e890b5de"
+          },
+          {
+            "name": "chkreport",
+            "comment": "",
+            "dataType": "NUMBER(1)",
+            "default": "1",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 70.31982421875,
+              "widthDefault": 60
+            },
+            "id": "8e6042a2-ce03-432c-9786-58ff430897be"
+          },
+          {
+            "name": "review_no",
+            "comment": "리뷰번호",
+            "dataType": "NUMBER",
+            "default": "SEQ_REVIEW_NO.NEXTVAL",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60.271484375,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 159.08544921875
+            },
+            "id": "bd460938-3086-4e5c-96e3-7e672aa887e6"
+          }
+        ],
+        "ui": {
+          "active": true,
+          "left": 1482.097,
+          "top": 603.5552,
+          "zIndex": 42,
+          "widthName": 75.88037109375,
+          "widthComment": 71.5703125
+        },
+        "visible": true,
+        "id": "aad6d6b3-061e-4a8d-8d03-08c9e542906b"
       }
     ],
     "indexes": []
@@ -2717,7 +2825,7 @@
           "columnIds": [
             "fd655fbb-81ea-45e6-a06e-0bb94ab8ab91"
           ],
-          "x": 1760.85546875,
+          "x": 1641.283203125,
           "y": 351.0565,
           "direction": "bottom"
         },
@@ -2967,6 +3075,32 @@
         "constraintName": "fk_member_to_paychk",
         "visible": true,
         "id": "032724c4-fda6-481f-bc41-6a837d5b1084"
+      },
+      {
+        "identification": false,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "2ebd3f0f-04cb-44bd-aaec-4bd4662790f8",
+          "columnIds": [
+            "fd655fbb-81ea-45e6-a06e-0bb94ab8ab91"
+          ],
+          "x": 1880.427734375,
+          "y": 351.0565,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "aad6d6b3-061e-4a8d-8d03-08c9e542906b",
+          "columnIds": [
+            "bd460938-3086-4e5c-96e3-7e672aa887e6"
+          ],
+          "x": 1732.1595,
+          "y": 603.5552,
+          "direction": "top"
+        },
+        "constraintName": "fk_review_to_reviewreport",
+        "visible": true,
+        "id": "604217de-eb04-4eb0-b826-1cea15019a19"
       }
     ]
   }

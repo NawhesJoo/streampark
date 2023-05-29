@@ -11,11 +11,14 @@ public interface ReviewLikesMapper {
 
     public int insertProfile(Reviewlikes obj);
 
-    public List<Reviewlikes> selectChklikes(Long reviewNo);
+    public List<Reviewlikes> selectReviewlikesNo(Reviewlikes obj);
 
-    public int decreaseChklikes(Long reviewlikesNo);
+    public List<Reviewlikes> selectChklikes(Long reviewlikes_No);
 
-    public List<Reviewlikes> selectReviewlikesNo();
+    public int decreaseChklikes(Long reviewlikes_No);
+
+    public int increaseChklikes(Long reviewlikes_No);
+
 
 
 }

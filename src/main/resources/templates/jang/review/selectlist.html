@@ -85,31 +85,35 @@
             const {data} = await axios.put(url, body, {headers:headers});
             console.log('반환되는 결과', data);
 
-            if(data.status === 1) {
+            if(data.status1 === 0) {
                 window.location.reload();
             }
             else {
                 alert("이미 좋아요를 누르셨습니다");
+                window.location.reload();
             }
            
         }
 
         async function reportpluscnt(review_no, profileno) {
-            console.log(review_no, profileno);
-            const url = /*[[@{/api/review/reportplus.json}]]*/"";
-            console.log(url);
-            const body = {no : review_no, pno : profileno};
-            const headers = {"Content-Type":"application/json"};
-            const {data} = await axios.put(url, body, {headers:headers});
-            console.log('반환되는 결과', data);
+            const ret = confirm('정말로 신고하시겠습니까?');
+            if(ret === true) {
+                console.log(review_no, profileno);
+                const url = /*[[@{/api/review/reportplus.json}]]*/"";
+                console.log(url);
+                const body = {no : review_no, pno : profileno};
+                const headers = {"Content-Type":"application/json"};
+                const {data} = await axios.put(url, body, {headers:headers});
+                console.log('반환되는 결과', data);
 
-            if(data.status === 1) {
-                window.location.reload();
+                if(data.status === 1) {
+                    window.location.reload();
+                }
+                else {
+                    alert("이미 신고한 리뷰입니다.");
+                }
             }
-            else {
-                alert();
-            }
-           
+            
         }
 
         async function likesmanysort(likes) {
