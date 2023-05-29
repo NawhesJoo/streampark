@@ -5,7 +5,6 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Document</title>
-    <link rel='stylesheet' th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
     <h3>Watchlist List</h3>
@@ -17,19 +16,18 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th class="table-info" scpoe="col"><input type="checkbox" id="chkAll" onClick="allCheckboxes('chk[]', this.checked)"></th>
-                        <th class="table-info" scope="col">프로필번호</th>
-                        <th class="table-info" scope="col">비디오코드</th>
-                        <th class="table-info" scope="col">제목</th>
-                        <th class="table-info" scope="col">키워드</th>
-                        <th class="table-info" scope="col">PD</th>
-                        <th class="table-info" scope="col">시청 가능 연령</th>
-                        <th class="table-info" scope="col">개봉일</th>
-                        <th class="table-info" scope="col">가격</th>
-                        <th class="table-info" scope="col">회차</th>
-                        <th class="table-info" scope="col">리뷰작성 테스트</th>
-                        <th class="table-info" scope="col">등록일</th>
-                        <th class="table-info" scope="col"></th>
+                        <th><input type="checkbox" id="chkAll" onClick="allCheckboxes('chk[]', this.checked)"></th>
+                        <th>프로필번호</th>
+                        <th>비디오코드</th>
+                        <th>제목</th>
+                        <th>키워드</th>
+                        <th>PD</th>
+                        <th>시청 가능 연령</th>
+                        <th>개봉일</th>
+                        <th>가격</th>
+                        <th>회차</th>
+                        <th>등록일</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,12 +42,12 @@
                         <td th:text="${obj.videolist.opendate}"></td>
                         <td th:text="${obj.videolist.price}"></td>
                         <td th:text="${obj.videolist.episode}"></td>
-                        <td th:text="${obj.profile.reviewban}"></td>
                         <td th:text="${obj.viewdate}"></td>
                         <td>
                             <button type="button" th:onclick="deleteAction([[${obj.viewno}]])">삭제</button>
                             <span th:if="${obj.profile.reviewban} == '0'">
                                 <a th:href="@{/review/insert.do(profileno=${obj.profile.profileno}, viewno=${obj.viewno})}"><button type="button">리뷰쓰기</button></a>
+                                <a th:href="@{/review/selectvideocodereview.do(videocode=${obj.videolist.videocode})}"><button type="button">해당 작품 리뷰 보기</button></a>
                             </span>
                         </td>
                     </tr>
@@ -69,6 +67,8 @@
     <form th:action="@{/watchlist/delete.do}" method="post" id="form2" style="display:none">
         <input type="hidden" name="viewno" id="hidden_viewno" />
     </form>
+
+   
 
     <script th:inline="javascript">
         function deleteAction(viewno) {
@@ -120,6 +120,7 @@
         //일치할 경우 천제 체크 박스는 체크, 일치하지 않을 경우 해제
         document.getElementById(allChkName).checked = chkMode;
         }
+
     </script>
 </body>
 </html>

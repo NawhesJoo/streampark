@@ -26,6 +26,30 @@ public class ReviewController {
     final String format = "ReviewController => {}";
     final BigInteger profileno2 = BigInteger.valueOf(6);
     final ReviewRepository rRepository;
+    @PostMapping(value = "/selectvideocodereview.do")
+    public String selectvideocodereviewPOST() {
+        try {
+            return "redirect:/review/selectvideocodereview.do";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "/redirect:/home.do";
+        }
+    }
+
+    @GetMapping(value = "/selectvideocodereview.do")
+    public String selectvideocodereviewGET(Model model, @ModelAttribute Review review, @RequestParam(name = "videocode") BigInteger videocode) {
+        try {
+            log.info(format, videocode);
+            List<Review> list = rRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
+            model.addAttribute("list", list);
+            return "/jang/review/selectvideocodereview";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
 
     @PostMapping(value = "/selectlistorderbylikes.do")
     public String selectlikes() {

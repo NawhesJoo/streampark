@@ -16,29 +16,28 @@ import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Data;
 import lombok.ToString;
+
 @Data
 @Entity
-@Table(name = "REVIEWLIKES")
-@SequenceGenerator(name = "SEQ_REVIEWLIKES_NO", sequenceName = "SEQ_REVIEWLIKES_NO", initialValue = 1, allocationSize = 1)
-public class Reviewlikes {
+@Table(name= "REVIEWREPORT")
+@SequenceGenerator(name = "SEQ_REVIEWREPORT_NO", sequenceName = "SEQ_REVIEWREPORT_NO", initialValue = 1, allocationSize = 1)
+public class Reviewreport {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEWLIKES_NO")
-    private BigInteger reviewlikes_no;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEWREPORT_NO")
+    private BigInteger reviewreport_No;
 
     private BigInteger profileno;
 
     @ColumnDefault("0")
-    private BigInteger chklikes=BigInteger.valueOf(0);   
+    private BigInteger chkreport;
 
-    // private BigInteger review_no;
-    
-    //리뷰
+    // private Long review_No;
+
+    // 리뷰
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_no", referencedColumnName = "review_no")
     private Review review;
-
     
-
 }

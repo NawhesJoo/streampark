@@ -7,16 +7,16 @@
     <title>Document</title>
 </head>
 <body>
+    <h3>작품에 해당하는 리뷰</h3>
     <h3>Review(All)</h3>
     <a th:href="@{/watchlist/selectlist.do}"><button type="button">시청 목록</button></a>
     <button type="button" th:onclick="likesmanysort([[${list[0].likes}]])">좋아요 순으로 정렬하기</button></a>
-    <form th:action="@{/review/selectlist.do}" method="post" id="form">
+    <form th:action="@{/review/selectvideocodereview.do}" method="post" id="form">
         <table border="1">
             <thead>
                 <tr>
                     <th>리뷰번호</th>
                     <th>작성자 번호</th>
-                    <th>작품명</th>
                     <th>리뷰내용</th>
                     <th>좋아요</th>
                     <th>신고</th>
@@ -28,7 +28,6 @@
                 <tr th:each="obj : ${list}">
                     <td th:text="${obj.review_no.longValue()}"></td>
                     <td th:text="${obj.profileno}"></td>
-                    <td th:text="${obj.watchlist.videolist.title}"></td>
                     <td th:text="${obj.content}"></td>
                     <td th:text="${obj.likes}"></td>
                     <td th:text="${obj.reportcnt}"></td>
