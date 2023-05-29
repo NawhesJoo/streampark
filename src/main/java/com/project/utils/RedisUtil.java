@@ -26,8 +26,7 @@ public class RedisUtil {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key, value, expireDuration);
-        log.info("set {},{},{} ", key, value, expireDuration);
-        
+        log.info("set {},{},{} ", key, value, expireDuration);        
     }
 
     public void deleteData(String key) {
