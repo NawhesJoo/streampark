@@ -77,6 +77,105 @@ p {
     background-color: black;
 }
 
+.transition, form button, #forminsert .inputs label, #forminsert .inputs .insertinput {
+    -moz-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+    -o-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+    -webkit-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+    transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+  }
+  #forminsert .insertbutton {
+    margin-top: 15px;
+    background-color: #070707;
+    border: 2px solid #efc900;
+    line-height: 0;
+    font-size: 13px;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 20px 15px;
+    border-radius: 60px;
+    color: #efc900;
+    font-weight: 100;
+    letter-spacing: 0.01em;
+    position: relative;
+    z-index: 1;
+    font-weight: bold;
+  }
+  #forminsert .insertbutton:hover,  #forminsert .insertbutton:focus {
+    color: white;
+    background-color: #efc900;
+  }
+#forminsert .inputs {
+    position: relative;
+    height: 50px;
+  }
+  #forminsert .inputs:first-of-type {
+    padding-top: 0;
+  }
+  #forminsert .inputs:last-of-type {
+    padding-bottom: 0;
+  }
+  #forminsert .inputs label{
+    transform-origin: left center;
+    color: #efc900;
+    font-weight: 100;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    display: block;
+    position: absolute;
+    margin-top: -40px;
+    font-weight: bold;
+    z-index: 2;
+    transition: all .3s ease;
+    pointer-events: none;
+  }
+  #forminsert .inputs .insertinput {
+    appearance: none;
+    background-color: #070707;
+    border: 2px solid #efc900;
+    line-height: 0;
+    font-size: 17px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    border-radius: 60px;
+    color: #efc900;
+    font-weight: bold;
+    letter-spacing: 0.01em;
+    position: relative;
+    z-index: 1;
+    margin: auto 0;  
+  }
+  #forminsert .inputs .insertinput:focus {
+    outline: none;
+    background: black;
+    color: #EFC900;
+    font-weight: bold;
+    margin-top: 30px;
+    /* transform:translateY(60%); */
+    
+  }
+  #forminsert .inputs .insertinput:valid {
+    margin-top: 20px;
+  }
+  
+  #forminsert .inputs .insertinput:valid ~ label {
+    text-transform: uppercase;
+    -moz-transform: translate(5px, -45px) scale(0.8);
+    -ms-transform: translate(5px, -45px) scale(0.8);
+    -webkit-transform: translate(5px, -45px) scale(0.8);
+    transform: translate(5px, -45px) scale(0.8);
+  } 
+  #forminsert .inputs .insertinput:focus ~ label {
+    -moz-transform: translate(0, -35px);
+    -ms-transform: translate(0, -35px);
+    -webkit-transform: translate(0, -35px);
+    transform: translateY(-150%);
+
+  }
+
 #btnSearch{
     border-radius: 0px 16px  16px 0px; 
 }
@@ -128,20 +227,21 @@ p {
 #formsearch{
     margin-left: auto;
 }
-#forminsert{
-position: relative;
-display: inline-block;
-width: 600px;
-height: 400px;
-max-width: 700px;
-min-width: 500px;
-box-sizing: border-box;
-padding: 30px 25px;
-background-color: white;
-border-radius: 40px;
-margin: 40px 0;
-left:25%;
-}
+#forminsert {
+    position: relative;
+    display: inline-block;
+    max-width: 700px;
+    min-width: 500px;
+    box-sizing: border-box;
+    padding: 0px 25px 20px 25px;
+    background-color: #070707;
+    border-radius: 40px;        
+    left: 50%;
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+  }
 #layoutTotal #layoutLeftSide {
     flex-basis: 225px;
     flex-shrink: 0;
@@ -178,14 +278,14 @@ left:25%;
 }
 
 .mainConName{
-    margin-left: 250px; 
-    margin-top: 100px;
+    margin-left: 100px; 
+    margin-top: 20px;
     width: 300px; 
     color:#efc900;
 }
 
 .mainConBar{
-    margin-left: 250px;
+    margin-left: 100px;
     border-width: 2px; 
     width: 100px; 
     color:#efc900;
