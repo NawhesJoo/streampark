@@ -31,6 +31,7 @@ import com.project.entity.Profile;
 import com.project.entity.Profileimg;
 import com.project.mapper.JSH.ProfileMapper;
 import com.project.repository.MemberRepository;
+import com.project.repository.PaychkRepository;
 import com.project.repository.ProfileRepository;
 import com.project.repository.ProfileimgRepository;
 import com.project.service.JSH.ProfileService;
@@ -49,11 +50,12 @@ public class ProfileController {
     final ProfileMapper pMapper;
     final MemberRepository mRepository;
     final ProfileRepository pRepository;
+    final PaychkRepository pcRepository;
     final ProfileimgRepository piRepository;
     final HttpSession httpSession;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
-    @Value("${default.image}")
-    private String DEFAULTIMAGE;
+    @Value("${default.profileimg}")
+    private String DEFAULTPROFILEIMG;
     final ResourceLoader resourceLoader;
 
 
@@ -68,7 +70,7 @@ public class ProfileController {
         }
         
         // 이미지가 없을 경우
-        InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream(); // exception 발생됨.
+        InputStream is = resourceLoader.getResource(DEFAULTPROFILEIMG).getInputStream(); // exception 발생됨.
         headers.setContentType(MediaType.IMAGE_PNG);
         return new ResponseEntity<>( is.readAllBytes(), headers, HttpStatus.OK);
     }
@@ -96,11 +98,24 @@ public class ProfileController {
             }
             // log.info("list => {}", list.toString());
 
-            // 만료 날짜
+            // 가장 최신의 Paychk 조회
             List<Paychk> list1 = pMapper.selectPaychk(id);
             Paychk latestPaychk = list1.get(0);
+            
+            // 멤버십 등급 확인
+            Paychk paychk = pcRepository.findTop1ByMember_idAndTypeOrderByRegdateDesc(id, "M");
+            BigInteger grade = paychk.getFee().getGrade();
+            // 멤버십 등급 전달
+            model.addAttribute("grade", grade);
+            log.info("grade => {}", grade);
 
-            log.info("paychk => {}", latestPaychk.toString());
+
+            // 프로필 갯수 확인
+            long profilecnt = pRepository.countByMember_id(id);
+            // 프로필 수 전달
+            model.addAttribute("profilecnt", profilecnt);
+            log.info("profilecnt => {}", profilecnt);
+            
 
             // 만료 날짜와 현재 시간 비교
             Calendar calendar = Calendar.getInstance();
@@ -117,14 +132,15 @@ public class ProfileController {
             } else { // 아직 남아있을 때
                 model.addAttribute("chk", "1");
             }
-
+            log.info("oneMonthAfter => {}", oneMonthAfter);
+            log.info("currentDate => {}", currentDate);
 
             session.removeAttribute("nickname");
             session.removeAttribute("profileno");
-            return "/JSH/list";
+            return "/JSH/profilelist";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/JSH/list";
+            return "/JSH/profilelist";
         }
     }
     

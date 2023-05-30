@@ -3,6 +3,7 @@ package com.project.controller.JSH;
 import java.math.BigInteger;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +27,12 @@ public class ProfileImgController {
 
     @GetMapping(value ="/insertimage.do")
     public String insertImageGET(){
-    return "/JSH/imgtest";
+    return "/JSH/profileimg";
     }
 
     @PostMapping(value = "/insertimage.do")
     public String insertImagePOST(@ModelAttribute Profileimg profileimg,
-        @RequestParam(name="tmpfile") MultipartFile file){
+        @RequestParam(name="tmpfile") MultipartFile file, Model model){
         try{
             profileimg.setFilesize(BigInteger.valueOf(file.getSize()));
             profileimg.setFiledata(file.getInputStream().readAllBytes());
@@ -40,12 +41,12 @@ public class ProfileImgController {
             // log.info(format, image1.toString());
             log.info("profileimg => {}", profileimg.toString());
             piRepository.save(profileimg);
-            
-            return "/JSH/imgtest";
+            model.addAttribute("chk", profileimg.getFilename());
+            return "/JSH/profileimg";
         }
         catch(Exception e){
             e.printStackTrace();
-            return "/JSH/imgtest";
+            return "/JSH/profileimg";
         }
     }
 }

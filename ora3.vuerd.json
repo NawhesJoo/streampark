@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -678.1999999999996,
-    "scrollLeft": -321.60000000000053,
-    "zoomLevel": 0.3,
+    "scrollTop": -911.1999999999996,
+    "scrollLeft": 0,
+    "zoomLevel": 1,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -185,29 +185,6 @@
             "id": "89564034-e133-4389-b4e5-97365ade17b4"
           },
           {
-            "name": "gender",
-            "comment": "성별",
-            "dataType": "VARCHAR2(20)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 94.94873046875,
-              "widthDefault": 60
-            },
-            "id": "b88f41c9-9610-4648-a872-5af5c38e6673"
-          },
-          {
             "name": "role",
             "comment": "역할",
             "dataType": "VARCHAR2(5)",
@@ -229,6 +206,29 @@
               "widthDefault": 60
             },
             "id": "ef9f7d79-73f3-4a0d-814d-e47777129d11"
+          },
+          {
+            "name": "gender",
+            "comment": "성별",
+            "dataType": "VARCHAR2(20)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 94.94873046875,
+              "widthDefault": 60
+            },
+            "id": "b88f41c9-9610-4648-a872-5af5c38e6673"
           },
           {
             "name": "regdate",
@@ -304,7 +304,7 @@
           "active": false,
           "left": 9.8887,
           "top": 861.4749,
-          "zIndex": 15,
+          "zIndex": 17,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF0400"
@@ -482,7 +482,7 @@
           "active": false,
           "left": 27.1113,
           "top": 525.9527,
-          "zIndex": 17,
+          "zIndex": 15,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF4E00"
@@ -2240,10 +2240,10 @@
           }
         ],
         "ui": {
-          "active": true,
+          "active": false,
           "left": 662.0586,
           "top": 858.2914,
-          "zIndex": 19,
+          "zIndex": 16,
           "widthName": 67.7490234375,
           "widthComment": 60
         },

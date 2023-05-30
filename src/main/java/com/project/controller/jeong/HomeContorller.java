@@ -11,10 +11,8 @@ import com.project.repository.Projections.MemberProjection;
 import com.project.service.JeongService.JeongService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping(value = "/jeong")
 public class HomeContorller {

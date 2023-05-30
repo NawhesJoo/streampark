@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>STREAM PARK</title>
+
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+	<!-- 1. 부트스트렙용 css CDN 추가 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+	<!-- <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css?ver=2}'> -->
+	<link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/KSH/profile.css}'>
+
+
+    <style>
+        .rounded-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .rounded-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .profile-images {
+            display: flex;
+        }
+        .profile-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .bi bi-plus {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+	</style>
+</head>
+
+<body class="d-flex justify-content-center">
+	<div class="container">
+		<header class="row">
+			<h1 class="prfileText">STREAM PARK</h1>
+		</header>
+		<div class="text row ">
+			<p class="text1">프로필을 선택하세요.</p>
+
+		</div>
+		<hr class="title_line" />
+		<div class=" main row d-flex justify-content-center">
+			<div class="row">
+				<div class="col" style="margin-top: 50px; margin-bottom: 50px; float:left; padding:30px;">
+					<!-- chk가 1이면서 grade가 0 또는 1일 때 -->
+					<div th:if="${chk eq '1' and (grade == 0 or grade == 1)}">
+						<a th:each="obj, iterStat : ${list}" th:if="${iterStat.index == 0}" th:href="@{/profile/login.do(nickname=${obj.nickname})}">
+							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image" alt="프로필 이미지" />
+						</a>
+					</div>
+				
+					<!-- chk가 1이면서 grade가 2일 때 -->
+					<div th:if="${chk eq '1' and grade == 2}">
+						<a th:each="obj, iterStat : ${list}" th:if="${iterStat.index lt 2}" th:href="@{/profile/login.do(nickname=${obj.nickname})}">
+							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image" alt="프로필 이미지" />
+						</a>
+					</div>
+				
+					<!-- chk가 1이면서 grade가 3일 때 -->
+					<div th:if="${chk eq '1' and grade == 3}">
+						<a th:each="obj : ${list}" th:href="@{/profile/login.do(nickname=${obj.nickname})}">
+							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image" alt="프로필 이미지" />
+						</a>
+					</div>
+				
+					<!-- chk가 0일 때 -->
+					<div th:if="${chk eq '0'}">
+						<a th:each="obj, iterStat : ${list}" th:if="${iterStat.index == 0}" th:href="@{/profile/login.do(nickname=${obj.nickname})}">
+							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image" alt="프로필 이미지" />
+						</a>
+					</div>
+				</div>
+				<div class="col">
+					<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal" id="add-button">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus"
+							viewBox="0 0 16 16">
+							<path
+								d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="row">
+				<div class="col">
+					<a class="logout" href="${pageContext.request.contextPath}/member/login.do">Logout</a>
+				</div>
+				<div class="col text-end">
+					<a class="info" href="${pageContext.request.contextPath}/member/info.do">
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+							class="bi bi-gear-fill" viewBox="0 0 16 16">
+							<path
+								d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+						</svg>
+					</a>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+	<!-- 프로필 추가 모달 -->
+	<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered ">
+			<div class="modal-content container">
+				<div class="modal-body mb-2">
+					<div class="modalBtn text-end ">
+						<button type="button" class=" btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div style="display: inline-block;">
+						<p style="display: inline-block; color: #EFC900;">프로필</p>
+						<p style="display: inline-block; color: #ffffff;">을 추가하세요.</p>
+					</div>
+					<hr style="width: 20px;" />
+					<div class="container">
+						<div class="row">
+							<div class="col-6">
+								<!-- 사진 -->
+								<img src="/resources/static/images/profileimg4.png" >
+								<!-- <div class="filebox">
+									<label for="ex_file" style="background-image: url(./Z-BG-IMAGE/default.png);">
+									</label>
+									<input type="file" id="ex_file">
+								</div> -->
+							</div>
+							<div class="col-5">
+									<form th:action="@{/profile/create.do}" method="post" id="form">
+									<div class="mb-3">
+										<label class="form-label">프로필 닉네임</label>
+										<!-- <input type="email" class="form-control" id="exampleFormControlInput1"
+											placeholder="닉네임"> -->
+											<input type="text" class="form-control" name="nickname" id="nickname" placeholder="닉네임" required><br />
+										</div>
+										<div class="mb-3">
+											<label class="form-label">관심 키워드</label>
+											<select class="form-select SearchSLC" name="keyword" id="keyword">
+												<option value="애니">애니</option>
+												<option value="액션">액션</option>
+												<option value="범죄">범죄</option>
+												<option value="멜로">멜로</option>
+												<option value="SF">SF</option>
+												<option value="판타지">판타지</option>
+												<option value="코미디">코미디</option>
+												<option value="로멘스">로멘스</option>
+												<option value="버라이어티">버라이어티</option>
+											</select> 
+										</div>
+									</div>
+								</form>
+								</div>
+					</div>
+				</div>
+				<div class="mx-2 mb-2 text-end">
+					<button type="button" th:onclick="checkNickname()" class="btn btn-sm btn-warning" >프로필 생성</button>
+					<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		var chk = /*[[${chk}]]*/"";
+		var grade = /*[[${grade}]]*/"";
+		var profilecnt = /*[[${profilecnt}]]*/"";
+		
+			var addButton = document.getElementById('add-button');
+		
+			if (chk === 0 ||
+				(chk === 1 && (grade === 0 || grade === 1)) ||
+				(chk === 1 && grade === 2 && profilecnt >= 2) ||
+				(chk === 1 && grade === 3 && profilecnt >= 4)) {
+				addButton.style.display = 'block';
+			} else {
+				addButton.style.display = 'none';
+			}
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script th:inline="javascript">
+
+
+		async function checkNickname() {
+            const nickname = document.getElementById('nickname').value;
+            // http://127.0.0.1:9090/streampark/api/profile/nickname.do?nickname=12
+
+            let url = /*[[@{/api/profile/nickname.do}]]*/"";
+
+            url += "?nickname=" + nickname;
+            console.log(url);
+
+            const headers = {"Content-Type":"application/json"};
+            const { data } = await axios.get(url, { headers:headers });
+
+            if(data.result === 1){
+                alert("프로필이 생성되었습니다.");
+                document.getElementById('form').submit();
+            }
+            else if(data.result === 2){
+                alert("닉네임을 입력해주세요.");
+            }
+            else if(data.result === 0){
+                alert("중복된 닉네임입니다. 다른 닉네임을 사용해주세요.");
+            }
+            else{
+                alert(data.message);
+            }
+        }
+
+    </script>
+
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
+
+		</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+
+		</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"
+		integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer">
+
+</script>
+<!-- axios -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+crossorigin="anonymous" referrerpolicy="no-referrer">
+
+</script>
+
+
+</body>
+
+</html>
