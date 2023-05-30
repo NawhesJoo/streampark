@@ -111,8 +111,9 @@ public class WatchlistController {
 
 
     @GetMapping(value = "/insert.do")
-    public String insertGET() {
+    public String insertGET(Model model) {
         try {
+            model.addAttribute("profileno", profileno);
             return "/jang/watchlist/insert";
         }
         catch(Exception e) {

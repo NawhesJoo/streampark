@@ -16,4 +16,6 @@ public interface WatchlistMapper {
     List<VideowatchlistView> watchListSearchPd(String keyword);
 
     List<VideowatchlistView> watchListSearchChkage(String keyword);
+
+    List<VideowatchlistView> watchListVideolistAll();
 }

@@ -21,5 +21,8 @@ public interface ReviewRepository extends JpaRepository<Review, BigInteger> {
 
     List<Review> findAllByOrderByLikesDesc();
 
+    @Query(value = " SELECT wl.viewno, wl.viewdate, wl.videocode, wl.profileno, r.review_no, r.content, r.regdate, r.likes, r.reportcnt FROM WATCHLIST wl, REVIEW r WHERE wl.VIDEOCODE=:videocode AND wl.viewno = r.viewno ORDER BY r.likes DESC ", nativeQuery=true)
+    List<Review> findByVideolist_VideocodeIgnoreCaseContainingOrderByLikesDesc(BigInteger videocode);
+
     // List<Review> findByReviewlikes_chklikesOrderByReviewnoDesc();
 }

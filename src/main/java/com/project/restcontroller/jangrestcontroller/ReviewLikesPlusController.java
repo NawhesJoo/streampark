@@ -33,9 +33,8 @@ public class ReviewLikesPlusController {
     final ReviewLikesMapper reviewlikesMapper;
     final ReviewReportMapper reviewreportMapper;
     final ReviewRepository rRepository;
-    final BigInteger profileno = BigInteger.valueOf(6);
-    final Long profileno1 = Long.valueOf(6);
-
+    final BigInteger profileno = BigInteger.valueOf(87);
+    final Long profileno1 = Long.valueOf(87);
 
     @PutMapping(value="/reportplus.json")
     public Map<String, Object> reportpluscntPUT(@RequestBody Map<String, Object> recvMap) {
@@ -108,14 +107,14 @@ public class ReviewLikesPlusController {
         // db처리
         int ret2 = reviewlikesMapper.insertProfile(obj);
         
-        // log.info(format, ret2);
+        log.info(format, ret2);
         // log.info(format, ret1);
 
         Reviewlikes obj2 = new Reviewlikes();
         obj2.setReview_No(review_No);
         obj2.setProfileno(profileno1);
         List<Reviewlikes> obj1 = reviewlikesMapper.selectReviewlikesNo(obj2);
-        // log.info(format, obj1.toString());
+        log.info(format, obj1.toString());
 
         long reviewlikes_No = Long.valueOf(obj1.get(0).getReviewlikes_No().toString());
         // log.info(format, reviewlikes_No);

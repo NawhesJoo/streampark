@@ -35,5 +35,6 @@ public interface WatchlistRepository extends JpaRepository<Watchlist, BigInteger
     @Query(value = " SELECT wl.profileno, wl.viewno, wl.viewdate, vl.videocode, vl.title, vl.keyword, vl.pd, vl.chkage, vl.opendate, vl.price, vl.episode FROM watchlist wl, videolist vl where wl.videocode=vl.videocode AND profileno=:profileno order by wl.viewdate DESC ", nativeQuery=true)
     List<Watchlist> findByProfile_profilenoOrderByViewdateDesc(BigInteger profileno);
 
+
     // long countByProfile_profilenoContaining(BigInteger profileno);
 }

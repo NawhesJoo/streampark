@@ -29,7 +29,7 @@ public class Reviewlikes {
     private BigInteger profileno;
 
     @ColumnDefault("0")
-    private BigInteger chklikes=BigInteger.valueOf(0);   
+    private BigInteger chklikes=BigInteger.valueOf(0);
 
     // private BigInteger review_no;
     

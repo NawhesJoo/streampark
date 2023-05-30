@@ -10,40 +10,79 @@
     <h3>작품에 해당하는 리뷰</h3>
     <h3>Review(All)</h3>
     <a th:href="@{/watchlist/selectlist.do}"><button type="button">시청 목록</button></a>
-    <button type="button" th:onclick="likesmanysort([[${list[0].likes}]])">좋아요 순으로 정렬하기</button></a>
-    <form th:action="@{/review/selectvideocodereview.do}" method="post" id="form">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>리뷰번호</th>
-                    <th>작성자 번호</th>
-                    <th>리뷰내용</th>
-                    <th>좋아요</th>
-                    <th>신고</th>
-                    <th>등록일</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="obj : ${list}">
-                    <td th:text="${obj.review_no.longValue()}"></td>
-                    <td th:text="${obj.profileno}"></td>
-                    <td th:text="${obj.content}"></td>
-                    <td th:text="${obj.likes}"></td>
-                    <td th:text="${obj.reportcnt}"></td>
-                    <td th:text="${obj.regdate}"></td>
-                    <td>
-                        <span th:if="${obj.profileno} == '6'">
-                            <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button">수정</button></a>
-                            <button type="button" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
-                        </span>
-                        <button type="button" id="likebtn" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
-                        <button type="button" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
+    <a th:href="@{/review/selectvideocodereview.do(videocode=${videocode}, menu=1)}"><button type="button">최근 시청 순으로 정렬</button></a>
+    <a th:href="@{/review/selectvideocodereview.do(videocode=${videocode}, menu=2)}"><button type="button">좋아요 순으로 정렬</button></a>
+    <hr />
+    <div th:if="${#strings.equals(param.menu, '1')}">
+        <form th:action="@{/review/selectvideocodereview.do}" method="post" id="form">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>리뷰번호</th>
+                        <th>작성자 번호</th>
+                        <th>리뷰내용</th>
+                        <th>좋아요</th>
+                        <th>신고</th>
+                        <th>등록일</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="obj : ${list}">
+                        <td th:text="${obj.review_no.longValue()}"></td>
+                        <td th:text="${obj.profileno}"></td>
+                        <td th:text="${obj.content}"></td>
+                        <td th:text="${obj.likes}"></td>
+                        <td th:text="${obj.reportcnt}"></td>
+                        <td th:text="${obj.regdate}"></td>
+                        <td>
+                            <span th:if="${obj.profileno} == '6'">
+                                <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button">수정</button></a>
+                                <button type="button" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
+                            </span>
+                            <button type="button" id="likebtn" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
+                            <button type="button" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div th:if="${#strings.equals(param.menu, '2')}">
+        <form th:action="@{/review/selectvideocodereview.do}" method="post" id="form">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>리뷰번호</th>
+                        <th>작성자 번호</th>
+                        <th>리뷰내용</th>
+                        <th>좋아요</th>
+                        <th>신고</th>
+                        <th>등록일</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="obj : ${list}">
+                        <td th:text="${obj.review_no.longValue()}"></td>
+                        <td th:text="${obj.profileno}"></td>
+                        <td th:text="${obj.content}"></td>
+                        <td th:text="${obj.likes}"></td>
+                        <td th:text="${obj.reportcnt}"></td>
+                        <td th:text="${obj.regdate}"></td>
+                        <td>
+                            <span th:if="${obj.profileno} == '6'">
+                                <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button">수정</button></a>
+                                <button type="button" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
+                            </span>
+                            <button type="button" id="likebtn" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
+                            <button type="button" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
 
     <form th:action="@{/review/delete.do}" method="post" id="form2" style="display:none">
         <input type="hidden" name="review_no" id="hidden_review_no" />
@@ -117,21 +156,22 @@
         }
 
         async function likesmanysort(likes) {
-            document.getElementById('hidden_likes').value = likes;
-            document.getElementById('form4').submit();
-            // console.log(likes);
-            // const url = /*[[@{/api/review/likesmanysort.json(likes=likes)}]]*/"";
-            // console.log(url);
-            // const headers = {"Content-Type":"application/json"};
-            // const {data} = await axios.get(url, {headers:headers});
-            // console.log('반환되는 결과', data);
+            console.log('likes');
+            // document.getElementById('hidden_likes').value = likes;
+            // document.getElementById('form4').submit();
+             console.log(likes);
+             const url = /*[[@{/api/review/likesmanysort.json(likes=likes)}]]*/"";
+             console.log(url);
+             const headers = {"Content-Type":"application/json"};
+             const {data} = await axios.get(url, {headers:headers});
+             console.log('반환되는 결과', data);
 
-            // if(data.status === 1) {
-            //     window.location.reload();
-            // }
-            // else {
-            //     alert();
-            // }
+             if(data.status === 1) {
+                 window.location.reload();
+             }
+             else {
+                 alert();
+             }
         }
   
     </script>

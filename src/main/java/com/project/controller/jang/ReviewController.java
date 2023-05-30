@@ -26,6 +26,22 @@ public class ReviewController {
     final String format = "ReviewController => {}";
     final BigInteger profileno2 = BigInteger.valueOf(6);
     final ReviewRepository rRepository;
+
+
+    @PostMapping(value = "/deletebatch.do")
+    public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
+        try {
+            // log.info(format,chk.toString());
+            rRepository.deleteAllById(chk);
+            return "redirect:/review/selectlist.do";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+
     @PostMapping(value = "/selectvideocodereview.do")
     public String selectvideocodereviewPOST() {
         try {
@@ -38,37 +54,19 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/selectvideocodereview.do")
-    public String selectvideocodereviewGET(Model model, @ModelAttribute Review review, @RequestParam(name = "videocode") BigInteger videocode) {
+    public String selectvideocodereviewGET(Model model, @RequestParam(name="menu", required = false, defaultValue = "1") int menu, @ModelAttribute Review review, @RequestParam(name = "videocode") BigInteger videocode) {
         try {
             log.info(format, videocode);
-            List<Review> list = rRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
-            model.addAttribute("list", list);
+            if(menu == 1) {
+                List<Review> list = rRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
+                model.addAttribute("list", list);
+            }
+            else if(menu == 2) {
+                List<Review> list = rRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByLikesDesc(videocode);
+                model.addAttribute("list", list);
+            }
+            model.addAttribute("videocode", videocode);
             return "/jang/review/selectvideocodereview";
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/home.do";
-        }
-    }
-
-    @PostMapping(value = "/selectlistorderbylikes.do")
-    public String selectlikes() {
-        try {  
-            return "redirect:/review/selectlist.do";
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/home.do";
-        }
-    }
-
-    @GetMapping(value = "/selectlistorderbylikes.do")
-    public String selectlikes(Model model, @RequestParam(name = "likes") BigInteger likes) {
-        try {
-            log.info(format, likes);
-            List<Review> list = rRepository.findAllByOrderByLikesDesc();
-            model.addAttribute("list", list);
-            return "/jang/review/selectlistorderbylikes";
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -126,14 +124,41 @@ public class ReviewController {
             return "redirect:/home.do";
         }
     }
+    
+    // @PostMapping(value = "/selectlist.do")
+    // public String selectlistPOST(@RequestParam(name="menu", required = false, defaultValue = "1") int menu) {
+    //     try {
+    //         if(menu == 1) {
+    //             return "redirect:/selectlist.do?menu=1";
+    //         }
+    //         return "redirect:/selectlist.do";
+    //     }
+    //     catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/home.do";
+    //     }
+    // }
+
 
     // 127.0.0.1:9090/streampark/review/selectlist.do
     @GetMapping(value = "/selectlist.do")
-    public String selectlistGET(@RequestParam(name = "videocode", required = false) BigInteger videocode, @ModelAttribute Review review, Model model) {
+    public String selectlistGET(@RequestParam(name="menu", required = false, defaultValue = "0") int menu, @RequestParam(name = "videocode", required = false) BigInteger videocode, @ModelAttribute Review review, Model model) {
         try {
-            List<Review> list = rRepository.findAllByOrderByRegdateDesc();
-            model.addAttribute("list", list);
+            if(menu == 0) {
+                return "redirect:/review/selectlist.do?menu=1";
+                
+            }
+            if(menu == 1) {
+                List<Review> list = rRepository.findAllByOrderByRegdateDesc();
+                model.addAttribute("list", list);
+            }
+
+            else if(menu == 2) {
+                List<Review> list = rRepository.findAllByOrderByLikesDesc();
+                model.addAttribute("list", list);
+            }
             return "/jang/review/selectlist";
+
         }
         catch (Exception e) {
             e.printStackTrace();

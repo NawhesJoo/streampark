@@ -9,7 +9,7 @@ public class Reviewlikes {
   private Long reviewlikes_No;
   // 프로필번호
   private Long profileno;
-  private Long chklikes;
+  private Long chklikes=0L;
   // 리뷰번호
   private Long review_No;
 }
