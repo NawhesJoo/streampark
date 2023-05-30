@@ -58,20 +58,19 @@
     제목 : <label th:text="${board.title}"></label><br />
     문의내용 : <label th:text="${board.content}"></label><br />
     <hr />
-    <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">목록으로</button>
     <input type="button" value="수정" id="updateBtn" />
     <input type="button" value="삭제" id="deleteBtn" />
 
 
     <h3>답변내용</h3>
-    제목 : <label th:if="${reply != null}" th:text="|'${board.title}'문의에 대한 답변입니다.|" ></label><label th:if="${reply == null}"></label>
+    제목 : <label th:if="${reply != null}" th:text="|'${board.title}'문의에 대한 답변입니다.|" ></label>
     처리일자: <label th:if="${reply != null}" th:text="${#dates.format(reply.regdate, 'yyyy-MM-dd')}"></label><br />
     답변내용: <label th:if="${reply != null}" th:text="${reply.content}"></label>
     <hr />
-    <button type="button" th:onclick="|location.href='@{/qna/reply/insert(no=${reply.no})}'|">답변등록</button>
-    <button type="button" th:onclick="|location.href='@{/qna/reply/update(no=${reply.no})}'|">답변수정</button>
-
-
+    <button type="button" th:onclick="|location.href='@{/qna/reply/insert(no=${board.no})}'|">답변등록</button>
+    <button type="button" th:onclick="|location.href='@{/qna/reply/update(no=${board.no})}'|">답변수정</button>
+    <hr />
+    <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">목록</button>
 
     <!-- 수정모달 -->
     <div id='modal1'>
@@ -85,7 +84,7 @@
     <!-- 삭제모달 -->
     <div id='modal2'>
         <div id='content2'>
-            <input type='button' value='X' class="close" id='btnClose' onclick="closeModal()" />
+            <input type='button' value='x' class="close" id='btnClose' onclick="closeModal()" />
             <label>암호를 입력해 주세요.</label><br />
             <input type='password' id='passwordInput2' />
             <input type='button' value='삭제하기' id='btnCheck' onclick="deleteCheck()" />

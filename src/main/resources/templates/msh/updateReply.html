@@ -19,7 +19,7 @@
                 <textarea class="form-control" type="text" style="height:100%; width:100%;" maxlength='1000' id="content"
                     name="content" th:text="${reply.content}"></textarea>
             </div><br />
-            <input type="submit" value="수정">
+            <input type="submit" value="수정완료">
             <button type="button" th:onclick="|location.href='@{/qna/selectone.do(no=${reply.no})}'|">돌아가기</button>
         </form>
 

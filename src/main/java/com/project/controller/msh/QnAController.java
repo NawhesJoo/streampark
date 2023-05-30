@@ -94,10 +94,6 @@ public class QnAController {
             Board board = qnaService.selectoneBoard(obj);
 
             // 답변부분
-            // QnaReply obj1 = new QnaReply();
-            // obj1.setNo(no);
-            // obj1.setProfileno(93L);
-            // log.info("QnaReply = {}", obj1.toString()); // no, profileno 확인
             QnaReply reply = replyService.selectoneReply(no);
             log.info("reply = {}", reply); // 넘겨받음
             
@@ -108,8 +104,7 @@ public class QnAController {
             // } else if (board != null && reply == null) {
             //     model.addAttribute("board", board);
             //     return "/msh/selectone";
-            } else {
-                // 본인게시글이 아닌경우
+            } else { // 본인게시글이 아닌경우
                 model.addAttribute("errorMessage");
                 return "/msh/error";
             }

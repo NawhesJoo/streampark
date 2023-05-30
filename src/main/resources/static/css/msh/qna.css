@@ -6,13 +6,13 @@
 }
 
 
-hr {
+/* hr {
     margin: 1rem 0;
     color: inherit;
     border: 0;
     border-top: 1px solid;
     opacity: 0.25;
-}
+} */
 
 label {
     display: inline-block;
@@ -115,7 +115,7 @@ p {
 
 .sb-nav-fixed #layoutTotal  #layoutContent {
     background-color: #070707;
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)) ,url("../../images/KSH/donald-duck-498512.jpg");
+    /* background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)) ,url("../../images/KSH/donald-duck-498512.jpg"); */
     background-size: cover;
     padding-left: 225px;
     top: 56px;
@@ -162,18 +162,14 @@ p {
 }
 
 .mainConName{
-    margin-left: 250px; 
-    margin-top: 100px;
-    width: 300px; 
     color:#efc900;
 }
 
-.mainConBar{
-    margin-left: 250px;
+/* .mainConBar{
     border-width: 2px; 
     width: 100px; 
     color:#efc900;
-}
+} */
 
 /* 전체레이아웃 끝 */
 
