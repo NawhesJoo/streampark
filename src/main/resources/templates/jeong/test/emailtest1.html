@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h2>테스트 용</h2>
+    <h2>이메일 인증 테스트 용</h2>
 
     <input type="text" name="email" id="email" value="">
     <input type="button" value="확인" onclick="confirmEmail()">
@@ -18,8 +18,18 @@
     <hr>
     <input type="text" name="code" id="code" value="">
     <input type="button" value="인증 확인" onclick="chkemail()">
-    <label for="Timer">남은 시간:</label>
-    <input id="Timer" type="text" value="" readonly />
+    <div id="demo"></div>
+
+    <div id="google_recaptha">
+
+        <div class="g-recaptcha" data-sitekey="6LcUtD8mAAAAAIFCnfWJ7B1knP2JG2C94_rTUS5A">
+        </div>
+    </div>
+    <input type="button" value="확인용" onclick="chkcapcha()">
+    <div>
+        <!-- <input type="hidden" id="g-recaptcha" name="g-recaptcha"> -->
+    </div>
+
 
     <!-- <th:block th:if="${obj.qnareply.size() <= 1}">
         <div>미답변</div>
@@ -30,9 +40,22 @@
         <label th:text="${obj.no}"></label>
     </th:block> -->
 
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 
     <script th:inline="javascript">
+        function chkcapcha() {
+            if (grecaptcha.getResponse() == "") {
+                alert("리캡챠를 체크해야 합니다.");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+
+
+        var cnt = 0;        
         async function confirmEmail() { //함수는 자동으로 호출되지 않음
             const email1 = document.getElementById('email');
             email1.readOnly = true;
@@ -41,11 +64,16 @@
             const body = { email: email1.value };
             const { data } = await axios.post(url, body, { headers: headers });
             console.log('반환되는 결과', data);
+            timer(300);
         }
 
         async function chkemail() { //함수는 자동으로 호출되지 않음
             const email1 = document.getElementById('email');
             const code = document.getElementById('code');
+            if(email1.value.length<1 || code.value.length<1){
+                alert('이메일 혹은 인증번호를 입력해주세요');
+                return;
+            }
             const url = /*[[@{/api/test1/emailchk.do}]]*/"";
             const headers = { "Content-Type": "application/json" };
             const body = { email: email1.value, code: code.value };
@@ -53,11 +81,42 @@
             console.log('반환되는 결과', data);
             if (data.status == 200) {
                 window.location.href = "https://www.naver.com";
+            }else if(data.status == 0){                
+                code.focus();
+                alert('다시 입력해 주세요');
+
             }
         }
 
 
         // init(); //수동으로 함수 호출함.
+        function timer(time1) {
+            cnt++;       
+            var time = time1; //기준시간 작성
+            var min = ""; //분
+            var sec = ""; //초
+
+            //setInterval(함수, 시간) : 주기적인 실행
+            var x = setInterval(function () {
+                if(cnt != 1){                    
+                    clearInterval(x);
+                    cnt = 1;
+                }
+                //parseInt() : 정수를 반환
+                min = parseInt(time / 60); //몫을 계산
+                sec = time % 60; //나머지를 계산
+
+                document.getElementById("demo").innerHTML ="남은시간 : " +  min + "분" + sec + "초";
+                time--;
+
+                //타임아웃 시
+                if (time < 0) {
+                    clearInterval(x); //setInterval() 실행을 끝냄
+                    document.getElementById("demo").innerHTML = "시간초과";
+                }
+            }, 1000);
+        }
+
     </script>
 </body>
 

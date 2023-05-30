@@ -340,15 +340,7 @@
                                     <input type="button" class="btn btn-warning" value="변경" onclick="change();">
                                 </div>
 
-                                <div id="google_recaptha">
-
-                                    <div class="g-recaptcha" data-sitekey="6LcUtD8mAAAAAIFCnfWJ7B1knP2JG2C94_rTUS5A">
-                                    </div>
-                                </div>
-                                <input type="button" value="확인용" onclick="chkcapcha()">
-                                <div>
-                                    <!-- <input type="hidden" id="g-recaptcha" name="g-recaptcha"> -->
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -389,7 +381,7 @@
             </div>
         </div>
     </form>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    
     <!-- <script src="https://www.google.com/recaptcha/api.js?render=6Lf6vT8mAAAAANKNISDxXMLhSZt8hKT1dLl-bdZ2"></script>     -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
@@ -411,15 +403,7 @@
         // });
 
 
-        function chkcapcha() {
-            if (grecaptcha.getResponse() == "") {
-                alert("리캡챠를 체크해야 합니다.");
-                return false;
-            } else {
-                return true;
-            }
-        }
-
+        
 
         function change() {
             if (!confirm('멤버쉽은 만료 이후 변경됩니다')) {

@@ -7,5 +7,6 @@ public class Emailtest {
 
     String email;
     String code;
-    
+    String pwtoken;
+    String id;
 }
