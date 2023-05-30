@@ -60,27 +60,27 @@
             </svg>
         </button>
         <!--내비게이션 써치 -->
-        <form id="formsearch" th:action="@{/kdh/search.do}" method="get">
-            <div id="asd" style="margin-left: 200px;">
-                <div class="d-none d-md-inline-block form-inline ms-auto">
-                    <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
-                        <option id="op" value="title">제목</option>
-                        <option id="op" value="keyword">키워드</option>
-                        <option id="op" value="castactor">배우</option>
-                        <option id="op" value="pd">감독</option>
-                    </select>
-                </div>
-                <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
-                    <div class="input-group">
-                        <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text"
-                            placeholder="검색어 입력 ..." aria-label="검색어 입력 ..." aria-describedby="btnSearch">
-                        <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
-                            <i class="bi bi-search"></i>
-                        </button>
+            <form id="formsearch" th:action="@{/kdh/search.do}" method="get"  >
+                <div id="asd">
+                    <div class="d-none d-md-inline-block form-inline ms-auto" >
+                        <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
+                            <option id="op" value="title">제목</option>
+                            <option id="op" value="keyword">키워드</option>
+                            <option id="op" value="castactor">배우</option>
+                            <option id="op" value="pd">감독</option>
+                        </select>
+                    </div>
+                    <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
+                        <div class="input-group">
+                            <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..."
+                                aria-label="검색어 입력 ..." aria-describedby="btnSearch">
+                            <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
     </nav>
     <!-- 전체화면 영역-->
     <div id="layoutTotal">
@@ -107,9 +107,9 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
-                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
-                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=드라마)}">>드라마</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=애니)}">>애니</a>
                                     <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
                                     <a class="nav-link" th:href="@{/kdh/best.do}">best</a>
                                 </nav>
@@ -168,35 +168,45 @@
             </nav>
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
-        <div id="layoutContent" class="no-background">
+        <div id="layoutContent">
             <main>
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
                             <h1 class="mainConName">컨텐츠</h1>
-                        <hr class="mainConBar" />
+                            <hr class="mainConBar" />
+
                         </div>
                     </div>
-                    <div class="row d-flex  justify-content">
-                        <!-- 여기에 원하는 컨텐츠 삽입 -->
-                        <div class="container-fluid d-flex flex-wrap justify-content-center align-items-center">
-                            <div th:each="one : ${list}">
-                                <div class="cardSec">
-                                    <a  class="cardA" th:href="@{/kdh/selectone.do(title=${one.title})}">
-                                        <div class="col d-flex justify-content-center">
-                                            <div class="card"
-                                                style="width: 330px; height:550px; box-shadow: 0.1px 0.1px 4px #444444;">
-                                                <img th:src="@{/kdh/image(no=${one.imgno})}" style="max-height: 500px;" alt="videoimg"
-                                                    class="card-img-top">
-                                                <div class="card-body d-flex justify-content-center">
-                                                    <h5 class="card-title" th:text="${one.title}"></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- 여기에 원하는 컨텐츠 삽입 -->
+
+                            <table class="container table table-hover border border-dark">
+                                <thead style="background-color: lightgray;">
+                                    <tr>
+                                        <th scope="col">이미지</th>
+                                        <th scope="col">비디오코드</th>
+                                        <th scope="col">제목</th>
+                                        <th scope="col">키워드</th>
+                                        <th scope="col">연령제한</th>
+                                        <th scope="col">가격</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="one : ${list}">
+                                        <td><img th:src="@{/kdh/image(no=${one.imgno})}"
+                                                style="width:50px; height: 50px;"></td>
+                                        <td scope="row" th:text="${one.videocode}"></td>
+                                        <td><a th:href="@{/kdh/selectone.do(title=${one.title})}"
+                                                th:text="${one.title}"></a></td>
+                                        <td th:text="${one.keyword}"></td>
+                                        <td th:text="${one.chkage}"></td>
+                                        <td th:text="${one.price}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <!-- --------------------------- -->
                         </div>
                     </div>

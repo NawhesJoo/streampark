@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,10 +43,11 @@ public class Review {
     @UpdateTimestamp
     private Date regdate;
 
+    @ColumnDefault("0")
     private BigInteger reportcnt;
 
     // private BigInteger viewno;
-
+    @ColumnDefault("0")
     private BigInteger likes;
 
     private BigInteger profileno;

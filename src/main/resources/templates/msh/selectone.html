@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #modal1,
+        #modal2 {
+            display: none;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, .3);
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #modal1>#content1,
+        #modal2>#content2 {
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            position: relative;
+            background-color: #fff;
+        }
+
+        #modal1 .close,
+        #modal2 .close {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 20px;
+            border: 0;
+            background-color: #fff;
+        }
+
+        #modal1 .close:hover,
+        #modal1 .close:focus,
+        #modal2 .close:hover,
+        #modal2 .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>게시글상세</h3>
+    NO. : <label th:text="${board.no}"></label><br />
+    제목 : <label th:text="${board.title}"></label><br />
+    내용 : <label th:text="${board.content}"></label><br />
+    작성자 : <label th:text="${board.profileno}"></label><br />
+    작성일: <label th:text="${#dates.format(board.regdate, 'yyyy-MM-dd')}"></label><br />
+    <hr />
+    <button type="button" th:onclick="|location.href='@{/qna/selectlist.do}'|">목록으로</button>
+    <input type="button" value="수정" id="updateBtn" />
+    <input type="button" value="삭제" id="deleteBtn" />
+
+    <!-- 수정모달 -->
+    <div id='modal1'>
+        <div id='content1'>
+            <input type='button' value='X' class="close" id='btnClose' onclick="closeModal()" />
+            <label>암호를 입력해 주세요.</label><br />
+            <input type='password' id='passwordInput1' />
+            <input type='button' value='수정하기' id='btnCheck' onclick="updateCheck()" />
+        </div>
+    </div>
+    <!-- 삭제모달 -->
+    <div id='modal2'>
+        <div id='content2'>
+            <input type='button' value='X' class="close" id='btnClose' onclick="closeModal()" />
+            <label>암호를 입력해 주세요.</label><br />
+            <input type='password' id='passwordInput2' />
+            <input type='button' value='삭제하기' id='btnCheck' onclick="deleteCheck()" />
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+    <script th:inline="javascript">
+        // 수정버튼 modal창 => 작동됨
+        updateBtn.onclick = function () {
+            var modal1 = document.getElementById('modal1');
+            modal1.style.display = 'block';
+        }
+        // 삭제버튼 modal창 => 작동됨
+        deleteBtn.onclick = function () {
+            var modal2 = document.getElementById('modal2');
+            modal2.style.display = 'block';
+        }
+        // 모달 닫기 => 작동됨
+        function closeModal() {
+            var modal1 = document.getElementById("modal1");
+            var modal2 = document.getElementById("modal2");
+            modal1.style.display = "none";
+            modal2.style.display = "none";
+        }
+
+
+        // 수정함수
+        async function updateCheck() {
+            const passwordInput = document.getElementById('passwordInput1');
+            const password = passwordInput.value;//passwordInput1의 value를 password로 저장
+            const url = /*[[@{/api/qna/update.do}]]*/""; //여기로 가서
+            const body = { profileno: "87", no: /*[[${board.no}]]*/"", password: password };
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.put(url, body, { headers: headers}); //@UpdateMapping
+            console.log('result', data); //status,ret 찍어서 나옴
+
+            if (data.ret == 1) { // 비밀번호 일치
+                alert('수정페이지로 이동합니다.');
+                modal1.style.display = "none";  //모달창 꺼지고
+                window.location.href = "update.do?no=[[${board.no}]]";  //해당 번호의 글로 감
+            } else { // 비밀번호 불일치
+                alert('비밀번호가 틀립니다.');
+                modal1.style.display = "none";
+            }
+        }
+
+        //삭제 함수
+        async function deleteCheck() {
+            const passwordInput = document.getElementById('passwordInput2');
+            const password = passwordInput.value;
+            const url = /*[[@{/api/qna/delete.do}]]*/""; // 통신할 웹문서
+            const body = { profileno: "87", no: /*[[${board.no}]]*/"", password: password };
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.delete(url, { headers: headers, data: body }); // 인자로 보낼 데이터, @DeleteMapping
+            console.log('result', data); //status,ret 찍어서 나옴
+
+            if (data.ret == 1) { // 삭제 성공 시 처리
+                alert('삭제되었습니다.');               //알람뜨고
+                modal2.style.display = "none";          //모달창 꺼지고
+                window.location.href = "selectlist.do";   //목록으로 감
+            } else { // 삭제 실패 시 처리
+                alert('비밀번호가 틀립니다.');
+                modal2.style.display = "none";
+            }
+        }
+        // 비밀번호 입력칸에서 값을 가져오는 함수
+        // function getPassword() {
+        //     return document.getElementById('passwordInput').value; // 모달에서 비밀번호 입력값을 ID를 사용하여 값을 가져옴
+        // }
+        // 게시글 수정
+        // Ajax 요청 보내기
+        // function updateCheck() {
+        //     var password = $('#passwordInput').val(); //passwordInput에 입력받은 값을 password로 지정
+        //     $.ajax({
+        //         url: '/update.do', // 비밀번호를 체크할 서버의 컨트롤러 경로 delete인지 selectone 인지
+        //         method: 'POST',
+        //         data: { password }, //: getPassword()
+        //         success: function (result) { // 정상적으로 응답 받았을 경우
+        //             // 비밀번호 체크에 대한 응답 처리
+        //             if (result == true) {
+        //                 alert("일치");
+        //             } else {
+        //                 alert("비밀번호가 일치하지 않습니다.");
+        //             }
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
+
+        // function deleteQna() {
+
+        //     window.location.href = '/delete.do';
+        // }
+    </script>
+</body>
+
+</html>

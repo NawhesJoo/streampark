@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class Review {
   // 리뷰번호
-  private Long reviewNo;
+  private Long review_no;
   // 내용
   private String content;
   // 작성일자
@@ -17,5 +17,6 @@ public class Review {
   private Long reportcnt;
   // 시청목록번호
   private Long viewno;
+  private Long profileno;
   private Long likes;
 }
