@@ -176,47 +176,41 @@
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                             <img th:src="@{/kdh/image(no=${imgno})}"
-                            style="width:120px; height: 200px;">
+                            style="width:480px; height: 650px; float: left; margin-left: 150px; border-radius: 4px;">
 
-                            <table class="container table table-hover border border-dark">
-                                <thead style="background-color: lightgray;">
-                                    <tr>
-                                        <th scope="col">비디오코드</th>
-                                        <th scope="col">제목</th>
-                                        <th scope="col">키워드</th>
-                                        <th scope="col">PD</th>
-                                        <th scope="col">출연배우</th>
-                                        <th scope="col">연령제한</th>
-                                        <th scope="col">개봉일자</th>
-                                        <th scope="col">가격</th>
-                                        <th scope="col">등록일자</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                            <td scope="row" th:text="${video.videocode}"></td>
-                                            <td  th:text="${video.title}"></td>
-                                            <td  th:text="${video.keyword}"></td>
-                                            <td  th:text="${video.pd}"></td>
-                                            <td  th:text="${video.castactor}"></td>
-                                            <td  th:text="${video.chkage}"></td>
-                                            <td  th:text="${video.opendate}"></td>
-                                            <td  th:text="${video.price}" ></td>
-                                            <td  th:text="${video.regdate}"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <a th:href="@{/kdh/videoupdate.do(title=${video.title})}"><button>영상수정 및 관리</button></a>
+                           <div style="font-size: 17px; font-weight: bold; color: white; margin-left: 850px; margin-top: 50px;">
+                            제목:<p  th:text="${video.title}"></p>
+                            키워드:<p  th:text="${video.keyword}"></p>
+                            감독:<p  th:text="${video.pd}"></p>
+                            출연진:<p  th:text="${video.castactor}"></p>
+                            연령제한:<p  th:text="${video.chkage}"></p>
+                            개봉일자:<p  th:text="${video.opendate}"></p>
+                            가격:<p  th:text="${video.price}" ></p>
+                            등록일자:<p  th:text="${video.regdate}">
+                            </div>
+                                    
+                                <a class="insertbutton" th:href="@{/kdh/videoupdate.do(title=${video.title})}" style="text-decoration: none; margin-left: 220px;">영상수정 및 관리</a>
+                                <a class="insertbutton" th:href="@{/kdh/manageactor.do(title=${video.title})}" style="text-decoration: none;">배우관리</a>
+                                <form th:action="@{/kdh/videodelete.do}" method="post" style="display: inline;">
+                                    <input  type="hidden" name="title" th:value="${video.title}">
+                                    <input class="insertbutton" type="submit" value="영상삭제">
+                                </form>
                                 <form th:action="@{/kdh/chkage.do}" method="post">
                                     <input type="hidden" name="title" th:value="${video.title}">
-                                    <select name="epi">
+                                    <select name="epi" style="width: 480px;
+                                    margin-right: 900px;
+                                    margin-left: 152px;
+                                    background-color: #efc900;
+                                    font-size: 20px;
+                                    font-weight: 400;
+                                    text-align: center;
+                                    border-radius: 3px;">
                                         <option th:each="epis: ${list1}" th:value="${epis.episode}" th:text="${epis.episode}"></option>
                                     </select>
-                                    <input type="submit" value="영상시청">
-                                </form>
-                                <a th:href="@{/kdh/manageactor.do(title=${video.title})}"><button>배우관리</button></a>
-                                <form th:action="@{/kdh/videodelete.do}" method="post">
-                                    <input type="hidden" name="title" th:value="${video.title}">
-                                    <input type="submit" value="영상삭제">
+                                    <input style="margin-right: 200px;
+                                    margin-left: 150px;
+                                    width: 485px;
+                                    border-radius: 8px;" class="insertbutton" type="submit" value="영상시청">
                                 </form>
                                 
                                 <!-- --------------------------- -->
@@ -228,7 +222,9 @@
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
-                            원하는 fotter 적용 css로 색 지정
+                            <div style="display: inline;">
+                                <a class="btn" style="background-color: #efc900;" th:href="@{/kdh/home.do}">뒤로가기</a>
+                            </div>
                         </div>
                     </div>
                 </div>

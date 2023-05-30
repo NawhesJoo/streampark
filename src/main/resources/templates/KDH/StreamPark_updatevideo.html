@@ -172,12 +172,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col" >
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                           <div>
-                              <button  type="button"
+                              <button style="height: 650px;
+                              width: 490px;
+                              background-color: black;
+                              border: 0px;
+                              margin-left: 150px;" type="button" 
                               data-bs-toggle="modal" data-bs-target="#exampleModal">  <img th:src="@{/kdh/image(no=${imgno})}"
-                              style="width:480px; height: 650px; float: left;"></button>
+                              style="width:480px; height: 650px; float: left;  border-radius: 8px;"></button>
                               <form style="    position: absolute;
                               margin-left: 300px;
                               margin-top: -15px;" th:action="@{/kdh/videoupdate.do}" method="post" id="forminsert" th:object="${video}">
@@ -254,7 +258,9 @@
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
-                            원하는 fotter 적용 css로 색 지정
+                            <div style="display: inline;">
+                                <a class="btn" style="background-color: #efc900;" th:href="@{/kdh/selectone.do(title=${video.title})}">뒤로가기</a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -39,10 +39,12 @@
             }
         });
     </script>
+    <style>
 
+        </style>
 </head>
 
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed" style="overflow:hidden;">
     <!-- 내비게이션 영역 -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark ">
         <!-- 내비게이션 브랜드 -->
@@ -168,7 +170,7 @@
             </nav>
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
-        <div id="layoutContent">
+        <div id="layoutContent" >
             <main>
                 <div>
                     <div class="row">
@@ -183,7 +185,7 @@
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
 
-                            <form th:action="@{/kdh/videoinsert.do}" method="post" id="forminsert">
+                            <form th:action="@{/kdh/videoinsert.do}" method="post" id="forminsert"style="margin-left:-90px">
                                 <div class="inputs">
                                     <input class="insertinput" type="text" name="title"><br />
                                     <label class="inputlabel">제목</label>
@@ -230,7 +232,9 @@
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
-                            원하는 fotter 적용 css로 색 지정
+                            <div style="display: inline;">
+                                <a class="btn" style="background-color: #efc900;" th:href="@{/kdh/home.do}">뒤로가기</a>
+                            </div>
                         </div>
                     </div>
                 </div>

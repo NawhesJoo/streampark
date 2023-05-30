@@ -83,7 +83,7 @@ p {
     -webkit-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
     transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
   }
-  #forminsert .insertbutton {
+  #forminsert .insertbutton, .insertbutton {
     margin-top: 15px;
     background-color: #070707;
     border: 2px solid #efc900;
@@ -100,7 +100,7 @@ p {
     z-index: 1;
     font-weight: bold;
   }
-  #forminsert .insertbutton:hover,  #forminsert .insertbutton:focus {
+  #forminsert .insertbutton:hover,  #forminsert .insertbutton:focus,.insertbutton:hover {
     color: white;
     background-color: #efc900;
   }
@@ -114,6 +114,8 @@ p {
   #forminsert .inputs:last-of-type {
     padding-bottom: 0;
   }
+
+  
   #forminsert .inputs label{
     transform-origin: left center;
     color: #efc900;
@@ -140,7 +142,7 @@ p {
     display: block;
     box-sizing: border-box;
     padding: 10px 15px;
-    border-radius: 60px;
+    border-radius: 20px;
     color: #efc900;
     font-weight: bold;
     letter-spacing: 0.01em;
@@ -214,7 +216,7 @@ p {
 
 .sb-nav-fixed #layoutTotal  #layoutContent {
     background-color: #070707;
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6)) ,url("../../images/KSH/donald-duck-498512.jpg");
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../images/back9.png") no-repeat center/cover;
     background-size: cover;
     padding-left: 225px;
     top: 56px;

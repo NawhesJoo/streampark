@@ -97,10 +97,11 @@ public class KDHVideoController {
     public String videoupdatePOST(Model model, @ModelAttribute Videolistdto videolist,
             @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle) {
         try {
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
             member.setRole("a");
             dhService.videolistUpdate(member, videolist, nowtitle);
-            return "redirect:/kdh/selectone.do?title=" + videolist.getTitle();
+            return "redirect:/kdh/selectone.do?title=" + title;
             // return "redirect:/kdh/home.do";
         } catch (Exception e) {
             e.printStackTrace();
