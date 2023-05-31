@@ -45,18 +45,18 @@
         });
     </script>
     <style>
-        tr {
+         tr {
             color: white;
         }
 
-        button {
+        #insertBtn{
             margin: 0.5rem 0;
-            background-color: #EFC900;
-            border-radius: 0;
+            background-color: #f4a320;
+            border-radius: 3px;
             border-color: none;
             border: 0;
             color: black;
-            font-weight: bold;
+            font-weight: 500;
         }
 
         tbody td a {
@@ -81,7 +81,7 @@
         }
       
         h1{
-            border-bottom: 1px solid  white;
+            border-bottom: 2px solid  white;
             width: 100%;
             margin: 0;
             padding: 0;
@@ -90,6 +90,7 @@
         thead tr th{
             border: 0.5px;
         }
+
         td,th {
             text-align: center;
         }
@@ -99,9 +100,9 @@
         }
 
         #reply {
-            font-weight: 900;
+            font-weight: 500;
             /* margin: 0.25rem 0.5rem; */
-            background-color: #EFC900;
+            background-color: #f4a320;
             color: black;
         }
     </style>
@@ -237,7 +238,7 @@
                             <!-- 컨텐츠 이름 넣기 -->
                             <div class="container">
                                 <h1 class="mainConName">1:1문의</h1>
-                                <div align="right"><button type="button" th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
+                                <div align="right"><button id="insertBtn"type="button" th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
                                 <form>
                                     <table class="table table-fixed">
                                         <thead>

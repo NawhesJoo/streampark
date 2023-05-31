@@ -64,7 +64,7 @@ p {
     color: #EFC900;
     border-color: #efc900;
     border-radius: 16px 0  0 16px;
-    background-color: black
+    background-color: black;
     /* margin-right: 10px; */
     /* box-shadow: 0 0 0 2rem rgba(239, 201, 0, 0.3); */
 }
@@ -163,6 +163,8 @@ p {
 
 .mainConName{
     color:#efc900;
+    width: 139px;
+    text-align: center;
 }
 
 /* .mainConBar{
