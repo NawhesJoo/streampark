@@ -15,6 +15,7 @@
 
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/radiostyle.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jeong/buttons.css}'>
 
 
     <!-- jQuery 추가 -->
@@ -177,14 +178,25 @@
                             <!-- 컨텐츠 이름 넣기 -->
                             <h1 class="mainConName">멤버쉽 가입, 변경</h1>
                             <hr class="mainConBar" style="width: 245px;" />
+
                             <div class="row">
+
                                 <div class="col" style="margin-left: 280px;">
                                     <!-- <label th:text="${grade}"></label> -->
                                     <!-- <label th:text="${cal}"></label> -->
 
-                                    <a th:if="${cal != -1 or grade < 1}" th:href="@{/pay/membership.do(menu=1)}">멤버쉽
+                                    <div class="frame">
+                                        <!-- <button class="custom-btn btn-5">Read More</button> -->
+                                        <!-- <button class="custom-btn btn-6">Read More</button> -->
+                                        <a th:href="@{/pay/membership.do(menu=1)}" class="custom1 custom-btn btn-5">멤버쉽
+                                            가입</a>
+                                        <a th:href="@{/pay/membership.do(menu=2)}" class="custom1 custom-btn btn-5">멤버쉽
+                                            변경</a>
+                                    </div>
+                                    <!-- <a th:href="@{/pay/membership.do(menu=1)}">멤버쉽
                                         가입</a>
-                                    <a th:if="${cal == -1 }" th:href="@{/pay/membership.do(menu=2)}">멤버쉽 변경</a>
+                                    <a th:if="${cal == -1 }" th:href="@{/pay/membership.do(menu=2)}">멤버쉽 변경</a> --> -->
+
                                 </div>
                             </div>
 
@@ -257,75 +269,92 @@
                             <div th:if="${#strings.equals(param.menu, '2') }">
                                 <!-- 현재 멤버쉽 -->
                                 <!-- <label th:text="${cal}"></label> -->
-                                <div style="display:inline-block;">
-                                    <div>
-                                        <div class="card0" th:if="${cal == -1}">
-                                            <input type="text" class="card0" id="card0" name="nowmembership" readonly>
-                                            <label class="label1" for="card0">
-                                                <h5 th:text="${fee.name}">BASIC</h5>
-                                                <h2 th:text="${fee.price}">
-                                                    9500
-                                                    <!-- <span>2023.06.22 만료</span> -->
-                                                </h2>
-                                                <span th:text="${expired}"></span>
-                                            </label>
 
-                                        </div>
-
+                                <div class="row">
+                                    <div class="card10 m-5" th:if="${cal == -1}">
+                                        <input type="text" class="card10" id="card10" name="nowmembership" readonly>
+                                        <label class="label1" for="card10">
+                                            <h5 th:text="${fee.name}">BASIC</h5>
+                                            <h2 th:text="${fee.price}">
+                                                9500
+                                                <!-- <span>2023.06.22 만료</span> -->
+                                            </h2>
+                                            <span th:text="${expired}"></span>
+                                        </label>
 
                                     </div>
+                                    <div class="card10 m-5" th:if="${cal == -1}">
+                                        <input type="text" class="card10" id="card10" name="nowmembership" readonly>
+                                        <label class="label1" for="card10">
+                                            <h5 th:text="${fee.name}"></h5>
+                                            <h2 th:text="${fee.price}">
+                                                <!-- <span>2023.06.22 만료</span> -->
+                                            </h2>
+                                            <span th:text="${expired}"></span>
+                                        </label>
+
+                                    </div>
+
+
+
                                 </div>
 
+
                                 <!-- 멤버쉽 목록 -->
-                                <form th:action="@{/pay/update.do}" method="post" id="form1">
-                                    <input type="hidden" name="grade" id="hiddengrade">
-                                    <div class="row m-5 ps-5 pe-5 justify-content-between">
-                                        <div class="card1">
-                                            <input type="radio" class="card1" name="pricing" id="card1" value="1">
-                                            <label class="label1" for="card1">
-                                                <h5>베이직</h5>
-                                                <h2>
-                                                    9500
-                                                    <span>원</span>
-                                                    <span>/month</span>
-                                                </h2>
-                                            </label>
-                                        </div>
-                                        <div class="col-4 card1">
-                                            <input type="radio" name="pricing" id="card2" class="card1" value="2">
-                                            <label class="label1" for="card2">
-                                                <h5>스탠다드</h5>
-                                                <h2>
-                                                    12000
-                                                    <span>원</span>
-                                                    <span>/month</span>
-                                                </h2>
-                                            </label>
-                                        </div>
-                                        <div class="col-4 card1">
-                                            <input type="radio" name="pricing" id="card3" class="card1" value="3">
-                                            <label class="label1" for="card3">
-                                                <h5>프리미엄</h5>
-                                                <h2>
-                                                    14500
-                                                    <span>원</span>
-                                                    <span>/month</span>
-                                                </h2>
-                                            </label>
-                                        </div>
-                                        <div class="col-4 card1">
-                                            <input type="radio" name="pricing" id="card4" class="card1" value="0">
-                                            <label class="label1" for="card4">
-                                                <h5>멤버쉽 해지</h5>
+                                <div>
+                                    <form th:action="@{/pay/update.do}" method="post" id="form1">
+                                        <input type="hidden" name="grade" id="hiddengrade">
+                                        <div class="row ps-5">
 
-                                            </label>
-                                        </div>
+                                            <div class="card1 m-5">
+                                                <input type="radio" class="card1" name="pricing" id="card1" value="1">
+                                                <label class="label1" for="card1">
+                                                    <h5>베이직</h5>
+                                                    <h2>
+                                                        9500
+                                                        <span>원</span>
+                                                        <span>/month</span>
+                                                    </h2>
+                                                </label>
+                                            </div>
+                                            <div class="col-4 card1 m-5">
+                                                <input type="radio" name="pricing" id="card2" class="card1" value="2">
+                                                <label class="label1" for="card2">
+                                                    <h5>스탠다드</h5>
+                                                    <h2>
+                                                        12000
+                                                        <span>원</span>
+                                                        <span>/month</span>
+                                                    </h2>
+                                                </label>
+                                            </div>
 
-                                    </div>
-                                </form>
+                                            <div class="col-4 card1 m-5">
+                                                <input type="radio" name="pricing" id="card3" class="card1" value="3">
+                                                <label class="label1" for="card3">
+                                                    <h5>프리미엄</h5>
+                                                    <h2>
+                                                        14500
+                                                        <span>원</span>
+                                                        <span>/month</span>
+                                                    </h2>
+                                                </label>
+                                            </div>
+                                            <div class="col-4 card1 m-5">
+                                                <input type="radio" name="pricing" id="card4" class="card1" value="0">
+                                                <label class="label1" for="card4">
+                                                    <h5>멤버쉽 해지</h5>
+
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
                                 <div align="right">
                                     <input type="button" class="btn btn-warning" value="변경" onclick="change();">
                                 </div>
+
 
                             </div>
                         </div>
@@ -367,6 +396,8 @@
             </div>
         </div>
     </form>
+
+    <!-- <script src="https://www.google.com/recaptcha/api.js?render=6Lf6vT8mAAAAANKNISDxXMLhSZt8hKT1dLl-bdZ2"></script>     -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
@@ -379,8 +410,18 @@
         </script>
 
     <script th:inline="javascript">
+        // grecaptcha.ready(function () {
+        //     grecaptcha.execute('6Lf6vT8mAAAAANKNISDxXMLhSZt8hKT1dLl-bdZ2', { action: 'homepage' }).then(function (token) {
+        //         // 토큰을 받아다가 g-recaptcha 에다가 값을 넣어줍니다.
+        //         document.getElementById('g-recaptcha').value = token;
+        //     });
+        // });
+
+
+
+
         function change() {
-            if(!confirm('멤버쉽은 만료 이후 변경됩니다')){
+            if (!confirm('멤버쉽은 만료 이후 변경됩니다')) {
                 return;
             }
             var listVar = $('input[name=pricing]:checked').val();
@@ -397,176 +438,176 @@
         }
 
 
-            function requestPay(price, grade) {
-                // IMP.request_pay(param, callback) 결제창 호출
-                var IMP = window.IMP;
-                IMP.init("imp37613730");
+        function requestPay(price, grade) {
+            // IMP.request_pay(param, callback) 결제창 호출
+            var IMP = window.IMP;
+            IMP.init("imp37613730");
 
-                IMP.request_pay({ // param
-                    pg: "html5_inicis",
-                    pay_method: "card",
-                    merchant_uid: `/*[[${id}]]*/_${new Date().getTime()} `,
-                    name: "결제 테스트",
-                    amount: price,
-                    buyer_email: "gildong@gmail.com",
-                    buyer_name: "홍길동",
-                    buyer_tel: "010-0000-0000",
-                    buyer_addr: "대한민국 어딘가",
-                    buyer_postcode: "00000"
-                }, function (rsp) { // callback
-                    if (rsp.success) {
-                        // 결제 성공 시 로직
-                        console.log('결제성공' + rsp);
-                        const form = document.getElementById('payform');
-                        form.submit();
-
-
-                    } else {
-                        // 결제 실패 시 로직
-                        console.log('결제실패' + rsp);
-                        const form = document.getElementById('payform');
-                        form.submit();
-
-                    }
-                    console.log('test' + rsp);
-                });
-            }
-
-            function chkconfirm() {
-                // alert('chkconfirm');
-                // console.log('chkconfirm');
-                if (/*[[${ cal == -1} ]]*/) {
-                    //멤버십 유효기간 내
-                    alert('이미 멤버십을 사용중입니다.');
-                    window.location.href = /*[[@{/jeong/index.do}]]*/;
-                    return;
-
-                }
-                else if (/*[[${ cal == 0 or cal == 1}]]*/) {
-                    //멤버십 만료
-                    if (/*[[${token >=0 }]]*/) {
-                        if (confirm("이미 토큰이 있습니다 멤버십으로 전환 하시겠습니까?")) {
-
-                        }
-                        else {
-                            window.location.href = /*[[@{/jeong/index.do}]]*/;
-                            return;
-                        }
-                    }
-                }
-
-            }
-            function memberships() {
-                const grade = document.getElementById('membershipgrade');
-                const price = document.getElementById('membershipprice');
-
-                var radio = document.getElementsByName('memberships');
-
-                var chk = 0;
-
-                for (var i = 0; i < radio.length; i++) {
-                    if (radio[i].checked) {
-                        chk = i;
-                    }
-                }
-                console.log(chk + 1);
-                if (chk + 1 == 1) {
-                    //수정?
-                    grade.value = chk + 1;
-                    if (/*[[${ currentTokens * 100  > 9500 }]]*/) {
-                        price.value = 0;
-                    } else {
-                        price.value = 9500 - (/*[[${ currentTokens * 100 }]]*/);
-                    }
-
-                } else if (chk + 1 == 2) {
-                    grade.value = chk + 1;
-                    if (/*[[${ currentTokens * 100  > 12000 }]]*/) {
-                        price.value = 0;
-                    } else {
-                        price.value = 12000 - (/*[[${ currentTokens * 100 }]]*/);
-                    }
-                } else if (chk + 1 == 3) {
-                    grade.value = chk + 1;
-                    if (/*[[${ currentTokens * 100  > 14500 }]]*/) {
-                        price.value = 0;
-                    } else {
-                        price.value = 14500 - (/*[[${ currentTokens * 100 }]]*/);
-                    }
-                }
-                console.log(grade.value);
-                console.log(price.value);
-            }
-            function memberships1() {
-                const grade = document.getElementById('membershipgrade');
-                const price = document.getElementById('membershipprice');
-
-                var radio = document.getElementsByName('memberships');
-
-                var chk = 0;
-
-                for (var i = 0; i < radio.length; i++) {
-                    if (radio[i].checked) {
-                        chk = i;
-                    }
-                }
-                console.log(chk + 1);
-                if (chk + 1 == 1) {
-                    //수정?
-                    grade.value = chk + 1;
-
-                    price.value = 9500;
-
-
-                } else if (chk + 1 == 2) {
-                    grade.value = chk + 1;
-
-                    price.value = 12000;
-
-
-                } else if (chk + 1 == 3) {
-                    grade.value = chk + 1;
-                    price.value = 14500;
-                }
-                console.log(grade.value);
-                console.log(price.value);
-            }
-            function chkpay() {
-                if (/*[[token]]*/> 0) {
-                    if (confirm('토큰을 사용하시겠습니까? 토큰은 1개당 100원으로 계산합니다')) {
-                        memberships();
-                    } else {
-                        memberships1();
-                    }
-                }
-                else {
-                    memberships1();
-                }
-
-            }
-            function dopay() {
-                const grade = document.getElementById('membershipgrade');
-                const price = document.getElementById('membershipprice');
-                if (price.value < 1) {
+            IMP.request_pay({ // param
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: `/*[[${id}]]*/_${new Date().getTime()} `,
+                name: "결제 테스트",
+                amount: price,
+                buyer_email: "gildong@gmail.com",
+                buyer_name: "홍길동",
+                buyer_tel: "010-0000-0000",
+                buyer_addr: "대한민국 어딘가",
+                buyer_postcode: "00000"
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                    // 결제 성공 시 로직
+                    console.log('결제성공' + rsp);
                     const form = document.getElementById('payform');
                     form.submit();
-                } else {
-                    requestPay(price.value, grade.value);
-                }
-            }
-            function blockMemberships() {
-                const radio = document.getElementsByName('pricing');
 
-                if (/*[[${not #strings.isEmpty(grade)}]]*/) {
-                    const i =/*[[${grade-1}]]*/;
-                    radio[i].disabled = true;
+
                 } else {
+                    // 결제 실패 시 로직
+                    console.log('결제실패' + rsp);
+                    const form = document.getElementById('payform');
+                    form.submit();
 
                 }
+                console.log('test' + rsp);
+            });
+        }
+
+        function chkconfirm() {
+            // alert('chkconfirm');
+            // console.log('chkconfirm');
+            if (/*[[${ cal == -1} ]]*/) {
+                //멤버십 유효기간 내
+                alert('이미 멤버십을 사용중입니다.');
+                window.location.href = /*[[@{/jeong/index.do}]]*/;
+                return;
 
             }
-            // chkconfirm();
-            blockMemberships();
+            else if (/*[[${ cal == 0 or cal == 1}]]*/) {
+                //멤버십 만료
+                if (/*[[${token >=0 }]]*/) {
+                    if (confirm("이미 토큰이 있습니다 멤버십으로 전환 하시겠습니까?")) {
+
+                    }
+                    else {
+                        window.location.href = /*[[@{/jeong/index.do}]]*/;
+                        return;
+                    }
+                }
+            }
+
+        }
+        function memberships() {
+            const grade = document.getElementById('membershipgrade');
+            const price = document.getElementById('membershipprice');
+
+            var radio = document.getElementsByName('memberships');
+
+            var chk = 0;
+
+            for (var i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    chk = i;
+                }
+            }
+            console.log(chk + 1);
+            if (chk + 1 == 1) {
+                //수정?
+                grade.value = chk + 1;
+                if (/*[[${ currentTokens * 100  > 9500 }]]*/) {
+                    price.value = 0;
+                } else {
+                    price.value = 9500 - (/*[[${ currentTokens * 100 }]]*/);
+                }
+
+            } else if (chk + 1 == 2) {
+                grade.value = chk + 1;
+                if (/*[[${ currentTokens * 100  > 12000 }]]*/) {
+                    price.value = 0;
+                } else {
+                    price.value = 12000 - (/*[[${ currentTokens * 100 }]]*/);
+                }
+            } else if (chk + 1 == 3) {
+                grade.value = chk + 1;
+                if (/*[[${ currentTokens * 100  > 14500 }]]*/) {
+                    price.value = 0;
+                } else {
+                    price.value = 14500 - (/*[[${ currentTokens * 100 }]]*/);
+                }
+            }
+            console.log(grade.value);
+            console.log(price.value);
+        }
+        function memberships1() {
+            const grade = document.getElementById('membershipgrade');
+            const price = document.getElementById('membershipprice');
+
+            var radio = document.getElementsByName('memberships');
+
+            var chk = 0;
+
+            for (var i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    chk = i;
+                }
+            }
+            console.log(chk + 1);
+            if (chk + 1 == 1) {
+                //수정?
+                grade.value = chk + 1;
+
+                price.value = 9500;
+
+
+            } else if (chk + 1 == 2) {
+                grade.value = chk + 1;
+
+                price.value = 12000;
+
+
+            } else if (chk + 1 == 3) {
+                grade.value = chk + 1;
+                price.value = 14500;
+            }
+            console.log(grade.value);
+            console.log(price.value);
+        }
+        function chkpay() {
+            if (/*[[token]]*/> 0) {
+                if (confirm('토큰을 사용하시겠습니까? 토큰은 1개당 100원으로 계산합니다')) {
+                    memberships();
+                } else {
+                    memberships1();
+                }
+            }
+            else {
+                memberships1();
+            }
+
+        }
+        function dopay() {
+            const grade = document.getElementById('membershipgrade');
+            const price = document.getElementById('membershipprice');
+            if (price.value < 1) {
+                const form = document.getElementById('payform');
+                form.submit();
+            } else {
+                requestPay(price.value, grade.value);
+            }
+        }
+        function blockMemberships() {
+            const radio = document.getElementsByName('pricing');
+
+            if (/*[[${not #strings.isEmpty(grade)}]]*/) {
+                const i =/*[[${grade-1}]]*/;
+                radio[i].disabled = true;
+            } else {
+
+            }
+
+        }
+        // chkconfirm();
+        blockMemberships();
 
     </script>
 </body>
