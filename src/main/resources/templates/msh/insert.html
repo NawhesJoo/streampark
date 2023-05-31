@@ -39,12 +39,15 @@
             font-weight: 500;
             margin-bottom: 5px;
         }
+
         #title {
-            width:75%;
+            width: 75%;
         }
+
         #password {
-            width:24.5%;
+            width: 24.5%;
         }
+
         .insertBtn {
             margin: 0.5rem 0;
             background-color: #f4a320;
@@ -58,13 +61,14 @@
         #btnSearch {
             background-color: #EFC900;
         }
-        
+
         .ql-toolbar.ql-snow {
             background-color: #efc900;
             color: white;
             border: 0px 3px 3px 3px solid white;
         }
-        .ql-container{
+
+        .ql-container {
             font-size: medium;
             height: 400px;
             color: white;
@@ -202,14 +206,12 @@
                             <!-- 컨텐츠 이름 넣기 -->
                             <div class="container">
                                 <h2>1:1문의글 작성</h2>
-                                <div>
+                                <div style="width:100%">
                                     <form id="insertForm" th:action="@{/qna/insert.do}" method="post">
                                         <input type="hidden" name="profileno" value="87" /><br /> <!-- 임시로 87번으로 함 -->
                                         <div>
-                                            <input type="text" id="title" maxlength='30' name="title"
+                                            <input style="width:100%" type="text" id="title" maxlength='30' name="title"
                                                 placeholder="제목을 입력하세요.">
-                                            <input type="password" id="password" name="password"
-                                                placeholder="비밀번호를 입력하세요." /><br />
                                         </div>
                                         <div id="editor">
                                             <textarea class="form-control" style="height:100%; width:100%;"
@@ -217,6 +219,8 @@
                                                 placeholder="내용을 입력해 주세요."></textarea>
                                         </div>
                                         <div align="right">
+                                            <input type="password" id="password" name="password"
+                                                placeholder="비밀번호를 입력하세요." />
                                             <input class="insertBtn" type="button" id="insert" onclick="insertQnA()"
                                                 value="작성" />
                                             <!-- DB에 저장 잘됨 -->
