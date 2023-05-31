@@ -23,7 +23,7 @@ public class HomeContorller {
 
     @GetMapping(value = "/index.do")
     public String indexGET(){
-        Profile profile = jService.findProfileById(88);
+        Profile profile = jService.findProfileById(87);
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         httpSession.setAttribute("id", member.getId());
         httpSession.setAttribute("nickname", profile.getNickname());

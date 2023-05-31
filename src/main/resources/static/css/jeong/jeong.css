@@ -162,14 +162,14 @@ p {
 }
 
 .mainConName{
-    margin-left: 250px; 
-    margin-top: 100px;
+    margin-left: 75px;
+    margin-top: 55px;
     width: 300px; 
     color:#efc900;
 }
 
 .mainConBar{
-    margin-left: 250px;
+    margin-left: 90px;
     border-width: 2px; 
     width: 100px; 
     color:#efc900;

@@ -59,7 +59,7 @@ h5{
 h2{
     font-size: 28px;
 }
-span{
+span.btncustom{
     font-weight: 400;
     font-size: 18px;
     color: #7b7b93;
@@ -68,15 +68,15 @@ input[type="radio"].card1:hover{
     transform: scale(1.05);
 }
 input[type="radio"].card1:checked {
-    border: 3px solid #478bfb;
+    border: 3px solid #efc900;
 }
 input[type="radio"].card1:checked:after{
-    background-color: #478bfb;
+    background-color: #efc900;
 }
 
 .card10{
     height: 160px;
-    width: 200px;
+    width: 220px;
     position: relative;
 }
 input[type="text"].card10{

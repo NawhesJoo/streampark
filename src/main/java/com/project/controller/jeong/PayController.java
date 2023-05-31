@@ -117,7 +117,7 @@ public class PayController {
 
     @GetMapping(value = "/token.do")
     public String tokenGET(Model model) {
-        Profile profile = jService.findProfileById(88);
+        Profile profile = jService.findProfileById(87);
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         String id = (String) httpSession.getAttribute("id");
 
@@ -130,9 +130,10 @@ public class PayController {
     public String membershipGET(Model model,
             @RequestParam(name = "menu", required = false, defaultValue = "0") int menu) {
 
-        Profile profile = jService.findProfileById(93);
+        Profile profile = jService.findProfileById(87);
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         // Paychk paychk = jService.findPaychkTopByRegdate();
+        // log.info("membershipGET member -> {}", member.toString());
         Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
         List<Fee> feelist = jService.findFeeAll();
         httpSession.setAttribute("id", member.getId());
@@ -140,9 +141,13 @@ public class PayController {
         httpSession.setAttribute("role", "C");
 
         log.info("{}", feelist);
-        log.info("membershipGET profile -> {}", profile);
-        log.info("membershipGET paychk -> {}", paychk);
+        // log.info("membershipGET profile -> {}", profile);
+        // log.info("membershipGET paychk -> {}", paychk);
         // log.info("membershipGET paychk2 -> {}", paychk2);
+        if(!(member.getMembershipchk().longValue() < 0)){// null이 아닐 때
+            model.addAttribute("nextgrade", member.getMembershipchk());
+
+        }
 
         if (paychk == null) { // 멤버쉽 결제 내역이 없을때
             model.addAttribute("cal", 0); // cal이 현재 날짜보다 과거면 1 미래면 -1 -> -1이면 유효 1이면 만료

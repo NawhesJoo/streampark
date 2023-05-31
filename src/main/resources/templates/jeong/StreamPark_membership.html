@@ -13,7 +13,7 @@
     <!-- 부트스트렙용 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jeong/jeong.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/radiostyle.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jeong/buttons.css}'>
 
@@ -170,7 +170,7 @@
             </nav>
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
-        <div id="layoutContent">
+        <div id="layoutContent" style="background-image: none;">
             <main>
                 <div class="container-fluid px-4">
                     <div class="row">
@@ -181,21 +181,26 @@
 
                             <div class="row">
 
-                                <div class="col" style="margin-left: 280px;">
+                                <div class="col" style="margin-left: 82px;">
                                     <!-- <label th:text="${grade}"></label> -->
                                     <!-- <label th:text="${cal}"></label> -->
 
                                     <div class="frame">
-                                        <!-- <button class="custom-btn btn-5">Read More</button> -->
+                                        <button class="custom-btn btn-8"
+                                            th:onclick="|location.href='@{/pay/membership.do(menu=1)}'|"><span
+                                                class="custom1">멤버쉽 가입</span></button>
+                                        <button class="custom-btn btn-8"
+                                            th:onclick="|location.href='@{/pay/membership.do(menu=2)}'|"><span
+                                                class="custom1">멤버쉽 변경</span></button>
                                         <!-- <button class="custom-btn btn-6">Read More</button> -->
-                                        <a th:href="@{/pay/membership.do(menu=1)}" class="custom1 custom-btn btn-5">멤버쉽
+                                        <!-- <a th:href="@{/pay/membership.do(menu=1)}" class="custom1 custom-btn btn-5">멤버쉽
                                             가입</a>
                                         <a th:href="@{/pay/membership.do(menu=2)}" class="custom1 custom-btn btn-5">멤버쉽
-                                            변경</a>
+                                            변경</a> -->
                                     </div>
                                     <!-- <a th:href="@{/pay/membership.do(menu=1)}">멤버쉽
                                         가입</a>
-                                    <a th:if="${cal == -1 }" th:href="@{/pay/membership.do(menu=2)}">멤버쉽 변경</a> --> -->
+                                    <a th:if="${cal == -1 }" th:href="@{/pay/membership.do(menu=2)}">멤버쉽 변경</a> -->
 
                                 </div>
                             </div>
@@ -204,7 +209,7 @@
 
                         </div>
                     </div>
-                    <div class="row pt-5">
+                    <div class="row">
                         <div class="col-1">
 
                         </div>
@@ -270,8 +275,12 @@
                                 <!-- 현재 멤버쉽 -->
                                 <!-- <label th:text="${cal}"></label> -->
 
-                                <div class="row">
-                                    <div class="card10 m-5" th:if="${cal == -1}">
+                                <div class="row"
+                                    style="border: 2px solid aliceblue;margin-right: 280px;
+                                    margin-left: 755px; height: 230px; width: 700px;">
+                                    <div class="card10" th:if="${cal == -1}"
+                                        style="margin-left: 20px ;margin-right: 50px; margin-top: 10px;">
+                                        <h2 style="color: #efc900;">사용중인 멤버쉽</h2>
                                         <input type="text" class="card10" id="card10" name="nowmembership" readonly>
                                         <label class="label1" for="card10">
                                             <h5 th:text="${fee.name}">BASIC</h5>
@@ -279,18 +288,22 @@
                                                 9500
                                                 <!-- <span>2023.06.22 만료</span> -->
                                             </h2>
-                                            <span th:text="${expired}"></span>
+                                            <span class="btncustom" th:text="${expired}"></span>
                                         </label>
-
                                     </div>
-                                    <div class="card10 m-5" th:if="${cal == -1}">
+                                    <div style="display: contents;">
+                                        <i class="bi bi-arrow-right" style="color: #efc900; width: 40px;height: 40px;margin-top: 110px; font-size: 30px;"></i>
+                                    </div>
+                                    <div class="card10" th:if="${cal == -1}"
+                                        style="margin-left: 20px;margin-right: 50px; margin-top: 10px;">
+                                        <h2 style="color: #efc900;">다음 결제 멤버쉽</h2>
                                         <input type="text" class="card10" id="card10" name="nowmembership" readonly>
                                         <label class="label1" for="card10">
                                             <h5 th:text="${fee.name}"></h5>
                                             <h2 th:text="${fee.price}">
                                                 <!-- <span>2023.06.22 만료</span> -->
                                             </h2>
-                                            <span th:text="${expired}"></span>
+                                            <span class="btncustom" th:text="${expired}"></span>
                                         </label>
 
                                     </div>
@@ -301,46 +314,49 @@
 
 
                                 <!-- 멤버쉽 목록 -->
-                                <div>
+                                <div
+                                    style="border: 2px solid aliceblue;margin-top: 90px;
+                                    margin-left: 167px;
+                                    margin-right: 275px; width: 1300px;">
                                     <form th:action="@{/pay/update.do}" method="post" id="form1">
                                         <input type="hidden" name="grade" id="hiddengrade">
-                                        <div class="row ps-5">
+                                        <div class="row" style="margin: 25px 50px 25px 50px;">
 
-                                            <div class="card1 m-5">
+                                            <div class="card1" style="margin-right: 100px;">
                                                 <input type="radio" class="card1" name="pricing" id="card1" value="1">
                                                 <label class="label1" for="card1">
                                                     <h5>베이직</h5>
                                                     <h2>
                                                         9500
-                                                        <span>원</span>
-                                                        <span>/month</span>
+                                                        <span class="btncustom">원</span>
+                                                        <span class="btncustom">/month</span>
                                                     </h2>
                                                 </label>
                                             </div>
-                                            <div class="col-4 card1 m-5">
+                                            <div class="card1" style="margin-right: 100px;">
                                                 <input type="radio" name="pricing" id="card2" class="card1" value="2">
                                                 <label class="label1" for="card2">
                                                     <h5>스탠다드</h5>
                                                     <h2>
                                                         12000
-                                                        <span>원</span>
-                                                        <span>/month</span>
+                                                        <span class="btncustom">원</span>
+                                                        <span class="btncustom">/month</span>
                                                     </h2>
                                                 </label>
                                             </div>
 
-                                            <div class="col-4 card1 m-5">
+                                            <div class="card1" style="margin-right: 100px;">
                                                 <input type="radio" name="pricing" id="card3" class="card1" value="3">
                                                 <label class="label1" for="card3">
                                                     <h5>프리미엄</h5>
                                                     <h2>
                                                         14500
-                                                        <span>원</span>
-                                                        <span>/month</span>
+                                                        <span class="btncustom">원</span>
+                                                        <span class="btncustom">/month</span>
                                                     </h2>
                                                 </label>
                                             </div>
-                                            <div class="col-4 card1 m-5">
+                                            <div class="card1">
                                                 <input type="radio" name="pricing" id="card4" class="card1" value="0">
                                                 <label class="label1" for="card4">
                                                     <h5>멤버쉽 해지</h5>
@@ -351,9 +367,10 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div align="right">
+                                <div align="right" style="margin-right: 170px; margin-top: 50px;">
                                     <input type="button" class="btn btn-warning" value="변경" onclick="change();">
                                 </div>
+                                
 
 
                             </div>
@@ -432,8 +449,9 @@
             }
             var form1 = document.getElementById('form1');
             var grade = document.getElementById('hiddengrade');
-            console.log(listVar);
+            // console.log(listVar);
             grade.value = listVar;
+            // console.log(grade.value);
             form1.submit();
         }
 
