@@ -11,6 +11,7 @@
     width: 200px;
     position: relative;
 }
+
 input[type="radio"].card1{
     -webkit-appearance: none;
     appearance: none;
@@ -73,12 +74,12 @@ input[type="radio"].card1:checked:after{
     background-color: #478bfb;
 }
 
-.card0{
+.card10{
     height: 160px;
     width: 200px;
     position: relative;
 }
-input[type="text"].card0{
+input[type="text"].card10{
     -webkit-appearance: none;
     appearance: none;
     background-color: white;
@@ -90,7 +91,7 @@ input[type="text"].card0{
     cursor: pointer;
     outline: none;
 }
-input[type="text"].card0:before {
+input[type="text"].card10:before {
     content: "";
     position: absolute;
     height: 22px;
@@ -101,7 +102,7 @@ input[type="text"].card0:before {
     top: 35px;
     right: 20px;
 }
-input[type="text"].card0:after {
+input[type="text"].card10:after {
     content: "";
     position: absolute;
     height: 13px;
