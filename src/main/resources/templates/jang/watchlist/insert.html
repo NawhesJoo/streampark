@@ -12,11 +12,22 @@
     <!-- 부트스트렙용 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1_jgw.css}'>
+    <style>
+    .sb-nav-fixed #layoutTotal #layoutContent {
+        background-image: url('../../../static/images/fondo-negativo-fotografia.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: grid;
+        vertical-align: middle;
+        z-index: 999;
+    }
+    </style>
 
-        <!-- jQuery 추가 -->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
         
     <!-- font awesome용 스크립트 CDN -->
@@ -144,8 +155,8 @@
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <h1 class="mainConName">시청목록 등록</h1>   
-                            <hr class="mainConBar" />
+                            <h1 class="mainConName" style="margin-left:550px;">시청목록 등록</h1>   
+                            <hr class="mainConBar" style="margin-left:620px;"/>
 
                         </div>
                     </div>
@@ -153,9 +164,10 @@
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                             <form th:action="@{/watchlist/insert.do}" method="post">
-                                <input type="text" name="profile.profileno" th:value="${profileno}" />
-                                <input type="text" name="videolist.videocode" placeholder="비디오코드" />
-                                <input type="submit" value="제출" />
+                                <input type="text" name="profile.profileno" th:value="${profileno}" style="margin-left:550px; margin-bottom:20px;"/><br />
+                                <input type="text" name="videolist.videocode" placeholder="비디오코드" style="margin-left:550px; margin-bottom:20px;" /><br />
+                                <a th:href="@{/watchlist/selectlist.do}"><button type="button" style="margin-left:595px; margin-right:0px">이전</button></a>
+                                <input type="submit" value="제출" style="margin-left:50px"/>
                             </form>
                         </div>
                     </div>

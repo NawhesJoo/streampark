@@ -13,12 +13,11 @@
     <!-- 부트스트렙용 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1_jgw.css}'>
 
     <!-- jQuery 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-
 
     <!-- font awesome용 스크립트 CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
@@ -40,6 +39,7 @@
         });
     </script>
 </head>
+
 
 <body class="sb-nav-fixed">
     <!-- 내비게이션 영역 -->
@@ -85,8 +85,8 @@
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
-                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">>드라마</a>
-                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">>애니</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
                                     <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
                                     <a class="nav-link" th:href="@{/kdh/best.do}">best</a>
                                 </nav>
@@ -100,10 +100,10 @@
                             <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" th:href="@{/kdh/watchlist.do}">시청 목록</a>
+                                    <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
                                     <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
                                     <a class="nav-link" th:href="@{/kdh/keeplist.do}">관심 목록</a>
-                                    <a class="nav-link" th:href="@{/kdh/reviewlist.do}">리뷰 내역</a>
+                                    <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
                                     <a class="nav-link" th:href="@{/kdh/customerservice.do}">고객 문의</a>
                                     <a class="nav-link" th:href="@{/kdh/profile.do}">프로필</a>
                                 </nav>
@@ -146,128 +146,134 @@
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
         <div id="layoutContent">
-            <main>
+            <main style="width: 1500px;">
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <h1 class="mainConName">리뷰목록(전체)</h1>
+                            <h1 class="mainConName">리뷰 내역</h1>
                             <hr class="mainConBar" />
                         </div>
                     </div>
-                    <div class="row d-flex  justify-content">
-                        <!-- 여기에 원하는 컨텐츠 삽입 -->
-                        <button class="btn btn-outline-danger" th:onclick="formAction1(1)">일괄삭제</button>
-                        <a th:href="@{/watchlist/selectlist.do}"><button type="button">시청 목록</button></a>
-                        <a th:href="@{/review/selectlist.do(menu=1)}"><button type="button">최근 작성 순으로 정렬</button></a>
-                        <a th:href="@{/review/selectlist.do(menu=2)}"><button type="button">좋아요 순으로 정렬</button></a>
-                        <hr />
-                        <div th:if="${#strings.equals(param.menu, '1')}">
-                            <form th:action="@{/review/selectlist.do(menu=1)}" method="post" id="form">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox" id="chkAll"
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-outline-danger" th:onclick="formAction1(1)">일괄삭제</button>
+                            <a th:href="@{/watchlist/selectlist.do}"><button class="btn btn-outline-success" type="button">시청 목록</button></a>
+                            <!-- <a th:href="@{/review/selectlist.do(menu=1)}"><button class="btn btn-outline-info" type="button">최근 작성 순으로 정렬</button></a> -->
+                            <a th:href="@{/review/selectlist.do(menu=2)}"><button class="btn btn-outline-info" type="button">좋아요 순으로 정렬</button></a>
+                            <hr />
+                            <div th:if="${#strings.equals(param.menu, '1')}">
+                                <form th:action="@{/review/selectlist.do(menu=1)}" method="post" id="form">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="chkAll"
                                                     onClick="allCheckboxes('chk[]', this.checked)"></th>
-                                            <th class="text-white">리뷰번호</th>
-                                            <th class="text-white">작성자 번호</th>
-                                            <th class="text-white">작품명</th>
-                                            <th class="text-white">리뷰내용</th>
-                                            <th class="text-white">좋아요</th>
-                                            <th class="text-white">신고</th>
-                                            <th class="text-white">등록일</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="obj : ${list}">
-                                            <td><input type="checkbox" name="chk[]"
+                                                <th class="text-white">리뷰번호</th>
+                                                <th class="text-white">작성자 번호</th>
+                                                <th class="text-white">작품명</th>
+                                                <th class="text-white">리뷰내용</th>
+                                                <th class="text-white">좋아요</th>
+                                                <th class="text-white">신고</th>
+                                                <th class="text-white">등록일</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj : ${list}">
+                                                <td><input type="checkbox" name="chk[]"
+                                                        th:value="${obj.review_no.longValue()}" /></td>
+                                                <td class="text-white" th:text="${obj.review_no.longValue()}"></td>
+                                                <td class="text-white" th:text="${obj.profileno}"></td>
+                                                <td class="text-white" th:text="${obj.watchlist.videolist.title}"></td>
+                                                <td class="text-white" th:text="${obj.content}"></td>
+                                                <td class="text-white" th:text="${obj.likes}"></td>
+                                                <td class="text-white" th:text="${obj.reportcnt}"></td>
+                                                <td class="text-white" th:text="${obj.regdate}"></td>
+                                                <td style="padding: 0;">
+                                                    <span th:if="${obj.profileno} == '93'">
+                                                        <a
+                                                            th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
+                                                                type="button" class="btn btn-outline-primary">수정</button></a>
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                            th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
+                                                    </span>
+                                                    <button type="button" id="likebtn" class="btn btn-outline-success"
+                                                        th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
+                                                    <button type="button" class="btn btn-outline-warning"
+                                                        th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div th:if="${#strings.equals(param.menu, '2')}">
+                                <form th:action="@{/review/selectlist.do(menu=2)}" method="post" id="form">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="chkAll"
+                                                    onClick="allCheckboxes('chk[]', this.checked)"></th>
+                                                <th class="text-white">리뷰번호</th>
+                                                <th class="text-white">작성자 번호</th>
+                                                <th class="text-white">작품명</th>
+                                                <th class="text-white">리뷰내용</th>
+                                                <th class="text-white">좋아요</th>
+                                                <th class="text-white">신고</th>
+                                                <th class="text-white">등록일</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj : ${list}">
+                                                <td><input type="checkbox" name="chk[]"
                                                     th:value="${obj.review_no.longValue()}" /></td>
-                                            <td class="text-white" th:text="${obj.review_no.longValue()}"></td>
-                                            <td class="text-white" th:text="${obj.profileno}"></td>
-                                            <td class="text-white" th:text="${obj.watchlist.videolist.title}"></td>
-                                            <td class="text-white" th:text="${obj.content}"></td>
-                                            <td class="text-white" th:text="${obj.likes}"></td>
-                                            <td class="text-white" th:text="${obj.reportcnt}"></td>
-                                            <td class="text-white" th:text="${obj.regdate}"></td>
-                                            <td>
-                                                <span th:if="${obj.profileno} == '6'">
-                                                    <a
-                                                        th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
-                                                            type="button">수정</button></a>
-                                                    <button type="button" class="btn btn-danger"
-                                                        th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
-                                                </span>
-                                                <button type="button" id="likebtn"
-                                                    th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
-                                                <button type="button"
-                                                    th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                <td class="text-white" th:text="${obj.review_no.longValue()}"></td>
+                                                <td class="text-white" th:text="${obj.profileno}"></td>
+                                                <td class="text-white" th:text="${obj.watchlist.videolist.title}"></td>
+                                                <td class="text-white" th:text="${obj.content}"></td>
+                                                <td class="text-white" th:text="${obj.likes}"></td>
+                                                <td class="text-white" th:text="${obj.reportcnt}"></td>
+                                                <td class="text-white" th:text="${obj.regdate}"></td>
+                                                <td style="padding: 0;">
+                                                    <span th:if="${obj.profileno} == '93'" style="display: inline-block;
+                                                    float: right;
+                                                    margin-top: 10px;">
+                                                        <button type="button" class="btn btn-outline-warning"
+                                                            th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
+                                                        <a
+                                                            th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
+                                                                type="button" class="btn btn-outline-primary">수정</button></a>
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                            th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
+                                                    </span>
+                                                    <div class="btn-like"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+
+                            <form th:action="@{/review/delete.do}" method="post" id="form2" style="display:none">
+                                <input type="hidden" name="review_no" id="hidden_review_no" />
+                                <input type="hidden" name="profileno" id="hidden_profileno" />
                             </form>
-                        </div>
-                        <div th:if="${#strings.equals(param.menu, '2')}">
-                            <form th:action="@{/review/selectlist.do(menu=2)}" method="post" id="form">
-                                <table border="1">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-white">리뷰번호</th>
-                                            <th class="text-white">작성자 번호</th>
-                                            <th class="text-white">작품명</th>
-                                            <th class="text-white">리뷰내용</th>
-                                            <th class="text-white">좋아요</th>
-                                            <th class="text-white">신고</th>
-                                            <th class="text-white">등록일</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="obj : ${list}">
-                                            <td class="text-white" th:text="${obj.review_no.longValue()}"></td>
-                                            <td class="text-white" th:text="${obj.profileno}"></td>
-                                            <td class="text-white" th:text="${obj.watchlist.videolist.title}"></td>
-                                            <td class="text-white" th:text="${obj.content}"></td>
-                                            <td class="text-white" th:text="${obj.likes}"></td>
-                                            <td class="text-white" th:text="${obj.reportcnt}"></td>
-                                            <td class="text-white" th:text="${obj.regdate}"></td>
-                                            <td>
-                                                <span th:if="${obj.profileno} == '6'">
-                                                    <a
-                                                        th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
-                                                            type="button">수정</button></a>
-                                                    <button type="button"
-                                                        th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
-                                                </span>
-                                                <button type="button" id="likebtn"
-                                                    th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
-                                                <button type="button"
-                                                    th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
+                            <form th:action="@{/review/update.do}" method="get" id="form3" style="display:none">
+                                <input type="hidden" name="review_no" id="hidden_review_no" />
+                                <input type="hidden" name="profileno" id="hidden_profileno" />
                             </form>
+
+                            <!-- <form th:action="@{/review/selectlistorderbylikes.do}" method="get" id="form4" style="display:none">
+                            <input type="hidden" name="likes" id="hidden_likes" />
+                        </form> -->
                         </div>
-
-                        <form th:action="@{/review/delete.do}" method="post" id="form2" style="display:none">
-                            <input type="hidden" name="review_no" id="hidden_review_no" />
-                            <input type="hidden" name="profileno" id="hidden_profileno" />
-                        </form>
-
-                        <form th:action="@{/review/update.do}" method="get" id="form3" style="display:none">
-                            <input type="hidden" name="review_no" id="hidden_review_no" />
-                            <input type="hidden" name="profileno" id="hidden_profileno" />
-                        </form>
-
-                        <!-- <form th:action="@{/review/selectlistorderbylikes.do}" method="get" id="form4" style="display:none">
-                        <input type="hidden" name="likes" id="hidden_likes" />
-                    </form> -->
                     </div>
                 </div>
             </main>
-            <footer class="  mt-auto">
+            <footer class="mt-auto">
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
@@ -277,19 +283,66 @@
                 </div>
             </footer>
         </div>
-
-
-
+        <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
-        <script th:inline="javascript">
-            function deleteAction(review_no, profileno) {
-                if (confirm('삭제할까요?')) {
-                    document.getElementById('hidden_review_no').value = review_no;
-                    document.getElementById('hidden_profileno').value = profileno;
+      <!-- ================================== -->
+      <script>
+
+          const COLOR_RED = "#eb2940";
+          const COLOR_WHITE = "#f7fafe";
+          const DURATION_MULTIPLIER = 20;
+          
+          const button = document.querySelector(".btn-like");
+          
+          const moTimeline = new mojs.Timeline();
+          const moScaleCurve = mojs.easing.path("M0 100H15.5C51 54.5 14.5 7.5 100 0");
+          
+          const moTween1 = new mojs.Burst({
+        parent: button,
+        angle: { 0: 45 },
+        y: -10,
+        count: 8,
+        radius: 130,
+        children: {
+            shape: "circle",
+            radius: 28,
+            fill: [COLOR_RED, COLOR_WHITE],
+            duration: 60 * DURATION_MULTIPLIER
+            }
+        });
+
+        const moTween2 = new mojs.Tween({
+            duration: 90 * DURATION_MULTIPLIER,
+            onUpdate: (progress) => {
+                const moScaleProgress = moScaleCurve(progress);
+                button.style.transform = `translate(-50%, -50%) scale3d(${moScaleProgress}, ${moScaleProgress}, 1)`;
+            }
+        });
+
+        moTimeline.add(moTween1, moTween2);
+
+        button.addEventListener("click", () => {
+            if (button.classList.contains("liked")) {
+                button.classList.remove("liked");
+            } else {
+                moTimeline.play();
+                button.classList.add("liked");
+            }
+        });
+        </script>
+      <!-- ================================== -->
+      <script th:inline="javascript">
+        function deleteAction(review_no, profileno) {
+            if(confirm('삭제할까요?')) {
+                document.getElementById('hidden_review_no').value = review_no;
+                document.getElementById('hidden_profileno').value = profileno;
                     document.getElementById('form2').submit();
                 }
             }
-
+            
             function formAction1(code) {
                 const form = document.getElementById('form');
                 if (code === 1) {
@@ -297,43 +350,43 @@
                 }
                 form.submit();
             }
-
+            
             // 체크박스 전체 선택 / 해제
-        function allCheckboxes(boxNames, chkMode) {
-            const e1 = document.getElementsByName(boxNames);
-            for (let i = 0; i < e1.length; i++) {
-                if (!e1[i].disabled) {
-                    e1[i].checked = chkMode;
-                }
-            }
-        }
-
-        // 전체 체크 여부
-        function isAllCheck(boxNames, allChkName) {
-            const el = document.getElementsByName(boxNames);
-            let checkboxCnt = 0;
-            let checkedCnt = 0;
-            for (let i = 0; i < el.length; i++) {
-                if (!el[i].disabled) {
-                    checkboxCnt += 1;
-                    if (el[i].checked) {
-                        checkedCnt += 1;
+            function allCheckboxes(boxNames, chkMode) {
+                const e1 = document.getElementsByName(boxNames);
+                for (let i = 0; i < e1.length; i++) {
+                    if (!e1[i].disabled) {
+                        e1[i].checked = chkMode;
                     }
                 }
             }
 
-            let chkMode = false;
-            //체크박스 개수와 체크 된 체크박스 개수와 일치할 경우
-            if (checkboxCnt == checkedCnt) {
-                chkMode = true;
-            } else {
-                chkMode = false;
-            }
-            //일치할 경우 천제 체크 박스는 체크, 일치하지 않을 경우 해제
-            document.getElementById(allChkName).checked = chkMode;
-        }
+            // 전체 체크 여부
+            function isAllCheck(boxNames, allChkName) {
+                const el = document.getElementsByName(boxNames);
+                let checkboxCnt = 0;
+                let checkedCnt = 0;
+                for (let i = 0; i < el.length; i++) {
+                    if (!el[i].disabled) {
+                        checkboxCnt += 1;
+                        if (el[i].checked) {
+                            checkedCnt += 1;
+                        }
+                    }
+                }
 
-            function updateAction(review_no, profileno) {
+                let chkMode = false;
+                //체크박스 개수와 체크 된 체크박스 개수와 일치할 경우
+                if (checkboxCnt == checkedCnt) {
+                    chkMode = true;
+                } else {
+                    chkMode = false;
+                }
+                //일치할 경우 천제 체크 박스는 체크, 일치하지 않을 경우 해제
+                document.getElementById(allChkName).checked = chkMode;
+            }
+
+            function updateAction(review_no,profileno) {
                 document.getElementById('hidden_review_no').value = review_no;
                 document.getElementById('hidden_profileno').value = profileno;
                 document.getElementById('form3').submit();
@@ -343,42 +396,61 @@
                 console.log(review_no, profileno);
                 const url = /*[[@{/api/review/likesplus.json}]]*/"";
                 console.log(url);
-                const body = { no: review_no, pno: profileno };
-                const headers = { "Content-Type": "application/json" };
-                const { data } = await axios.put(url, body, { headers: headers });
+                const body = {no : review_no, pno : profileno};
+                const headers = {"Content-Type":"application/json"};
+                const {data} = await axios.put(url, body, {headers:headers});
                 console.log('반환되는 결과', data);
 
-                if (data.status1 === 0) {
+                if(data.status1 === 0) {
                     window.location.reload();
                 }
                 else {
                     window.location.reload();
                 }
-
+                
             }
 
             async function reportpluscnt(review_no, profileno) {
                 const ret = confirm('정말로 신고하시겠습니까?');
-                if (ret === true) {
+                if(ret === true) {
                     console.log(review_no, profileno);
                     const url = /*[[@{/api/review/reportplus.json}]]*/"";
                     console.log(url);
-                    const body = { no: review_no, pno: profileno };
-                    const headers = { "Content-Type": "application/json" };
-                    const { data } = await axios.put(url, body, { headers: headers });
+                    const body = {no : review_no, pno : profileno};
+                    const headers = {"Content-Type":"application/json"};
+                    const {data} = await axios.put(url, body, {headers:headers});
                     console.log('반환되는 결과', data);
 
-                    if (data.status === 1) {
+                    if(data.status === 1) {
                         window.location.reload();
                     }
                     else {
                         alert("이미 신고한 리뷰입니다.");
                     }
                 }
-
+                
             }
+
+            async function likesmanysort(likes) {
+                console.log('likes');
+                // document.getElementById('hidden_likes').value = likes;
+                // document.getElementById('form4').submit();
+                console.log(likes);
+                const url = /*[[@{/api/review/likesmanysort.json(likes=likes)}]]*/"";
+                console.log(url);
+                const headers = {"Content-Type":"application/json"};
+                const {data} = await axios.get(url, {headers:headers});
+                console.log('반환되는 결과', data);
+
+                if(data.status === 1) {
+                    window.location.reload();
+                }
+                else {
+                    alert();
+                }
+            }
+
         </script>
-
-</body>
-
+    </body>
 </html>
+

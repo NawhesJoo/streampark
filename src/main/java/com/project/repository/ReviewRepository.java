@@ -13,16 +13,20 @@ import com.project.entity.Review;
 public interface ReviewRepository extends JpaRepository<Review, BigInteger> {
     
     // 리뷰 전체목록
-    List<Review> findAllByOrderByRegdateDesc();
+    @Query(value = " SELECT * FROM REVIEW WHERE profileno=:profileno ORDER BY regdate DESC ", nativeQuery = true)
+    List<Review> findAllByOrderByRegdateDesc(BigInteger profileno);
 
     // 해당 비디오코드에 맞는 리뷰 목록
     @Query(value = " SELECT wl.viewno, wl.viewdate, wl.videocode, wl.profileno, r.review_no, r.content, r.regdate, r.likes, r.reportcnt FROM WATCHLIST wl, REVIEW r WHERE wl.VIDEOCODE=:videocode AND wl.viewno = r.viewno ORDER BY wl.viewdate DESC ", nativeQuery=true)
     List<Review> findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(BigInteger videocode);
 
-    List<Review> findAllByOrderByLikesDesc();
+    @Query(value = " SELECT * FROM REVIEW WHERE profileno=:profileno ORDER BY likes DESC ", nativeQuery = true)
+    List<Review> findAllByOrderByLikesDesc(BigInteger profileno);
 
     @Query(value = " SELECT wl.viewno, wl.viewdate, wl.videocode, wl.profileno, r.review_no, r.content, r.regdate, r.likes, r.reportcnt FROM WATCHLIST wl, REVIEW r WHERE wl.VIDEOCODE=:videocode AND wl.viewno = r.viewno ORDER BY r.likes DESC ", nativeQuery=true)
     List<Review> findByVideolist_VideocodeIgnoreCaseContainingOrderByLikesDesc(BigInteger videocode);
+
+    // List<Review> findByProfilenoOrderByRegdateDesc();
 
     // List<Review> findByReviewlikes_chklikesOrderByReviewnoDesc();
 }

@@ -33,8 +33,8 @@ public class ReviewLikesPlusController {
     final ReviewLikesMapper reviewlikesMapper;
     final ReviewReportMapper reviewreportMapper;
     final ReviewRepository rRepository;
-    final BigInteger profileno = BigInteger.valueOf(87);
-    final Long profileno1 = Long.valueOf(87);
+    final BigInteger profileno = BigInteger.valueOf(93);
+    final Long profileno1 = Long.valueOf(93);
 
     @PutMapping(value="/reportplus.json")
     public Map<String, Object> reportpluscntPUT(@RequestBody Map<String, Object> recvMap) {

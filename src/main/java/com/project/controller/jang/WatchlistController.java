@@ -28,7 +28,7 @@ public class WatchlistController {
     final String format = "WatchlistController => {}";
     final WatchlistRepository wlRepository;
     final WatchlistMapper wlMapper;
-    final BigInteger profileno = BigInteger.valueOf(6);
+    final BigInteger profileno = BigInteger.valueOf(93);
 
     @PostMapping(value = "/deletebatch.do")
     public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {

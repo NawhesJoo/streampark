@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ReviewController {
 
     final String format = "ReviewController => {}";
-    final BigInteger profileno2 = BigInteger.valueOf(6);
+    final BigInteger profileno2 = BigInteger.valueOf(93);
     final ReviewRepository rRepository;
 
 
@@ -54,9 +54,12 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/selectvideocodereview.do")
-    public String selectvideocodereviewGET(Model model, @RequestParam(name="menu", required = false, defaultValue = "1") int menu, @ModelAttribute Review review, @RequestParam(name = "videocode") BigInteger videocode) {
+    public String selectvideocodereviewGET(Model model, @RequestParam(name="menu", required = false, defaultValue = "0") int menu, @ModelAttribute Review review, @RequestParam(name = "videocode") BigInteger videocode) {
         try {
             log.info(format, videocode);
+            // if(menu == 0) {
+            //     return "redirect:/review/selectvideocodereview.do?videocode=1&menu=1";
+            // }
             if(menu == 1) {
                 List<Review> list = rRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
                 model.addAttribute("list", list);
@@ -139,6 +142,13 @@ public class ReviewController {
     //     }
     // }
 
+    // @GetMapping(value = "/selectlistmine.do")
+    // public String selectlistmineGET(@RequestParam(name="menu", required = false, defaultValue = "0") int menu, @RequestParam(name = "videocode", required = false) BigInteger videocode, @ModelAttribute Review review, Model model) {
+    //     List<Review> list = rRepository.findByProfilenoOrderByRegdateDesc();
+    //     model.addAttribute("list", list);
+    //     return "/jang/review/selectlist";
+    // }
+
 
     // 127.0.0.1:9090/streampark/review/selectlist.do
     @GetMapping(value = "/selectlist.do")
@@ -149,12 +159,12 @@ public class ReviewController {
                 
             }
             if(menu == 1) {
-                List<Review> list = rRepository.findAllByOrderByRegdateDesc();
+                List<Review> list = rRepository.findAllByOrderByRegdateDesc(profileno2);
                 model.addAttribute("list", list);
             }
 
             else if(menu == 2) {
-                List<Review> list = rRepository.findAllByOrderByLikesDesc();
+                List<Review> list = rRepository.findAllByOrderByLikesDesc(profileno2);
                 model.addAttribute("list", list);
             }
             return "/jang/review/selectlist";
