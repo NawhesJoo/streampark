@@ -90,7 +90,7 @@ public class ProfileMypageController {
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pService.findByNickname(nickname);
         if(profile.getProfilepw() == null){
-            return "/JSH/createpw";
+            return "/JSH/profilecreatepw";
         }
         return "/JSH/updatepw";
     }
@@ -142,7 +142,7 @@ public class ProfileMypageController {
     if (profile.getProfilepw() != null){
         model.addAttribute("profilepwchk", true);
     }
-    return "/JSH/delete";
+    return "/JSH/profiledelete";
     }
 
 
@@ -157,7 +157,7 @@ public class ProfileMypageController {
             return "redirect:/profile/profilelist.do";
         } catch (Exception e){
             e.printStackTrace();
-            return "/JSH/delete";
+            return "/JSH/profiledelete";
         }
     }   // 완료
 

@@ -9,7 +9,7 @@
 <body>
     <a th:href="@{/mypage/mypage.do}"><button>뒤로가기</button></a>
     <h3>암호 생성</h3>
-    <form method="POST" th:action="@{/mypage/createpw.do}" onsubmit="return onsubmitForm()">
+    <form method="POST" th:action="@{/mypage/profilecreatepw.do}" onsubmit="return onsubmitForm()">
         암호 : <input type="password" name="profilepw" id="profilepw" placeholder="암호"/><br />
         암호 확인 : <input type="password" name="profilepw1"id="profilepw1" placeholder="암호 확인"/><br />
         <input type="submit" value="암호생성" />

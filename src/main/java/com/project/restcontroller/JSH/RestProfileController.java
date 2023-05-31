@@ -6,10 +6,13 @@ import java.util.Map;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dto.JSH.Login;
 import com.project.entity.Profile;
 import com.project.repository.ProfileRepository;
 import com.project.repository.ProfileimgRepository;
@@ -37,7 +40,6 @@ public class RestProfileController {
                 retMap.put("message", "닉네임 입력하셈");
             }
             else {
-
                 if(profile == null){
                     // 중복되지 않은 경우
                     retMap.put("status", 200);
@@ -142,6 +144,10 @@ public class RestProfileController {
                     retMap.put("result", 2);
                     retMap.put("status", 409); 
             }
+            if(profile.getProfilepw() == null){
+                retMap.put("result", 1);
+                retMap.put("status", 200);
+            }
         }
             catch(Exception e) {
             e.printStackTrace();
@@ -174,4 +180,27 @@ public class RestProfileController {
             return retMap;
         
     }
+
+    @PostMapping(value = "/login.do")
+    public Map<String,Object> loginPOST(@RequestBody Login obj){
+        Map<String, Object> retMap = new HashMap<>();
+        try{
+            Profile profile = pRepository.findByNickname(obj.getNickname());
+            if(profile.getProfilepw() == null){
+                retMap.put("result", 0);
+                retMap.put("status", 409);
+            }
+            else {
+                retMap.put("result", 1);
+                retMap.put("status", 200);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            retMap.put("status", -1);
+            retMap.put("error", e.getMessage());
+        }
+        return retMap;
+    }    
+
 }

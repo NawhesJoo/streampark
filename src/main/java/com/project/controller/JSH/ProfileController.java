@@ -55,7 +55,7 @@ public class ProfileController {
     final HttpSession httpSession;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
     @Value("${default.profileimg}")
-    private String DEFAULTPROFILEIMG;
+    private String defaultprofileimg;
     final ResourceLoader resourceLoader;
 
 
@@ -70,7 +70,7 @@ public class ProfileController {
         }
         
         // 이미지가 없을 경우
-        InputStream is = resourceLoader.getResource(DEFAULTPROFILEIMG).getInputStream(); // exception 발생됨.
+        InputStream is = resourceLoader.getResource(defaultprofileimg).getInputStream(); // exception 발생됨.
         headers.setContentType(MediaType.IMAGE_PNG);
         return new ResponseEntity<>( is.readAllBytes(), headers, HttpStatus.OK);
     }
@@ -80,6 +80,8 @@ public class ProfileController {
     // 현재 멤버쉽은 GRADE 값
     @GetMapping(value = "/profilelist.do")
     public String profilelistGET(Model model, HttpSession session) {
+        session.removeAttribute("profileno");
+        session.removeAttribute("nickname");
         try {
             // String id = (String) session.getAttribute("id");
             String id = "a1";
@@ -90,50 +92,69 @@ public class ProfileController {
             for (Profile profile : list) {
                 BigInteger profileno = profile.getProfileno();
                 Profileimg profileimg = piRepository.findByProfile_Profileno(profileno);
-    
+                String nickname = profile.getNickname();
+                model.addAttribute("nickname1", nickname);
+                log.info("list => {}", list.toString());
+
                 if (profileimg != null) {
                     model.addAttribute("profileno", profileno);
                     break;
                 }
+                if (profile.getProfilepw() == null){
+                    model.addAttribute("pwchk", 0);
+                } else {
+                    model.addAttribute("pwchk", 1);
+                }
             }
-            // log.info("list => {}", list.toString());
-
-            // 가장 최신의 Paychk 조회
-            List<Paychk> list1 = pMapper.selectPaychk(id);
-            Paychk latestPaychk = list1.get(0);
-            
+         
             // 멤버십 등급 확인
             Paychk paychk = pcRepository.findTop1ByMember_idAndTypeOrderByRegdateDesc(id, "M");
-            BigInteger grade = paychk.getFee().getGrade();
-            // 멤버십 등급 전달
-            model.addAttribute("grade", grade);
-            log.info("grade => {}", grade);
-
+            if(paychk != null){
+                BigInteger grade = paychk.getFee().getGrade();
+                // 멤버십 등급 전달
+                model.addAttribute("grade", grade);
+                log.info("grade => {}", grade);
+            }
+            else {
+                model.addAttribute("grade", "0");
+            }
 
             // 프로필 갯수 확인
             long profilecnt = pRepository.countByMember_id(id);
+
             // 프로필 수 전달
             model.addAttribute("profilecnt", profilecnt);
             log.info("profilecnt => {}", profilecnt);
             
-
-            // 만료 날짜와 현재 시간 비교
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(latestPaychk.getRegdate());
-            calendar.add(Calendar.MONTH, 1);
-            Date oneMonthAfter = calendar.getTime();
 
             // 현재 날짜 가져오기
             Date currentDate = new Date();
 
-            // 날짜 비교
-            if (currentDate.after(oneMonthAfter)) { // 만료되었다면 
-                model.addAttribute("chk", "0");
-            } else { // 아직 남아있을 때
-                model.addAttribute("chk", "1");
-            }
-            log.info("oneMonthAfter => {}", oneMonthAfter);
-            log.info("currentDate => {}", currentDate);
+            // 가장 최신의 Paychk 조회
+            if(!pcRepository.findByMember_id(id).isEmpty()){ // Paychk의 정보가 있으면
+
+                List<Paychk> list1 = pMapper.selectPaychk(id);
+                Paychk latestPaychk = list1.get(0);
+
+                // 만료 날짜와 현재 시간 비교
+                calendar.setTime(latestPaychk.getRegdate());
+                calendar.add(Calendar.MONTH, 1);
+                Date oneMonthAfter = calendar.getTime();
+
+                log.info("oneMonthAfter => {}", oneMonthAfter);
+                log.info("currentDate => {}", currentDate);
+
+                    // 날짜 비교
+                    if (currentDate.after(oneMonthAfter)) { // 만료되었다면 
+                        model.addAttribute("chk", "0");
+                    } else { // 아직 남아있을 때
+                        model.addAttribute("chk", "1");
+                    }
+            } 
+            else { // Paychk의 정보가 없으면
+                model.addAttribute("chk","0");
+            }   
 
             session.removeAttribute("nickname");
             session.removeAttribute("profileno");
@@ -150,7 +171,7 @@ public class ProfileController {
     @GetMapping(value = "/create.do")
         public String createGET(Model model){
             model.addAttribute("profile", new Profile());
-        return "/JSH/create";
+        return "/JSH/profilecreate";
     }
 
     @PostMapping(value = "/create.do")
@@ -178,7 +199,7 @@ public class ProfileController {
 
     // 프로필 로그인
     @GetMapping(value = "/login.do")
-    public String loginGET(@RequestParam(name = "nickname", required = false) String nickname,
+    public String loginGET(@RequestParam(name = "nickname1", required = false) String nickname,
         Model model, HttpSession session) {
         model.addAttribute("nickname", nickname);
         Profile profile1 = pRepository.findByNickname(nickname);
@@ -186,13 +207,17 @@ public class ProfileController {
             session.setAttribute("profileno", profile1.getProfileno());
             session.setAttribute("nickname", nickname);
             return "redirect:/profile/home.do";
+            
         }
-        return "/JSH/logintest";
+        else{
+
+            return "/JSH/logintest";
+        }
     }
     
 
     @PostMapping(value = "/login.do")
-        public String loginPOST(@RequestParam("nickname") String nickname,
+        public String loginPOST(@RequestParam("nickname1") String nickname,
             @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session) {
             Profile profile = pRepository.findByNickname(nickname);
             try{
