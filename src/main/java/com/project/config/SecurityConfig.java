@@ -2,6 +2,7 @@ package com.project.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,25 +18,25 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class SecurityConfig {   
     
-       
+    
     @Bean   // 객체를 생성함. (자동으로 호출됨.)    
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.info("SecurityConfig => {}", "start filter chain1");
-
+        
         // 권한 설정
         // http.authorizeRequests()
-            // .antMatchers("/customer/join.do").permitAll()
-            
-            // .anyRequest().permitAll();
-
+        // .antMatchers("/customer/join.do").permitAll()
+        
+        // .anyRequest().permitAll();
+        
         // 403페이지 설정(접근권한 불가 시 표시할 화면)    
         // http.exceptionHandling().accessDeniedPage("/403page.do");
         
-
+        
         //post는 csrf를 전송해야하지만, 주소가 /api로 시작하는 모든url은  csrf가 없어도 됨
         http.csrf().ignoringAntMatchers("/streampark/**");
         http.csrf().ignoringAntMatchers("/api/**");
-
+        
         // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         
         return http.build();
@@ -53,6 +54,7 @@ public class SecurityConfig {
         @Bean  // 서버구동시 자동으로 실행됨 => @Bean
         public PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
+        }
+    
     }
-}
     
