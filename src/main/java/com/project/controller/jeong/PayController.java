@@ -130,7 +130,7 @@ public class PayController {
     public String membershipGET(Model model,
             @RequestParam(name = "menu", required = false, defaultValue = "0") int menu) {
 
-        Profile profile = jService.findProfileById(88);
+        Profile profile = jService.findProfileById(93);
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         // Paychk paychk = jService.findPaychkTopByRegdate();
         Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
