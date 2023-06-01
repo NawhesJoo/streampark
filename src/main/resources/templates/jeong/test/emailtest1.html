@@ -72,7 +72,7 @@
             const code = document.getElementById('code');
             if(email1.value.length<1 || code.value.length<1){
                 alert('이메일 혹은 인증번호를 입력해주세요');
-                return;
+                return ;
             }
             const url = /*[[@{/api/test1/emailchk.do}]]*/"";
             const headers = { "Content-Type": "application/json" };
