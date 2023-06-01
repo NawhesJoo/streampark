@@ -27,29 +27,13 @@
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script th:src="@{main.js}"></script>
 
-    <script>
-        $(document).ready(function () {
-            const sidebarToggle = $('#sidebarToggle');
-            if (sidebarToggle) {
-
-                sidebarToggle.click(function () {
-                    console.log('숨기기');
-                    event.preventDefault();
-                    document.body.classList.toggle('sb-sidenav-toggled');
-                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-                });
-
-            }
-        });
-    </script>
     <style>
-         tr {
+        tr {
             color: white;
         }
 
-        #insertBtn{
+        #insertBtn {
             margin: 0.5rem 0;
             background-color: #f4a320;
             border-radius: 3px;
@@ -79,19 +63,20 @@
         #btnSearch {
             background-color: #EFC900;
         }
-      
-        h1{
-            border-bottom: 2px solid  white;
+
+        h1 {
+            border-bottom: 2px solid white;
             width: 100%;
             margin: 0;
             padding: 0;
         }
 
-        thead tr th{
+        thead tr th {
             border: 0.5px;
         }
 
-        td,th {
+        td,
+        th {
             text-align: center;
         }
 
@@ -238,7 +223,8 @@
                             <!-- 컨텐츠 이름 넣기 -->
                             <div class="container">
                                 <h1 class="mainConName">1:1문의</h1>
-                                <div align="right"><button id="insertBtn"type="button" th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
+                                <div align="right"><button id="insertBtn" type="button"
+                                        th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
                                 <form>
                                     <table class="table table-fixed">
                                         <thead>
@@ -257,7 +243,8 @@
                                                 <td id="title"><a th:href="@{/qna/selectone.do(no=${obj.no})}"
                                                         th:text="${obj.title}"></a></td>
                                                 <td th:text="${obj.profile.nickname}"></td>
-                                                <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}"></td>
+                                                <td class="regdate1" th:text="${obj.regdate}"></td>
+
                                                 <td th:if="${obj.qnareply.size()>=1}">
                                                     <div id="reply">답변완료</div>
                                                 </td>
@@ -283,10 +270,77 @@
             </footer>
         </div>
     </div>
+
     <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
         </script>
+    <!-- <script th:src="@{main.js}"></script> -->
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+
+                sidebarToggle.click(function () {
+                    console.log('숨기기');
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+
+            }
+        });
+
+        function displayedAt() {
+            const value1 = document.getElementsByClassName('regdate1');
+            // console.log(value[0].value);
+            // console.log(value1[0].innerHTML);
+
+            // const regdate = (/*[[${list[0].regdate}]]*/"");
+            // console.log(regdate);
+            // console.log(typeof regdate);
+            // console.log(typeof new Date());
+            // console.log(milliSeconds);
+            
+            
+            
+            console.log(value1.length);
+            for (i = 0; i < value1.length; i++) {
+                const regdate = (value1[i].innerHTML);
+                const milliSeconds = new Date() - new Date(regdate);
+                const seconds = milliSeconds / 1000;
+                const minutes = seconds / 60;
+                const hours = minutes / 60
+                const days = hours / 24
+                const weeks = days / 7
+                const months = days / 30
+
+                if (seconds < 60) {
+                    value1[i].innerHTML = `방금 전`;
+                }
+                else if (minutes < 60) {
+                    value1[i].innerHTML = `${Math.floor(minutes)}분 전`;
+                }
+                else if (hours < 24) {
+                    value1[i].innerHTML = `${Math.floor(hours)}시간 전`;
+                }
+                else if (days < 7) {
+                    value1[i].innerHTML = `${Math.floor(days)}일 전`;
+                }
+                else if (weeks < 5) {
+                    value1[i].innerHTML = `${Math.floor(weeks)}주 전`;
+                }
+                else if (months < 12) {
+                    value1[i].innerHTML = `${Math.floor(months)}개월 전`;
+                }
+            }
+        }
+        displayedAt();
+        // console.log(displayedAt());
+
+    </script>
+
 </body>
 
 </html>

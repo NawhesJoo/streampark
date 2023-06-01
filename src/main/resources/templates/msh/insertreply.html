@@ -303,6 +303,20 @@
             }
             $("#insertForm").submit();
         }
+        
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+
+                sidebarToggle.click(function () {
+                    console.log('숨기기');
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+
+            }
+        });
     </script>
 </body>
 
