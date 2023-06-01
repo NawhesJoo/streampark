@@ -3,6 +3,8 @@ package com.project.controller.jang;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +30,9 @@ public class WatchlistController {
     final String format = "WatchlistController => {}";
     final WatchlistRepository wlRepository;
     final WatchlistMapper wlMapper;
-    final BigInteger profileno = BigInteger.valueOf(93);
-
+    // final BigInteger profileno = BigInteger.valueOf(93);
+    final HttpSession httpSession;
+    
     @PostMapping(value = "/deletebatch.do")
     public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
         try {
@@ -60,7 +63,7 @@ public class WatchlistController {
     @GetMapping(value = "/selectlist.do")
     public String selectGET(Model model, @RequestParam(name = "type", defaultValue = "title", required = false) String type, @RequestParam(name = "text", required = false) String text, @ModelAttribute Search obj) {
             try {
-                
+                BigInteger profileno = (BigInteger) httpSession.getAttribute("httpSession");
                 log.info(format, type);
                 log.info(format, text);
                 if(type.equals("title") && text==null) {
@@ -113,6 +116,7 @@ public class WatchlistController {
     @GetMapping(value = "/insert.do")
     public String insertGET(Model model) {
         try {
+            BigInteger profileno = (BigInteger) httpSession.getAttribute("httpSession");
             model.addAttribute("profileno", profileno);
             return "/jang/watchlist/insert";
         }

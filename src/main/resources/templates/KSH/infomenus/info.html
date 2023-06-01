@@ -62,7 +62,9 @@
                     <div class="col d-flex justify-content-center">
                         <footer>
                             <a th:href="@{/profile/profilelist.do}">프로필 선택으로</a>
-                            <a th:href="@{/member/logout.do}">로그아웃</a>
+                            <form th:action="@{/logout.do}" method="post">
+                                <input type="submit" value="로그아웃">
+                            </form>
                         </footer>
                     </div>
                 </div>

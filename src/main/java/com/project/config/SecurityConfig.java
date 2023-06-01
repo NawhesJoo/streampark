@@ -3,7 +3,6 @@ package com.project.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {
-
+    // final SecurityServiceImpl  memberTableService;
     @Bean // 객체를 생성함. (자동으로 호출됨.)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.info("SecurityConfig => {}", "start filter chain1");
@@ -25,24 +24,32 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/member/**").permitAll()
                 .antMatchers("/member/info.do").hasAuthority("ROLE_C")
+                .antMatchers("/kdh/**").hasAuthority("ROLE_C")
+                .antMatchers("/profile/**").hasAuthority("ROLE_C")
+                .antMatchers("/pay/**").hasAuthority("ROLE_C")
+                .antMatchers("/qna/**").hasAuthority("ROLE_C")
+                .antMatchers("/watchlist/**").hasAuthority("ROLE_C")
+                .antMatchers("/view/**").hasAuthority("ROLE_C")
+
                 .anyRequest().permitAll();
 
         // 로그인 처리
         http.formLogin()
                 .loginPage("/member/login.do")
-                .loginProcessingUrl("/api/member/login.do")
+                .loginProcessingUrl("/member/loginaction.do")
                 .usernameParameter("id")
                 .passwordParameter("pw")
-                .defaultSuccessUrl("/profile/prsdfdsofilelist.do")
+                .defaultSuccessUrl("/profile/profilelist.do")
                 .permitAll();
 
-        // // 로그이웃 설정
-        // http.logout()
-        //         .logoutUrl("/member/logout.do")
-        //         .logoutSuccessUrl("/member/main.do")
-        //         .invalidateHttpSession(true)
-        //         .clearAuthentication(true)
-        //         .permitAll();
+        // 로그이웃 설정
+        http.logout()
+                .logoutUrl("/logout.do")
+                .logoutSuccessUrl("/member/main.do")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .permitAll();
+                
         // 권한 설정
         // http.authorizeRequests()
         // .antMatchers("/customer/join.do").permitAll()
@@ -55,6 +62,8 @@ public class SecurityConfig {
         // post는 csrf를 전송해야하지만, 주소가 /api로 시작하는 모든url은 csrf가 없어도 됨
         http.csrf().ignoringAntMatchers("/streampark/**");
         http.csrf().ignoringAntMatchers("/api/**");
+
+        // http.userDetailsService(memberTableService); 
 
         // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
