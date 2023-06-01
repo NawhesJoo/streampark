@@ -56,4 +56,5 @@ public interface ProfileService {
 
     // Paychk 유효 불러오기
     public List<Paychk> selectPaychk (String id);
+
 }

@@ -59,36 +59,36 @@ public class RestProfileController {
         return retMap;
     }
 
-        // 닉네임만 중복확인
-        @GetMapping(value = "/newnickname1.do")
-        public Map<String,Object> newnickname1(@RequestParam("newnickname") String newnickname){
-            Map<String, Object> retMap = new HashMap<>();
-            try{
-                Profile profile = pRepository.findByNickname(newnickname);
-                if(newnickname.isEmpty()){
-                    retMap.put("result",2);
-                    retMap.put("status", 409);
-                    retMap.put("message", "닉네임 입력하셈");
-                }
-                else {
-                    if(profile == null){
-                        // 중복되지 않은 경우
-                        retMap.put("status", 200);
-                        retMap.put("result", 1);
-                    } else {
-                        // 중복된 경우
-                        retMap.put("status",409);
-                        retMap.put("result", 0);
-                    }
+    // 닉네임만 중복확인
+    @GetMapping(value = "/newnickname1.do")
+    public Map<String,Object> newnickname1(@RequestParam("newnickname") String newnickname){
+        Map<String, Object> retMap = new HashMap<>();
+        try{
+            Profile profile = pRepository.findByNickname(newnickname);
+            if(newnickname.isEmpty()){
+                retMap.put("result",2);
+                retMap.put("status", 409);
+                retMap.put("message", "닉네임 입력하셈");
+            }
+            else {
+                if(profile == null){
+                    // 중복되지 않은 경우
+                    retMap.put("status", 200);
+                    retMap.put("result", 1);
+                } else {
+                    // 중복된 경우
+                    retMap.put("status",409);
+                    retMap.put("result", 0);
                 }
             }
-            catch(Exception e) {
-                e.printStackTrace();
-                retMap.put("status", -1);
-                retMap.put("error", e.getMessage());
-            }
-            return retMap;
         }
+        catch(Exception e) {
+            e.printStackTrace();
+            retMap.put("status", -1);
+            retMap.put("error", e.getMessage());
+        }
+        return retMap;
+    }
 
     // 변경할 닉네임 중복확인
     @GetMapping(value = "/newnickname.do")
@@ -209,7 +209,6 @@ public class RestProfileController {
             retMap.put("error", e.getMessage());
             }
             return retMap;
-        
     }
 
     @PostMapping(value = "/login.do")
@@ -233,5 +232,35 @@ public class RestProfileController {
         }
         return retMap;
     }    
-
+    
+    // 암호 삭제
+    @GetMapping(value = "/deletepw.do")
+    public Map<String,Object> deletepw(@RequestParam("nickname1") String nickname,
+        @RequestParam("profilepw1") String profilepw){
+        Map<String, Object> retMap = new HashMap<>();
+        try{
+            Profile profile = pRepository.findByNickname(nickname);            
+            if(profile.getProfilepw() != null && profile.getProfilepw().length() >= 1){ // profilepw가 있을 때
+                if(bcpe.matches(profilepw, profile.getProfilepw())){
+                    retMap.put("result", 1);
+                    retMap.put("status", 200);
+                    retMap.put("message", "삭제");
+                } else {
+                    retMap.put("result", 2);
+                    retMap.put("status", 409);
+                    retMap.put("message", "암호 틀림");
+                }
+            } else { // profilepw 없을 때
+                    retMap.put("result", 0);
+                    retMap.put("status", 409); 
+                    retMap.put("message", "오류가 발생하였습니다."); 
+            }
+        }
+            catch(Exception e) {
+            e.printStackTrace();
+            retMap.put("status", -1);
+            retMap.put("error", e.getMessage());
+            }
+            return retMap;
+    }
 }

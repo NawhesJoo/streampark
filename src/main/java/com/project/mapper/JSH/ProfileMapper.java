@@ -64,4 +64,5 @@ public interface ProfileMapper {
         "SELECT p.type, p.id, p.grade, p.regdate FROM paychk p WHERE id = #{id} AND type='M' ORDER BY p.regdate DESC"
     })
     public List<Paychk> selectPaychk (@Param("id") String id);
+
 }

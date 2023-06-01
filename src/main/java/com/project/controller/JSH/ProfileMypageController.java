@@ -153,7 +153,16 @@ public class ProfileMypageController {
         return "redirect:/profile/profilelist.do";
     }
 
-
+    // 프로필 암호 삭제
+    @PostMapping(value = "/deletepw.do")
+    public String deletepwPOST(@RequestParam("deletepw") String deletepw,
+    HttpSession session){
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile = pRepository.findByNickname(nickname);
+        profile.setProfilepw("");
+        pRepository.save(profile);
+        return "redirect:/mypage/updatepw.do";
+    }
 
 
     // 프로필 삭제
@@ -186,7 +195,10 @@ public class ProfileMypageController {
 
     // 선호 키워드 변경
     @GetMapping(value = "/updatekeyword.do")
-    public String updatekeywordGET(){
+    public String updatekeywordGET(HttpSession session, Model model){
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile = pRepository.findByNickname(nickname);
+        model.addAttribute("keyword", profile.getKeyword());
         return "/JSH/updatekeyword";
     }
 
