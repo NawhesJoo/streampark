@@ -13,8 +13,10 @@
     <!-- 부트스트렙용 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jeong/jeong.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/radiostyle.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jeong/buttons.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jeong/tablestyle.css}'>
 
 
     <!-- jQuery 추가 -->
@@ -177,11 +179,20 @@
                             <!-- 컨텐츠 이름 넣기 -->
                             <h1 class="mainConName">결제 내역</h1>
                             <hr class="mainConBar" style="width: 245px;" />
-                            <div class="row">
+                            <div class="row" style="margin-left: -155px;">
                                 <div class="col" style="margin-left: 280px;">
-                                    <a th:href="@{/pay/paychk.do}">전체 내역</a>
-                                    <a th:href="@{/pay/paychk.do(type=token)}">토큰 내역</a>
-                                    <a th:href="@{/pay/paychk.do(type=membership)}">멤버쉽 내역</a>
+                                    <!-- <a th:href="@{/pay/paychk.do}">전체 내역</a> -->
+                                    <button class="custom-btn btn-8"
+                                        th:onclick="|location.href='@{/pay/paychk.do}'|"><span class="custom1">전체
+                                            내역</span></button>
+                                    <!-- <a th:href="@{/pay/paychk.do(type=token)}">토큰 내역</a> -->
+                                    <button class="custom-btn btn-8"
+                                        th:onclick="|location.href='@{/pay/paychk.do(type=token)}'|"><span
+                                            class="custom1">토큰 내역</span></button>
+                                    <!-- <a th:href="@{/pay/paychk.do(type=membership)}">멤버쉽 내역</a> -->
+                                    <button class="custom-btn btn-8"
+                                        th:onclick="|location.href='@{/pay/paychk.do(type=membership)}'|"><span
+                                            class="custom1">멤버쉽 내역</span></button>
                                 </div>
                             </div>
 
@@ -195,7 +206,135 @@
                         </div>
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
-                            <div th:if="${param.type == null}">
+                            <!-- 테이블 -->
+                    <div> 
+                        <div class="content" th:if="${param.type == null}">
+
+                            <div class="container">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped custom-table">
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col">타입</th>
+                                                <th scope="col">등급/갯수</th>
+                                                <th scope="col">아이디</th>
+                                                <th scope="col">가격</th>                                                
+                                                <!-- <th scope="col"></th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj :${plist}">
+                                                <td>
+                                                    <label th:text="${obj.type}"></label>
+                                                </td>
+                                                <td><label th:text="|${obj.fee.name}/|"></label>
+                                                    <label th:text="${obj.chargetoken.token}"></label>
+                                                </td>
+                                                <td>
+                                                    <label th:text="${obj.member.id}"></label>
+                                                    <small class="d-block" th:text="${obj.regdate}"></small>
+                                                </td>
+                                                <td><label th:text="${obj.price}"></label><label>원</label></td>                                                
+                                                <!-- <td><a href="#" class="more">Details</a></td> -->
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="content" th:if="${param.type != null and #strings.equals(param.type,'token')}">
+
+                            <div class="container">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped custom-table">
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col">타입</th>
+                                                <th scope="col">등급/갯수</th>
+                                                <th scope="col">아이디</th>
+                                                <th scope="col">가격</th>                                                
+                                                <!-- <th scope="col"></th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj :${tlist}">
+                                                <td>
+                                                    <label th:text="${obj.type}"></label>
+                                                </td>
+                                                <td><label th:text="|${obj.fee.name}/|"></label>
+                                                    <label th:text="${obj.chargetoken.token}"></label>
+                                                </td>
+                                                <td>
+                                                    <label th:text="${obj.member.id}"></label>
+                                                    <small class="d-block" th:text="${obj.regdate}"></small>
+                                                </td>
+                                                <td><label th:text="${obj.price}"></label><label>원</label></td>
+                                                
+                                                <!-- <td><a href="#" class="more">Details</a></td> -->
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="content" th:if="${param.type != null and #strings.equals(param.type,'membership')}">
+
+                            <div class="container">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">타입</th>
+                                                <th scope="col">등급/갯수</th>
+                                                <th scope="col">아이디</th>
+                                                <th scope="col">가격</th>                                                
+                                                <!-- <th scope="col"></th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj :${mlist}">
+                                                <td>
+                                                    <label th:text="${obj.type}"></label>
+                                                </td>
+                                                <td><label th:text="|${obj.fee.name}/|"></label>
+                                                    <label th:text="${obj.chargetoken.token}"></label>
+                                                </td>
+                                                <td>
+                                                    <label th:text="${obj.member.id}"></label>
+                                                    <small class="d-block" th:text="${obj.regdate}"></small>
+                                                </td>
+                                                <td><label th:text="${obj.price}"></label><label>원</label></td>                                                
+                                                <!-- <td><a href="#" class="more">Details</a></td> -->
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                            <!-- <div th:if="${param.type == null}">
                                 <div th:each="obj:${plist}" style="color: white;">
 
                                     <label th:text="${obj.type}"></label>
@@ -234,9 +373,10 @@
 
                                 </div>
 
-                            </div>
+                            </div> -->
                         </div>
                     </div>
+                    
                 </div>
             </main>
             <footer class="  mt-auto">

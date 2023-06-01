@@ -55,6 +55,6 @@ public class Watchlist {
 
     // 리뷰
     @ToString.Exclude
-    @OneToOne(mappedBy = "watchlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "watchlist", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Review review;
 }

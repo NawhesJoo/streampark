@@ -32,7 +32,7 @@ public class Fee {
 
     //결제 내역
     @ToString.Exclude
-    @OneToMany(mappedBy = "fee", cascade = CascadeType.ALL , fetch =FetchType.LAZY)
+    @OneToMany(mappedBy = "fee", cascade = CascadeType.REMOVE , fetch =FetchType.LAZY)
     private List<Paychk> paychk;
 
 

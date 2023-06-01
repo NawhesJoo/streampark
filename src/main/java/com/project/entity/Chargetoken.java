@@ -27,6 +27,6 @@ public class Chargetoken {
 
     // 결제내역
     @ToString.Exclude
-    @OneToMany(mappedBy = "chargetoken", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "chargetoken", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Paychk> paychk;
 }
