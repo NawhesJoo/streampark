@@ -18,7 +18,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 	"com.project.restcontroller", 
 	"com.project.controller.jpa",
 	"com.project.controller.mybatis",
-	"com.project.filter" 
+	"com.project.filter" ,
+	"com.project.utils" 
 }) // 컨트롤러, 서비스 위치, 시큐리티 환경설정
 @EntityScan(basePackages = { "com.project.entity" }) // 엔티티 위치
 @EnableJpaRepositories(basePackages = { "com.project.repository" }) // 저장소 위치

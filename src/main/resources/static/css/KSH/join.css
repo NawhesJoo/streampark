@@ -14,6 +14,9 @@ a{
     color: #EFC900;
     text-decoration-line: none;
 }
+.form-control{
+    background-color: #000000;
+}
 a:hover{
     color: rgba(239, 201, 0, 0.6);
 }
@@ -62,7 +65,7 @@ a:hover{
 }
 .joinInputSec .joinInput .joinF{
     margin-bottom: 5px;
-    width: 300px;
+    width: 304px;
     height: 50px;
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -138,7 +141,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .findIdInput .joinF{
     margin-bottom: 5px;
-    width: 300px;
+    width: 304px;
     height: 50px;
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -177,4 +180,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* 버튼 폰트 */
 .btn{
     font-weight: 600;
+}
+
+/* 로봇 */
+
+.g-recaptcha {
+    background-color: #000000;
+    /* 추가적인 스타일링을 적용할 수 있습니다. */
+}
+
+/* 이메일 확인 코드 구역 */
+.emailCodeSec{
+    display: flex;
+    justify-content: right;
+}
+.findIdInput .emailCodeSec #emailCodeBtn{
+    margin-left: 10px;
+}
+
+/* 로딩 */
+#uw-circle {
+    width: 2vmin;
+  }
+.hidden{
+    display: none;
+}
+#demo{
+    padding-top: 4px;
 }

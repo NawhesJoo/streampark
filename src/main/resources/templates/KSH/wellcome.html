@@ -39,7 +39,7 @@
         <!-- 메인 텍스트 -->
         <div class="row mainTextSec">
             <div class="col d-flex justify-content-center">
-                <div  style="text-align: center;" class="mainText ">
+                <div style="text-align: center;" class="mainText ">
                     <p>streampark에 가입한 것을 환영합니다!</p>
                     <p>이제부터 언제 어디서나 무제한적 컨텐츠를 즐겨봅시다!</p>
                 </div>
@@ -47,35 +47,42 @@
         </div>
         <!-- 메인 버튼 -->
         <div class="row mainBtnSec justify-content-center">
-            <div class="col-6" >
+            <div class="col-6">
                 <div class="d-flex justify-content-center">
                     <a th:href="@{/member/login.do}" class="loginBtn btn btn-warning">로그인과 함께 시작하기</a>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
-
         </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-
         </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"
         integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-
         </script>
     <!-- axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
         integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-
         </script>
+    <script th:inline="javascript">
+        const bgImages = [
+            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg1.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg2.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg3.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg4.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg5.jpg')"
+        ];
+        const body = document.querySelector('body');
+        body.style.backgroundImage = bgImages[Math.floor(Math.random() * bgImages.length)];
+    </script>
 </body>
 
 </html>

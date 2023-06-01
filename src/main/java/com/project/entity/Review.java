@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,17 +43,21 @@ public class Review {
     @UpdateTimestamp
     private Date regdate;
 
-    private BigInteger reportcnt;
+    @ColumnDefault("0")
+    private BigInteger reportcnt= BigInteger.valueOf(0);
 
     // private BigInteger viewno;
-
-    private BigInteger likes;
+    @ColumnDefault("0")
+    private BigInteger likes=BigInteger.valueOf(0);
 
     private BigInteger profileno;
 
     // 리뷰 좋아요
-    @OneToMany(mappedBy = "Review_to_reviewlikes", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-    private List<Reviewlikes> board = new ArrayList<>();
+    @OneToMany(mappedBy = "review", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<Reviewlikes> reviewlikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<Reviewreport> reviewreport = new ArrayList<>();
 
     // 시청목록
     @ToString.Exclude

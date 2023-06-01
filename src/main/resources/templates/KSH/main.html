@@ -45,25 +45,25 @@
         </div>
         <!-- 메인 버튼 -->
         <div class="row mainBtnSec justify-content-center">
-            <div class="col-6" >
+            <div class="col-6">
                 <div class="d-flex justify-content-center">
                     <a th:href="@{/member/login.do}" class="loginBtn btn btn-warning">로그인과 함께 시작하기</a>
                 </div>
                 <div class="d-flex justify-content-between row">
                     <div class="col joinBtnSec">
-                        <p >아직회원이 아니신가요?</p>
-                        <a  th:href="@{/member/join.do}" class="joinBtn">(회원가입)</a>
+                        <p>아직회원이 아니신가요?</p>
+                        <a th:href="@{/member/join.do}" class="joinBtn">(회원가입)</a>
                     </div>
                     <div class="col findIdPwBtnSec">
                         <a th:href="@{/member/findid.do}" class="findIdBtn">아이디</a>
-                        <p >or</p>
+                        <p>or</p>
                         <a th:href="@{/member/findpw.do}" class="findPwBtn">비밀번호</a>
-                        <p >를 잊으셨나요?</p>
+                        <p>를 잊으셨나요?</p>
                     </div>
                 </div>
             </div>
         </div>
-        
+        <!-- <img th:src="@{/images/KSH/donald-duck-4985121.jpg}" alt="Donald Duck"> -->
     </div>
 
     <!-- jQuery -->
@@ -86,6 +86,17 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
 
         </script>
+    <script th:inline="javascript">
+        const bgImages = [
+            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg1.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg2.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg3.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg4.jpg')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg5.jpg')"
+        ];
+        const body = document.querySelector('body');
+        body.style.backgroundImage = bgImages[Math.floor(Math.random() * bgImages.length)];
+    </script>
 </body>
 
 </html>

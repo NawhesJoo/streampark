@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/magiccard.css}">
+</head>
+
+<body>
+    <h2>URL 단축</h2>
+    <hr>
+    <input type="text" value="" id="longurl" placeholder="단축시킬 URL">
+    <input type="button" value="전송" onclick="shorten()">
+</body>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+
+<script th:inline="javascript">
+
+    async function shorten() { //함수는 자동으로 호출되지 않음
+        const urllink = document.getElementById('longurl');
+        const url1 = /*[[@{/api/url/home.do}]]*/"";
+        const headers = { "Content-Type": "application/json" };
+        const body = { longurl: urllink.value };
+        const { data } = await axios.post(url1, body, { headers: headers });
+        console.log('반환되는 결과', data);
+    }
+</script>
+
+</html>

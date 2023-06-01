@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.WatchlistMapper"> <!-- Mapper명이 일치해야 함-->
+
+    <select id="watchListSelectViewdate" parameterType="long" resultType="list">
+        SELECT * FROM VIDEOWATCHLISTVIEW WHERE PROFILENO=#{profileno}
+    </select>
+
+    <select id="watchListSearchTitle" parameterType="string" resultType="list">
+        SELECT * FROM VIDEOWATCHLISTVIEW WHERE title LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <select id="watchListSearchPd" parameterType="string" resultType="list">
+        SELECT * FROM VIDEOWATCHLISTVIEW WHERE pd LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <select id="watchListSearchChkage" parameterType="string" resultType="list">
+        SELECT * FROM VIDEOWATCHLISTVIEW WHERE chkage LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <select id="watchListVideolistAll" resultType="list">
+        SELECT * FROM VIDEOWATCHLISTVIEW;
+    </select>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.ReplyMapper">
+
+    <!-- 답변 작성 -->
+    <insert id="insertReply" parameterType="com.project.dto.QnaReply">
+        INSERT INTO QNAREPLY(content, no, profileno) VALUES (#{content}, #{no}, #{profileno})
+    </insert>
+
+    <!-- 답변 조회 -->
+     <select id="selectoneReply" parameterType="Long" resultType="com.project.dto.QnaReply">
+        SELECT r.* FROM QNAREPLY r WHERE no=#{no}
+    </select>
+
+    <!-- 답변 수정 -->
+    <update id="updateReply" parameterType="com.project.dto.QnaReply">
+        UPDATE QNAREPLY SET content=#{content} WHERE no=#{no} AND replyno=#{replyno}
+    </update>
+
+    <!-- 답변 삭제 -->
+    <delete id="deleteReply" parameterType="com.project.dto.QnaReply">
+        DELETE FROM QNAREPLY WHERE no=#{no} AND replyno=#{replyno}
+    </delete>
+</mapper>

@@ -97,10 +97,11 @@ public class KDHVideoController {
     public String videoupdatePOST(Model model, @ModelAttribute Videolistdto videolist,
             @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle) {
         try {
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
             member.setRole("a");
             dhService.videolistUpdate(member, videolist, nowtitle);
-            return "redirect:/kdh/selectone.do?title=" + videolist.getTitle();
+            return "redirect:/kdh/selectone.do?title=" + title;
             // return "redirect:/kdh/home.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,6 +162,7 @@ public class KDHVideoController {
     public String videoplayGET(Model model, @RequestParam(name = "title") String title,
             @RequestParam(name = "episode") BigInteger episode) {
         Videolist link = videolistRepository.findByTitleAndEpisode(title, episode);
+        model.addAttribute("title", title);
         model.addAttribute("link", link);
         // model.addAttribute("list1", list1);
         return "/KDH/StreamPark_videoplay";

@@ -17,6 +17,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- 구글리캡챠 -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -38,14 +40,39 @@
         <div class="row  d-flex justify-content-center">
             <div class="col-6">
                 <div class="findIdInput">
-                    <form th:action="@{/member/findid.do}" method="post" id="form">
+                    <div>
                         <input class="joinF form-control" id="email" name="email" type="email" placeholder="email">
+                        <div class="emailCodeSec">
+                            <svg  class="hidden" version="1.1" id="uw-circle" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 35 35"
+                                enable-background="new 0 0 35 35" xml:space="preserve">
+
+                                <path id="spinner" fill="#EFC900" d="M33.4,10.1C29.3,1.3,18.9-2.4,10.1,1.6C1.3,5.7-2.4,16.1,1.6,24.9c4.1,8.8,14.5,12.5,23.3,8.5S37.4,18.9,33.4,10.1z
+                                        M22.9,29.1c-6.4,3-14.1,0.2-17.1-6.2c-3-6.4-0.2-14.1,6.2-17.1c6.4-3,14.1-0.2,17.1,6.2C32.1,18.5,29.4,26.1,22.9,29.1z M8.1,21.9
+                                        c2.4,5.2,8.6,7.5,13.8,5L13.1,8.1C7.9,10.5,5.6,16.7,8.1,21.9z">
+
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                        from="0 17.5 17.5" to="360 17.5 17.5" dur="0.6s" repeatCount="indefinite" />
+                                </path>
+                            </svg>
+                            <div id="demo" style="color: white;"></div>
+                            <button id="emailCodeBtn" class="btn btn-sm btn-warning mb-1" onclick="confirmEmail()">이메일로 코드 전송</button>
+                        </div>
+                        <input class="joinF form-control" id="code" name="code" placeholder="이메일로 전송된 코드를 입력하세요">
+                        <div class="emailCodeSec">
+                            <button id="CodeBtn" class="btn btn-sm btn-warning mb-1" onclick="chkemail()">코드확인</button>
+                        </div>
+                        <div id="google_recaptha">
+                            <div class="g-recaptcha mb-1" data-sitekey="6LcUtD8mAAAAAIFCnfWJ7B1knP2JG2C94_rTUS5A"
+                                data-theme="dark">
+                            </div>
+                        </div>
                         <input class="joinF form-control" id="name" name="name" type="text" placeholder="name">
                         <input type="tel" class="joinF form-control m-input" name="phone" id="telInput" required
                             pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" placeholder="예) 010-1234-5678" />
                         <button class="btn btn-sm btn-warning findIdBtn" type="button" data-toggle="modal"
                             data-target="#alertModal" th:onclick="findId()">아이디 찾기</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,26 +106,24 @@
                         <p class="mx-1" id="alertMsg" style="color:white;"></p>
                     </div>
                     <div class="modal-footer" style="border-top: none ;">
-                        <button type="button" class="btn btn-sm btn-secondary"
-                            data-bs-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- jQuery -->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"
             integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous">
-
             </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-
             </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"
             integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA=="
             crossorigin="anonymous" referrerpolicy="no-referrer">
-
             </script>
         <!-- axios -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
@@ -106,7 +131,54 @@
             crossorigin="anonymous" referrerpolicy="no-referrer">
             </script>
         <script th:inline="javascript">
+            var cnt = 0;
+            var emailChk = 0;
+            async function confirmEmail() { //함수는 자동으로 호출되지 않음
+                const email1 = document.getElementById('email');
+                const spinner = document.getElementById('uw-circle');
+                email1.classList.remove("is-valid");
+                email1.classList.remove("is-invalid");
+                if (!email1.value || email1.value.length <= 0) {
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '이메일을 입력하세요';
+                    email1.classList.remove("is-valid");
+                    email1.classList.add("is-invalid");
+                    $('#alertModal').modal('show');
+                    email.focus();
+                    return false;
+                }
+                const url1 = '/streampark/api/member/emailchk.json?email=' + email1.value;
+                const headers1 = { "Content-Type": "application/json" };
+                const { data: response } = await axios.get(url1, { headers: headers1 });
+                if (response.status === 0) {
+                    emailChk = 0;
+                    email1.classList.remove("is-valid");
+                    email1.classList.add("is-invalid");
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '이 이메일로 가입된 아이디는 없습니다';
+                    $('#alertModal').modal('show');
+                    email.focus();
+                    return false;
+                }
+                emailChk = 1;
+                spinner.classList.remove("hidden");
+                email1.classList.add("is-valid");
+                email1.classList.remove("is-invalid");
+                const url = /*[[@{/api/test1/emailconfirm.do}]]*/"";
+                const headers = { "Content-Type": "application/json" };
+                const body = { email: email1.value };
+                const { data } = await axios.post(url, body, { headers: headers });
+                document.getElementById("idlist").innerText = '';
+                document.getElementById("alertMsg").innerText = '이메일로 확인 코드가 전송되었습니다';
+                $('#alertModal').modal('show');
+                console.log('반환되는 결과', data);
+                spinner.classList.add("hidden");
+                timer(300);
+                email1.readOnly = true;
+            }
+
             function autoHypenTel(str) {
+
                 str = str.replace(/[^0-9]/g, '');
                 var tmp = '';
 
@@ -167,16 +239,91 @@
                 var _val = this.value.trim();
                 this.value = autoHypenTel(_val);
             });
+            var codeChk = 0;
+            async function chkemail() { //함수는 자동으로 호출되지 않음
+                const email1 = document.getElementById('email');
+                const code = document.getElementById('code');
+                const demo = document.getElementById('demo');
+                const emailCodeBtn = document.getElementById('emailCodeBtn');
+                const CodeBtn = document.getElementById('CodeBtn');
+                code.classList.remove("is-valid");
+                code.classList.remove("is-invalid");
+                if (email1.value.length < 1 || code.value.length < 1) {
+                    alert('이메일 혹은 인증번호를 입력해주세요');
+                    code.classList.remove("is-valid");
+                    code.classList.add("is-invalid");
+                    return;
+                }
+                const url = /*[[@{/api/test1/emailchk.do}]]*/"";
+                const headers = { "Content-Type": "application/json" };
+                const body = { email: email1.value, code: code.value };
+                const { data } = await axios.post(url, body, { headers: headers });
+                console.log('반환되는 결과', data);
+                if (data.status == 200) {
+                    code.classList.add("is-valid");
+                    code.classList.remove("is-invalid");
+                    code.readOnly = true;
+                    email1.readOnly = true;
+                    demo.hidden = true;
+                    emailCodeBtn.hidden =true;
+                    CodeBtn.hidden =true;
+                    codeChk = 1;
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '인증이 완료 되었습니다';
+                    $('#alertModal').modal('show');
+                    return false;
+
+                } else if (data.status == 0) {
+                    code.classList.remove("is-valid");
+                    code.classList.add("is-invalid");
+                    code.focus();
+                    codeChk = 0;
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '다시 입력 하세요';
+                    $('#alertModal').modal('show');
+                    return false;
+                }
+            }
+
             async function findId() {
                 const form = document.querySelector('#form');
+                const email1 = document.getElementById('email');
                 const email = document.querySelector('#email');
+                const code = document.querySelector('#code');
                 const name = document.querySelector('#name');
                 const phone = document.querySelector('#telInput');
                 if (!email.value || email.value.length <= 0) {
                     document.getElementById("idlist").innerText = '';
-                    document.getElementById("alertMsg").innerText = '이메일을 입력하세요';
+                    document.getElementById("alertMsg").innerText = '이메일 확인을 완료하세요';
                     $('#alertModal').modal('show');
                     email.focus();
+                    return false;
+                }
+                if (emailChk == 0) {
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '이메일 확인을 완료하세요';
+                    $('#alertModal').modal('show');
+                    email.focus();
+                    return false;
+                }
+                if (!code.value || code.value.length <= 0) {
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '전송된 코드를 입력하세요';
+                    $('#alertModal').modal('show');
+                    code.focus();
+                    return false;
+                }
+                if (codeChk == 0) {
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '코드를 정확히 입력하세요';
+                    $('#alertModal').modal('show');
+                    code.focus();
+                    return false;
+                }
+                if (grecaptcha.getResponse() == "") {
+                    document.getElementById("idlist").innerText = '';
+                    document.getElementById("alertMsg").innerText = '로봇인증을 완료 하세요';
+                    $('#alertModal').modal('show');
                     return false;
                 }
                 if (!name.value || name.value.length <= 0) {
@@ -202,13 +349,14 @@
                 const ids = [];
                 if (data.list == null) {
                     document.getElementById("idlist").innerText = '';
-                    document.getElementById("alertMsg").innerText = '정보를 올바르게 기입하세요';
+                    document.getElementById("alertMsg").innerText = '정보가 올바르지 않거나 가입되어 있지 않습니다.';
                     $('#alertModal').modal('show');
                     return false;
                 }
                 for (const item of list) {
                     const id = item.id;
-                    ids.push(id);
+                    const id1 = id.substring(0, id.length - 2) + "**";
+                    ids.push(id1);
                 }
                 if (data.list.length == 1) {
                     document.getElementById("alertMsg").innerText = ids;
@@ -223,6 +371,34 @@
                     return false;
                 }
             }
+            // init(); //수동으로 함수 호출함.
+            function timer(time1) {
+                cnt++;
+                var time = time1; //기준시간 작성
+                var min = ""; //분
+                var sec = ""; //초
+
+                //setInterval(함수, 시간) : 주기적인 실행
+                var x = setInterval(function () {
+                    if (cnt != 1) {
+                        clearInterval(x);
+                        cnt = 1;
+                    }
+                    //parseInt() : 정수를 반환
+                    min = parseInt(time / 60); //몫을 계산
+                    sec = time % 60; //나머지를 계산
+
+                    document.getElementById("demo").innerHTML = "남은시간 : " + min + "분" + sec + "초";
+                    time--;
+
+                    //타임아웃 시
+                    if (time < 0) {
+                        clearInterval(x); //setInterval() 실행을 끝냄
+                        document.getElementById("demo").innerHTML = "시간초과";
+                    }
+                }, 1000);
+            }
+
         </script>
 </body>
 

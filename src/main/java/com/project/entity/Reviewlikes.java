@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Data;
 import lombok.ToString;
 @Data
@@ -26,7 +28,8 @@ public class Reviewlikes {
 
     private BigInteger profileno;
 
-    private BigInteger chklikes;   
+    @ColumnDefault("0")
+    private BigInteger chklikes=BigInteger.valueOf(0);
 
     // private BigInteger review_no;
     
@@ -34,7 +37,7 @@ public class Reviewlikes {
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_no", referencedColumnName = "review_no")
-    private Review Review_to_reviewlikes;
+    private Review review;
 
     
 

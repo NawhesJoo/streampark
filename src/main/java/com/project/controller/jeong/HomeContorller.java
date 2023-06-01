@@ -11,8 +11,10 @@ import com.project.repository.Projections.MemberProjection;
 import com.project.service.JeongService.JeongService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping(value = "/jeong")
 public class HomeContorller {
@@ -21,7 +23,7 @@ public class HomeContorller {
 
     @GetMapping(value = "/index.do")
     public String indexGET(){
-        Profile profile = jService.findProfileById(88);
+        Profile profile = jService.findProfileById(87);
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         httpSession.setAttribute("id", member.getId());
         httpSession.setAttribute("nickname", profile.getNickname());

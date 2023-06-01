@@ -158,3 +158,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-left: 5px;
   }
 
+  /* 폼컨트롤 플레이스 홀더 */
+  .form-control::placeholder{
+    color: rgba(239, 201, 0, 0.3);
+  }
+

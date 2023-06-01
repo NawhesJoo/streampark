@@ -58,17 +58,17 @@ public class Profile {
     // ---- 위는 실제 컬럼
 
     //구매내역    
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Paymentlist> paymentlist;
 
     // 시청목록
     @ToString.Exclude
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Watchlist> watchlist;
 
     // 프로필이미지
     @ToString.Exclude
-    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Profileimg profileimg;
     
 
