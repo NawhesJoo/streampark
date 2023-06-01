@@ -39,13 +39,13 @@
             <div class="col">
                 <div class="findIdInput">
                     <div>
-                        <input class="joinF form-control" id="email" name="email" type="email" placeholder="email">
+                        <input class="joinF form-control " id="email" name="email" type="email" placeholder="email">
                         <div class="emailCodeSec">
-                            <svg version="1.1" id="uw-circle" xmlns="http://www.w3.org/2000/svg"
+                            <svg class="hidden" version="1.1" id="uw-circle" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 35 35"
                                 enable-background="new 0 0 35 35" xml:space="preserve">
 
-                                <path class="hidden" id="spinner" fill="#EFC900" d="M33.4,10.1C29.3,1.3,18.9-2.4,10.1,1.6C1.3,5.7-2.4,16.1,1.6,24.9c4.1,8.8,14.5,12.5,23.3,8.5S37.4,18.9,33.4,10.1z
+                                <path  id="spinner" fill="#EFC900" d="M33.4,10.1C29.3,1.3,18.9-2.4,10.1,1.6C1.3,5.7-2.4,16.1,1.6,24.9c4.1,8.8,14.5,12.5,23.3,8.5S37.4,18.9,33.4,10.1z
                                         M22.9,29.1c-6.4,3-14.1,0.2-17.1-6.2c-3-6.4-0.2-14.1,6.2-17.1c6.4-3,14.1-0.2,17.1,6.2C32.1,18.5,29.4,26.1,22.9,29.1z M8.1,21.9
                                         c2.4,5.2,8.6,7.5,13.8,5L13.1,8.1C7.9,10.5,5.6,16.7,8.1,21.9z">
 
@@ -59,7 +59,7 @@
                         </div>
                         <input class="joinF form-control" id="code" name="code" placeholder="이메일로 전송된 코드를 입력하세요">
                         <div class="emailCodeSec">
-                            <button class="btn btn-sm btn-warning mb-1" onclick="chkemail()">코드확인</button>
+                            <button id="CodeBtn" class="btn btn-sm btn-warning mb-1" onclick="chkemail()">코드확인</button>
                         </div>
                         <div id="google_recaptha">
                             <div class="g-recaptcha mb-1" data-sitekey="6LcUtD8mAAAAAIFCnfWJ7B1knP2JG2C94_rTUS5A"
@@ -189,7 +189,7 @@
             var emailChk = 0;
             async function confirmEmail() { //함수는 자동으로 호출되지 않음
                 const email1 = document.getElementById('email');
-                const spinner = document.getElementById('spinner');
+                const spinner = document.getElementById('uw-circle');
                 email1.classList.remove("is-valid");
                 email1.classList.remove("is-invalid");
                 if (!email1.value || email1.value.length <= 0) {
@@ -225,9 +225,9 @@
                 const body = { email: email1.value };
                 const { data } = await axios.post(url, body, { headers: headers });
                 $('#alertModal').modal('show');
-                email1.readOnly = true;
                 console.log('반환되는 결과', data);
                 timer(300);
+                email1.readOnly = true;
                 spinner.classList.add("hidden");
             }
             var codeChk = 0;
@@ -235,6 +235,8 @@
                 const email1 = document.getElementById('email');
                 const code = document.getElementById('code');
                 const demo = document.getElementById('demo');
+                const emailCodeBtn = document.getElementById('emailCodeBtn');
+                const CodeBtn = document.getElementById('CodeBtn');
                 code.classList.remove("is-valid");
                 code.classList.remove("is-invalid");
                 if (email1.value.length < 1 || code.value.length < 1) {
@@ -256,6 +258,8 @@
                     code.readOnly = true;
                     email1.readOnly = true;
                     demo.hidden = true;
+                    emailCodeBtn.hidden =true;
+                    CodeBtn.hidden =true;
                     codeChk = 1;
                     document.getElementById("idlist").innerText = '';
                     document.getElementById("alertMsg").innerText = '인증이 완료 되었습니다';

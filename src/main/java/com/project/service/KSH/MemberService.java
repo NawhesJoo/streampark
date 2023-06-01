@@ -16,12 +16,12 @@ public interface MemberService {
     public Member updateMember(Member obj);
 
     // 로그인
-    public Member login(Member obj);
+    public int login(Member obj);
 
     // 아이디 찾기
     public Member findById(String id);
 
-    // 아이디 
+    // 아이디 삭제
     public void deleteById(String id);
 
     // 비밀번호 찾기
@@ -29,7 +29,7 @@ public interface MemberService {
 
     // 정보수정
     public Member updateMemberInfo(String id, Member obj);
-
+    public int updateMemberInfoPw(String id,  String pw, String newpw);
     // 래스터
 
     public Map<String,Object> loginRest(Member obj1);

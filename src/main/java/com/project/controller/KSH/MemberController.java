@@ -79,12 +79,10 @@ public class MemberController {
     }
 
     @PostMapping(value = "/login.do")
-    public String loginPOST(@ModelAttribute Member obj, Model model) {
+    public String loginPOST(@ModelAttribute Member obj) {
         try {
-            Member obj1 = mService.login(obj);
-            if (bcpe.matches(obj.getPw(), obj1.getPw())) {
-                httpSession.setAttribute("id", obj.getId());
-                httpSession.setAttribute("role", obj.getRole());
+            int i = mService.login(obj);
+            if (i == 1) {
                 return "redirect:/Profile/create.do";
             } else {
                 return "redirect:/member/login.do";
@@ -161,8 +159,7 @@ public class MemberController {
         try {
             // 정보수정
             if (menu.equals("1")) {
-                Member obj1 = mService.updateMemberInfo(id, obj);
-                Member ret = mService.updateMember(obj1);
+                Member ret = mService.updateMemberInfo(id, obj);
                 if (ret != null) {
                     model.addAttribute("myInfoChanged", true); // 변경 성공 여부를 모델에 추가
                     myInfoChanged = "true";
@@ -174,14 +171,14 @@ public class MemberController {
             log.info("aaaaaaaaaaaaaa =>{}, {}, {}", id, pw, newpw);
             // 비밀번호 수정
             if (menu.equals("2")) {
-                Member obj1 = mService.findById(id);
-                log.info("aaaaaaaaaaaaaa =>  {}", obj1.toString());
-                if (bcpe.matches(pw, obj1.getPw())) {
-                    obj1.setPw(bcpe.encode(newpw));
-                    mService.updateMember(obj1);
+                int ret = mService.updateMemberInfoPw(id, pw, newpw);
+                if (ret == 1) {
                     model.addAttribute("myInfoChanged", true); // 변경 성공 여부를 모델에 추가
                     myInfoChanged = "true";
-                } else if (!bcpe.matches(pw, obj1.getPw())) {
+                } else if (ret == 0) {
+                    model.addAttribute("myInfoChanged", false); // 변경 성공 여부를 모델에 추가
+                    myInfoChanged = "false";
+                } else {
                     model.addAttribute("myInfoChanged", false); // 변경 성공 여부를 모델에 추가
                     myInfoChanged = "false";
                 }

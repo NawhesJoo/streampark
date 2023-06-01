@@ -1,9 +1,6 @@
 package com.project.restcontroller.KSH;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,14 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Member;
-import com.project.entity.MemberProjection;
 import com.project.repository.MemberRepository;
 import com.project.service.KSH.MemberService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequestMapping(value = "api/member")
 @RequiredArgsConstructor
@@ -42,7 +36,6 @@ public class RestMemberController {
 
     @GetMapping(value = "/pwcheck.json")
     public Map<String, Object> pwcheckGET(@RequestParam(name = "pw") String pw) {
-        String id = "1";
         Map<String, Object> retMap = mService.pwcheck(pw);
         return retMap;
     }

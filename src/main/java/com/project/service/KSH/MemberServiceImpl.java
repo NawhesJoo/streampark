@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     final MemberRepository mRepository;
+    final HttpSession httpSession;
     BigInteger token = new BigInteger("0");
     Date date = new Date();
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
@@ -33,10 +36,18 @@ public class MemberServiceImpl implements MemberService {
         return mRepository.save(obj);
     }
 
+    // 로그인
     @Override
-    public Member login(Member obj) {
+    public int login(Member obj) {
+        Member obj1 = mRepository.findById(obj.getId()).orElse(null);
+        if (bcpe.matches(obj.getPw(), obj1.getPw())) {
+            httpSession.setAttribute("id", obj.getId());
+            httpSession.setAttribute("role", obj.getRole());
+            return 1;
+        } else {
+            return 0;
+        }
 
-        return mRepository.findById(obj.getId()).orElse(null);
     }
 
     @Override
@@ -70,11 +81,27 @@ public class MemberServiceImpl implements MemberService {
         obj1.setBirth(obj.getBirth());
         obj1.setPhone(obj.getPhone());
         obj1.setGender(obj.getGender());
+        mRepository.save(obj1);
         return obj1;
     }
 
+    @Override
+    public int updateMemberInfoPw(String id, String pw, String newpw) {
+        Member obj1 = mRepository.findById(id).get();
+        if (bcpe.matches(pw, obj1.getPw())) {
+            obj1.setPw(bcpe.encode(newpw));
+            mRepository.save(obj1);
+            return 1;
+        } else if (!bcpe.matches(pw, obj1.getPw())) {
+            return 0;
+        } else {
+            return 0;
+        }
+    }
+
+    //
     // 레스터
-    // 로그인 
+    // 로그인
     @Override
     public Map<String, Object> loginRest(Member obj1) {
         Map<String, Object> retMap = new HashMap<>();
@@ -90,9 +117,10 @@ public class MemberServiceImpl implements MemberService {
         }
         return retMap;
     }
+
     // 아이디 찾기
     @Override
-    public Map<String,Object> findidRest(Member obj1){
+    public Map<String, Object> findidRest(Member obj1) {
         Map<String, Object> retMap = new HashMap<>();
         retMap.put("list", null);
         retMap.put("status", 0);
@@ -113,6 +141,7 @@ public class MemberServiceImpl implements MemberService {
         return retMap;
     }
 
+    // 패스워드 찾기
     @Override
     public Map<String, Object> findPwRest(Member obj) {
         Map<String, Object> retMap = new HashMap<>();
@@ -129,6 +158,7 @@ public class MemberServiceImpl implements MemberService {
         return retMap;
     }
 
+    // 이메일 확인
     @Override
     public Map<String, Object> emailchk(String email) {
         Map<String, Object> retMap = new HashMap<>();
@@ -142,6 +172,7 @@ public class MemberServiceImpl implements MemberService {
         return retMap;
     }
 
+    // 패스워드 확인
     @Override
     public Map<String, Object> pwcheck(String pw) {
         String id = "1";
@@ -160,6 +191,7 @@ public class MemberServiceImpl implements MemberService {
         return retMap;
     }
 
+    // 아이디 확인
     @Override
     public Map<String, Object> idcheck(String id) {
         Map<String, Object> retMap = new HashMap<>();
@@ -172,6 +204,4 @@ public class MemberServiceImpl implements MemberService {
         }
         return retMap;
     }
-
-    //
 }
