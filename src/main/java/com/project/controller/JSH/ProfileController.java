@@ -206,11 +206,9 @@ public class ProfileController {
         if(profile1.getProfilepw() == null){
             session.setAttribute("profileno", profile1.getProfileno());
             session.setAttribute("nickname", nickname);
-            return "redirect:/profile/home.do";
-            
+            return "redirect:/profile/mypage.do";
         }
         else{
-
             return "/JSH/logintest";
         }
     }
@@ -223,22 +221,25 @@ public class ProfileController {
             try{
                 session.setAttribute("profileno", profile.getProfileno());
                 session.setAttribute("nickname", nickname);
-                return "redirect:/profile/home.do";
+                // 로그인 후 갈 홈화면
+                return "redirect:/mypage/mypage.do";
             } catch (Exception e){
                 e.printStackTrace();
-                return "redirect:profile/login.do";
+                return "redirect:profile/profilelist.do";
             }
         }
     
 
 
-    @GetMapping(value = "/home.do")
+    @GetMapping(value = "/myprofile.do")
         public String showHomePage(HttpSession session) {
             String nickname = (String) session.getAttribute("nickname");
+            String profileno = (String) session.getAttribute("profileno");
             log.info("nickname => {}",nickname);
-            log.info("{}",session.getAttribute("profileno"));
+            log.info("profileno => {}",profileno);
+
             if (nickname != null) {
-                return "/JSH/hometest"; // 로그인된 경우 홈 페이지 경로
+                return "/JSH/profilenickname"; // 로그인된 경우 홈 페이지 경로
             } else {
                 return "redirect:/profile/login.do"; // 로그인되지 않은 경우 로그인 폼으로 리다이렉트
             }

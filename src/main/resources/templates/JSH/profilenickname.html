@@ -39,7 +39,6 @@
             }
         });
     </script>
-
     <style>
         .form-label{
             color: #EFC900;
@@ -62,7 +61,6 @@
             border-color: #EFC900;
         }
     </style>
-
 </head>
 <body class="sb-nav-fixed">
     <!-- 내비게이션 영역 -->
@@ -197,30 +195,39 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-3" style="margin-left: 500px; margin-top: 100px;">
+                        <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
-                            <form th:action="@{/mypage/mypage.do}" method="post" id="form">
-                                <div class="mb-3" style="display: inline-block; font-size: large">
-                                    <p style="display: inline-block; color: #EFC900;">암호</p>
-                                    <p style="display: inline-block; color: #ffffff;">를 입력하세요.</p>
+                                <!-- <a class="logoutBtn" th:href="@{/mypage/updatenickname.do}">닉네임 변경</a> -->
+                                <br />
+                                <a class="logoutBtn" th:href="@{/mypage/updatepw.do}">암호 변경</a>
+                                <a class="logoutBtn" th:href="@{/mypage/updatekeyword.do}">선호 키워드 변경</a>
+                                <a class="logoutBtn" th:href="@{/mypage/profileimg.do}">프로필 이미지 수정</a>
+                                <a class="logoutBtn" th:href="@{/mypage/delete.do}">프로필 삭제</a>
+                                <a class="logoutBtn" th:href="@{/profile/profilelist.do}">프로필 선택</a>
+                        </div>
+                        <div style="display: inline-block;">
+                            <h3>
+                                <p style="display: inline-block; color: #EFC900;">닉네임</p>
+                                <p style="display: inline-block; color: #ffffff;">변경</p>
+                            </h3>
+                        </div>
+                        <div class="col-5">
+                            <form th:action="@{/mypage/updatenickname.do}" method="post" id="form">
+                                <div class="mb-3">
+                                    <label class="form-label">현재 닉네임</label>
+                                    <input type="text" class="form-control" name="nickname" id="nickname" th:value="${session.nickname}" required readonly/><br />
                                 </div>
                                 <div class="mb-3">
-                                    <!-- <label class="form-label" id="profilepw1">암호</label> -->
-                                    <label class="form-label">현재 프로필</label> <br />
-                                    <input type="text" class="form-control" name="nickname1" id="nickname1" th:value="${session.nickname}" readonly/><br />
-                                    <label class="form-label">암호</label><br />
-                                    <input type="password" class="form-control" id="profilepw" name="profilepw"><br /><br />
+                                    <label class="form-label">변경할 닉네임</label>
+                                    <input type="text"  class="form-control" name="newnickname" id="newnickname" placeholder="변경할 닉네임"/><br />
                                 </div>
+                                <button type="button" class="btn btn-sm btn-warning" th:onclick="updateNickname()">닉네임 변경</button>
                             </form>
-                            <div class="mx-2 mb-2 text-end">
-                                <button type="button" th:onclick="checkProfilepw()" class="btn btn-sm btn-warning">확인</button>
-                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>
-                            </div>
+                            <br />
                         </div>
                     </div>
-                </div>
-            </main>
-            <footer class="  mt-auto">
+                </main>
+                <footer class="  mt-auto">
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
@@ -239,33 +246,35 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script th:inline="javascript">
 
-        async function checkProfilepw() {
-            const nickname = document.getElementById('nickname1').value;
-            const profilepw = document.getElementById('profilepw').value;
-            // http://127.0.0.1:9090/streampark/api/profile/profilepw.do?nickname=nickname&profilepw=1
 
-            let url = /*[[@{/api/profile/profilepw.do}]]*/"";
+        async function updateNickname() {
+            const nickname = document.getElementById('nickname').value;
+            const newnickname = document.getElementById('newnickname').value;
+            // http://127.0.0.1:9090/streampark/api/profile/newnickname.do?nickname=123&newnickname=12&profilepw=1
 
-            url += "?nickname=" + nickname + "&profilepw=" + profilepw
+            let url = /*[[@{/api/profile/newnickname1.do}]]*/"";
+
+            url += "?newnickname=" + newnickname;
             console.log(url);
 
             const headers = {"Content-Type":"application/json"};
             const { data } = await axios.get(url, { headers:headers });
-
+            
             if(data.result === 1){
+                alert("닉네임이 변경되었습니다.");
                 document.getElementById('form').submit();
             }
             else if(data.result === 2){
-                alert("암호를 입력해주세요.");
+                alert("변경할 닉네임을 입력해주세요.");
             }
             else if(data.result === 0){
-                alert("암호가 일치하지 않습니다.");
+                alert("중복된 닉네임입니다. 다른 닉네임을 사용해주세요.");
             }
             else{
                 alert(data.message);
             }
         }
-    </script>    
-    
+</script>
+
 </body>
 </html>

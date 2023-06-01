@@ -59,6 +59,37 @@ public class RestProfileController {
         return retMap;
     }
 
+        // 닉네임만 중복확인
+        @GetMapping(value = "/newnickname1.do")
+        public Map<String,Object> newnickname1(@RequestParam("newnickname") String newnickname){
+            Map<String, Object> retMap = new HashMap<>();
+            try{
+                Profile profile = pRepository.findByNickname(newnickname);
+                if(newnickname.isEmpty()){
+                    retMap.put("result",2);
+                    retMap.put("status", 409);
+                    retMap.put("message", "닉네임 입력하셈");
+                }
+                else {
+                    if(profile == null){
+                        // 중복되지 않은 경우
+                        retMap.put("status", 200);
+                        retMap.put("result", 1);
+                    } else {
+                        // 중복된 경우
+                        retMap.put("status",409);
+                        retMap.put("result", 0);
+                    }
+                }
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                retMap.put("status", -1);
+                retMap.put("error", e.getMessage());
+            }
+            return retMap;
+        }
+
     // 변경할 닉네임 중복확인
     @GetMapping(value = "/newnickname.do")
     public Map<String,Object> checkNewNickname(@RequestParam("newnickname") String newnickname,
@@ -140,7 +171,7 @@ public class RestProfileController {
                     retMap.put("result", 0);
                     retMap.put("status",409);
                 }
-            } if (profile.getProfilepw() == null){
+            } if (profilepw == null){
                     retMap.put("result", 2);
                     retMap.put("status", 409); 
             }

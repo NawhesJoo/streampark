@@ -181,13 +181,14 @@
 						<button type="button" class=" btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div style="display: inline-block;">
-						<p style="display: inline-block; color: #EFC900;">암호</p>
-						<p style="display: inline-block; color: #ffffff;">를 입력하세요.</p>
+						<p style="display: inline-block; color: #EFC900;">프로필</p>
+						<p style="display: inline-block; color: #ffffff;">선택</p>
 					</div>
 					<hr style="width: 20px;" />
 					<div class="container">
 						<div class="row">
 							<div class="col-6">
+								<img th:src="@{/mypage/profileimage(profileno=${profileno})}" class="profile-image" alt="프로필 이미지" />
 							</div>
 							<div class="col-5">
 								<form th:action="@{/profile/login.do}" method="post" id="form">
@@ -198,8 +199,8 @@
 									</div>
 									<!-- <input  type="text" style="color: black;"  th:text="${pwchk1}" th:value="${pwchk1}"> -->
 									<div class="mb-3">
-										<label for="profilepw">암호</label>
-										<input type="password" id="profilepw" name="profilepw">
+										<label class="form-label" id="profilepw1">암호</label>
+										<input type="password" class="form-control" id="profilepw" name="profilepw"><br />
 									</div>
 								</form>
 							</div>
@@ -238,7 +239,7 @@
 								</div>
 							</div>
 							<div class="col-5">
-								<form th:action="@{/profile/create.do}" method="post" id="form">
+								<form th:action="@{/profile/create.do}" method="post" id="form1">
 									<div class="mb-3">
 										<label class="form-label">프로필 닉네임</label>
 										<input type="text" class="form-control" name="nickname" id="nickname"
@@ -289,9 +290,11 @@
 
 			if(data.result === 0){
 				document.getElementById('profilepw').style.display="none";
+				document.getElementById('profilepw1').style.display="none";
 			}
 			else if(data.result === 1){
 				document.getElementById('profilepw').style.display="inline-block";
+				document.getElementById('profilepw1').style.display="inline-block";
 			}
 		}
 
@@ -345,7 +348,7 @@
 
 			if (data.result === 1) {
 				alert("프로필이 생성되었습니다.");
-				document.getElementById('form').submit();
+				document.getElementById('form1').submit();
 			}
 			else if (data.result === 2) {
 				alert("닉네임을 입력해주세요.");
