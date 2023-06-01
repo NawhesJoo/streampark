@@ -15,6 +15,7 @@ public interface MemberRepository extends JpaRepository<Member,String> {
     long countById(String id);
 
     Member findByIdAndPw(String id, String pw);
+    long countByEmail(String email);
     Optional<Member> findById(String id);
     com.project.entity.MemberProjection findByIdAndName (String id, String name);
     List<com.project.entity.MemberProjection> findByPhoneAndName(String phone, String name);

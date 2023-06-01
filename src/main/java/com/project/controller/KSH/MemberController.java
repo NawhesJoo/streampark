@@ -68,12 +68,14 @@ public class MemberController {
     public String wellcomeGET() {
         return "KSH/wellcome";
     }
-    // 로그아웃 
+
+    // 로그아웃
     @GetMapping(value = "logout.do")
-    public String logoutGET(){
+    public String logoutGET() {
         httpSession.invalidate();
         return "redirect:/member/main.do";
     }
+
     // 로그인 페이지
     @GetMapping(value = "/login.do")
     public String loginGET() {
@@ -133,18 +135,19 @@ public class MemberController {
             return "redirect:/member/findpw.do";
         }
     }
+
     // 정보 페이지
     @GetMapping(value = "/info.do")
     public String infoGET(Model model,
-        @RequestParam(name = "menu", defaultValue = "0", required = false)String menu){
+            @RequestParam(name = "menu", defaultValue = "0", required = false) String menu) {
         String id = "1";
-            log.info("{}",menu);
+        log.info("{}", menu);
         try {
-            if(menu.equals("0")){
+            if (menu.equals("0")) {
                 menu = "1";
-                return "redirect:/member/info.do?menu=" + menu; 
+                return "redirect:/member/info.do?menu=" + menu;
             }
-            if(menu.equals("1")){
+            if (menu.equals("1")) {
                 Member member = mRepository.findById(id).get();
                 model.addAttribute("member", member);
             }
@@ -155,64 +158,61 @@ public class MemberController {
             return "/KSH/infomenus/info";
         }
     }
+
     @PostMapping(value = "/info.do")
     public String infoPOST(@ModelAttribute Member obj, Model model,
-        @RequestParam(name = "pw", required = false)String pw,
-        @RequestParam(name = "newpw",required = false)String newpw,
-        @RequestParam(name = "menu",required = false)String menu){
-            String id = "1";
-            String myInfoChanged = "false";
-            try {
-                // 정보수정
-                if(menu.equals("1")){
-                    Member obj1 = mRepository.findById(id).get();
-                    obj1.setName(obj.getName());
-                    obj1.setEmail(obj.getEmail());
-                    obj1.setBirth(obj.getBirth());
-                    obj1.setPhone(obj.getPhone());
-                    obj1.setGender(obj.getGender());
-                    Member ret = mRepository.save(obj1);
-
-                    if(ret != null){
-                        model.addAttribute("myInfoChanged", true); //  변경 성공 여부를 모델에 추가
-                        myInfoChanged = "true";
-                    }
-                    else{
-                        model.addAttribute("myInfoChanged", false); //  변경 성공 여부를 모델에 추가
-                        myInfoChanged = "false";
-                    }
+            @RequestParam(name = "pw", required = false) String pw,
+            @RequestParam(name = "newpw", required = false) String newpw,
+            @RequestParam(name = "menu", required = false) String menu) {
+        String id = "1";
+        String myInfoChanged = "false";
+        try {
+            // 정보수정
+            if (menu.equals("1")) {
+                Member obj1 = mRepository.findById(id).get();
+                obj1.setName(obj.getName());
+                obj1.setEmail(obj.getEmail());
+                obj1.setBirth(obj.getBirth());
+                obj1.setPhone(obj.getPhone());
+                obj1.setGender(obj.getGender());
+                Member ret = mRepository.save(obj1);
+                if (ret != null) {
+                    model.addAttribute("myInfoChanged", true); // 변경 성공 여부를 모델에 추가
+                    myInfoChanged = "true";
+                } else {
+                    model.addAttribute("myInfoChanged", false); // 변경 성공 여부를 모델에 추가
+                    myInfoChanged = "false";
                 }
-                log.info("aaaaaaaaaaaaaa =>{}, {}, {}",id, pw, newpw);
-                // 비밀번호 수정
-                if(menu.equals("2")){
-                    Member obj1 = mRepository.findById(id).get();
-                    log.info("aaaaaaaaaaaaaa =>  {}", obj1.toString());
-                    if(bcpe.matches(pw,obj1.getPw())){
-                        obj1.setPw(bcpe.encode(newpw));
-                        mRepository.save(obj1);
-                        model.addAttribute("myInfoChanged", true); //  변경 성공 여부를 모델에 추가
-                        myInfoChanged = "true";
-                    }
-                    else if(!bcpe.matches(pw,obj1.getPw())){
-                        model.addAttribute("myInfoChanged", false); //  변경 성공 여부를 모델에 추가
-                        myInfoChanged = "false";
-                    }
-                }
-                if(menu.equals("3")){
-                    try {
-                        mRepository.deleteById(id);
-                       return "redirect:/member/main.do";
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        model.addAttribute("myInfoChanged", false); //  변경 성공 여부를 모델에 추가
-                        myInfoChanged = "false";
-                    }
-                }
-                return "redirect:/member/info.do?menu=" + menu + "&myInfoChanged=" + myInfoChanged;
-            } 
-            catch (Exception e) {
-                e.printStackTrace();
-                return "redirect:/member/info.do?menu=" + menu; 
             }
+            log.info("aaaaaaaaaaaaaa =>{}, {}, {}", id, pw, newpw);
+            // 비밀번호 수정
+            if (menu.equals("2")) {
+                Member obj1 = mRepository.findById(id).get();
+                log.info("aaaaaaaaaaaaaa =>  {}", obj1.toString());
+                if (bcpe.matches(pw, obj1.getPw())) {
+                    obj1.setPw(bcpe.encode(newpw));
+                    mRepository.save(obj1);
+                    model.addAttribute("myInfoChanged", true); // 변경 성공 여부를 모델에 추가
+                    myInfoChanged = "true";
+                } else if (!bcpe.matches(pw, obj1.getPw())) {
+                    model.addAttribute("myInfoChanged", false); // 변경 성공 여부를 모델에 추가
+                    myInfoChanged = "false";
+                }
+            }
+            if (menu.equals("3")) {
+                try {
+                    mRepository.deleteById(id);
+                    return "redirect:/member/main.do";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    model.addAttribute("myInfoChanged", false); // 변경 성공 여부를 모델에 추가
+                    myInfoChanged = "false";
+                }
+            }
+            return "redirect:/member/info.do?menu=" + menu + "&myInfoChanged=" + myInfoChanged;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/member/info.do?menu=" + menu;
+        }
     }
 }

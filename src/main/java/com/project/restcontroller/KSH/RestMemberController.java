@@ -65,6 +65,19 @@ public class RestMemberController {
         return retMap;
     }
 
+    @GetMapping(value = "/emailchk.json")
+    public Map<String,Object> emailchkGET(@RequestParam(name = "email") String email){
+        Map<String,Object> retMap = new HashMap<>();
+        try {
+            long ret = mRepository.countByEmail(email);
+            retMap.put("status", ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("status",0);
+        }
+        return retMap;
+    }
+
     @PostMapping(value = "/login.json")
     public Map<String, Object> loginJsonPOST(
             @RequestBody Member obj1) {
