@@ -50,7 +50,7 @@ public class PayController {
         if (ret == 1) {
             return "redirect:/jeong/index.do";
 
-        }else{
+        } else {
             return "redirect:/jeong/index.do";
         }
     }
@@ -108,7 +108,7 @@ public class PayController {
         // log.info("{}", plist);
         // log.info("{}", membershipList);
         // log.info("{}", tokenList);
-
+        
         model.addAttribute("plist", plist);
         model.addAttribute("mlist", membershipList);
         model.addAttribute("tlist", tokenList);
@@ -144,7 +144,7 @@ public class PayController {
         // log.info("membershipGET profile -> {}", profile);
         // log.info("membershipGET paychk -> {}", paychk);
         // log.info("membershipGET paychk2 -> {}", paychk2);
-        if(!(member.getMembershipchk().longValue() < 0)){// null이 아닐 때
+        if (!(member.getMembershipchk().longValue() < 0)) {// null이 아닐 때
             model.addAttribute("nextgrade", member.getMembershipchk());
 
         }
