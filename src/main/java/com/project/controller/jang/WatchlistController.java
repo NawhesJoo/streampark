@@ -28,7 +28,7 @@ public class WatchlistController {
     final String format = "WatchlistController => {}";
     final WatchlistRepository wlRepository;
     final WatchlistMapper wlMapper;
-    final BigInteger profileno = BigInteger.valueOf(6);
+    final BigInteger profileno = BigInteger.valueOf(93);
 
     @PostMapping(value = "/deletebatch.do")
     public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
@@ -111,8 +111,9 @@ public class WatchlistController {
 
 
     @GetMapping(value = "/insert.do")
-    public String insertGET() {
+    public String insertGET(Model model) {
         try {
+            model.addAttribute("profileno", profileno);
             return "/jang/watchlist/insert";
         }
         catch(Exception e) {

@@ -44,17 +44,20 @@ public class Review {
     private Date regdate;
 
     @ColumnDefault("0")
-    private BigInteger reportcnt;
+    private BigInteger reportcnt= BigInteger.valueOf(0);
 
     // private BigInteger viewno;
     @ColumnDefault("0")
-    private BigInteger likes;
+    private BigInteger likes=BigInteger.valueOf(0);
 
     private BigInteger profileno;
 
     // 리뷰 좋아요
-    @OneToMany(mappedBy = "Review_to_reviewlikes", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-    private List<Reviewlikes> board = new ArrayList<>();
+    @OneToMany(mappedBy = "review", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<Reviewlikes> reviewlikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<Reviewreport> reviewreport = new ArrayList<>();
 
     // 시청목록
     @ToString.Exclude

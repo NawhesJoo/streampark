@@ -1,122 +1,310 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Document</title>
-</head>
-<body>
-    <h3>Watchlist List</h3>
-    <button th:onclick="formAction1(1)">일괄삭제</button>
-    <a th:href="@{/watchlist/insert.do}"><button type="button">시청목록 추가</button></a>
-    <a th:href="@{/review/selectlist.do}"><button type="button">전체 리뷰보기</button></a>
-    <form th:action="@{/watchlist/selectlist.do}" method="post" id="form">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" id="chkAll" onClick="allCheckboxes('chk[]', this.checked)"></th>
-                    <th>프로필번호</th>
-                    <th>비디오코드</th>
-                    <th>제목</th>
-                    <th>키워드</th>
-                    <th>PD</th>
-                    <th>시청 가능 연령</th>
-                    <th>개봉일</th>
-                    <th>가격</th>
-                    <th>회차</th>
-                    <th>리뷰작성 테스트</th>
-                    <th>등록일</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="obj : ${list}">
-                    <td><input type="checkbox" name="chk[]" th:value="${obj.viewno.longValue()}"/></td>
-                    <td th:text="${obj.profile.profileno}"></td>
-                    <td th:text="${obj.videolist.videocode}"></td>
-                    <td th:text="${obj.videolist.title}"></td>
-                    <td th:text="${obj.videolist.keyword}"></td>
-                    <td th:text="${obj.videolist.pd}"></td>
-                    <td th:text="${obj.videolist.chkage}"></td>
-                    <td th:text="${obj.videolist.opendate}"></td>
-                    <td th:text="${obj.videolist.price}"></td>
-                    <td th:text="${obj.videolist.episode}"></td>
-                    <td th:text="${obj.profile.reviewban}"></td>
-                    <td th:text="${obj.viewdate}"></td>
-                    <td>
-                        <button type="button" th:onclick="deleteAction([[${obj.viewno}]])">삭제</button>
-                        <span th:if="${obj.profile.reviewban} == '0'">
-                            <a th:href="@{/review/insert.do(profileno=${obj.profile.profileno}, viewno=${obj.viewno})}"><button type="button">리뷰쓰기</button></a>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
-    <form th:action="@{/watchlist/selectlist.do}" method="get" th:object="${search}">
-        <select th:field="${search.type}">
-            <option th:each="tmp, idx : ${search.typeCode}" th:value="${tmp}" th:text="${search.typeName[idx.index]}"></option>
-        </select>
-        <input type="text" th:field="${search.text}" placeholder="검색어" />
-        <input type="submit" value="검색" />
-    </form>
-  
+    <!-- 1. 부트스트렙용 css CDN 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
-    <form th:action="@{/watchlist/delete.do}" method="post" id="form2" style="display:none">
-        <input type="hidden" name="viewno" id="hidden_viewno" />
-    </form>
+    <!-- 부트스트렙용 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-    <script th:inline="javascript">
-        function deleteAction(viewno) {
-            if(confirm('삭제할까요?')) {
-                document.getElementById('hidden_viewno').value = viewno;
-                document.getElementById('form2').submit();
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1.css}'>
+
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+
+                sidebarToggle.click(function () {
+                    console.log('숨기기');
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+
             }
-        }
+        });
+    </script>
+</head>
+<body class="sb-nav-fixed">
+    <!-- 내비게이션 영역 -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark ">
+        <!-- 내비게이션 브랜드 -->
+        <a class="navbar-brand ps-3" th:href="@{/kdh/home.do}">
+            <strong>STREAM PARK</strong>
+        </a>
+        <!-- 내비게이션 사이드바 버튼 -->
+        <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0"
+            id="sidebarToggle" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
+                <path
+                    d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z" />
+                <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z" />
+            </svg>
+        </button>
+    </nav>
+    <!-- 전체화면 영역-->
+    <div id="layoutTotal">
+        <!-- 전체화면 왼쪽메뉴 영역 sb는 cs에서하는 것-->
+        <div id="layoutLeftSide">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class=" sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">
+                            <!-- 사이드바 프로필 영역 -->
+                            <button class="align-middle profileCle"><a th:href="@{/kdh/selectprofile.do}"></a></button>
+                            <strong class="d-inline-block text-truncate align-middle profileName"
+                                style="max-width: 139px;">프로필 닉네임1sad2</strong>
+                            <a class="logoutBtn " th:href="@{/kdh/logout.do}">로그아웃</a>
+                            <hr style="border-width: 2px;">
+                            <!-- 사이드바 메뉴 영역 -->
+                            <!-- 경로 지정에 주의할 것 -->
+                            <!-- CONTENT -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                CONTENT
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
+                                    <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
+                                    <a class="nav-link" th:href="@{/kdh/best.do}">best</a>
+                                </nav>
+                            </div>
+                            <!-- MYPAGE -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                                MYPAGE
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/keeplist.do}">관심 목록</a>
+                                    <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
+                                    <a class="nav-link" th:href="@{/kdh/customerservice.do}">고객 문의</a>
+                                    <a class="nav-link" th:href="@{/kdh/profile.do}">프로필</a>
+                                </nav>
+                            </div>
+                            <!-- PAY -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                                PAY
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/membership.do}">멤버쉽 가입,변경</a>
+                                    <a class="nav-link" th:href="@{/kdh/token.do}">토큰 결제</a>
+                                    <a class="nav-link" th:href="@{/kdh/paylist.do}">결제 내역</a>
+                                </nav>
+                            </div>
+                            <!-- MANAGE -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages3">
+                                MANAGE
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/boardlist.do}">문의 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/reviewmanage.do}">리뷰 관리</a>
+                                    <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">로그인 중 : 여기에 로그인 된 아이디</div>
+                </div>
+            </nav>
+        </div>
+        <!-- 전체화면 오른쪽메인화면 영역 -->
+        <div id="layoutContent">
+            <main>
+                <div class="container-fluid px-4">
+                    <div class="row">
+                        <div class="col">
+                            <!-- 컨텐츠 이름 넣기 -->
+                            <h1 class="mainConName">시청 목록</h1>
+                            <hr class="mainConBar" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <form th:action="@{/watchlist/selectlist.do}" method="post" id="form">
+                                    <button class="btn btn-outline-danger" th:onclick="formAction1(1)">일괄삭제</button>
+                                    <a th:href="@{/watchlist/insert.do}"><button class="btn btn-outline-primary"
+                                            type="button">시청목록 추가</button></a>
+                                    <a th:href="@{/review/selectlist.do}"><button class="btn btn-outline-success"
+                                            type="button">내가 쓴 리뷰 모아보기</button></a>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="chkAll"
+                                                        onClick="allCheckboxes('chk[]', this.checked)"></th>
+                                                <th class="text-white" scope="col">시청번호</th>
+                                                <th class="text-white" scope="col">프로필번호</th>
+                                                <th class="text-white" scope="col">비디오코드</th>
+                                                <th class="text-white" scope="col">제목</th>
+                                                <th class="text-white" scope="col">키워드</th>
+                                                <th class="text-white" scope="col">PD</th>
+                                                <th class="text-white" scope="col">시청 가능 연령</th>
+                                                <th class="text-white" scope="col">개봉일</th>
+                                                <th class="text-white" scope="col">가격</th>
+                                                <th class="text-white" scope="col">회차</th>
+                                                <th class="text-white" scope="col">등록일</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj : ${list}">
+                                                <td><input type="checkbox" name="chk[]"
+                                                        th:value="${obj.viewno.longValue()}" /></td>
+                                                <td class="text-white" th:text="${obj.viewno}"></td>
+                                                <td class="text-white" th:text="${obj.profile.profileno}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.videocode}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.title}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.keyword}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.pd}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.chkage}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.opendate}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.price}"></td>
+                                                <td class="text-white" th:text="${obj.videolist.episode}"></td>
+                                                <td class="text-white" th:text="${obj.viewdate}"></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                        th:onclick="deleteAction([[${obj.viewno}]])">삭제</button>
+                                                    <span th:if="${obj.profile.reviewban} == '0'">
+                                                        <a
+                                                            th:href="@{/review/insert.do(profileno=${obj.profile.profileno}, viewno=${obj.viewno})}"><button
+                                                                type="button"
+                                                                class="btn btn-outline-primary">리뷰쓰기</button></a>
+                                                    </span>
+                                                    <span th:if="${obj.viewno != ''}">
+                                                        <a
+                                                            th:href="@{/review/selectvideocodereview.do(videocode=${obj.videolist.videocode})}"><button
+                                                                type="button" class="btn btn-outline-success">해당 작품 리뷰
+                                                                보기</button></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                            <form th:action="@{/watchlist/selectlist.do}" method="get" th:object="${search}">
+                                <div class="d-none d-md-inline-block form-inline ms-auto">
+                                    <select class="SearchSLC mx-3" th:field="${search.type}">
+                                        <option th:each="tmp, idx : ${search.typeCode}" th:value="${tmp}"
+                                            th:text="${search.typeName[idx.index]}"></option>
+                                    </select>
+                                </div>
+                                <div class="d-none d-md-inline-block form-inline me-0 me-md-3 my-2 my-md-0">
+                                    <div class="input-group">
+                                        <input type="text" class="udtFC searchInput form-control"
+                                            th:field="${search.text}" placeholder="검색어" />
+                                        <button class="btn btn-warning" type="submit"><i
+                                                class="bi bi-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
 
-        function formAction1(code) {
-        const form = document.getElementById('form');
-        if(code === 1) {
-            form.action=/*[[@{/watchlist/deletebatch.do}]]*/'';
-        }
-        form.submit();
-        }
-
-        // 체크박스 전체 선택 / 해제
-        function allCheckboxes(boxNames, chkMode) {
-            const e1 = document.getElementsByName(boxNames);
-            for(let i = 0; i < e1.length; i++) {
-                if(!e1[i].disabled) {
-                    e1[i].checked = chkMode;
+                            <form th:action="@{/watchlist/delete.do}" method="post" id="form2" style="display:none">
+                                <input type="hidden" name="viewno" id="hidden_viewno" />
+                            </form>
+                        </div>
+                    </div>
+                </main>
+                <footer class="mt-auto">
+                    <div class="mainFooterdiv container-fluid px-4">
+                        <div class="d-flex justify-content-between align-items-center small">
+                            <div style=" color: rgba(255, 255, 255, 0.5);;">
+                                원하는 fotter 적용 css로 색 지정
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
+        </script>
+        <script th:inline="javascript">
+            function deleteAction(viewno) {
+                if (confirm('삭제할까요?')) {
+                    document.getElementById('hidden_viewno').value = viewno;
+                    document.getElementById('form2').submit();
                 }
             }
-        }
 
-        // 전체 체크 여부
-        function isAllCheck(boxNames, allChkName){
-        const el = document.getElementsByName(boxNames);
-        let checkboxCnt = 0;
-        let checkedCnt = 0;
-        for(let i = 0; i < el.length; i++){
-            if(!el[i].disabled){
-            checkboxCnt += 1;
-            if(el[i].checked){
-                checkedCnt += 1;
+            function formAction1(code) {
+                const form = document.getElementById('form');
+                if (code === 1) {
+                    form.action =/*[[@{/watchlist/deletebatch.do}]]*/'';
+                }
+                form.submit();
             }
+
+            // 체크박스 전체 선택 / 해제
+            function allCheckboxes(boxNames, chkMode) {
+                const e1 = document.getElementsByName(boxNames);
+                for (let i = 0; i < e1.length; i++) {
+                    if (!e1[i].disabled) {
+                        e1[i].checked = chkMode;
+                    }
+                }
             }
-        }
-        
-        let chkMode = false;
-        //체크박스 개수와 체크 된 체크박스 개수와 일치할 경우
-        if(checkboxCnt == checkedCnt){
-            chkMode = true;
-        } else {  
-            chkMode = false;
-        }  
-        //일치할 경우 천제 체크 박스는 체크, 일치하지 않을 경우 해제
-        document.getElementById(allChkName).checked = chkMode;
-        }
-    </script>
-</body>
+
+            // 전체 체크 여부
+            function isAllCheck(boxNames, allChkName) {
+                const el = document.getElementsByName(boxNames);
+                let checkboxCnt = 0;
+                let checkedCnt = 0;
+                for (let i = 0; i < el.length; i++) {
+                    if (!el[i].disabled) {
+                        checkboxCnt += 1;
+                        if (el[i].checked) {
+                            checkedCnt += 1;
+                        }
+                    }
+                }
+
+                let chkMode = false;
+                //체크박스 개수와 체크 된 체크박스 개수와 일치할 경우
+                if (checkboxCnt == checkedCnt) {
+                    chkMode = true;
+                } else {
+                    chkMode = false;
+                }
+                //일치할 경우 천제 체크 박스는 체크, 일치하지 않을 경우 해제
+                document.getElementById(allChkName).checked = chkMode;
+            }
+        </script>
+    </body>
 </html>

@@ -5,13 +5,190 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Document</title>
+    <!-- 1. 부트스트렙용 css CDN 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    
+    <!-- 부트스트렙용 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1_jgw.css}'>
+    <style>
+    .sb-nav-fixed #layoutTotal #layoutContent {
+        background-image: url('../../../static/images/fondo-negativo-fotografia.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: grid;
+        vertical-align: middle;
+        z-index: 999;
+    }
+    </style>
+
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+        
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function(){
+            const sidebarToggle = $('#sidebarToggle');
+            if(sidebarToggle){
+
+                sidebarToggle.click(function(){
+                    console.log('숨기기');  
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+                
+            }
+        });
+    </script>
 </head>
-<body>
-    <h3>Watchlist Insert</h3>
-    <form th:action="@{/watchlist/insert.do}" method="post">
-        <input type="text" name="profile.profileno" placeholder="프로필번호" />
-        <input type="text" name="videolist.videocode" placeholder="비디오코드" />
-        <input type="submit" value="제출" />
-    </form>
+
+<body class="sb-nav-fixed">
+    <!-- 내비게이션 영역 -->
+   <nav class="sb-topnav navbar navbar-expand navbar-dark ">
+    <!-- 내비게이션 브랜드 -->
+    <a class="navbar-brand ps-3" th:href="@{/kdh/home.do}">
+        <strong>STREAM PARK</strong>
+    </a>
+    <!-- 내비게이션 사이드바 버튼 -->
+    <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
+            <path d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z"/>
+            <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z"/>
+          </svg>
+    </button>
+    </nav>
+    <!-- 전체화면 영역-->     
+   <div id="layoutTotal">
+    <!-- 전체화면 왼쪽메뉴 영역 sb는 cs에서하는 것-->
+        <div id="layoutLeftSide">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class=" sb-sidenav-menu" >
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">
+                            <!-- 사이드바 프로필 영역 -->
+                            <button class="align-middle profileCle"><a th:href="@{/kdh/selectprofile.do}"></a></button>
+                            <strong class="d-inline-block text-truncate align-middle profileName" style="max-width: 139px;">프로필 닉네임1sad2</strong>
+                            <a class="logoutBtn " th:href="@{/kdh/logout.do}">로그아웃</a>
+                            <hr style="border-width: 2px;">
+                            <!-- 사이드바 메뉴 영역 -->
+                            <!-- 경로 지정에 주의할 것 -->
+                            <!-- CONTENT -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                CONTENT
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                    <a class="nav-link"  th:href="@{/kdh/group.do(group=애니)}">애니</a>
+                                    <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
+                                    <a class="nav-link" th:href="@{/kdh/best.do}">best</a>
+                                </nav>
+                            </div>
+                            <!-- MYPAGE -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                                MYPAGE
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/watchlist.do}">시청 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/keeplist.do}">관심 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/reviewlist.do}">리뷰 내역</a>
+                                    <a class="nav-link" th:href="@{/kdh/customerservice.do}">고객 문의</a>
+                                    <a class="nav-link" th:href="@{/kdh/profile.do}">프로필</a>
+                                </nav>
+                            </div>
+                            <!-- PAY -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                                PAY
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/membership.do}">멤버쉽 가입,변경</a>
+                                    <a class="nav-link"th:href="@{/kdh/token.do}">토큰 결제</a>
+                                    <a class="nav-link" th:href="@{/kdh/paylist.do}">결제 내역</a>
+                                </nav>
+                            </div>
+                            <!-- MANAGE -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages3">
+                                MANAGE
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/boardlist.do}">문의 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/reviewmanage.do}">리뷰 관리</a>
+                                    <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
+                                </nav>
+                            </div>
+                        </div> 
+                    </div>       
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">로그인 중 : 여기에 로그인 된 아이디</div>
+                </div>
+            </nav>
+        </div>
+        <!-- 전체화면 오른쪽메인화면 영역 -->
+        <div id="layoutContent">
+            <main>
+                <div class="container-fluid px-4">
+                    <div class="row">
+                        <div class="col">
+                            <!-- 컨텐츠 이름 넣기 -->
+                            <h1 class="mainConName" style="margin-left:550px;">시청목록 등록</h1>   
+                            <hr class="mainConBar" style="margin-left:620px;"/>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- 여기에 원하는 컨텐츠 삽입 -->
+                            <form th:action="@{/watchlist/insert.do}" method="post">
+                                <input type="text" name="profile.profileno" th:value="${profileno}" style="margin-left:550px; margin-bottom:20px;"/><br />
+                                <input type="text" name="videolist.videocode" placeholder="비디오코드" style="margin-left:550px; margin-bottom:20px;" /><br />
+                                <a th:href="@{/watchlist/selectlist.do}"><button type="button" style="margin-left:595px; margin-right:0px">이전</button></a>
+                                <input type="submit" value="제출" style="margin-left:50px"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="  mt-auto">
+                <div class="mainFooterdiv container-fluid px-4">
+                    <div class="d-flex justify-content-between align-items-center small">
+                        <div style=" color: rgba(255, 255, 255, 0.5);;">
+                            원하는 fotter 적용 css로 색 지정
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+   </div>
+   <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
+    </script>
+
+    
 </body>
 </html>

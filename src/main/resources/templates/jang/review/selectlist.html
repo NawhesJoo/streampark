@@ -1,136 +1,443 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Document</title>
+    <!-- 1. 부트스트렙용 css CDN 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+    <!-- 부트스트렙용 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/home1_jgw.css}'>
+
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+
+                sidebarToggle.click(function () {
+                    console.log('숨기기');
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+
+            }
+        });
+    </script>
 </head>
-<body>
-    <h3>Review(All)</h3>
-    <a th:href="@{/watchlist/selectlist.do}"><button type="button">시청 목록</button></a>
-    <button type="button" th:onclick="likesmanysort([[${list[0].likes}]])">좋아요 순으로 정렬하기</button></a>
-    <form th:action="@{/review/selectlist.do}" method="post" id="form">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>리뷰번호</th>
-                    <th>작성자 번호</th>
-                    <th>작품명</th>
-                    <th>리뷰내용</th>
-                    <th>좋아요</th>
-                    <th>신고</th>
-                    <th>등록일</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="obj : ${list}">
-                    <td th:text="${obj.review_no.longValue()}"></td>
-                    <td th:text="${obj.profileno}"></td>
-                    <td th:text="${obj.watchlist.videolist.title}"></td>
-                    <td th:text="${obj.content}"></td>
-                    <td th:text="${obj.likes}"></td>
-                    <td th:text="${obj.reportcnt}"></td>
-                    <td th:text="${obj.regdate}"></td>
-                    <td>
-                        <span th:if="${obj.profileno} == '6'">
-                            <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button">수정</button></a>
-                            <button type="button" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
-                        </span>
-                        <button type="button" id="likebtn" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">좋아요</button>
-                        <button type="button" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
 
-    <form th:action="@{/review/delete.do}" method="post" id="form2" style="display:none">
-        <input type="hidden" name="review_no" id="hidden_review_no" />
-        <input type="hidden" name="profileno" id="hidden_profileno" />
-    </form>
 
-    <form th:action="@{/review/update.do}" method="get" id="form3" style="display:none">
-        <input type="hidden" name="review_no" id="hidden_review_no" />
-        <input type="hidden" name="profileno" id="hidden_profileno" />
-    </form>
+<body class="sb-nav-fixed">
+    <!-- 내비게이션 영역 -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark ">
+        <!-- 내비게이션 브랜드 -->
+        <a class="navbar-brand ps-3" th:href="@{/kdh/home.do}">
+            <strong>STREAM PARK</strong>
+        </a>
+        <!-- 내비게이션 사이드바 버튼 -->
+        <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0"
+            id="sidebarToggle" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
+                <path
+                    d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z" />
+                <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z" />
+            </svg>
+        </button>
+    </nav>
+    <!-- 전체화면 영역-->
+    <div id="layoutTotal">
+        <!-- 전체화면 왼쪽메뉴 영역 sb는 cs에서하는 것-->
+        <div id="layoutLeftSide">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class=" sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">
+                            <!-- 사이드바 프로필 영역 -->
+                            <button class="align-middle profileCle"><a th:href="@{/kdh/selectprofile.do}"></a></button>
+                            <strong class="d-inline-block text-truncate align-middle profileName"
+                                style="max-width: 139px;">프로필 닉네임1sad2</strong>
+                            <a class="logoutBtn " th:href="@{/kdh/logout.do}">로그아웃</a>
+                            <hr style="border-width: 2px;">
+                            <!-- 사이드바 메뉴 영역 -->
+                            <!-- 경로 지정에 주의할 것 -->
+                            <!-- CONTENT -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                CONTENT
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
+                                    <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
+                                    <a class="nav-link" th:href="@{/kdh/best.do}">best</a>
+                                </nav>
+                            </div>
+                            <!-- MYPAGE -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages1" aria-expanded="false" aria-controls="collapsePages1">
+                                MYPAGE
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/keeplist.do}">관심 목록</a>
+                                    <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
+                                    <a class="nav-link" th:href="@{/kdh/customerservice.do}">고객 문의</a>
+                                    <a class="nav-link" th:href="@{/kdh/profile.do}">프로필</a>
+                                </nav>
+                            </div>
+                            <!-- PAY -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                                PAY
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/membership.do}">멤버쉽 가입,변경</a>
+                                    <a class="nav-link" th:href="@{/kdh/token.do}">토큰 결제</a>
+                                    <a class="nav-link" th:href="@{/kdh/paylist.do}">결제 내역</a>
+                                </nav>
+                            </div>
+                            <!-- MANAGE -->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages3">
+                                MANAGE
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{/kdh/boardlist.do}">문의 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/reviewmanage.do}">리뷰 관리</a>
+                                    <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">로그인 중 : 여기에 로그인 된 아이디</div>
+                </div>
+            </nav>
+        </div>
+        <!-- 전체화면 오른쪽메인화면 영역 -->
+        <div id="layoutContent">
+            <main style="width: 1500px;">
+                <div class="container-fluid px-4">
+                    <div class="row">
+                        <div class="col">
+                            <!-- 컨텐츠 이름 넣기 -->
+                            <h1 class="mainConName">리뷰 내역</h1>
+                            <hr class="mainConBar" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-outline-danger" th:onclick="formAction1(1)">일괄삭제</button>
+                            <a th:href="@{/watchlist/selectlist.do}"><button class="btn btn-outline-success" type="button">시청 목록</button></a>
+                            <!-- <a th:href="@{/review/selectlist.do(menu=1)}"><button class="btn btn-outline-info" type="button">최근 작성 순으로 정렬</button></a> -->
+                            <a th:href="@{/review/selectlist.do(menu=2)}"><button class="btn btn-outline-info" type="button">좋아요 순으로 정렬</button></a>
+                            <hr />
+                            <div th:if="${#strings.equals(param.menu, '1')}">
+                                <form th:action="@{/review/selectlist.do(menu=1)}" method="post" id="form">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="chkAll"
+                                                    onClick="allCheckboxes('chk[]', this.checked)"></th>
+                                                <th class="text-white">리뷰번호</th>
+                                                <th class="text-white">작성자 번호</th>
+                                                <th class="text-white">작성자</th>
+                                                <th class="text-white">작품명</th>
+                                                <th class="text-white">리뷰내용</th>
+                                                <th class="text-white">좋아요</th>
+                                                <th class="text-white">신고</th>
+                                                <th class="text-white">등록일</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj : ${list}">
+                                                <td><input type="checkbox" name="chk[]"
+                                                        th:value="${obj.review_no.longValue()}" /></td>
+                                                <td class="text-white" th:text="${obj.review_no.longValue()}"></td>
+                                                <td class="text-white" th:text="${obj.profileno}"></td>
+                                                <td class="text-white" th:text="${obj.watchlist.profile.nickname}"></td>
+                                                <td class="text-white" th:text="${obj.watchlist.videolist.title}"></td>
+                                                <td class="text-white" th:text="${obj.content}"></td>
+                                                <td class="text-white" th:text="${obj.likes}"></td>
+                                                <td class="text-white" th:text="${obj.reportcnt}"></td>
+                                                <td class="text-white" th:text="${obj.regdate}"></td>
+                                                <td style="padding: 0;">
+                                                    <span th:if="${obj.profileno} == '93'">
+                                                        <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
+                                                        <a
+                                                            th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
+                                                                type="button" class="btn btn-outline-primary" style="margin-bottom: 15px;">수정</button></a>
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                            th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">삭제</button>
+                                                    </span>
+                                                    <button type="button" class="btn btn-outline-warning"
+                                                        th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div th:if="${#strings.equals(param.menu, '2')}">
+                                <form th:action="@{/review/selectlist.do(menu=2)}" method="post" id="form">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="chkAll"
+                                                    onClick="allCheckboxes('chk[]', this.checked)"></th>
+                                                <th class="text-white">리뷰번호</th>
+                                                <th class="text-white">작성자 번호</th>
+                                                <th class="text-white">작성자</th>
+                                                <th class="text-white">작품명</th>
+                                                <th class="text-white">리뷰내용</th>
+                                                <th class="text-white">좋아요</th>
+                                                <th class="text-white">신고</th>
+                                                <th class="text-white">등록일</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="obj : ${list}">
+                                                <td><input type="checkbox" name="chk[]"
+                                                    th:value="${obj.review_no.longValue()}" /></td>
+                                                <td class="text-white" th:text="${obj.review_no.longValue()}"></td>
+                                                <td class="text-white" th:text="${obj.profileno}"></td>
+                                                <td class="text-white" th:text="${obj.watchlist.profile.nickname}"></td>
+                                                <td class="text-white" th:text="${obj.watchlist.videolist.title}"></td>
+                                                <td class="text-white" th:text="${obj.content}"></td>
+                                                <td class="text-white" th:text="${obj.likes}"></td>
+                                                <td class="text-white" th:text="${obj.reportcnt}"></td>
+                                                <td class="text-white" th:text="${obj.regdate}"></td>
+                                                <td>
+                                                    <span th:if="${obj.profileno} == '93'">
+                                                        <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
+                                                        <button type="button" class="btn btn-outline-warning"
+                                                            th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
+                                                        <a
+                                                            th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
+                                                                type="button" class="btn btn-outline-primary" style="margin-bottom: 15px;">수정</button></a>
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                            th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">삭제</button>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
 
-    <form th:action="@{/review/selectlistorderbylikes.do}" method="get" id="form4" style="display:none">
-        <input type="hidden" name="likes" id="hidden_likes" />
-    </form>
+                            <form th:action="@{/review/delete.do}" method="post" id="form2" style="display:none">
+                                <input type="hidden" name="review_no" id="hidden_review_no" />
+                                <input type="hidden" name="profileno" id="hidden_profileno" />
+                            </form>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
-    <script th:inline="javascript">
+                            <form th:action="@{/review/update.do}" method="get" id="form3" style="display:none">
+                                <input type="hidden" name="review_no" id="hidden_review_no" />
+                                <input type="hidden" name="profileno" id="hidden_profileno" />
+                            </form>
+
+                            <!-- <form th:action="@{/review/selectlistorderbylikes.do}" method="get" id="form4" style="display:none">
+                            <input type="hidden" name="likes" id="hidden_likes" />
+                        </form> -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="mt-auto">
+                <div class="mainFooterdiv container-fluid px-4">
+                    <div class="d-flex justify-content-between align-items-center small">
+                        <div style=" color: rgba(255, 255, 255, 0.5);;">
+                            원하는 fotter 적용 css로 색 지정
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+    <!-- ================================== -->
+        <script>
+            var animated = false;
+            $('.heart').click(function(){
+            if(!animated){
+                $(this).addClass('happy').removeClass('broken');
+                animated = true;          
+            }
+            else {
+                $(this).removeClass('happy').addClass('broken');
+                animated = false;
+            }
+            }); 
+        </script>
+        
+      <!-- ================================== -->
+      <script th:inline="javascript">
         function deleteAction(review_no, profileno) {
             if(confirm('삭제할까요?')) {
                 document.getElementById('hidden_review_no').value = review_no;
                 document.getElementById('hidden_profileno').value = profileno;
-                document.getElementById('form2').submit();
+                    document.getElementById('form2').submit();
+                }
             }
-        }
-
-        function updateAction(review_no,profileno) {
-            document.getElementById('hidden_review_no').value = review_no;
-            document.getElementById('hidden_profileno').value = profileno;
-            document.getElementById('form3').submit();
-        }
-
-        async function likespluscnt(review_no, profileno) {
-            console.log(review_no, profileno);
-            const url = /*[[@{/api/review/likesplus.json}]]*/"";
-            console.log(url);
-            const body = {no : review_no, pno : profileno};
-            const headers = {"Content-Type":"application/json"};
-            const {data} = await axios.put(url, body, {headers:headers});
-            console.log('반환되는 결과', data);
-
-            if(data.status === 1) {
-                window.location.reload();
+            
+            function formAction1(code) {
+                const form = document.getElementById('form');
+                if (code === 1) {
+                    form.action =/*[[@{/review/deletebatch.do}]]*/'';
+                }
+                form.submit();
             }
-            else {
-                alert("이미 좋아요를 누르셨습니다");
+            
+            // 체크박스 전체 선택 / 해제
+            function allCheckboxes(boxNames, chkMode) {
+                const e1 = document.getElementsByName(boxNames);
+                for (let i = 0; i < e1.length; i++) {
+                    if (!e1[i].disabled) {
+                        e1[i].checked = chkMode;
+                    }
+                }
             }
-           
-        }
 
-        async function reportpluscnt(review_no, profileno) {
-            console.log(review_no, profileno);
-            const url = /*[[@{/api/review/reportplus.json}]]*/"";
-            console.log(url);
-            const body = {no : review_no, pno : profileno};
-            const headers = {"Content-Type":"application/json"};
-            const {data} = await axios.put(url, body, {headers:headers});
-            console.log('반환되는 결과', data);
+            // 전체 체크 여부
+            function isAllCheck(boxNames, allChkName) {
+                const el = document.getElementsByName(boxNames);
+                let checkboxCnt = 0;
+                let checkedCnt = 0;
+                for (let i = 0; i < el.length; i++) {
+                    if (!el[i].disabled) {
+                        checkboxCnt += 1;
+                        if (el[i].checked) {
+                            checkedCnt += 1;
+                        }
+                    }
+                }
 
-            if(data.status === 1) {
-                window.location.reload();
+                let chkMode = false;
+                //체크박스 개수와 체크 된 체크박스 개수와 일치할 경우
+                if (checkboxCnt == checkedCnt) {
+                    chkMode = true;
+                } else {
+                    chkMode = false;
+                }
+                //일치할 경우 천제 체크 박스는 체크, 일치하지 않을 경우 해제
+                document.getElementById(allChkName).checked = chkMode;
             }
-            else {
-                alert();
+
+            function updateAction(review_no,profileno) {
+                document.getElementById('hidden_review_no').value = review_no;
+                document.getElementById('hidden_profileno').value = profileno;
+                document.getElementById('form3').submit();
             }
-           
-        }
 
-        async function likesmanysort(likes) {
-            document.getElementById('hidden_likes').value = likes;
-            document.getElementById('form4').submit();
-            // console.log(likes);
-            // const url = /*[[@{/api/review/likesmanysort.json(likes=likes)}]]*/"";
-            // console.log(url);
-            // const headers = {"Content-Type":"application/json"};
-            // const {data} = await axios.get(url, {headers:headers});
-            // console.log('반환되는 결과', data);
+            async function likespluscnt(review_no, profileno) {
+                var animated = false;
+                console.log(review_no, profileno);
+                const url = /*[[@{/api/review/likesplus.json}]]*/"";
+                console.log(url);
+                const body = {no : review_no, pno : profileno};
+                const headers = {"Content-Type":"application/json"};
+                const {data} = await axios.put(url, body, {headers:headers});
+                console.log('반환되는 결과', data);
 
-            // if(data.status === 1) {
-            //     window.location.reload();
-            // }
-            // else {
-            //     alert();
-            // }
-        }
+                $('.heart').click(function(){
+                if(!animated && data.status1 == 0){
+                    $(this).addClass('happy').removeClass('broken');
+                    animated = true;
+                    window.location.reload();
+                    $("#hello").css("color", "white");
+                }
+                else {
+                    $(this).removeClass('happy').addClass('broken');
+                    animated = false;
+                    window.location.reload();
+                }
+             }); 
 
-      
-    </script>
-</body>
+             if(data.status1 === 0) {
+                 window.location.reload();
+             }
+             else {
+                 window.location.reload();
+             }
+             
+
+            }
+
+            async function reportpluscnt(review_no, profileno) {
+                const ret = confirm('정말로 신고하시겠습니까?');
+                if(ret === true) {
+                    console.log(review_no, profileno);
+                    const url = /*[[@{/api/review/reportplus.json}]]*/"";
+                    console.log(url);
+                    const body = {no : review_no, pno : profileno};
+                    const headers = {"Content-Type":"application/json"};
+                    const {data} = await axios.put(url, body, {headers:headers});
+                    console.log('반환되는 결과', data);
+
+                    if(data.status === 1) {
+                        window.location.reload();
+                    }
+                    else {
+                        alert("이미 신고한 리뷰입니다.");
+                    }
+                }
+                
+            }
+
+            async function likesmanysort(likes) {
+                console.log('likes');
+                // document.getElementById('hidden_likes').value = likes;
+                // document.getElementById('form4').submit();
+                console.log(likes);
+                const url = /*[[@{/api/review/likesmanysort.json(likes=likes)}]]*/"";
+                console.log(url);
+                const headers = {"Content-Type":"application/json"};
+                const {data} = await axios.get(url, {headers:headers});
+                console.log('반환되는 결과', data);
+
+                if(data.status === 1) {
+                    window.location.reload();
+                }
+                else {
+                    alert();
+                }
+            }
+
+        </script>
+    </body>
 </html>
+
