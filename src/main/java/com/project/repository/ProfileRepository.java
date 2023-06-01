@@ -20,4 +20,6 @@ public interface ProfileRepository extends JpaRepository<Profile, BigInteger>{
     // 닉네임 중복확인
     long countByNickname(String nickname);
 
+    // 프로필 갯수 확인
+    long countByMember_id(String id);
 }

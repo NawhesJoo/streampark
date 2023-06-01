@@ -1,5 +1,7 @@
 package com.project.mapper.JSH;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.project.dto.Profiledto;
+import com.project.entity.Paychk;
 
 @Mapper
 public interface ProfileMapper {
@@ -57,4 +60,8 @@ public interface ProfileMapper {
     })
     public int updateProfilepw(@Param("nickname") String nickname, @Param("newprofilepw") String newprofilepw);
 
+    @Select ({
+        "SELECT p.type, p.id, p.grade, p.regdate FROM paychk p WHERE id = #{id} AND type='M' ORDER BY p.regdate DESC"
+    })
+    public List<Paychk> selectPaychk (@Param("id") String id);
 }

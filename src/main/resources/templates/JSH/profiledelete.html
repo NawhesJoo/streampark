@@ -23,6 +23,7 @@
     }
 
     async function deleteProfile() {
+
         const nickname = document.getElementById('nickname').value;
         const profilepw = document.getElementById('profilepw').value;
         // http://127.0.0.1:9090/streampark/api/profile/nickname.do?nickname=12
@@ -35,7 +36,7 @@
         const headers = {"Content-Type":"application/json"};
         const { data } = await axios.get(url, { headers:headers });
 
-        if(data.result === 1){
+        if(data.result === 1 || data.result ===2){
             alert("프로필이 삭제되었습니다.");
             document.getElementById('deleteForm').submit();
         }

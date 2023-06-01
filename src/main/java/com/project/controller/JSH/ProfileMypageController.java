@@ -47,36 +47,58 @@ public class ProfileMypageController {
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
     @Value("${default.image}") String DEFAULTIMAGE;
     final ResourceLoader resourceLoader;
+
+    // 마이페이지
+    @GetMapping(value ="/mypage.do")
+        public String mypageGET(HttpSession session){
+            session.getAttribute("profileno");
+            session.getAttribute("nickname");
+            session.getAttribute("id");
+            
+            String nickname = (String) session.getAttribute("nickname");
+            Profile profile = pRepository.findByNickname(nickname);
+            if(profile.getProfilepw() == null){
+                return "redirect:/mypage/updatenickname.do";
+            }
+            return "/JSH/mypage";
+        }
+
+    @PostMapping(value ="/mypage.do")    
+        public String mypagePOST(HttpSession session,
+        @RequestParam(value = "profilepw", required = false) String profilepw){
+            String nickname = (String) session.getAttribute("nickname");
+            Profile profile = pRepository.findByNickname(nickname);
+            session.setAttribute("profileno", profile.getProfileno());
+            session.setAttribute("nickname", nickname);
+            return "redirect:/mypage/updatenickname.do";
+        }
     
     // 닉네임 변경
     @GetMapping(value = "/updatenickname.do")
         public String updatenicknameGET(HttpSession session, Model model){
             String nickname = (String) session.getAttribute("nickname");
             Profile profile = pRepository.findByNickname(nickname);
-            String profilepw = profile.getProfilepw();
-            model.addAttribute("profilepw", profilepw);        
+            log.info("nickname => {}", nickname);
             if (profile.getProfilepw() != null){
                 model.addAttribute("profilepwchk", true);
             }
-            return "/JSH/mypage";
+            return "/JSH/profilenickname";
         }
 
     @PostMapping(value = "/updatenickname.do")
         public String updatenicknamePOST(
             @RequestParam("newnickname") String newnickname,
-            @RequestParam("profilepw") String profilepw,
             HttpSession session) {
 
-            log.info("newnickname => {}", newnickname); 
-            log.info("profilepw => {}", profilepw); 
+            log.info("newnickname => {}", newnickname);
             String nickname = (String) session.getAttribute("nickname");
                 
             Profile profile = pRepository.findByNickname(nickname);
-            
             log.info("Profile => {}", profile.toString());
         try {
             profile.setNickname(newnickname);
             pRepository.save(profile);
+            session.setAttribute("nickname", newnickname);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +112,7 @@ public class ProfileMypageController {
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pService.findByNickname(nickname);
         if(profile.getProfilepw() == null){
-            return "/JSH/createpw";
+            return "/JSH/profilecreatepw";
         }
         return "/JSH/updatepw";
     }
@@ -119,7 +141,8 @@ public class ProfileMypageController {
      HttpSession session){
          String nickname = (String) session.getAttribute("nickname");
          log.info("nickname", nickname);
-        String memberId = "1";
+        // String memberId = "1";
+        String memberId = (String) session.getAttribute("id");
         Profile profile1 = pRepository.findByNickname(nickname);
         Member member = new Member();
         member.setId(memberId);
@@ -141,7 +164,7 @@ public class ProfileMypageController {
     if (profile.getProfilepw() != null){
         model.addAttribute("profilepwchk", true);
     }
-    return "/JSH/delete";
+    return "/JSH/profiledelete";
     }
 
 
@@ -156,7 +179,7 @@ public class ProfileMypageController {
             return "redirect:/profile/profilelist.do";
         } catch (Exception e){
             e.printStackTrace();
-            return "/JSH/delete";
+            return "/JSH/profiledelete";
         }
     }   // 완료
 

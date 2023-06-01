@@ -53,6 +53,9 @@
                 alert("프로필이 생성되었습니다.");
                 document.getElementById('form').submit();
             }
+            else if(data.result === 2){
+                alert("닉네임을 입력해주세요.");
+            }
             else if(data.result === 0){
                 alert("중복된 닉네임입니다. 다른 닉네임을 사용해주세요.");
             }

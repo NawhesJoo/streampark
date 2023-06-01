@@ -2,11 +2,13 @@ package com.project.service.JSH;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Profiledto;
+import com.project.entity.Paychk;
 import com.project.entity.Profile;
 import com.project.entity.Profileimg;
 
@@ -51,4 +53,7 @@ public interface ProfileService {
 
     // 프로필 암호 변경
     public int updateProfilepw(String nickname, String newprofilepw);
+
+    // Paychk 유효 불러오기
+    public List<Paychk> selectPaychk (String id);
 }

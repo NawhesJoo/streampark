@@ -12,30 +12,51 @@
     
     <h3>프로필 이미지</h3>
 
-    <img th:src="@{/mypage/profileimage(profileno=${profileno})}">
+    <img th:src="@{/mypage/profileimage(profileno=${profileno})}" alt="" style="height: 150px; width: 150px; border-radius: 50%; overflow: hidden;">
 
-    <table>
-        <tbody>
-            <tr th:each=" imgurl : ${imageList}" style="display: inline-block;">
-                <td> <img th:src="${imgurl}" alt="" style="height: 150px; width: 150px;"></td>
-            </tr>
-        </tbody>
-    </table>
+
 
     <hr>
     이미지 등록
-    <form th:action="@{/mypage/profileimg.do}" method="post" enctype="multipart/form-data" onsubmit="return confirmUpload()">        
+    <form th:action="@{/mypage/profileimg.do}" method="post" enctype="multipart/form-data" id="form">        
         <input type="text" name="profileno" id="profileno" th:value="${session.profileno}" readonly>
-        <input type="file" name="tmpfile" accept="image/*" ><br>
-        <input type="submit" value="이미지 업로드">
+        <input type="file" name="tmpfile" accept="image/*" onchange="setFileName(event)"><br>
+        <input type="text" name="chk" id="chk" readonly>
+        <button type="button" onclick="imgchk()">이미지 업로드</button>
     </form>
+    
     <form th:action="@{/mypage/deleteprofileimg.do}" method="post" enctype="multipart/form-data">
         <button onclick="confirmDelete(event)">이미지 삭제</button>
     </form>
         
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:inline="javascript">
+        function setFileName(event) {
+            const fileName = event.target.files[0].name;
+            document.getElementById('chk').value = fileName;
+        }
+
+        async function imgchk(){
+            const chk = document.getElementById('chk').value;
+            let url = /*[[@{/api/profile/imgchk.do}]]*/"";
+            url +="?chk=" + chk;
+            console.log(url);
+
+            const headers = {"Content-Type":"application/json"};
+            const { data } = await axios.get(url, { headers:headers });
+
+            if(data.result === 1){
+                // 이미지 등록
+                document.getElementById('form').submit();
+            }
+            else if(data.result === 0){
+                alert("이미지를 선택해주세요.");
+            }
+        }
+
         function confirmUpload() {
             return confirm("이미지를 등록하시겠습니까?");
+            alert("이미지가 등록되었습니다.");
         }
 
         function confirmDelete(event) {
