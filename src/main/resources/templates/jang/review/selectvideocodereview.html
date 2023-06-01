@@ -187,10 +187,10 @@
                                                 <td class="text-white" th:text="${obj.regdate}"></td>
                                                 <td>
                                                     <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
-                                                    <button type="button" class="btn btn-outline-warning" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
+                                                    <button type="button" class="btn btn-outline-warning" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
                                                     <span th:if="${obj.profileno} == '93'">
-                                                        <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button" class="btn btn-outline-primary">수정</button></a>
-                                                        <button type="button" class="btn btn-outline-danger" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
+                                                        <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button" class="btn btn-outline-primary" style="margin-bottom: 15px;">수정</button></a>
+                                                        <button type="button" class="btn btn-outline-danger" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">삭제</button>
                                                     </span>
                                                 </td>
                                             </tr>
@@ -224,10 +224,10 @@
                                                 <td class="text-white" th:text="${obj.regdate}"></td>
                                                 <td>
                                                     <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
-                                                    <button type="button" class="btn btn-outline-warning" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])">신고</button>
+                                                    <button type="button" class="btn btn-outline-warning" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
                                                     <span th:if="${obj.profileno} == '93'">
-                                                        <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button" class="btn btn-outline-primary">수정</button></a>
-                                                        <button type="button" class="btn btn-outline-danger" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])">삭제</button>
+                                                        <a th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button type="button" class="btn btn-outline-primary" style="margin-bottom: 15px;">수정</button></a>
+                                                        <button type="button" class="btn btn-outline-danger" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">삭제</button>
                                                     </span>
                                                 </td>
                                             </tr>
