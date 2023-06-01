@@ -1,9 +1,13 @@
 package com.project.mapper;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import com.project.dto.Review;
+
 
 
 @Mapper
@@ -23,6 +27,8 @@ public interface ReviewMapper {
 
     // 좋아요 -1개
     public int reviewlikesminus(Map<String, Object> recvMap);
+
+    // public List<Review> findprofileNoNickname(long profileno);
 
     
 }

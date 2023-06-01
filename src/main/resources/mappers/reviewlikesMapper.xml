@@ -22,4 +22,8 @@
         UPDATE REVIEW SET likes=likes-1 WHERE review_no=#{no} AND profileno=#{pno}
     </update>
 
+    <!-- <select id="findprofileNoNickname" parameterType="long" resultType="list">
+        SELECT p.nickname FROM review r, profile p WHERE profileno=#{profileno} AND profileno=#{profileno}
+    </select> -->
+
 </mapper>

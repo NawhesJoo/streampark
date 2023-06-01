@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.entity.Review;
+import com.project.mapper.ReviewMapper;
 import com.project.repository.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class ReviewController {
     final String format = "ReviewController => {}";
     final BigInteger profileno2 = BigInteger.valueOf(93);
     final ReviewRepository rRepository;
+    final ReviewMapper rMapper;
 
 
     @PostMapping(value = "/deletebatch.do")
@@ -160,12 +162,16 @@ public class ReviewController {
             }
             if(menu == 1) {
                 List<Review> list = rRepository.findAllByOrderByRegdateDesc(profileno2);
+                // List<Review> list2 = rRepository.findByProfile_Nickname(profileno2);
                 model.addAttribute("list", list);
+                // model.addAttribute("list", list2);
             }
 
             else if(menu == 2) {
                 List<Review> list = rRepository.findAllByOrderByLikesDesc(profileno2);
+                // List<Review> list2 = rRepository.findByProfile_Nickname(profileno2);
                 model.addAttribute("list", list);
+                // model.addAttribute("list", list2);
             }
             return "/jang/review/selectlist";
 
