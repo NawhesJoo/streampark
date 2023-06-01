@@ -29,6 +29,7 @@ import com.project.dto.Videolistdto;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
 import com.project.repository.VideoimgRepository;
+import com.project.repository.WatchlistRepository;
 import com.project.repository.videolistRepository;
 import com.project.service.KDH.DHService;
 
@@ -42,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 public class KDHVideoController {
     final videolistRepository videolistRepository;
     final VideoimgRepository videoimgRepository;
+    final WatchlistRepository watchlistRepository;
     final DHService dhService;
     final ResourceLoader resourceLoader; // resource폴더의 파일을 읽기위한 객체 생성
     @Value("${default.image}")
@@ -139,11 +141,11 @@ public class KDHVideoController {
         try {
             BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
-            member.setBirth("2007-11-09");
+            member.setBirth("1997-11-09");
             int ret = dhService.videolistCHKage(videocode.longValue(), member);
             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
             if (ret == 1) {
-                return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
+                    return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
             } else {
                 return "redirect:/kdh/prohibit.do?title=" + title + "&episode=" + episode;
             }

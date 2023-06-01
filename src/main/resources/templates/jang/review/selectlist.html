@@ -295,7 +295,7 @@
             $('.heart').click(function(){
             if(!animated){
                 $(this).addClass('happy').removeClass('broken');
-                animated = true;          
+                animated = true;
             }
             else {
                 $(this).removeClass('happy').addClass('broken');
@@ -374,25 +374,22 @@
                 console.log('반환되는 결과', data);
 
                 $('.heart').click(function(){
-                if(!animated && data.status1 == 0){
+                if(!animated && data.status1 === 0){
                     $(this).addClass('happy').removeClass('broken');
                     animated = true;
-                    window.location.reload();
-                    $("#hello").css("color", "white");
                 }
                 else {
                     $(this).removeClass('happy').addClass('broken');
                     animated = false;
+                }
+                }); 
+
+                if(data.status1 === 0) {
                     window.location.reload();
                 }
-             }); 
-
-             if(data.status1 === 0) {
-                 window.location.reload();
-             }
-             else {
-                 window.location.reload();
-             }
+                else {
+                    window.location.reload();
+                }
              
 
             }
