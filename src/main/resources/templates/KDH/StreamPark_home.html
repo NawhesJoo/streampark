@@ -91,8 +91,7 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">
                                 <!-- 사이드바 프로필 영역 -->
-                                <button class="align-middle profileCle"><a
-                                        th:href="@{/kdh/selectprofile.do}"></a></button>
+                                <a th:href="@{/profile/profilelist.do}"><button class="align-middle profileCle"></button></a>
                                 <strong class="d-inline-block text-truncate align-middle profileName"
                                     style="max-width: 139px;">프로필 닉네임1sad2</strong>
                                 <a class="logoutBtn " th:href="@{/kdh/logout.do}">로그아웃</a>
@@ -109,8 +108,8 @@
                                     data-bs-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
-                                        <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">>드라마</a>
-                                        <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">>애니</a>
+                                        <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                        <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
                                         <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
                                         <a class="nav-link" th:href="@{/kdh/best.do}">best</a>
                                     </nav>
@@ -125,12 +124,12 @@
                                 <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" th:href="@{/kdh/watchlist.do}">시청 목록</a>
+                                        <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
                                         <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
-                                        <a class="nav-link" th:href="@{/kdh/keeplist.do}">관심 목록</a>
-                                        <a class="nav-link" th:href="@{/kdh/reviewlist.do}">리뷰 내역</a>
+                                        <a class="nav-link" th:href="@{/watchlist/keeplist.do}">관심 목록</a>
+                                        <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
                                         <a class="nav-link" th:href="@{/kdh/customerservice.do}">고객 문의</a>
-                                        <a class="nav-link" th:href="@{/kdh/profile.do}">프로필</a>
+                                        <a class="nav-link" th:href="@{/mypage/mypage.do}">프로필</a>
                                     </nav>
                                 </div>
                                 <!-- PAY -->
@@ -143,19 +142,21 @@
                                 <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" th:href="@{/kdh/membership.do}">멤버쉽 가입,변경</a>
-                                        <a class="nav-link" th:href="@{/kdh/token.do}">토큰 결제</a>
-                                        <a class="nav-link" th:href="@{/kdh/paylist.do}">결제 내역</a>
+                                        <a class="nav-link" th:href="@{/pay/membership.do}">멤버쉽 가입,변경</a>
+                                        <a class="nav-link" th:href="@{/pay/chargetoken.do}">토큰 결제</a>
+                                        <a class="nav-link" th:href="@{/pay/paychk.do}">결제 내역</a>
                                     </nav>
                                 </div>
                                 <!-- MANAGE -->
+                                <div th:if="${role == 'A'}">
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                     data-bs-target="#collapsePages3" aria-expanded="false"
                                     aria-controls="collapsePages3">
                                     MANAGE
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
+
+                                    <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" th:href="@{/kdh/boardlist.do}">문의 목록</a>
@@ -163,6 +164,7 @@
                                         <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
                                     </nav>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
