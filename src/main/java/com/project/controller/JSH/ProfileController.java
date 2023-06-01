@@ -211,9 +211,11 @@ public class ProfileController {
 
     @PostMapping(value = "/login.do")
     public String loginPOST(@RequestParam("nickname1") String nickname,
-            @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session) {
+            @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session,
+            @AuthenticationPrincipal User user) {
         Profile profile = pRepository.findByNickname(nickname);
         try {
+            session.setAttribute("id", user.getUsername());
             session.setAttribute("profileno", profile.getProfileno());
             session.setAttribute("nickname", nickname);
             // 로그인 후 갈 홈화면

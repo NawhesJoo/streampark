@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member insertMember(Member obj) {
         obj.setPw(bcpe.encode(obj.getPw()));
-        obj.setRole("C");
+        obj.setRole("A");
         obj.setToken(token);
         obj.setRegdate(date);
         return mRepository.save(obj);

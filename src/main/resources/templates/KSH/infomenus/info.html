@@ -38,10 +38,10 @@
                             <a th:href="@{/member/info.do?menu=2}">비밀 번호 수정</a>
                             <p>-</p>
                             <a th:href="@{/member/info.do?menu=3}">회원 탈퇴</a>
+                            <!-- <p>-</p> -->
+                            <!-- <a th:href="@{/member/info.do?menu=4}">요금제 가입</a>
                             <p>-</p>
-                            <a th:href="@{/member/info.do?menu=4}">요금제 가입</a>
-                            <p>-</p>
-                            <a th:href="@{/member/info.do?menu=5}">요금제 변경</a>
+                            <a th:href="@{/member/info.do?menu=5}">요금제 변경</a> -->
                         </div>
                     </div>
                 </div>
@@ -52,8 +52,8 @@
                                 <div class="main" th:case="1" th:include="/KSH/infomenus/case1" id="case1"></div>
                                 <div class="main" th:case="2" th:include="/KSH/infomenus/case2" id="case2"></div>
                                 <div class="main" th:case="3" th:include="/KSH/infomenus/case3" id="case3"></div>
-                                <div th:case="4" th:include="/KSH/infomenus/case4" id="case4"></div>
-                                <div th:case="5" th:include="/KSH/infomenus/case5" id="case5"></div>
+                                <!-- <div th:case="4" th:include="/KSH/infomenus/case4" id="case4"></div>
+                                <div th:case="5" th:include="/KSH/infomenus/case5" id="case5"></div> -->
                             </div>
                         </div>
                     </div>

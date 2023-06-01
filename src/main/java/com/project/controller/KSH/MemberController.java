@@ -41,6 +41,7 @@ public class MemberController {
     // 메인 페이지
     @GetMapping(value = "/main.do")
     public String mainGET() {
+        httpSession.invalidate();
         return "/KSH/main";
     }
 

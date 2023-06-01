@@ -63,7 +63,7 @@ public class WatchlistController {
     @GetMapping(value = "/selectlist.do")
     public String selectGET(Model model, @RequestParam(name = "type", defaultValue = "title", required = false) String type, @RequestParam(name = "text", required = false) String text, @ModelAttribute Search obj) {
             try {
-                BigInteger profileno = (BigInteger) httpSession.getAttribute("httpSession");
+                BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
                 log.info(format, type);
                 log.info(format, text);
                 if(type.equals("title") && text==null) {
@@ -116,7 +116,8 @@ public class WatchlistController {
     @GetMapping(value = "/insert.do")
     public String insertGET(Model model) {
         try {
-            BigInteger profileno = (BigInteger) httpSession.getAttribute("httpSession");
+            BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
+            log.info(format, profileno);
             model.addAttribute("profileno", profileno);
             return "/jang/watchlist/insert";
         }

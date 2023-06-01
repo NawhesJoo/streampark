@@ -22,15 +22,17 @@ public class SecurityConfig {
         log.info("SecurityConfig => {}", "start filter chain1");
 
         http.authorizeRequests()
-                .antMatchers("/member/**").permitAll()
-                .antMatchers("/member/info.do").hasAuthority("ROLE_C")
-                .antMatchers("/kdh/**").hasAuthority("ROLE_C")
-                .antMatchers("/profile/**").hasAuthority("ROLE_C")
-                .antMatchers("/pay/**").hasAuthority("ROLE_C")
-                .antMatchers("/qna/**").hasAuthority("ROLE_C")
-                .antMatchers("/watchlist/**").hasAuthority("ROLE_C")
-                .antMatchers("/view/**").hasAuthority("ROLE_C")
-
+                .antMatchers("/member/*").permitAll()
+                .antMatchers("/member","/member/info.do").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/kdh/*").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/profile/*").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/kdh/videoupdate.do").hasAuthority("ROLE_A")
+                .antMatchers("/kdh/manageactor.do").hasAuthority("ROLE_A")
+                .antMatchers("/kdh/videodelete.do").hasAuthority("ROLE_A")
+                .antMatchers("/pay/*").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/qna/*").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/watchlist/*").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/view/*").hasAnyAuthority("ROLE_C","ROLE_A")
                 .anyRequest().permitAll();
 
         // 로그인 처리
