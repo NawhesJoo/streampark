@@ -1,10 +1,13 @@
 package com.project.controller.msh;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.dto.Board;
 import com.project.dto.QnaReply;
 import com.project.mapper.QnaMapper;
+import com.project.repository.MemberRepository;
 import com.project.repository.QnaRepository;
 import com.project.service.msh.QnaService;
 import com.project.service.msh.ReplyService;
@@ -34,6 +38,7 @@ public class QnAController {
     final QnaMapper qnaMapper;
     final HttpSession httpSession;
     final QnaRepository qRepository;
+    final MemberRepository memberRepository;
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
@@ -58,13 +63,16 @@ public class QnAController {
     @PostMapping(value = "/insert.do")
     public String insertPOST(@ModelAttribute Board board, HttpServletRequest request) {
         try {
-            // if (board.getProfileno() == null) {
-            // request.setAttribute("msg", "로그인이 필요합니다.");
-            // request.setAttribute("url", "/member/login");
-            // return "alert";
-            // }
+            BigInteger profileno1 = (BigInteger) httpSession.getAttribute("profileno");
+            Long profileno = profileno1.longValue();
+            if ( profileno == null) {
+            request.setAttribute("msg", "로그인이 필요합니다.");
+            request.setAttribute("url", "/member/login");
+            return "alert";
+            }
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
             board.setPassword(bcpe.encode(board.getPassword()));
+            board.setProfileno(profileno);
             int ret = qnaService.insertBoard(board);
             log.info("insertBoard = {}", board.toString());
             log.info("ret = {}", ret);
@@ -80,9 +88,9 @@ public class QnAController {
     @GetMapping(value = "/selectone.do")
     public String selectoneGET(Model model, @RequestParam(name = "no") Long no) {
         try {
-            // httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
-            // Long profileno = (Long) httpSession.getAttribute("profileno");
-            Long profileno = 87L;
+            BigInteger profilenoSession = (BigInteger) httpSession.getAttribute("profileno"); //profileno매개변수에 87저장함.
+            
+            Long profileno =profilenoSession.longValue();
             log.info("profileno = {}", profileno);
 
             // 문의부분
@@ -119,9 +127,8 @@ public class QnAController {
         if (no == 0) { // 번호 없으면 다시 목록으로 돌아감
             return "redirect:selectlist.do";
         }
-        // httpSession.setAttribute("profileno", 87L); //profileno매개변수에 87저장함.
-        // Long profileno = (Long) httpSession.getAttribute("profileno");
-        Long profileno = 87L;
+        BigInteger profilenoSession = (BigInteger) httpSession.getAttribute("profileno"); //profileno매개변수에 87저장함.
+        Long profileno =profilenoSession.longValue();
         log.info("profileno = {}", profileno);
 
         Board obj = new Board();
@@ -149,8 +156,12 @@ public class QnAController {
 
     // 답변 등록GET
     @GetMapping(value = "/reply/insert")
-    public String insertReplyGET(@RequestParam(name = "no") Long no) {
+    public String insertReplyGET(@RequestParam(name = "no") Long no, @AuthenticationPrincipal User user, Model model) {
         try {
+            String id  = user.getUsername();
+            String role =memberRepository.findById(id).get().getRole();
+
+            model.addAttribute("role", role);
             return "/msh/insertReply";
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,11 +173,12 @@ public class QnAController {
     @PostMapping(value = "/reply/insert")
     public String insertReplyPOST(@ModelAttribute QnaReply qnaReply, HttpServletRequest request) {
         try {
-            // httpSession.setAttribute("role", "A");
+            
             int ret = replyService.insertReply(qnaReply);
             log.info("insertReply = {}", qnaReply.toString());
             log.info("ret = {}", ret);
 
+        
             return "redirect:/qna/selectlist.do";
         } catch (Exception e) {
             e.printStackTrace();
