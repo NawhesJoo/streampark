@@ -115,7 +115,6 @@ public interface KDHMapper {
 
 
 
-
 	// //전체 영상 조회
 	// @Select({
 	// " SELECT * FROM VideolistView WHERE episode= 1 "

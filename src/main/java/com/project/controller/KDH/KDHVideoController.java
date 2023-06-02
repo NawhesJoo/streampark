@@ -7,6 +7,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -28,8 +30,11 @@ import com.project.dto.Actorsdto;
 import com.project.dto.Memberdto;
 import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
+import com.project.entity.Interestlist;
+import com.project.entity.Profile;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
+import com.project.repository.InterestRepository;
 import com.project.repository.MemberRepository;
 import com.project.repository.VideoimgRepository;
 import com.project.repository.videolistRepository;
@@ -46,6 +51,8 @@ public class KDHVideoController {
     final videolistRepository videolistRepository;
     final VideoimgRepository videoimgRepository;
     final MemberRepository memberRepository;
+    final InterestRepository interestRepository;
+    final HttpSession httpSession;
     final DHService dhService;
     final ResourceLoader resourceLoader; // resource폴더의 파일을 읽기위한 객체 생성
     @Value("${default.image}")
@@ -403,4 +410,64 @@ public class KDHVideoController {
         }
     }
 
+    //관심목록 ==========================================================
+    @PostMapping(value = "/interest.do")
+    public String videointerestPOST(@RequestParam(name = "interesttitle") String title) {
+        try {
+
+            System.out.println(title);
+            BigInteger profileno= (BigInteger) httpSession.getAttribute("profileno");
+            BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
+
+            Interestlist interestlist = new Interestlist();
+            Profile profile = new Profile();
+            Videolist videolist = new Videolist();
+            profile.setProfileno(profileno);
+            videolist.setVideocode(videocode);
+            interestlist.setProfile(profile);
+            interestlist.setVideolist(videolist);
+           interestRepository.save(interestlist);
+            return "redirect:/kdh/home.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+
+    }
+    @GetMapping(value = "/interestlist.do")
+    public String videosearchGET(Model model
+           ) {
+        try {
+            BigInteger profileno= (BigInteger)httpSession.getAttribute("profileno");
+            List <Interestlist> list = interestRepository.findByProfile_profileno(profileno);
+            
+            for (Interestlist obj : list) {
+                Videolist video =obj.getVideolist();
+                Long imgno = dhService.selectvideoimgOne((video.getVideocode().longValue()));
+                video.setImgno(imgno);
+                obj.setVideolist(video);
+            }
+            model.addAttribute("list", list);
+            return "/KDH/StreamPark_interest";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+    }
+    @PostMapping(value = "/interestdelete.do")
+    public String videointerestdeletePOST(@RequestParam(name = "title") String title) {
+        try {
+            System.out.println(title);
+            BigInteger profileno= (BigInteger)httpSession.getAttribute("profileno");
+            BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
+            BigInteger interestno=interestRepository.findByProfile_profilenoAndVideolist_videocode(profileno, videocode).getInterestno();
+            interestRepository.deleteById(interestno);
+            return "redirect:/kdh/interestlist.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/kdh/error.do";
+        }
+
+    }
 }
