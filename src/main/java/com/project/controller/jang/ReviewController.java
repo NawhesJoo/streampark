@@ -241,10 +241,6 @@ public class ReviewController {
                     model.addAttribute("list", list);
                     // model.addAttribute("list", list2);
                 }
-                else if(role.equals("A")) {
-                    List<Review> list = rRepository.findAllByOrderByRegdateDesc();
-                    model.addAttribute("list", list);
-                }
             }
 
             else if(menu == 2) {
@@ -253,10 +249,6 @@ public class ReviewController {
                     // List<Review> list2 = rRepository.findByProfile_Nickname(profileno2);
                     model.addAttribute("list", list);
                     // model.addAttribute("list", list2);
-                }
-                else if(role.equals("A")) {
-                    List<Review> list = rRepository.findAllByOrderByLikesDesc();
-                    model.addAttribute("list", list);
                 }
             }
 
