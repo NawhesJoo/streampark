@@ -11,7 +11,7 @@ public interface QnaMapper {
     public int insertBoard(Board board);
 
     // 문의글 조회
-    public Board selectoneBoard(Board board);
+    public Board selectoneBoard(Long no);
 
     // 게시글수정
     public int updateBoard(Board board);
