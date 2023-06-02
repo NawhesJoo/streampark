@@ -50,7 +50,7 @@ public interface DHService {
 	// // 		@Param("text")String text);
 	
 	//고객용 영상 검색
-	public List<Videolistdto>  videolistSearch(String comboboxvalue, String  search);
+	public List<VideolistView> videolistSearch(String comboboxvalue, String  search);
 	//고객용 영상 분류검색
 	public List<Videolistdto>  videolistGroupSearch(String category);
 	//고객용 영상 분류하위장르검색

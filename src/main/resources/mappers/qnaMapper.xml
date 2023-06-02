@@ -10,9 +10,10 @@
     </insert>
     
     <!-- 문의글 조회 -->
-     <select id="selectoneBoard" parameterType="com.project.dto.Board" resultType="com.project.dto.Board">
-        SELECT b.* FROM BOARD b WHERE no=#{no} AND profileno=#{profileno}
+     <select id="selectoneBoard" parameterType="Long" resultType="com.project.dto.Board">
+        SELECT b.* FROM BOARD b WHERE no=#{no} 
     </select>
+    
 
     <!-- 문의글 수정 -->
     <update id="updateBoard" parameterType="com.project.dto.Board">

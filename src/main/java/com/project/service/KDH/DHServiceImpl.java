@@ -124,7 +124,7 @@ public class DHServiceImpl implements DHService {
    
    
     @Override
-    public List<Videolistdto> videolistSearch(String comboboxvalue, String search) {
+    public List<VideolistView> videolistSearch(String comboboxvalue, String search) {
         return kdhMapper.videolistSearch(comboboxvalue, search);
     }
     @Override

@@ -6,15 +6,26 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.project.dto.Jeong.BestList;
 import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
+import com.project.entity.Videolist;
 import com.project.repository.Projections.MemberProjection;
 
 @Service
 @Component
 public interface JeongService {
+
+    //리뷰 많은 순으로 상위5개
+    List<BestList> selectTop5Review();
+
+    // 비디오 코드로 값들 가져오기
+    List<Videolist> findTop5Videolist(List<BestList> bestLists);
+
+    //시청 많은 순으로 상위5개
+    List<BestList> selectTop5Watchlist();
 
     //Paychk 등록(멤버쉽)
     int insertPaychkMembership(Paychk obj);
@@ -37,6 +48,7 @@ public interface JeongService {
     //타입 아이디 검색 후 날짜 내림차순으로 한뒤 제일 최신것 가져오기
     Paychk findPaychkMemberidAndTypeTopByRegdate(String id, String type);
 
+    //모든 요금제 정보 가져오기
     List<Fee> findFeeAll();
 
     //요금제 등급에 맞는 정보 가져오기

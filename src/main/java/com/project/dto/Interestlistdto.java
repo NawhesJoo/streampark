@@ -4,7 +4,7 @@ import lombok.Data;
 
 // 나중에 볼 영상
 @Data
-public class Interestlist {
+public class Interestlistdto {
   // 관심목록 번호
   private Long interestno;
   // 작품코드

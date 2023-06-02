@@ -40,7 +40,7 @@ public interface MemberService {
 
     public Map<String,Object> emailchk(String email);
 
-    public Map<String,Object> pwcheck(String pw);
+    public Map<String,Object> pwcheck(String pw, String id);
 
     public Map<String,Object> idcheck(String id);
 }

@@ -1,7 +1,10 @@
 package com.project.restcontroller.msh;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RestQnAController {
     final QnaService qnaService;
     final ReplyService replyService;
+    final HttpSession httpSession;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     // 문의글 수정
@@ -33,9 +37,12 @@ public class RestQnAController {
     public Map<String, Object> updateQnA(@RequestBody Board board) {
         Map<String, Object> retMap = new HashMap<>();
         try {
+            BigInteger profilenoSession = (BigInteger) httpSession.getAttribute("profileno");
+            Long profileno = profilenoSession.longValue();
+            board.setProfileno(profileno);
             // log.info("AfterInputPW = {}", board.toString()); //no,입력한 password,profileno
             // 3개만 나옴
-            Board retBoard = qnaService.selectoneBoard(board);
+            Board retBoard = qnaService.selectoneBoard(board.getNo());
             // log.info("AfterInputPWSelect = {}", retBoard); // no,profileno에 맞는 retBoard가
             // 나옴
 
@@ -60,9 +67,12 @@ public class RestQnAController {
     public Map<String, Object> deleteQnA(@RequestBody Board board) {
         Map<String, Object> retMap = new HashMap<>();
         try {
+            BigInteger profilenoSession = (BigInteger) httpSession.getAttribute("profileno");
+            Long profileno = profilenoSession.longValue();
+            board.setProfileno(profileno);
             log.info("Board = {}", board.toString()); // no, password, profileno나옴
-            Board retBoard = qnaService.selectoneBoard(board);
-            log.info("{}", retBoard); // no,profileno에 맞는 retBoard가 나옴
+            Board retBoard = qnaService.selectoneBoard(board.getNo());
+            log.info("retBoard = {}", retBoard); // no,profileno에 맞는 retBoard가 나옴
 
             // 실패시 전송할 데이터, 밑으로 가면 200에서 다시 0으로 바뀌니까 위에 있음.
             retMap.put("status", 0);

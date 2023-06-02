@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.BestMapper">
+
+    <!-- <select id="selectTop5Watchlist"  resultType="com.project.dto.Jeong.BestList">
+        SELECT w.VIDEOCODE , COUNT(*) cnt FROM WATCHLIST w  GROUP BY VIDEOCODE ORDER BY cnt DESC LIMIT (5);
+    </select> -->
+
+</mapper>

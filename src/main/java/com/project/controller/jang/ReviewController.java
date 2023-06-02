@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.entity.Review;
 import com.project.mapper.ReviewMapper;
+import com.project.repository.MemberRepository;
 import com.project.repository.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,14 +33,71 @@ public class ReviewController {
     // final BigInteger profileno2 = BigInteger.valueOf(93);
     final HttpSession httpSession;
     final ReviewRepository rRepository;
+    final MemberRepository memberRepository;
     final ReviewMapper rMapper;
+
+    @PostMapping(value = "/deletebatchmanage.do")
+    public String deleteBatchManagePOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
+        try {
+            // log.info(format,chk.toString());
+            rRepository.deleteAllById(chk);
+            return "redirect:/review/reviewmanage.do";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    @PostMapping(value = "/deletemanage.do")
+    public String deletemanagePOST(@RequestParam(name = "review_no") BigInteger review_no, @RequestParam(name = "profileno") BigInteger profileno, @AuthenticationPrincipal User user) {
+        try {
+            String id = user.getUsername();
+            String role = memberRepository.findById(id).get().getRole();
+            log.info(format, review_no);
+            if(role.equals("A")) {
+                rRepository.deleteById(review_no);
+            }
+            return "redirect:/review/reviewmanage.do";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    @GetMapping(value = "/reviewmanage.do")
+    public String manageReviewGET(@RequestParam(name = "videocode", required = false) BigInteger videocode, @ModelAttribute Review review, Model model, @AuthenticationPrincipal User user) {
+        try {
+            String id = user.getUsername();
+            String role = memberRepository.findById(id).get().getRole();
+            log.info(format, videocode);
+
+            if(videocode == null) {
+                List<Review> list = rRepository.findAllByOrderByRegdateDesc();
+                model.addAttribute("list", list);
+            }
+            else {
+                List<Review> list = rRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
+                model.addAttribute("list", list);
+                model.addAttribute("role", role);
+            }
+            return "/jang/review/reviewmanage";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
 
 
     @PostMapping(value = "/deletebatch.do")
     public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
         try {
-            // log.info(format,chk.toString());
             rRepository.deleteAllById(chk);
+
+            // log.info(format,chk.toString());
+            // rRepository.deleteAllById(chk);
             return "redirect:/review/selectlist.do";
         }
         catch (Exception e) {
@@ -59,8 +119,10 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/selectvideocodereview.do")
-    public String selectvideocodereviewGET(Model model, @RequestParam(name="menu", required = false, defaultValue = "0") int menu, @ModelAttribute Review review, @RequestParam(name = "videocode") BigInteger videocode) {
+    public String selectvideocodereviewGET(Model model, @RequestParam(name="menu", required = false, defaultValue = "0") int menu, @ModelAttribute Review review, @RequestParam(name = "videocode") BigInteger videocode, @AuthenticationPrincipal User user) {
         try {
+            String id = user.getUsername();
+            String role = memberRepository.findById(id).get().getRole();
             BigInteger profileno2 = (BigInteger) httpSession.getAttribute("profileno");
             log.info(format, videocode);
             // if(menu == 0) {
@@ -76,6 +138,7 @@ public class ReviewController {
             }
             model.addAttribute("videocode", videocode);
             model.addAttribute("profileno", profileno2);
+            model.addAttribute("role", role);
             return "/jang/review/selectvideocodereview";
         }
         catch (Exception e) {
@@ -161,26 +224,44 @@ public class ReviewController {
 
     // 127.0.0.1:9090/streampark/review/selectlist.do
     @GetMapping(value = "/selectlist.do")
-    public String selectlistGET(@RequestParam(name="menu", required = false, defaultValue = "0") int menu, @RequestParam(name = "videocode", required = false) BigInteger videocode, @ModelAttribute Review review, Model model) {
+    public String selectlistGET(@RequestParam(name="menu", required = false, defaultValue = "0") int menu, @RequestParam(name = "videocode", required = false) BigInteger videocode, @ModelAttribute Review review, Model model, @AuthenticationPrincipal User user) {
         try {
+            String id = user.getUsername();
+            String role = memberRepository.findById(id).get().getRole();
+            log.info(format, role.toString());
             BigInteger profileno2 = (BigInteger) httpSession.getAttribute("profileno");
             if(menu == 0) {
                 return "redirect:/review/selectlist.do?menu=1";
                 
             }
             if(menu == 1) {
-                List<Review> list = rRepository.findAllByOrderByRegdateDesc(profileno2);
-                // List<Review> list2 = rRepository.findByProfile_Nickname(profileno2);
-                model.addAttribute("list", list);
-                // model.addAttribute("list", list2);
+                if(role.equals("C")) {
+                    List<Review> list = rRepository.findAllByOrderByRegdateDesc(profileno2);
+                    // List<Review> list2 = rRepository.findByProfile_Nickname(profileno2);
+                    model.addAttribute("list", list);
+                    // model.addAttribute("list", list2);
+                }
+                else if(role.equals("A")) {
+                    List<Review> list = rRepository.findAllByOrderByRegdateDesc();
+                    model.addAttribute("list", list);
+                }
             }
 
             else if(menu == 2) {
-                List<Review> list = rRepository.findAllByOrderByLikesDesc(profileno2);
-                // List<Review> list2 = rRepository.findByProfile_Nickname(profileno2);
-                model.addAttribute("list", list);
-                // model.addAttribute("list", list2);
+                if(role.equals("C")) {
+                    List<Review> list = rRepository.findAllByOrderByLikesDesc(profileno2);
+                    // List<Review> list2 = rRepository.findByProfile_Nickname(profileno2);
+                    model.addAttribute("list", list);
+                    // model.addAttribute("list", list2);
+                }
+                else if(role.equals("A")) {
+                    List<Review> list = rRepository.findAllByOrderByLikesDesc();
+                    model.addAttribute("list", list);
+                }
             }
+
+            model.addAttribute("role", role);
+            model.addAttribute("profileno", profileno2);
             return "/jang/review/selectlist";
 
         }

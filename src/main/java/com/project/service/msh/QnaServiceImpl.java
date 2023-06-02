@@ -35,9 +35,9 @@ public class QnaServiceImpl implements QnaService {
 
     // 문의글 조회
     @Override
-    public Board selectoneBoard(Board board) {
+    public Board selectoneBoard(Long no) {
         try {
-            return qnaMapper.selectoneBoard(board);
+            return qnaMapper.selectoneBoard(no);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -208,16 +208,16 @@
                                 <div>
                                     <h2>답변수정</h2>
                                     <div style="width:1000px">
-                                        <form th:action="@{/qna/reply/update}" method="post">
-                                            <input type="hidden" name="no" th:value="${reply.no}" readonly><br />
-                                            <input type="hidden" name="replyno" th:value="${reply.replyno}"><br />
+                                        <form id="updateForm" th:action="@{/qna/reply/update}" method="post">
+                                            <input type="hidden" name="no" th:value="${reply.no}" /><br />
+                                            <input type="hidden" name="replyno" th:value="${reply.replyno}" /><br />
                                             <div id="editor">
-                                                <textarea class="form-control" type="text"
-                                                    style="height:100%; width:100%;" maxlength='1000' id="content"
-                                                    name="content" th:text="${reply.content}"></textarea>
-                                            </div><br />
+                                                <p class="form-control" type="text" style="height:100%; width:100%;"
+                                                maxlength='1000' id="content" name="content"
+                                                th:utext="${reply.content}"></p>
+                                            </div>
                                             <div align="right">
-                                                <input class="button" type="submit" value="수정완료">
+                                                <input class="button" type="button" onclick="updateForm()" value="수정" />
                                                 <button class="button" type="button"
                                                     th:onclick="|location.href='@{/qna/selectone.do(no=${reply.no})}'|">돌아가기</button>
                                             </div>
@@ -291,37 +291,22 @@
             theme: 'snow'
         });
 
-        function insertQnA() {
-            var title = $("#title").val()
-            var content = $("#content").val()
-            var pw = $("#password").val();
-            var num = pw.search(/[0-9]/g);
-            var eng = pw.search(/[a-z]/ig);
-            var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-            // var form = document.getElementById("insertForm");
-            if (title.length <= 0) {
-                alert('제목을 입력하세요.');
-                title.focus();
-                return false; // 함수 종료, 전송하지 않음
-            }
-            if (content.length <= 0) {
-                alert('내용을 입력하세요.');
+        function updateForm() {
+            var content = quill.root.innerHTML;
+            var content1 = quill.getText();
+
+            if (content1.length <= 10) {
+                alert('내용을 10자이상 입력하세요.');
                 content.focus();
                 return false;
             }
-            if (pw.length < 1 || pw.length > 15) { //일단 1고정
-                alert("4~15자로 입력해주세요.");
-                return false;
-                // } else if (pw.search(/\s/) != -1) {
-                //     alert("비밀번호는 공백 없이 입력해주세요.");
-                //     return false;
-                // } else if (num < 0 || eng < 0 || spe < 0) {
-                //     alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
-                //     return false;
-            } else {
-                console.log("통과");
-            }
-            $("#insertForm").submit();
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "content";
+            input.value = content;
+
+            document.getElementById("updateForm").appendChild(input);
+            $("#updateForm").submit();
         }
         
         $(document).ready(function () {
