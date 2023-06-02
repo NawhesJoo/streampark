@@ -135,9 +135,9 @@ public class PayController {
             @RequestParam(name = "menu", required = false, defaultValue = "0") int menu,
             @AuthenticationPrincipal User user) {
         BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
+        Profile profile = jService.findProfileById(profileno.longValue());
         String nickname =  (String)httpSession.getAttribute("nickname");
         String id = user.getUsername();
-        Profile profile = jService.findProfileById(profileno.longValue());
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         // Paychk paychk = jService.findPaychkTopByRegdate();
         // log.info("membershipGET member -> {}", member.toString());
