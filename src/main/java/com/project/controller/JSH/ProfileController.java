@@ -51,6 +51,7 @@ public class ProfileController {
     final ProfileService pService;
     final ProfileMapper pMapper;
     final MemberRepository mRepository;
+    
     final ProfileRepository pRepository;
     final PaychkRepository pcRepository;
     final ProfileimgRepository piRepository;
@@ -195,10 +196,14 @@ public class ProfileController {
     // 프로필 로그인
     @GetMapping(value = "/login.do")
     public String loginGET(@RequestParam(name = "nickname1", required = false) String nickname,
-            Model model, HttpSession session) {
+            Model model, HttpSession session, @AuthenticationPrincipal User user) {
         model.addAttribute("nickname", nickname);
+        String id = user.getUsername();
+        String role = mRepository.findById(id).get().getRole();
         Profile profile1 = pRepository.findByNickname(nickname);
         if (profile1.getProfilepw() == null) {
+            // httpSession.setAttribute("role", role);
+            session.setAttribute("role", role);
             session.setAttribute("profileno", profile1.getProfileno());
             session.setAttribute("nickname", nickname);
             return "redirect:/profile/mypage.do";
@@ -211,8 +216,11 @@ public class ProfileController {
     public String loginPOST(@RequestParam("nickname1") String nickname,
             @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session,
             @AuthenticationPrincipal User user) {
+                String id = user.getUsername();
+                String role = mRepository.findById(id).get().getRole();
         Profile profile = pRepository.findByNickname(nickname);
         try {
+            session.setAttribute("role", role);
             session.setAttribute("id", user.getUsername());
             session.setAttribute("profileno", profile.getProfileno());
             session.setAttribute("nickname", nickname);

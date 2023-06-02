@@ -198,7 +198,7 @@
                                 등록일자:<p th:text="${video.regdate}">
                             </div>
 
-                            <div th:if="${role == 'A'}">
+                            <div th:if="${session.role == 'A'}">
                                 <a class="insertbutton" th:href="@{/kdh/videoupdate.do(title=${video.title})}"
                                     style="text-decoration: none; margin-left: 220px;">영상수정 및 관리</a>
                                 <a class="insertbutton" th:href="@{/kdh/manageactor.do(title=${video.title})}"

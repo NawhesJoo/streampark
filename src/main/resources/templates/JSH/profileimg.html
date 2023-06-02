@@ -190,13 +190,13 @@
                         <div class="col-3" style="margin-left: 400px; margin-top: 20px;">
                             <form th:action="@{/mypage/profileimg.do}" method="post" enctype="multipart/form-data" id="form"> 
                                 <input type="text" name="profileno" id="profileno" th:value="${session.profileno}" readonly hidden>
-                                <label for="profileImage">
+                                <label style="margin-bottom: 10px;" for="profileImage">
                                   <img th:src="@{/mypage/profileimage(profileno=${session.profileno})}" style="border-radius: 50%; width: 150px; height: 150px; cursor: pointer;">
                                   <input type="file" name="tmpfile" id="profileImage" accept="image/*" style="display: none;" onchange="setFileName(event)">
                                 </label>
                                 <br>
                                 <input type="text" name="chk" id="chk" readonly>
-                                <button type="button" class="btn btn-sm btn-warning" onclick="imgchk()">이미지 저장</button>
+                                <button type="button" class="btn btn-sm btn-warning my-1" onclick="imgchk()">이미지 저장</button>
                               </form>
 
                             <form th:action="@{/mypage/deleteprofileimg.do}" method="post" enctype="multipart/form-data">
