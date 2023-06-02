@@ -13,6 +13,8 @@ import com.project.entity.Watchlist;
 @Repository
 public interface WatchlistRepository extends JpaRepository<Watchlist, BigInteger> {
 
+    public Watchlist findByProfile_profilenoAndVideolist_videocode(BigInteger profileno, BigInteger videocode);
+
     public List<Watchlist> findAllByOrderByViewdateDesc();
 
     @Query(value = " SELECT wl.profileno, wl.viewno, wl.viewdate, vl.videocode, vl.title, vl.keyword, vl.pd, vl.chkage, vl.opendate, vl.price, vl.episode FROM watchlist wl, videolist vl where title like '%' || :keyword || '%' AND wl.videocode=vl.videocode AND wl.profileno=:profileno order by wl.viewdate DESC ", nativeQuery=true)

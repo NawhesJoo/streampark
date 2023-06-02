@@ -21,8 +21,10 @@ import com.project.entity.Chargetoken;
 import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
+import com.project.entity.Paymentlist;
 import com.project.entity.Profile;
 import com.project.repository.PaychkRepository;
+import com.project.repository.PaymentlistRepository;
 import com.project.repository.Projections.MemberProjection;
 import com.project.service.JeongService.JeongService;
 
@@ -38,8 +40,19 @@ public class PayController {
     final HttpSession httpSession;
     final JeongService jService;
     final PaychkRepository payRepository;
+    final PaymentlistRepository paymentlistRepository;
 
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy. MM. dd.");
+
+    @GetMapping(value = "/havelist.do")
+    public String haveGET(Model model){
+        List<Paymentlist> list = paymentlistRepository.findAll();
+        model.addAttribute("list", list);
+
+
+        return "/jeong/StreamPark_havelist";
+    }
+
 
     @PostMapping(value = "/update.do")
     public String updatePOST(@RequestParam(name = "grade") int grade) {
@@ -135,9 +148,9 @@ public class PayController {
             @RequestParam(name = "menu", required = false, defaultValue = "0") int menu,
             @AuthenticationPrincipal User user) {
         BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
+        Profile profile = jService.findProfileById(profileno.longValue());
         String nickname =  (String)httpSession.getAttribute("nickname");
         String id = user.getUsername();
-        Profile profile = jService.findProfileById(profileno.longValue());
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         // Paychk paychk = jService.findPaychkTopByRegdate();
         // log.info("membershipGET member -> {}", member.toString());

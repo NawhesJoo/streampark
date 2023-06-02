@@ -39,28 +39,7 @@
             }
         });
     </script>
-    <style>
-        .form-label{
-            color: #EFC900;
-        }
-        .form-control{
-            color: #ffffff;
-            background-color: black;
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        .form-control:focus{
-            box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
-            color: #EFC900;
-            background-color: black;
-            border-color: #EFC900;
-        }
-        .form-control:hover{
-        
-            color: #EFC900;
-            background-color: black;
-            border-color: #EFC900;
-        }
-    </style>
+
 </head>
 <body class="sb-nav-fixed">
     <!-- 내비게이션 영역 -->
@@ -183,7 +162,7 @@
             </nav>
         </div>
          <!-- 전체화면 오른쪽메인화면 영역 -->
-         <div id="layoutContent">
+         <div id="layoutContent" style="overflow: hidden;">
             <main>
                 <div class="container-fluid px-4">
                     <div class="row">
@@ -195,39 +174,35 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <!-- 여기에 원하는 컨텐츠 삽입 -->
-                                <!-- <a class="logoutBtn" th:href="@{/mypage/updatenickname.do}">닉네임 변경</a> -->
-                                <br />
-                                <a class="logoutBtn" th:href="@{/mypage/updatepw.do}">암호 변경</a>
-                                <a class="logoutBtn" th:href="@{/mypage/updatekeyword.do}">선호 키워드 변경</a>
-                                <a class="logoutBtn" th:href="@{/mypage/profileimg.do}">프로필 이미지 수정</a>
-                                <a class="logoutBtn" th:href="@{/mypage/delete.do}">프로필 삭제</a>
-                                <a class="logoutBtn" th:href="@{/profile/profilelist.do}">프로필 선택</a>
+                        <div >
+                            <a style="margin-left: 250px;" class="logoutBtn1" th:href="@{/mypage/updatenickname.do}">닉네임 변경</a>
+                            <a class="logoutBtn1" th:href="@{/mypage/updatepw.do}">암호 관리</a>
+                            <a class="logoutBtn1" th:href="@{/mypage/updatekeyword.do}">선호 키워드 변경</a>
+                            <a class="logoutBtn1" th:href="@{/mypage/profileimg.do}">프로필 이미지 수정</a>
+                            <a class="logoutBtn1" th:href="@{/mypage/delete.do}">프로필 삭제</a>
+                            <a class="logoutBtn1" th:href="@{/profile/profilelist.do}">프로필 선택</a>
                         </div>
-                        <div style="display: inline-block;">
+                        <div style="display: inline-block; margin-left: 400px; margin-top: 100px;">
                             <h3>
-                                <p style="display: inline-block; color: #EFC900;">닉네임</p>
-                                <p style="display: inline-block; color: #ffffff;">변경</p>
+                                <p style="display: inline-block; color: #EFC900;">닉네임 변경</p>
                             </h3>
                         </div>
-                        <div class="col-5">
+                        <div class="col-3" style="margin-left: 400px; margin-top: 20px;">
+                            <!-- 여기에 원하는 컨텐츠 삽입 -->
                             <form th:action="@{/mypage/updatenickname.do}" method="post" id="form">
-                                <div class="mb-3">
+                                <div class="mb-3" style="margin-bottom: 100px;">
                                     <label class="form-label">현재 닉네임</label>
                                     <input type="text" class="form-control" name="nickname" id="nickname" th:value="${session.nickname}" required readonly/><br />
-                                </div>
-                                <div class="mb-3">
                                     <label class="form-label">변경할 닉네임</label>
-                                    <input type="text"  class="form-control" name="newnickname" id="newnickname" placeholder="변경할 닉네임"/><br />
+                                    <input type="text" class="form-control" name="newnickname" id="newnickname" placeholder="변경할 닉네임"/><br />
                                 </div>
                                 <button type="button" class="btn btn-sm btn-warning" th:onclick="updateNickname()">닉네임 변경</button>
                             </form>
-                            <br />
                         </div>
                     </div>
-                </main>
-                <footer class="  mt-auto">
+                </div>
+            </main>
+            <footer class="  mt-auto">
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
@@ -274,7 +249,7 @@
                 alert(data.message);
             }
         }
-</script>
-
+    </script>    
+    
 </body>
 </html>

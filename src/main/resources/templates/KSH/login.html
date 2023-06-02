@@ -19,7 +19,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
-<body>
+<body th:onload="checkUrlError()">
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col">
@@ -42,10 +42,8 @@
                         <form th:action="@{/member/loginaction.do}" method="post" id="form">
                             <input class="joinF form-control" id="id" name="id" type="text" placeholder="id">
                             <input class="joinF form-control" id="pw" name="pw" type="password" placeholder="pw">
-                                                     
-                            <button type="submit"class="btn SIGNbtn btn-sm btn-warning mb-2" data-toggle="modal" data-target="#alertModal"
-                                >로그인</button>
-                                <!-- th:onclick="login()" -->
+                            <button type="submit" class="btn SIGNbtn btn-sm btn-warning mb-2" data-toggle="modal"
+                                data-target="#alertModal">로그인</button>
                         </form>
                         <div class="atagSec d-flex justify-content-between row">
                             <div class="col">
@@ -59,26 +57,25 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <!-- 모달 창 -->
-    <div class="modal fade modal-centered" id="alertModal" tabindex="-1" role="dialog"
-            aria-labelledby="alertModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
-                <div class="modal-content d-flex "
-                    style="background-color: black; border-color: rgba(239, 201, 0, 0.6) ;">
-                    <div style="text-align: center; height : 80px; padding-top: 20px; padding-bottom: 0px;">
-                        <p class="mx-1" id="idlist" style="color:white;"></p>
-                        <p class="mx-1" id="alertMsg" style="color:white;"></p>
-                    </div>
-                    <div class="modal-footer" style="border-top: none ;">
-                        <button type="button" class="btn btn-sm btn-secondary"
-                            data-bs-dismiss="modal">닫기</button>
-                    </div>
+    <div class="modal fade modal-centered" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+            <div class="modal-content d-flex " style="background-color: black; border-color: rgba(239, 201, 0, 0.6) ;">
+                <div style="text-align: center; height : 80px; padding-top: 20px; padding-bottom: 0px;">
+                    <p class="mx-1" id="idlist" style="color:white;"></p>
+                    <p class="mx-1" id="alertMsg" style="color:white;"> 아이디 or 비밀번호를 정확히 입력해 주세요.</p>
+                </div>
+                <div class="modal-footer" style="border-top: none ;">
+                    <button type="button" class="btn btn-sm btn-secondary" th:onclick="reload()"
+                        data-bs-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
@@ -103,43 +100,21 @@
 
     <script th:inline="javascript">
         // 유효성 검사
-        async function login() {
-            const form = document.getElementById('form');
-            const id = document.querySelector('#id');
-            const pw = document.querySelector('#pw');
-
-            if (!id.value || id.value.length <= 0) {
-                document.getElementById("alertMsg").innerText = '아이디를 입력하세요';
+        function reload() {
+            const newURL = removeQueryParameter(window.location.href, 'error');
+            window.history.replaceState({}, document.title, newURL);
+            location.reload();
+        }
+        function checkUrlError() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error')) {
                 $('#alertModal').modal('show');
-                id.focus();
-                return false;
             }
-            if (!pw.value || pw.value.length <= 0) {
-                document.getElementById("alertMsg").innerText = '비밀번호를 입력하세요';
-                $('#alertModal').modal('show');
-                pw.focus();
-                return false;
-            }
-            const url      = '/streampark/api/member/login.json';
-			const headers  = { "Content-Type" : "application/json" };
-			const body     = { id : id.value, pw : pw.value };
-			const { data } = await axios.post(url, body, {headers});
-            console.log(data);
-
-            if(data.status === 1){
-                document.getElementById("alertMsg").innerText = '로그인 되었습니다.';
-                $('#alertModal').modal('show');
-                window.location.href='/streampark/profile/profilelist.do';
-                return false;
-        
-            }
-            else{
-                document.getElementById("alertMsg").innerText = '아이디 혹은 암호가 틀립니다.';
-                $('#alertModal').modal('show');
-                id.focus();
-                return false;
-            }
-
+        }
+        function removeQueryParameter(url, parameter) {
+            const urlObj = new URL(url);
+            urlObj.searchParams.delete(parameter);
+            return urlObj.href;
         }
     </script>
 </body>

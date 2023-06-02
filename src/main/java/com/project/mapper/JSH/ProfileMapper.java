@@ -51,9 +51,9 @@ public interface ProfileMapper {
     public int deleteProfileNoPw(@Param("nickname") String nickname);
 
     @Update ({
-        "UPDATE Profile SET keyword = #{keyword} WHERE nickname = #{nickname}"
+        "UPDATE Profile SET keyword = null WHERE nickname = #{nickname}"
     })
-    public int updateKeyword(@Param("nickname") String nickname, @Param("keyword") String keyword);
+    public int updateKeyword(@Param("nickname") String nickname);
 
     @Update ({
         "UPDATE Profile SET profilepw = #{newprofilepw} WHERE nickname = #{nickname}"

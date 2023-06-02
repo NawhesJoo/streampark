@@ -223,8 +223,7 @@
                             <!-- 컨텐츠 이름 넣기 -->
                             <div class="container">
                                 <h1 class="mainConName">1:1문의</h1>
-                                <div align="right"><button id="insertBtn" type="button"
-                                        th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
+                                <div align="right"><button id="insertBtn" type="button" th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
                                 <form>
                                     <table class="table table-fixed">
                                         <thead>
@@ -237,24 +236,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="obj : ${list} ">
-                                                <!--  model.addAttribute("list", list)에서 보낸 "list"를 ${}로 받아옴 -->
+                                            <tr th:each="obj : ${list} "><!--  model.addAttribute("list", list)에서 보낸 "list"를 ${}로 받아옴 -->
                                                 <td th:text="${obj.no}"></td>
-                                                <td id="title"><a th:href="@{/qna/selectone.do(no=${obj.no})}"
-                                                        th:text="${obj.title}"></a></td>
+                                                <td id="title"><a th:href="@{/qna/selectone.do(no=${obj.no})}" th:text="${obj.title}"></a></td>
                                                 <td th:text="${obj.profile.nickname}"></td>
                                                 <td class="regdate1" th:text="${obj.regdate}"></td>
-
-                                                <td th:if="${obj.qnareply.size()>=1}">
-                                                    <div id="reply">답변완료</div>
-                                                </td>
+                                                <td th:if="${obj.qnareply.size()>=1}"><div id="reply">답변완료</div></td>
                                                 <td th:if="${obj.qnareply.size()<1}">답변대기</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -294,18 +287,7 @@
 
         function displayedAt() {
             const value1 = document.getElementsByClassName('regdate1');
-            // console.log(value[0].value);
-            // console.log(value1[0].innerHTML);
-
-            // const regdate = (/*[[${list[0].regdate}]]*/"");
-            // console.log(regdate);
-            // console.log(typeof regdate);
-            // console.log(typeof new Date());
-            // console.log(milliSeconds);
-            
-            
-            
-            console.log(value1.length);
+            // console.log(value1.length);
             for (i = 0; i < value1.length; i++) {
                 const regdate = (value1[i].innerHTML);
                 const milliSeconds = new Date() - new Date(regdate);

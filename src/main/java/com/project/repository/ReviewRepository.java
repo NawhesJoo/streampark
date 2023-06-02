@@ -11,8 +11,14 @@ import com.project.entity.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, BigInteger> {
+
+    // 리뷰 전체목록(관리자용)
+    List<Review> findAllByOrderByRegdateDesc();
+
+    // 리뷰 전체목록(관리자용, 좋아요 순으로 정렬)
+    List<Review> findAllByOrderByLikesDesc();
     
-    // 리뷰 전체목록
+    // 리뷰 전체목록(해당 사용자)
     @Query(value = " SELECT r.*, p.nickname FROM REVIEW r, PROFILE p WHERE r.profileno=:profileno AND p.profileno=:profileno ORDER BY regdate DESC ", nativeQuery = true)
     List<Review> findAllByOrderByRegdateDesc(BigInteger profileno);
 

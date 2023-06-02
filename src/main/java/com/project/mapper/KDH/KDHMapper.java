@@ -91,8 +91,8 @@ public interface KDHMapper {
 	public Long selectimgnotovideocode(@Param("videocode") Long videocode);
 
 	// 작품검색(제목,키워드,감독,배우)
-	@Select({ "  SELECT *  FROM VIDEOLIST  WHERE EPISODE =1 AND ${comboboxvalue}  LIKE '%'||#{search}||'%'  " })
-	public List<Videolistdto> videolistSearch(@Param("comboboxvalue") String comboboxvalue,
+	@Select({ "  SELECT *  FROM VIDEOLISTVIEW  WHERE EPISODE =1 AND ${comboboxvalue}  LIKE '%'||#{search}||'%'  " })
+	public List<VideolistView> videolistSearch(@Param("comboboxvalue") String comboboxvalue,
 			@Param("search") String search);
 
 	// 분류 검색(영화, 드라마, 애니)

@@ -216,7 +216,7 @@
                                 <input type="radio" name="testimonial" id="t-4">
                                 <input type="radio" name="testimonial" id="t-5">
                                 <div class="testimonials">
-                                    <label class="item" th:if="${#strings.equals(param.menu,1)}"  th:each="obj ,i :${watchlists}" th:for="|t-${i.index+1}|">
+                                    <label class="item" th:if="${#strings.equals(param.menu,1) or param.menu == null}"  th:each="obj ,i :${watchlists}" th:for="|t-${i.index+1}|">
                                         <div class="cardSec">
                                             <a class="cardA" th:href="@{/kdh/selectone.do(title=${obj.title})}">
                                                 <div class="col  justify-content-center">
