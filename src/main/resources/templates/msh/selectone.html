@@ -274,7 +274,7 @@
                                 <div id="replyContent">
                                     <label th:if="${reply != null}" th:text="${reply.content}"></label>
                                 </div>
-                                <div align="right">
+                                <div align="right" th:if="${role == A}">
                                     <button class="replyBtn" type="button"
                                         th:onclick="|location.href='@{/qna/reply/insert(no=${board.no})}'|">답변등록</button>
                                     <button class="replyBtn" type="button"

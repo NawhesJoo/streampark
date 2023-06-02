@@ -193,7 +193,7 @@
                                                 <td class="text-white" th:text="${obj.reportcnt}"></td>
                                                 <td class="text-white" th:text="${obj.regdate}"></td>
                                                 <td style="padding: 0;">
-                                                    <span th:if="${obj.profileno} == '93'">
+                                                    <span th:if="${profileno} == ${profileno}">
                                                         <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
                                                         <a
                                                             th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
@@ -240,7 +240,7 @@
                                                 <td class="text-white" th:text="${obj.reportcnt}"></td>
                                                 <td class="text-white" th:text="${obj.regdate}"></td>
                                                 <td>
-                                                    <span th:if="${obj.profileno} == '93'">
+                                                    <span th:if="${obj.profileno} == '${profileno}'">
                                                         <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
                                                         <button type="button" class="btn btn-outline-warning"
                                                             th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>

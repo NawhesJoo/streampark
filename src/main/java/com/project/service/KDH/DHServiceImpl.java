@@ -31,13 +31,12 @@ public class DHServiceImpl implements DHService {
 
     // 회원의 권한을 받아 검증후 비디오 추가 회차정보를 입력받으면 그횟수만큼 비디오횟차를 올려서 추가
     @Override
-    public void videolistInsert(Memberdto admin, Videolistdto obj) {
-        admin.setRole("a");
+    public void videolistInsert(String role, Videolistdto obj) {
         // 아이디를 입력받으면 로그인파트랑 연계
         // Member member=memberRepository.findById(admin.getId()).orElse(null);
         // if(member.getRole().equals("a")){
         int episodecount = obj.getEpisode().intValue();
-        if (admin.getRole().equals("a")) {
+        if (role.equals("a")) {
             for (int i = 0; i < episodecount; i++) {
                 obj.setEpisode(Long.valueOf(i + 1));
                 kdhMapper.videolistInsert(obj);
@@ -61,23 +60,17 @@ public class DHServiceImpl implements DHService {
     // 회원의 권한 확인후 관리자 확인되면 작품의 이름똑같은 모든 비디오를 수정함
     @Override
     public void videolistUpdate(Memberdto admin, Videolistdto obj, String nowtitle) {
-        admin.setRole("a");
         // 아이디를 입력받으면 로그인파트랑 연계
         // Member member=memberRepository.findById(admin.getId()).orElse(null);
         // if(member.getRole().equals("a")){
-        if (admin.getRole().equals("a")) {
             kdhMapper.videolistUpdate(obj, nowtitle);
-        }
     }
     @Override
     public void videolistDelete(Memberdto admin, String title) {
-        admin.setRole("a");
         // 아이디를 입력받으면 로그인파트랑 연계
         // Member member=memberRepository.findById(admin.getId()).orElse(null);
         // if(member.getRole().equals("a")){
-        if (admin.getRole().equals("a")) {
             videolistRepository.deleteByTitle(title);
-        }
     }
 
 

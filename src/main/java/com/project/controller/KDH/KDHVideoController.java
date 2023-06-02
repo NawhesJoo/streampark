@@ -13,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +30,8 @@ import com.project.dto.VideolistView;
 import com.project.dto.Videolistdto;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
+import com.project.repository.MemberRepository;
 import com.project.repository.VideoimgRepository;
-import com.project.repository.WatchlistRepository;
 import com.project.repository.videolistRepository;
 import com.project.service.KDH.DHService;
 
@@ -43,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 public class KDHVideoController {
     final videolistRepository videolistRepository;
     final VideoimgRepository videoimgRepository;
-    final WatchlistRepository watchlistRepository;
+    final MemberRepository memberRepository;
     final DHService dhService;
     final ResourceLoader resourceLoader; // resource폴더의 파일을 읽기위한 객체 생성
     @Value("${default.image}")
@@ -65,13 +67,13 @@ public class KDHVideoController {
     }
 
     @PostMapping(value = "/videoinsert.do")
-    public String videoinsertPOST(@ModelAttribute Videolistdto videolist) {
+    public String videoinsertPOST(@ModelAttribute Videolistdto videolist,  @AuthenticationPrincipal User user) {
         try {
-            Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
-            member.setRole("a");
+           String id  = user.getUsername();
+            String role =memberRepository.findById(id).get().getRole();
             log.info("{}", videolist.toString());
             log.info("{}회", videolist.getEpisode().intValue());
-            dhService.videolistInsert(member, videolist);
+            dhService.videolistInsert(role, videolist);
             return "redirect:/kdh/manageactor.do?title=" + videolist.getTitle();
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,19 +114,24 @@ public class KDHVideoController {
     }
 
     @GetMapping(value = "/home.do")
-    public String homeGET(Model model) {
+    public String homeGET(Model model, @AuthenticationPrincipal User user) {
+        String id  = user.getUsername();
+        String role =memberRepository.findById(id).get().getRole();
         List<Videolistdto> list = dhService.selectvideolist();
         for (Videolistdto obj : list) {
             // System.out.println(obj.getVideocode());
             Long imgno = dhService.selectvideoimgOne((obj.getVideocode()));
             obj.setImgno(imgno);
         }
+        model.addAttribute("role", role);
         model.addAttribute("list", list);
         return "/KDH/StreamPark_home";
     }
 
     @GetMapping(value = "/selectone.do")
-    public String selectoneGET(@RequestParam(name = "title") String title, Model model) {
+    public String selectoneGET(@RequestParam(name = "title") String title, Model model,  @AuthenticationPrincipal User user) {
+        String id  = user.getUsername();
+        String role =memberRepository.findById(id).get().getRole();
         BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
         VideolistView video = dhService.selectvideoOne(videocode);
         List<Videolist> list1 = videolistRepository.findByTitleOrderByEpisodeAsc(title);
@@ -132,6 +139,7 @@ public class KDHVideoController {
         model.addAttribute("imgno", imgno);
         model.addAttribute("video", video);
         model.addAttribute("list1", list1);
+        model.addAttribute("role", role);
         return "/KDH/StreamPark_selectone";
     }
 
@@ -141,11 +149,11 @@ public class KDHVideoController {
         try {
             BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
-            member.setBirth("1997-11-09");
+            member.setBirth("2007-11-09");
             int ret = dhService.videolistCHKage(videocode.longValue(), member);
             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
             if (ret == 1) {
-                    return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
+                return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
             } else {
                 return "redirect:/kdh/prohibit.do?title=" + title + "&episode=" + episode;
             }
