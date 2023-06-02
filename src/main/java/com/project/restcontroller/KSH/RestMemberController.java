@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,8 +37,8 @@ public class RestMemberController {
     }
 
     @GetMapping(value = "/pwcheck.json")
-    public Map<String, Object> pwcheckGET(@RequestParam(name = "pw") String pw) {
-        Map<String, Object> retMap = mService.pwcheck(pw);
+    public Map<String, Object> pwcheckGET(@RequestParam(name = "pw") String pw,@AuthenticationPrincipal User user) {
+        Map<String, Object> retMap = mService.pwcheck(pw, (String)user.getUsername());
         return retMap;
     }
 

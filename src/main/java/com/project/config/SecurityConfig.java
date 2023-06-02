@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,23 +17,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {
-    // final SecurityServiceImpl  memberTableService;
+    // final SecurityServiceImpl memberTableService;
+
     @Bean // 객체를 생성함. (자동으로 호출됨.)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.info("SecurityConfig => {}", "start filter chain1");
 
         http.authorizeRequests()
-                .antMatchers("/member/*").permitAll()
-                .antMatchers("/member","/member/info.do").hasAnyAuthority("ROLE_C","ROLE_A")
-                .antMatchers("/kdh/*").hasAnyAuthority("ROLE_C","ROLE_A")
-                .antMatchers("/profile/*").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/member").permitAll()
+                .antMatchers("/member", "/member/info.do").hasAnyAuthority("ROLE_C", "ROLE_A")
+                .antMatchers("/kdh/*").hasAnyAuthority("ROLE_C", "ROLE_A")
+                .antMatchers("/profile/*").hasAnyAuthority("ROLE_C", "ROLE_A")
                 .antMatchers("/kdh/videoupdate.do").hasAuthority("ROLE_A")
                 .antMatchers("/kdh/manageactor.do").hasAuthority("ROLE_A")
                 .antMatchers("/kdh/videodelete.do").hasAuthority("ROLE_A")
-                .antMatchers("/pay/*").hasAnyAuthority("ROLE_C","ROLE_A")
-                .antMatchers("/qna/*").hasAnyAuthority("ROLE_C","ROLE_A")
-                .antMatchers("/watchlist/*").hasAnyAuthority("ROLE_C","ROLE_A")
-                .antMatchers("/view/*").hasAnyAuthority("ROLE_C","ROLE_A")
+                .antMatchers("/pay/*").hasAnyAuthority("ROLE_C", "ROLE_A")
+                .antMatchers("/qna/*").hasAnyAuthority("ROLE_C", "ROLE_A")
+                .antMatchers("/watchlist/*").hasAnyAuthority("ROLE_C", "ROLE_A")
+                .antMatchers("/view/*").hasAnyAuthority("ROLE_C", "ROLE_A")
                 .anyRequest().permitAll();
 
         // 로그인 처리
@@ -41,7 +43,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/member/loginaction.do")
                 .usernameParameter("id")
                 .passwordParameter("pw")
-                .defaultSuccessUrl("/profile/profilelist.do")
+                .defaultSuccessUrl("/profile/profilelist.do", true)
                 .permitAll();
 
         // 로그이웃 설정
@@ -51,7 +53,7 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll();
-                
+
         // 권한 설정
         // http.authorizeRequests()
         // .antMatchers("/customer/join.do").permitAll()
@@ -65,7 +67,7 @@ public class SecurityConfig {
         http.csrf().ignoringAntMatchers("/streampark/**");
         http.csrf().ignoringAntMatchers("/api/**");
 
-        // http.userDetailsService(memberTableService); 
+        // http.userDetailsService(memberTableService);
 
         // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 

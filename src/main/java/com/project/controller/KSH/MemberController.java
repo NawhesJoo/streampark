@@ -3,6 +3,8 @@ package com.project.controller.KSH;
 import java.math.BigInteger;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,7 +43,6 @@ public class MemberController {
     // 메인 페이지
     @GetMapping(value = "/main.do")
     public String mainGET() {
-        httpSession.invalidate();
         return "/KSH/main";
     }
 
@@ -77,7 +78,7 @@ public class MemberController {
 
     // 로그인 페이지
     @GetMapping(value = "/login.do")
-    public String loginGET() {
+    public String loginGET(HttpServletRequest request, HttpServletResponse response) {
         return "KSH/login";
     }
 

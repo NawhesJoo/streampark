@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member insertMember(Member obj) {
         obj.setPw(bcpe.encode(obj.getPw()));
-        obj.setRole("A");
+        obj.setRole("C");
         obj.setToken(token);
         obj.setRegdate(date);
         return mRepository.save(obj);
@@ -175,8 +175,7 @@ public class MemberServiceImpl implements MemberService {
 
     // 패스워드 확인
     @Override
-    public Map<String, Object> pwcheck(String pw) {
-        String id = "1";
+    public Map<String, Object> pwcheck(String pw, String id ) {
         Map<String, Object> retMap = new HashMap<>();
         try {
             Member obj = mRepository.findById(id).get();
@@ -205,4 +204,5 @@ public class MemberServiceImpl implements MemberService {
         }
         return retMap;
     }
+
 }
