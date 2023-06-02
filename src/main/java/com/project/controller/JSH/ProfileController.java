@@ -85,7 +85,6 @@ public class ProfileController {
         session.removeAttribute("profileno");
         session.removeAttribute("nickname");
         try {
-            // String id = (String) session.getAttribute("id");
             String id = user.getUsername();
             log.info("list id => {}", id);
             log.info("list user => {}", user.getUsername());
@@ -156,7 +155,7 @@ public class ProfileController {
             } else { // Paychk의 정보가 없으면
                 model.addAttribute("chk", "0");
             }
-
+            // model.addAttribute("defaultimage",defaultprofileimg );
             session.removeAttribute("nickname");
             session.removeAttribute("profileno");
             return "/JSH/profilelist";
@@ -178,7 +177,6 @@ public class ProfileController {
             @RequestParam("nickname") String nickname,
             HttpSession session, @AuthenticationPrincipal User user) {
         // 세션에서 멤버 ID 가져오기
-        // String memberId = (String) session.getAttribute("id");
         String memberId = user.getUsername();
 
         // 프로필 정보 설정

@@ -25,9 +25,10 @@ import com.project.repository.ProfileimgRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Controller
 @RequestMapping(value = "/profileimg")
+@Slf4j
 @RequiredArgsConstructor
 public class ProfileImgController {
 
@@ -42,8 +43,8 @@ public class ProfileImgController {
         HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
 
         if( obj != null ){ // 이미지가 존재할 경우
-                headers.setContentType( MediaType.parseMediaType( obj.getFiletype() ) );
-                return new ResponseEntity<>( obj.getFiledata() , headers, HttpStatus.OK);
+            headers.setContentType( MediaType.parseMediaType( obj.getFiletype() ) );
+            return new ResponseEntity<>( obj.getFiledata() , headers, HttpStatus.OK);
         }
         
         // 이미지가 없을 경우

@@ -72,8 +72,8 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public int updateKeyword(String nickname, String keyword) {
-        return pMapper.updateKeyword(nickname, keyword);
+    public int updateKeyword(String nickname) {
+        return pMapper.updateKeyword(nickname);
     }
 
     @Override
