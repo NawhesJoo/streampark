@@ -160,6 +160,7 @@
                         <a th:href="@{/kdh/home.do}"><button type="button" class="btn btn-outline-info">컨텐츠 창으로 이동</button></a>
                         <hr />
                         <form th:action="@{/review/reviewmanage.do}" method="post" id="form6">
+                            <input type="hidden" name="videocode" th:value="${videocode}" id="hidden_videocode" />
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -191,7 +192,7 @@
                                         <td style="padding: 0;">
                                             <span th:if="${role == 'A'}">                                                    
                                                 <button type="button" class="btn btn-outline-danger"
-                                                th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-top:5px; margin-bottom:5px;">삭제</button>
+                                                th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]], [[${obj.watchlist.videolist.videocode}]])" style="margin-top:5px; margin-bottom:5px;">삭제</button>
                                             </span>
                                         </td>
                                     </tr>
@@ -201,6 +202,7 @@
                         <form th:action="@{/review/deletemanage.do}" method="post" id="form2" style="display:none">
                             <input type="hidden" name="review_no" id="hidden_review_no" />
                             <input type="hidden" name="profileno" id="hidden_profileno" />
+                            <input type="hidden" name="videocode" th:value="${videocode}" id="hidden_videocode" />
                         </form>
                     </div>
                 </div>
@@ -221,24 +223,25 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
     <script th:inline="javascript">
-        function deleteAction(review_no, profileno) {
+        function deleteAction(review_no, profileno, videocode) {
             if(confirm('삭제할까요?')) {
                 document.getElementById('hidden_review_no').value = review_no;
                 document.getElementById('hidden_profileno').value = profileno;
-                    document.getElementById('form2').submit();
+                document.getElementById('hidden_videocode').value = videocode;
+                document.getElementById('form2').submit();
                 }
         }
 
         function formAction1(code) {
+            console.log(code);
+            const form = document.getElementById('form6');
+            if (Number(code) === 1) {
                 console.log(code);
-                const form = document.getElementById('form6');
-                if (Number(code) === 1) {
-                    console.log(code);
-                    form.action =/*[[@{/review/deletebatchmanage.do}]]*/'';
-                    console.log(form.action);
-                }
-                form.submit();
+                form.action =/*[[@{/review/deletebatchmanage.do}]]*/'';
+                console.log(form.action);
             }
+            form.submit();
+        }
             
             // 체크박스 전체 선택 / 해제
             function allCheckboxes(boxNames, chkMode) {

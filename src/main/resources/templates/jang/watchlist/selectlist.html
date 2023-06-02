@@ -197,9 +197,9 @@
                                                 <td class="text-white" th:text="${obj.videolist.episode}"></td>
                                                 <td class="text-white" th:text="${obj.viewdate}"></td>
                                                 <td>
-                                                    <span th:if="${obj.profile.reviewban} == '0'">
                                                     <button type="button" class="btn btn-outline-danger"
                                                         th:onclick="deleteAction([[${obj.viewno}]])">삭제</button>
+                                                    <span th:if="${obj.profile.reviewban} == '0'">
                                                         <a
                                                             th:href="@{/review/insert.do(profileno=${obj.profile.profileno}, viewno=${obj.viewno})}"><button
                                                                 type="button"
