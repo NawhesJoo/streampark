@@ -176,3 +176,8 @@ hr{
     background-color: black;
     border-color: #EFC900;
 }
+.filebox{
+    background: url("/src/main/resources/static/images/profileimg4.png");
+    z-index: 99;
+    height: 300px;
+}

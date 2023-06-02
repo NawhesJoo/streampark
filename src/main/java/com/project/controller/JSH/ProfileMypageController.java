@@ -45,7 +45,7 @@ public class ProfileMypageController {
     final ProfileimgRepository piRepository;
     final HttpSession httpSession;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
-    @Value("${default.image}") String DEFAULTIMAGE;
+    @Value("${default.profileimg}") String DEFAULTIMAGE;
     final ResourceLoader resourceLoader;
 
     // 마이페이지
@@ -111,10 +111,10 @@ public class ProfileMypageController {
     public String updatepwGET(HttpSession session){
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pService.findByNickname(nickname);
-        if(profile.getProfilepw() == null){
-            return "/JSH/profilecreatepw";
+        if(profile.getProfilepw() != null && profile.getProfilepw().length() >= 1){
+            return "/JSH/updatepw";
         }
-        return "/JSH/updatepw";
+        return "/JSH/profilecreatepw";
     }
 
     @PostMapping(value = "/updatepw.do")
@@ -154,8 +154,14 @@ public class ProfileMypageController {
     }
 
     // 프로필 암호 삭제
+    @GetMapping(value = "/deletepw.do")
+        public String deletepwGET(HttpSession session){
+        session.getAttribute("nickname");
+        return "/JSH/deletepw";
+        }
+
     @PostMapping(value = "/deletepw.do")
-    public String deletepwPOST(@RequestParam("deletepw") String deletepw,
+    public String deletepwPOST(@RequestParam("profilepw1") String profilepw,
     HttpSession session){
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pRepository.findByNickname(nickname);
@@ -203,14 +209,32 @@ public class ProfileMypageController {
     }
 
     @PostMapping(value = "/updatekeyword.do")
-    public String updatekeywordPOST(@ModelAttribute("profile") Profile profile,
-        @RequestParam("keyword") String keyword,
-        HttpSession session){
-            String nickname = (String) session.getAttribute("nickname");
-            Profile profile1 = pRepository.findByNickname(nickname);
-            profile1.setKeyword(keyword);
-            pRepository.save(profile1);
-            return "redirect:/mypage/updatenickname.do";
+    public String updatekeywordPOST(@RequestParam("keyword1") String keyword,
+                                    HttpSession session) {
+        String nickname = (String) session.getAttribute("nickname");
+        String id = (String) session.getAttribute("id");
+    
+        Profile profile = pRepository.findByNickname(nickname);
+    
+        // 기존 키워드 값을 삭제하기 위해 null로 업데이트
+        profile.setKeyword(null);
+        log.info("keyword => {}", profile.getKeyword());
+        // pRepository.save(profile);
+    
+        // 새로운 키워드 값을 설정
+        profile.setKeyword(keyword);
+        log.info("keyword1 =>{}", profile.getKeyword());
+        log.info("profile => {}", profile);
+                                        
+        // Member 객체 생성 및 설정
+        Member member = new Member();
+        member.setId(id);
+        profile.getMember().setId(id);
+        log.info("keyword2 => {}", profile.getKeyword());
+
+        pRepository.save(profile);
+    
+        return "redirect:/mypage/updatenickname.do";
     } // 완료
 
 

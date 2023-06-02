@@ -157,7 +157,7 @@
                     </div>       
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">로그인 중 : 여기에 로그인 된 아이디</div>
+                    <div class="small">로그인 중 : <a>${session.id}</a></div>
                 </div>
             </nav>
         </div>
@@ -192,7 +192,7 @@
                                 <label class="form-label">현재 선호 키워드</label> <br />
                                 <input type="text" class="form-control" name="keyword" id="keyword" th:value="${keyword}" readonly/><br />
                                 <label for="exampleFormControlInput1" class="form-label">선호 키워드</label>
-                                <select class="form-select SearchSLC" name="keyword" id="keyword">
+                                <select class="form-select SearchSLC" name="keyword1" id="keyword">
                                     <option value="애니">애니</option>
                                     <option value="액션">액션</option>
                                     <option value="범죄">범죄</option>

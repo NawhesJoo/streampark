@@ -245,6 +245,10 @@ public class RestProfileController {
                     retMap.put("result", 1);
                     retMap.put("status", 200);
                     retMap.put("message", "삭제");
+                } else if(profilepw.isEmpty()){
+                    retMap.put("result", 3);
+                    retMap.put("status", 409);
+                    retMap.put("message", "입력 안함");
                 } else {
                     retMap.put("result", 2);
                     retMap.put("status", 409);

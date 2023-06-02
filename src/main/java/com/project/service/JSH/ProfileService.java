@@ -43,7 +43,7 @@ public interface ProfileService {
     public int deleteProfileNoPw(String nickname);
 
     // 선호 키워드 변경
-    public int updateKeyword(String nickname, String keyword);
+    public int updateKeyword(String nickname);
 
     // 프로필 이미지 조회
     public Profileimg findByProfile_profileno(BigInteger profileno);
