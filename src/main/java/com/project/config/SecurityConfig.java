@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .antMatchers("/kdh/*").hasAnyAuthority("ROLE_C", "ROLE_A")
                 .antMatchers("/profile/*").hasAnyAuthority("ROLE_C", "ROLE_A")
                 .antMatchers("/kdh/videoupdate.do").hasAuthority("ROLE_A")
+                .antMatchers("/kdh/videoinsert.do").hasAuthority("ROLE_A")
                 .antMatchers("/kdh/manageactor.do").hasAuthority("ROLE_A")
                 .antMatchers("/kdh/videodelete.do").hasAuthority("ROLE_A")
                 .antMatchers("/pay/*").hasAnyAuthority("ROLE_C", "ROLE_A")

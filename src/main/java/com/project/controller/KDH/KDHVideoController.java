@@ -280,6 +280,8 @@ public class KDHVideoController {
     @GetMapping(value = "/manageactor.do")
     public String manageactorGET(@RequestParam(name = "title") String title, Model model) {
         try {
+            System.out.println(title);
+            System.out.println(dhService.selectnofromtitle(title));
             BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
             List<Actorsdto> actorlist = dhService.selectactors();
             List<Long> actorsinvideolist = dhService.selectactorsinvideo(videocode);
