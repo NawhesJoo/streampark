@@ -513,3 +513,6 @@ p {
       --rotate: 360deg;
     }
   }
+  .bi:hover{
+    fill: white;
+}
