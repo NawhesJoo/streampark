@@ -159,6 +159,9 @@ public class PayController {
         if (paychk == null) { // 멤버쉽 결제 내역이 없을때
             model.addAttribute("cal", 0); // cal이 현재 날짜보다 과거면 1 미래면 -1 -> -1이면 유효 1이면 만료
             model.addAttribute("grade", 0);
+            if(menu == 2){
+                return "redirect:/pay/membership.do";
+            }
         } else { // 멤버쉽 결제내역이 있을때
             Date nowDate = new Date();
             Calendar cal = Calendar.getInstance();
@@ -171,9 +174,11 @@ public class PayController {
             Fee nowFee = jService.findFeeById(paychk.getFee().getGrade());
             if (menu != 0) {
                 if (menu == 1 && (nowDate.compareTo(cal.getTime()) == -1)) {
-
+                    //멤버쉽이 유효할 때 멤버쉽 가입으로 가면 가입,변경 버튼만 있는 페이지로
                     return "redirect:/pay/membership.do";
                 }
+                
+
             }
             model.addAttribute("fee", nowFee);
         }
