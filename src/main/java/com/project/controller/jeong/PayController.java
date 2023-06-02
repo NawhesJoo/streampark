@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,8 +60,9 @@ public class PayController {
     @PostMapping(value = "/pay.do")
     public String payPOST(@RequestParam(name = "membership", required = false, defaultValue = "0") int grade,
             @RequestParam(name = "price") int price,
-            @RequestParam(name = "token", required = false, defaultValue = "0") long token) {
-        String id = (String) httpSession.getAttribute("id");
+            @RequestParam(name = "token", required = false, defaultValue = "0") long token,
+            @AuthenticationPrincipal User user) {
+        String id = user.getUsername();
 
         log.info("payPOST -> 아이디 {}, 등급 {}, 가격 {}, 토큰 {} ", id, grade, price, token);
         Paychk obj = new Paychk();
@@ -99,8 +102,8 @@ public class PayController {
     }
 
     @GetMapping(value = "/paychk.do")
-    public String paychkGET(Model model) {
-        String id = (String) httpSession.getAttribute("id");
+    public String paychkGET(Model model, @AuthenticationPrincipal User user) {
+        String id = user.getUsername();
         List<Paychk> plist = payRepository.findByMember_id(id);
         List<Paychk> membershipList = payRepository.findByMember_idAndType(id, "M");
         List<Paychk> tokenList = payRepository.findByMember_idAndType(id, "T");
@@ -108,7 +111,7 @@ public class PayController {
         // log.info("{}", plist);
         // log.info("{}", membershipList);
         // log.info("{}", tokenList);
-        
+
         model.addAttribute("plist", plist);
         model.addAttribute("mlist", membershipList);
         model.addAttribute("tlist", tokenList);
@@ -116,10 +119,11 @@ public class PayController {
     }
 
     @GetMapping(value = "/token.do")
-    public String tokenGET(Model model) {
-        Profile profile = jService.findProfileById(87);
+    public String tokenGET(Model model, @AuthenticationPrincipal User user) {
+        BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
+        String id = user.getUsername();
+        Profile profile = jService.findProfileById(profileno.longValue());
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
-        String id = (String) httpSession.getAttribute("id");
 
         model.addAttribute("id", id);
         model.addAttribute("token", member.getToken());
@@ -128,23 +132,26 @@ public class PayController {
 
     @GetMapping(value = "/membership.do")
     public String membershipGET(Model model,
-            @RequestParam(name = "menu", required = false, defaultValue = "0") int menu) {
-
-        Profile profile = jService.findProfileById(87);
+            @RequestParam(name = "menu", required = false, defaultValue = "0") int menu,
+            @AuthenticationPrincipal User user) {
+        BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
+        String nickname =  (String)httpSession.getAttribute("nickname");
+        String id = user.getUsername();
+        Profile profile = jService.findProfileById(profileno.longValue());
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
         // Paychk paychk = jService.findPaychkTopByRegdate();
         // log.info("membershipGET member -> {}", member.toString());
         Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
         List<Fee> feelist = jService.findFeeAll();
-        httpSession.setAttribute("id", member.getId());
-        httpSession.setAttribute("nickname", profile.getNickname());
-        httpSession.setAttribute("role", "C");
+        // httpSession.setAttribute("id", member.getId());
+        // httpSession.setAttribute("nickname", profile.getNickname());
+        // httpSession.setAttribute("role", "C");
 
         log.info("{}", feelist);
         // log.info("membershipGET profile -> {}", profile);
         // log.info("membershipGET paychk -> {}", paychk);
         // log.info("membershipGET paychk2 -> {}", paychk2);
-        if (!(member.getMembershipchk().longValue() < 0)) {// null이 아닐 때
+        if ((member.getMembershipchk() != null )) {// null이 아닐 때
             model.addAttribute("nextgrade", member.getMembershipchk());
 
         }
@@ -171,10 +178,10 @@ public class PayController {
             model.addAttribute("fee", nowFee);
         }
 
-        model.addAttribute("id", "a1");
+        model.addAttribute("id", id);
         model.addAttribute("feelist", feelist);
-        model.addAttribute("nickname", "nicknick");
-        model.addAttribute("role", "C");
+        model.addAttribute("nickname", nickname);
+        model.addAttribute("role", user.getAuthorities());
         model.addAttribute("token", member.getToken());
         model.addAttribute("currentTokens", member.getToken());
 

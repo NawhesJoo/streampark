@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,7 @@ public class MemberController {
     // 메인 페이지
     @GetMapping(value = "/main.do")
     public String mainGET() {
+        httpSession.invalidate();
         return "/KSH/main";
     }
 
@@ -129,8 +132,8 @@ public class MemberController {
     // 정보 페이지
     @GetMapping(value = "/info.do")
     public String infoGET(Model model,
-            @RequestParam(name = "menu", defaultValue = "0", required = false) String menu) {
-        String id = "1";
+            @RequestParam(name = "menu", defaultValue = "0", required = false) String menu,  @AuthenticationPrincipal User user) {
+        String id = user.getUsername();
         log.info("{}", menu);
         try {
             if (menu.equals("0")) {
@@ -153,8 +156,9 @@ public class MemberController {
     public String infoPOST(@ModelAttribute Member obj, Model model,
             @RequestParam(name = "pw", required = false) String pw,
             @RequestParam(name = "newpw", required = false) String newpw,
-            @RequestParam(name = "menu", required = false) String menu) {
-        String id = "1";
+            @RequestParam(name = "menu", required = false) String menu,
+            @AuthenticationPrincipal User user) {
+        String id = user.getUsername();
         String myInfoChanged = "false";
         try {
             // 정보수정

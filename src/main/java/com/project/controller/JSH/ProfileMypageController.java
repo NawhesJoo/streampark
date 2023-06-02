@@ -57,10 +57,10 @@ public class ProfileMypageController {
             
             String nickname = (String) session.getAttribute("nickname");
             Profile profile = pRepository.findByNickname(nickname);
-            if(profile.getProfilepw() == null){
-                return "redirect:/mypage/updatenickname.do";
+            if(profile.getProfilepw() != null){
+                return "/JSH/mypage";
             }
-            return "/JSH/mypage";
+            return "redirect:/mypage/updatenickname.do";
         }
 
     @PostMapping(value ="/mypage.do")    
