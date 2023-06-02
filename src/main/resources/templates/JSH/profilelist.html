@@ -76,14 +76,14 @@
 					<div class="col-3" th:each="obj, iterStat : ${list}" style="margin-top: 25px;">
 						<a th:if="${iterStat.index == 0}">
 							<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
-								th:onclick="profileselect([[${obj.nickname}]])">
+								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 									alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 							</button>
 						</a>
 					</div>
-					<div class="col-3">
-						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal" id="add-button">
+					<div class="col-3"  id="add-button">
+						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus"
 								viewBox="0 0 16 16">
 								<path
@@ -98,14 +98,14 @@
 					<div class="col-3" th:each="obj, iterStat : ${list}" style="margin-top: 25px;">
 						<a th:if="${iterStat.index lt 2}">
 							<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
-								th:onclick="profileselect([[${obj.nickname}]])">
+								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 									alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 							</button>
 						</a>
 					</div>
-					<div class="col-3">
-						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal" id="add-button">
+					<div class="col-3" id="add-button">
+						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal" >
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus"
 								viewBox="0 0 16 16">
 								<path
@@ -119,14 +119,14 @@
 				<div class="row justify-content-center" th:if="${chk eq '1' and grade == 3}">
 					<div class="col-3" th:each="obj : ${list}" style="margin-top: 25px;">
 						<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
-							th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
+								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 							<!-- th:onclick="floatimage([[${obj.profileno}]])"> -->
 							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 								alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 						</button>
 					</div>
-					<div class="col-3">
-						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal" id="add-button">
+					<div class="col-3" id="add-button">
+						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus"
 								viewBox="0 0 16 16" style="margin-bottom: 30px;">
 								<path
@@ -142,14 +142,14 @@
 						<a th:if="${iterStat.index == 0}">
 							<button type="button" style="background-color: #ffffff00; border-color: #ffffff00;"
 								data-bs-toggle="modal" data-bs-target="#profileModal"
-								th:onclick="profileselect([[${obj.nickname}]])">
+								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 									alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 							</button>
 						</a>
 					</div>
-					<div class="col-3">
-						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal" id="add-button">
+					<div class="col-3" id="add-button">
+						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus"
 								viewBox="0 0 16 16">
 								<path
