@@ -432,10 +432,10 @@ public class KDHVideoController {
     public String videosearchGET(@RequestParam(name = "searchtag") String comboboxvalue,
             @RequestParam(name = "search") String search, Model model) {
         try {
-            List<Videolistdto> list = dhService.videolistSearch(comboboxvalue, search);
-            for (Videolistdto obj : list) {
+            List<VideolistView> list = dhService.videolistSearch(comboboxvalue, search);
+            for (VideolistView obj : list) {
                 Long imgno = dhService.selectvideoimgOne((obj.getVideocode()));
-                obj.setImgno(imgno);
+                obj.setImageNo(imgno);
             }
             model.addAttribute("list", list);
             return "/KDH/StreamPark_search";
