@@ -157,10 +157,13 @@
 		<footer>
 			<div class="row">
 				<div class="col">
-					<a class="logout" href="${pageContext.request.contextPath}/member/login.do">Logout</a>
+					<a class="logout" th:href="@{/logout.do}">Logout</a>
+					<form th:action="@{/logout.do}" method="post">
+						<input type="submit" value="logout">
+					</form>
 				</div>
 				<div class="col text-end">
-					<a class="info" href="${pageContext.request.contextPath}/member/info.do">
+					<a class="info" th:href="@{/member/info.do}">
 						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
 							class="bi bi-gear-fill" viewBox="0 0 16 16">
 							<path

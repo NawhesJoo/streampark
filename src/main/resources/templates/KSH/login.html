@@ -39,12 +39,13 @@
             <div class="col">
                 <div class="joinInputSec">
                     <div class="joinInput">
-                        <form th:action="@{/member/login.do}" method="post" id="form">
+                        <form th:action="@{/member/loginaction.do}" method="post" id="form">
                             <input class="joinF form-control" id="id" name="id" type="text" placeholder="id">
                             <input class="joinF form-control" id="pw" name="pw" type="password" placeholder="pw">
                                                      
-                            <button type="button"class="btn SIGNbtn btn-sm btn-warning mb-2" data-toggle="modal" data-target="#alertModal"
-                                th:onclick="login()">로그인</button>
+                            <button type="submit"class="btn SIGNbtn btn-sm btn-warning mb-2" data-toggle="modal" data-target="#alertModal"
+                                >로그인</button>
+                                <!-- th:onclick="login()" -->
                         </form>
                         <div class="atagSec d-flex justify-content-between row">
                             <div class="col">

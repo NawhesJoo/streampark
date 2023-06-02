@@ -16,7 +16,7 @@ import com.project.entity.Videolist;
 public interface DHService {
 
     //관리자용 영상 추가(회원의 권한 정보와, 비디오의 정보)---------------------------
-    public void videolistInsert(Memberdto admin, Videolistdto obj);
+    public void videolistInsert(String role, Videolistdto obj);
 	//작품이름으로 작품 코드 조회(영상을 조회하기위한 작품이름으로 작품코드 조회)
 	public Videolist selectnofromtitle(String title);
 	//영상코드로 영상조회(조회된 작품코드로 작품을 조회한다.)

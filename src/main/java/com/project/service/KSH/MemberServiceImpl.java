@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member insertMember(Member obj) {
         obj.setPw(bcpe.encode(obj.getPw()));
-        obj.setRole("C");
+        obj.setRole("A");
         obj.setToken(token);
         obj.setRegdate(date);
         return mRepository.save(obj);
@@ -41,6 +41,7 @@ public class MemberServiceImpl implements MemberService {
     public int login(Member obj) {
         Member obj1 = mRepository.findById(obj.getId()).orElse(null);
         if (bcpe.matches(obj.getPw(), obj1.getPw())) {
+            
             httpSession.setAttribute("id", obj.getId());
             httpSession.setAttribute("role", obj.getRole());
             return 1;
