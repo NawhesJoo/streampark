@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class SecurityConfig {
     // final SecurityServiceImpl memberTableService;
-    
 
     @Bean // 객체를 생성함. (자동으로 호출됨.)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -79,7 +78,8 @@ public class SecurityConfig {
     // 정적 자원에 스프링 시큐리티 필터 규칙을 적용하지 않도록 설정, resources/static은 시큐리티 적용받지 않음.
     // @Bean
     // public WebSecurityCustomizer webSecurityCustomizer() {
-    //     return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    // return (web) ->
+    // web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     // }
 
     // 회원가입에서 사용했던 암호화 알고리즘 설정, 로그인에서도 같은 것을 사용해야 하니까
