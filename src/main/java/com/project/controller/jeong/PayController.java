@@ -21,8 +21,10 @@ import com.project.entity.Chargetoken;
 import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
+import com.project.entity.Paymentlist;
 import com.project.entity.Profile;
 import com.project.repository.PaychkRepository;
+import com.project.repository.PaymentlistRepository;
 import com.project.repository.Projections.MemberProjection;
 import com.project.service.JeongService.JeongService;
 
@@ -38,8 +40,19 @@ public class PayController {
     final HttpSession httpSession;
     final JeongService jService;
     final PaychkRepository payRepository;
+    final PaymentlistRepository paymentlistRepository;
 
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy. MM. dd.");
+
+    @GetMapping(value = "/havelist.do")
+    public String haveGET(Model model){
+        List<Paymentlist> list = paymentlistRepository.findAll();
+        model.addAttribute("list", list);
+
+
+        return "/jeong/StreamPark_havelist";
+    }
+
 
     @PostMapping(value = "/update.do")
     public String updatePOST(@RequestParam(name = "grade") int grade) {

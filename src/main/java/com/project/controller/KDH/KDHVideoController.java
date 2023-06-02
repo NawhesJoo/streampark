@@ -35,12 +35,14 @@ import com.project.dto.Videolistdto;
 import com.project.entity.Interestlist;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
+import com.project.entity.Paymentlist;
 import com.project.entity.Profile;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
 import com.project.entity.Watchlist;
 import com.project.repository.InterestRepository;
 import com.project.repository.MemberRepository;
+import com.project.repository.PaymentlistRepository;
 import com.project.repository.VideoimgRepository;
 import com.project.repository.WatchlistRepository;
 import com.project.repository.videolistRepository;
@@ -59,6 +61,7 @@ public class KDHVideoController {
     final VideoimgRepository videoimgRepository;
     final MemberRepository memberRepository;
     final InterestRepository interestRepository;
+    final PaymentlistRepository paymentlistRepository;
     final WatchlistRepository watchlistRepository;
     final HttpSession httpSession;
     final DHService dhService;
@@ -173,10 +176,13 @@ public class KDHVideoController {
             Watchlist watchlist = new Watchlist();
             Profile profile1 = new Profile();
             Videolist videolist = new Videolist();
+            Paymentlist paymentlist = new Paymentlist();
             profile1.setProfileno(profileno);
             videolist.setVideocode(videocode);
             watchlist.setProfile(profile);
             watchlist.setVideolist(videolist);           
+            paymentlist.setProfile(profile);
+            paymentlist.setVideolist(videolist);
 
             // member.setBirth("2007-11-09");
             memberDto.setBirth(member.getBirth());
@@ -208,8 +214,8 @@ public class KDHVideoController {
                             //보유토큰 > 가격                            
                             long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
                             member.setToken(BigInteger.valueOf(token));
-
                             memberRepository.save(member);
+                            paymentlistRepository.save(paymentlist);
                             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                             watchlistRepository.save(watchlist);
                             return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
@@ -233,7 +239,7 @@ public class KDHVideoController {
                         //보유토큰 > 가격
                         long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
                         member.setToken(BigInteger.valueOf(token));
-
+                        paymentlistRepository.save(paymentlist);
                         memberRepository.save(member);
                         title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                         watchlistRepository.save(watchlist);
