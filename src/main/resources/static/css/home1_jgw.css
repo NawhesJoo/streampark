@@ -1,6 +1,7 @@
 @charset "UTF8";
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
 
+
 * {
     font-family: 'IBM Plex Sans KR', sans-serif;
 }
@@ -304,110 +305,121 @@ p {
     margin-bottom: -70px;
 }
 
+h2 {
+  color: white;
+  margin-top: 50px;
+  text-align: center;
+  font-weight: normal;
+}
+
 .heart {
-    width: 20px;
-    height: 20px;
-    margin: 200px auto;
-    transform: translateZ(0);
-    color: #A12B2B;
-    font-size: 3em;
-    cursor: pointer;
-    position: relative;
-    transition: all .3s ease;
+  width: 20px;
+  height: 20px;
+  margin: 100px auto;
+  transform: translateZ(0);
+  color: #aaa;
+  font-size: 3em;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.heart:hover {
+  animation: pulse 0.6s linear;
+}
+.heart:before {
+  content: "❤";
+  position: absolute;
+  color: #a12b2b;
+  opacity: 0;
+}
+.heart.happy {
+  color: #a12b2b;
+}
+.heart.happy:before {
+  opacity: 0;
+  transform: translateY(-30px) rotateZ(5deg);
+  animation: fly 1s ease;
+}
+.heart.broken {
+  color: #aaa;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.heart.broken:before, .heart.broken:after {
+  content: "❤";
+  opacity: 1;
+  color: #ccc;
+  position: absolute;
+  top: -150px;
+  transform: scale(3) rotateZ(0);
+}
+.heart.broken:before {
+  clip: rect(0, 20px, 200px, 0);
+  animation: break-left 1s ease forwards;
+}
+.heart.broken:after {
+  clip: rect(0, 50px, 200px, 25px);
+  animation: break-right 1s ease forwards;
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.1);
   }
-  .heart:hover {
-    animation: pulse .6s linear;
-  }
-  .heart:before {
-    content: "❤";
-    position: absolute;
-    color: #A12B2B;
+}
+@keyframes fly {
+  0% {
     opacity: 0;
+    transform: translateY(-20px) rotateZ(15deg);
   }
-  .heart.happy {
-    color: #A12B2B;
+  50% {
+    opacity: 0.75;
+    transform: scale(4) translateY(-30px) rotateZ(-15deg);
   }
-  .heart.happy:before {
+  100% {
     opacity: 0;
-    transform: translateY(-30px) rotateZ(5deg);
-    animation: fly 1s ease;
+    transform: scale(4) translateY(-50px) rotateZ(15deg);
   }
-  .heart.broken {
-    color: #aaa;
-    position: relative;
-    transition: all .3s ease;
-  }
-  .heart.broken:before, .heart.broken:after {
-    content: "❤";
+}
+@keyframes break-left {
+  0% {
     opacity: 1;
-    color: #ccc;
-    position: absolute;
-    top: -150px;
     transform: scale(3) rotateZ(0);
   }
-  .heart.broken:before {
-    clip: rect(0, 20px, 200px, 0);
-    animation: break-left 1s ease forwards;
+  20% {
+    opacity: 0.5;
+    transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
   }
-  .heart.broken:after {
-    clip: rect(0, 50px, 200px, 25px);
-    animation: break-right 1s ease forwards;
+  50% {
+    opacity: 0.5;
+    transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
   }
-  
-  @keyframes pulse {
-    50% {
-      transform: scale(1.1);
-    }
+  100% {
+    opacity: 0;
+    transform: scale(3) translateX(-30px) rotateZ(-25deg) translateY(50px);
   }
-  @keyframes fly {
-    0% {
-      opacity: 0;
-      transform: translateY(-20px) rotateZ(15deg);
-    }
-    50% {
-      opacity: .75;
-      transform: scale(4) translateY(-30px) rotateZ(-15deg);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(4) translateY(-50px) rotateZ(15deg);
-    }
+}
+@keyframes break-right {
+  0% {
+    opacity: 1;
+    transform: scale(3) rotateZ(0);
   }
-  @keyframes break-left {
-    0% {
-      opacity: 1;
-      transform: scale(3) rotateZ(0);
-    }
-    20% {
-      opacity: .5;
-      transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
-    }
-    50% {
-      opacity: .5;
-      transform: scale(3) translateX(-10px) rotateZ(-20deg) translateY(0);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(3) translateX(-30px) rotateZ(-25deg) translateY(50px);
-    }
+  20% {
+    opacity: 0.5;
+    transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
   }
-  @keyframes break-right {
-    0% {
-      opacity: 1;
-      transform: scale(3) rotateZ(0);
-    }
-    20% {
-      opacity: .5;
-      transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
-    }
-    50% {
-      opacity: .5;
-      transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(3) translateX(30px) rotateZ(25deg) translateY(50px);
-    }
+  50% {
+    opacity: 0.5;
+    transform: scale(3) translateX(10px) rotateZ(20deg) translateY(0);
   }
+  100% {
+    opacity: 0;
+    transform: scale(3) translateX(30px) rotateZ(25deg) translateY(50px);
+  }
+}
+
+th, td {
+  text-align: center;
+}
 
   

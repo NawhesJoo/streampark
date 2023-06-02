@@ -132,7 +132,7 @@
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" th:href="@{/kdh/boardlist.do}">문의 목록</a>
-                                    <a class="nav-link" th:href="@{/kdh/reviewmanage.do}">리뷰 관리</a>
+                                    <a class="nav-link" th:href="@{/review/reviewmanage.do}">리뷰 관리</a>
                                     <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
                                 </nav>
                             </div>
@@ -157,7 +157,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-outline-danger" th:onclick="formAction1(1)">일괄삭제</button>
+                            <button type="button" class="btn btn-outline-danger" th:onclick="formAction1(1)">일괄삭제</button>
                             <a th:href="@{/watchlist/selectlist.do}"><button class="btn btn-outline-success" type="button">시청 목록</button></a>
                             <!-- <a th:href="@{/review/selectlist.do(menu=1)}"><button class="btn btn-outline-info" type="button">최근 작성 순으로 정렬</button></a> -->
                             <a th:href="@{/review/selectlist.do(menu=2)}"><button class="btn btn-outline-info" type="button">좋아요 순으로 정렬</button></a>
@@ -193,16 +193,20 @@
                                                 <td class="text-white" th:text="${obj.reportcnt}"></td>
                                                 <td class="text-white" th:text="${obj.regdate}"></td>
                                                 <td style="padding: 0;">
-                                                    <span th:if="${profileno} == ${profileno}">
+                                                    <span th:if="${obj.profileno} == ${profileno} and ${role == 'C'}">
                                                         <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
                                                         <a
                                                             th:href="@{/review/update.do(review_no=${obj.review_no}, profileno=${obj.profileno})}"><button
                                                                 type="button" class="btn btn-outline-primary" style="margin-bottom: 15px;">수정</button></a>
                                                         <button type="button" class="btn btn-outline-danger"
                                                             th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">삭제</button>
+                                                        <button type="button" class="btn btn-outline-warning"
+                                                            th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
                                                     </span>
-                                                    <button type="button" class="btn btn-outline-warning"
-                                                        th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
+                                                    <span th:if="${role == 'A'}">                                                    
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                        th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-top: 5px;  margin-bottom: 10px;">삭제</button>
+                                                    </span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -240,7 +244,7 @@
                                                 <td class="text-white" th:text="${obj.reportcnt}"></td>
                                                 <td class="text-white" th:text="${obj.regdate}"></td>
                                                 <td>
-                                                    <span th:if="${obj.profileno} == '${profileno}'">
+                                                    <span th:if="${obj.profileno} == ${profileno} and ${role == 'C'}">
                                                         <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
                                                         <button type="button" class="btn btn-outline-warning"
                                                             th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
@@ -249,6 +253,10 @@
                                                                 type="button" class="btn btn-outline-primary" style="margin-bottom: 15px;">수정</button></a>
                                                         <button type="button" class="btn btn-outline-danger"
                                                             th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">삭제</button>
+                                                    </span>
+                                                    <span th:if="${role == 'A'}">
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                        th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">삭제</button>
                                                     </span>
                                                 </td>
                                             </tr>
@@ -295,7 +303,7 @@
             $('.heart').click(function(){
             if(!animated){
                 $(this).addClass('happy').removeClass('broken');
-                animated = true;          
+                animated = true;
             }
             else {
                 $(this).removeClass('happy').addClass('broken');
@@ -374,25 +382,22 @@
                 console.log('반환되는 결과', data);
 
                 $('.heart').click(function(){
-                if(!animated && data.status1 == 0){
+                if(!animated && data.status1 === 0){
                     $(this).addClass('happy').removeClass('broken');
                     animated = true;
-                    window.location.reload();
-                    $("#hello").css("color", "white");
                 }
                 else {
                     $(this).removeClass('happy').addClass('broken');
                     animated = false;
+                }
+                }); 
+
+                if(data.status1 === 0) {
                     window.location.reload();
                 }
-             }); 
-
-             if(data.status1 === 0) {
-                 window.location.reload();
-             }
-             else {
-                 window.location.reload();
-             }
+                else {
+                    window.location.reload();
+                }
              
 
             }
@@ -438,6 +443,6 @@
             }
 
         </script>
-    </body>
+</body>
 </html>
 

@@ -3,7 +3,11 @@
 
 <mapper namespace="com.project.mapper.WatchlistMapper"> <!-- Mapper명이 일치해야 함-->
 
-    <select id="watchListSelectViewdate" parameterType="long" resultType="list">
+    <insert id="insertWatchList" parameterType="Watchlist">
+        INSERT INTO WATCHLIST (videocode, profileno) SELECT #{videocode}, #{profileno} FROM DUAL A WHERE NOT EXISTS (SELECT * FROM WATCHLIST WHERE videocode=#{videocode} AND profileno=#{profileno})
+    </insert>
+
+    <!-- <select id="watchListSelectViewdate" parameterType="long" resultType="list">
         SELECT * FROM VIDEOWATCHLISTVIEW WHERE PROFILENO=#{profileno}
     </select>
 
@@ -21,6 +25,6 @@
 
     <select id="watchListVideolistAll" resultType="list">
         SELECT * FROM VIDEOWATCHLISTVIEW;
-    </select>
+    </select> -->
 
 </mapper>
