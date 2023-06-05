@@ -8,6 +8,11 @@
             <input class="form-control" type="text" name="pw1" id="pw" placeholder="비밀번호"
                 th:onkeyup="ajaxPWCheck(this)">
         </div>
+        <div>
+            <input class="joinF form-check-input" type="checkbox" id="showPwd" />
+            <label style="color: rgba(255, 255, 255, 0.774);" class="showPwdLb form-check-label" for="showPwd">변경할 비밀번호 보이기</label>
+        </div>
+        <br>
         <label for="chkText" class=" col-form-label">회원탈퇴</label>
         <div class="">
             <input class="form-control" type="text" name="chkText" id="chkText" placeholder="[회원탈퇴]를 입력하세요"

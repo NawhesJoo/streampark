@@ -64,7 +64,7 @@ body {
     border-color: rgba(92, 85, 48, 0.6);
     background-color: rgba(0, 0, 0, 0.9);
     width: 300px;
-    color: #EFC900;
+    color: #efc7009d;
 }
 .mainSec .form-control:focus{
     border-color: #EFC900;
