@@ -24,4 +24,5 @@
     <delete id="deleteBoard" parameterType="com.project.dto.Board">
         DELETE FROM BOARD WHERE no=#{no} AND profileno=#{profileno}
     </delete>
+
 </mapper>

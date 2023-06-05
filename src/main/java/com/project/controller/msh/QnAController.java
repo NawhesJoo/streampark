@@ -1,11 +1,14 @@
 package com.project.controller.msh;
 
 import java.math.BigInteger;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,9 +45,18 @@ public class QnAController {
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
-    public String selectlistGET(Model model) {
-        List<com.project.entity.Board> list = qnaService.selectBoardList();
+    public String pageListGET(Model model, @PageableDefault(page = 0, size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable) {
+        
+        Page<com.project.entity.Board> list = qnaService.pageList(pageable);
+        int nowPage = list.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4,1); 
+        int endPage = Math.min(nowPage +5, list.getTotalPages());
+       
         model.addAttribute("list", list);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        
         return "/msh/selectlist";
     }
 
@@ -92,8 +104,8 @@ public class QnAController {
             BigInteger profilenoSession = (BigInteger) httpSession.getAttribute("profileno");
             Long profileno = profilenoSession.longValue();
             String id = user.getUsername();
-            String role = memberRepository.findById(id).get().getRole(); // 계정의 id를 조회해서 role가져옴 
-            model.addAttribute("role", role); //role=C이면 답변부분 버튼 안나오게 함
+            String role = memberRepository.findById(id).get().getRole(); // 계정의 id를 조회해서 role가져옴
+            model.addAttribute("role", role); // role=C이면 답변부분 버튼 안나오게 함
             // log.info("role = {}", role);
             log.info("profileno = {}", profilenoSession);
             // log.info("role = {}", role);
@@ -101,22 +113,21 @@ public class QnAController {
             // 답변부분
             QnaReply reply = replyService.selectoneReply(no); // no에 해당하는 답변 조회
             log.info("reply = {}", reply); // reply 넘겨받음
-            
+
             // 문의부분
             Board obj = new Board();
             obj.setNo(no);
-            log.info("obj = {}", obj.toString());   // no 확인용
+            log.info("obj = {}", obj.toString()); // no 확인용
             Board board = qnaService.selectoneBoard(no);
             log.info("QnASelectone = {}", board.toString());
-            
-            if(role.equals("C") && board.getProfileno().equals(profileno) || role.equals("A")) {
+
+            if (role.equals("C") && board.getProfileno().equals(profileno) || role.equals("A")) {
                 model.addAttribute("board", board);
                 model.addAttribute("reply", reply);
                 return "/msh/selectone";
-            }
-            else { // 본인게시글이 아닌경우 에러메시지
+            } else { // 본인게시글이 아닌경우 에러메시지
                 model.addAttribute("errorMessage");
-                    return "/msh/error";
+                return "/msh/error";
             }
         } catch (Exception e) {
             e.printStackTrace();

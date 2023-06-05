@@ -2,6 +2,8 @@ package com.project.service.msh;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Board;
@@ -13,13 +15,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class QnaServiceImpl implements QnaService {
-    final QnaRepository qnaRepository;
+    public final QnaRepository qnaRepository;
     final QnaMapper qnaMapper;
 
     // 문의글 전체 목록
     @Override
-    public List<com.project.entity.Board> selectBoardList() {
-        return qnaRepository.findAllByOrderByNoDesc();
+    public Page<com.project.entity.Board> pageList(Pageable pageable) {
+        return qnaRepository.findAll(pageable);
     }
 
     // 문의글 작성
