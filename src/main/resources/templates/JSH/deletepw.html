@@ -96,8 +96,11 @@
                                 </a></button>
                             <strong class="d-inline-block text-truncate align-middle profileName"
                                 style="max-width: 139px;" th:text="${session.nickname}"></strong>
-                            <a class="logoutBtn " th:href="@{/profile/profilelist.do}">로그아웃</a>
-                            <!-- <a class="logoutBtn" th:href="@{/profile/profilelist.do}"><button></button></a> -->
+
+                            <form th:action="@{/logout.do}" method="post" style="padding-top: 0px; text-align: right;">
+                                <input type="submit" value="로그아웃"
+                                    style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
+                            </form>
                             <hr style="border-width: 2px;">
                             <!-- 사이드바 메뉴 영역 -->
                             <!-- 경로 지정에 주의할 것 -->
@@ -110,11 +113,11 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">시청 목록</a>
-                                    <a class="nav-link" href="#">소장 목록</a>
-                                    <a class="nav-link" href="#">관심 목록</a>
-                                    <a class="nav-link" href="#">리뷰 내역</a>
-                                    <a class="nav-link" href="#">프로필</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
+                                    <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
+                                    <a class="nav-link" th:href="@{/best/best.do}">best</a>
                                 </nav>
                             </div>
                             <!-- MYPAGE -->
@@ -126,11 +129,11 @@
                             <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">시청 목록</a>
-                                    <a class="nav-link" href="#">소장 목록</a>
-                                    <a class="nav-link" href="#">관심 목록</a>
-                                    <a class="nav-link" href="#">리뷰 내역</a>
-                                    <a class="nav-link" href="#">고객 문의</a>
+                                    <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/interestlist.do}">관심 목록</a>
+                                    <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
+                                    <a class="nav-link" th:href="@{/qna/selectlist.do}">고객 문의</a>
                                     <a class="nav-link" th:href="@{/mypage/mypage.do}">프로필</a>
                                 </nav>
                             </div>
@@ -143,9 +146,9 @@
                             <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">멤버쉽 가입,변경</a>
-                                    <a class="nav-link" href="#">토큰 결제</a>
-                                    <a class="nav-link" href="#">결제 내역</a>
+                                    <a class="nav-link" th:href="@{/pay/membership.do}">멤버쉽 가입,변경</a>
+                                    <a class="nav-link" th:href="@{/pay/token.do}">토큰 결제</a>
+                                    <a class="nav-link" th:href="@{/pay/paychk.do}">결제 내역</a>
                                 </nav>
                             </div>
                             <!-- MANAGE -->
