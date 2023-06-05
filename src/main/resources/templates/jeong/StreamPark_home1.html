@@ -43,37 +43,44 @@
 </head>
 <body class="sb-nav-fixed">
     <!-- 내비게이션 영역 -->
-   <nav class="sb-topnav navbar navbar-expand navbar-dark ">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark ">
         <!-- 내비게이션 브랜드 -->
-        <a class="navbar-brand ps-3" href="#">
+        <a class="navbar-brand ps-3" th:href="@{/kdh/home.do}">
             <strong>STREAM PARK</strong>
         </a>
         <!-- 내비게이션 사이드바 버튼 -->
-        <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
-                <path d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z"/>
-                <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z"/>
-              </svg>
+        <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0"
+            id="sidebarToggle" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
+                <path
+                    d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z" />
+                <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z" />
+            </svg>
         </button>
-         <!--내비게이션 써치 -->
-         <div class="d-none d-md-inline-block form-inline ms-auto ">
-             <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
-                <option id="op" value="title">제목</option>
-                <option id="op" value="keyword">키워드</option>
-                <option id="op" value="castactor">배우</option>
-                <option id="op" value="pd">감독</option>
-            </select> 
-         </div>
-         <form class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group" >
-                <input id="searchInput" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..." aria-label="검색어 입력 ..."
-                    aria-describedby="btnSearch">
-                <button class="btn btn-warning" id="btnSearch" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
+        <!--내비게이션 써치 -->
+        <form id="formsearch" th:action="@{/kdh/search.do}" method="get">
+            <div id="asd">
+                <div class="d-none d-md-inline-block form-inline ms-auto">
+                    <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
+                        <option id="op" value="title">제목</option>
+                        <option id="op" value="keyword">키워드</option>
+                        <option id="op" value="castactor">배우</option>
+                        <option id="op" value="pd">감독</option>
+                    </select>
+                </div>
+                <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text"
+                            placeholder="검색어 입력 ..." aria-label="검색어 입력 ..." aria-describedby="btnSearch">
+                        <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
-   </nav>
+    </nav>
    <!-- 전체화면 영역-->     
    <div id="layoutTotal">
     <!-- 전체화면 왼쪽메뉴 영역 sb는 cs에서하는 것-->
