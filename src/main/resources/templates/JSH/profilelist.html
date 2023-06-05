@@ -55,6 +55,7 @@
 			border-color: transparent;
 			background-color: #ffffff00;
 		}
+
 	</style>
 </head>
 
@@ -162,10 +163,9 @@
 		</div>
 		<footer>
 			<div class="row">
-				<div class="col">
-					<a class="logout" th:href="@{/logout.do}">Logout</a>
-					<form th:action="@{/logout.do}" method="post">
-						<input type="submit" value="Logout">
+				<div class="col">					
+					<form th:action="@{/logout.do}" method="post" class="logout" id="logoutForm">
+						<a href="#" onclick="document.getElementById('logoutForm').submit()" class="logout">Logout</a>
 					</form>
 				</div>
 				<div class="col text-end">
