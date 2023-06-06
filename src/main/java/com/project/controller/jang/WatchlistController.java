@@ -102,7 +102,7 @@ public class WatchlistController {
     public String insertPOST(@ModelAttribute Watchlist watchlist) {
         try {
             // log.info(format, watchlist.getProfile().getProfileno());
-            // log.info(format, watchlist.getVideolist().getVideocode()); 
+            // log.info(format, watchlist.getVideolist().getVideocode());
             wlRepository.save(watchlist);
             return "redirect:/watchlist/selectlist.do";
         }

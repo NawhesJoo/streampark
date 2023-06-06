@@ -10,12 +10,14 @@
         </div>
         <label for="newpw" class=" col-form-label">newpw</label>
         <div class="">
-            <input class="form-control" type="text" name="newpw" id="newpw" placeholder="변경 비밀번호">
+            <input class="form-control" type="password" name="newpw" id="newpw" placeholder="변경 비밀번호">
         </div>
         <label for="newpwc" class=" col-form-label">newpwchk</label>
         <div class="">
-            <input class="form-control" type="text" name="newpwc" id="newpwc" placeholder="변경 비밀번호 확인">
+            <input class="form-control" type="password" name="newpwc" id="newpwc" placeholder="변경 비밀번호 확인">
         </div>
+        <input class="joinF form-check-input" type="checkbox" id="showPwd" />
+        <label style="color: rgba(255, 255, 255, 0.774);" class=" form-check-label" for="showPwd">변경할 비밀번호 보이기</label>
         <div class="submit">
             <input type="button" class="btn btn-sm btn-warning" th:onclick="updatepw()" value="비밀번호 변경">
         </div>
@@ -80,6 +82,50 @@
     crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
 <script th:inline="javascript">
+    (function () {
+        var pwd = document.getElementById('pwd');
+        var changePw = document.getElementById('newpw');
+        var changePwChk = document.getElementById('newpwc');
+        var chk = document.getElementById('showPwd');
+
+        addEvent(chk, 'change', function (e) {            // 체크박스의 값이 변경(change)되면  
+            var target = e.target || e.srcElement;
+            try {
+                if (target.checked) {        // 체크박스에 체크되어 있으면
+                    changePw.type = 'text';       // input 요소의 타입을 text 타입으로 변경
+                    changePwChk.type = 'text';       // input 요소의 타입을 text 타입으로 변경
+                } else {                     // 그렇지 않으면
+                    changePw.type = 'password';   // input 요소의 타입을 password 타입으로 변경
+                    changePwChk.type = 'password';   // input 요소의 타입을 password 타입으로 변경
+                }
+            }
+            catch (error) { //오류가 발생하며 경고메시지 출력
+                alert('이 브라우저는 입력의 종류를 변결할 수 없습니다.');
+            }
+        });
+    }());
+    function addEvent(el, event, callback) {
+        if ('addEventListener' in el) { // addEventListener 메서드가 지원되는지 확인
+            el.addEventListener(event, callback, false);
+        } else { // 지원하지 않으면 IE용 대체 코드를 작성
+            el['e' + event + callback] = callback;    // callback 함수를 el 요소의 메서드로 할당
+            el[event + callback] = function () {
+                el['e' + event + callback](window.event);
+            };
+            el.attachEvent('on' + event, el[event + callback]);
+        }
+    }
+
+    // 이벤트 리스너를 제거하는 핼퍼 함수
+    function removeEvent(el, event, callback) {
+        if ('removeEventListener' in el) {   // removeEventListener 메서드가 지원되는지 확인
+            el.removeEventListener(event, callback, false);
+        } else {                                                // 지원하지 않으면 
+            el.detachEvent('on' + event, el[event + callback]); // IE용 대체 코드를 작성
+            el[event + callback] = null;
+            el['e' + event + callback] = null;
+        }
+    }
     // 비밀번호 중복 검사
     var pwcheck = 0;
     async function ajaxPWCheck(e) {

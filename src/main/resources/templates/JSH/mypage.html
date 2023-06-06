@@ -40,29 +40,6 @@
         });
     </script>
 
-    <style>
-        .form-label{
-            color: #EFC900;
-        }
-        .form-control{
-            color: #ffffff;
-            background-color: black;
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        .form-control:focus{
-            box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
-            color: #EFC900;
-            background-color: black;
-            border-color: #EFC900;
-        }
-        .form-control:hover{
-        
-            color: #EFC900;
-            background-color: black;
-            border-color: #EFC900;
-        }
-    </style>
-
 </head>
 <body class="sb-nav-fixed">
     <!-- 내비게이션 영역 -->
@@ -201,11 +178,9 @@
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
                             <form th:action="@{/mypage/mypage.do}" method="post" id="form">
                                 <div class="mb-3" style="display: inline-block; font-size: large">
-                                    <p style="display: inline-block; color: #EFC900;">암호</p>
-                                    <p style="display: inline-block; color: #ffffff;">를 입력하세요.</p>
+                                    <p style="display: inline-block; color: #EFC900;">암호를 입력하세요</p>
                                 </div>
                                 <div class="mb-3">
-                                    <!-- <label class="form-label" id="profilepw1">암호</label> -->
                                     <label class="form-label">현재 프로필</label> <br />
                                     <input type="text" class="form-control" name="nickname1" id="nickname1" th:value="${session.nickname}" readonly/><br />
                                     <label class="form-label">암호</label><br />

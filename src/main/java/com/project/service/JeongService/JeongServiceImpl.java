@@ -1,6 +1,7 @@
 package com.project.service.JeongService;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,15 +9,21 @@ import javax.servlet.http.HttpSession;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import com.project.dto.Jeong.BestList;
 import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
+import com.project.entity.Videolist;
+import com.project.mapper.Jeong.BestMapper;
 import com.project.repository.FeeRepository;
 import com.project.repository.MemberRepository;
 import com.project.repository.PaychkRepository;
 import com.project.repository.ProfileRepository;
+import com.project.repository.WatchlistRepository;
+import com.project.repository.videolistRepository;
 import com.project.repository.Projections.MemberProjection;
+import com.project.service.KDH.DHService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +38,10 @@ public class JeongServiceImpl implements JeongService {
     final MemberRepository memRepository;
     final PaychkRepository payRepository;
     final FeeRepository feeRepository;    
+    final BestMapper bestMapper;
+    final WatchlistRepository watRepository;
+    final videolistRepository vidRepository;
+    final DHService dhService;
     // proRepository.findById(BigInteger.valueOf(88)).orElse(null);
 
     @Override
@@ -141,6 +152,47 @@ public class JeongServiceImpl implements JeongService {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    @Override
+    public List<BestList> selectTop5Watchlist() {
+        try {
+            return bestMapper.selectTop5Watchlist();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Videolist> findTop5Videolist(List<BestList> bestLists) {
+        try {
+            List<BigInteger> videoCodeList = new ArrayList<>();
+            // List<Videolistdto> videolistdtos = new ArrayList<>();
+            for(BestList obj : bestLists){
+                videoCodeList.add(obj.getVideocode());
+            }
+
+            List<Videolist> videolists = vidRepository.findAllById(videoCodeList);
+
+            for(Videolist obj : videolists){                
+                obj.setImgno(dhService.selectvideoimgOne(obj.getVideocode().longValue()));
+            }
+            return videolists;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<BestList> selectTop5Review() {
+        try {
+            return bestMapper.selectTop5Review();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

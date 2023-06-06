@@ -163,3 +163,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: rgba(239, 201, 0, 0.3);
   }
 
+.logoutBtn{
+    border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);
+}
+.logoutBtn:hover{
+    color: #efc700a9;
+}

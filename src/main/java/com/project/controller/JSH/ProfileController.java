@@ -51,6 +51,7 @@ public class ProfileController {
     final ProfileService pService;
     final ProfileMapper pMapper;
     final MemberRepository mRepository;
+    
     final ProfileRepository pRepository;
     final PaychkRepository pcRepository;
     final ProfileimgRepository piRepository;
@@ -85,7 +86,6 @@ public class ProfileController {
         session.removeAttribute("profileno");
         session.removeAttribute("nickname");
         try {
-            // String id = (String) session.getAttribute("id");
             String id = user.getUsername();
             log.info("list id => {}", id);
             log.info("list user => {}", user.getUsername());
@@ -137,26 +137,30 @@ public class ProfileController {
             if (!pcRepository.findByMember_id(id).isEmpty()) { // Paychk의 정보가 있으면
 
                 List<Paychk> list1 = pMapper.selectPaychk(id);
-                Paychk latestPaychk = list1.get(0);
-
-                // 만료 날짜와 현재 시간 비교
-                calendar.setTime(latestPaychk.getRegdate());
-                calendar.add(Calendar.MONTH, 1);
-                Date oneMonthAfter = calendar.getTime();
-
-                log.info("oneMonthAfter => {}", oneMonthAfter);
-                log.info("currentDate => {}", currentDate);
-
-                // 날짜 비교
-                if (currentDate.after(oneMonthAfter)) { // 만료되었다면
+                if(!list1.isEmpty()){
+                    Paychk latestPaychk = list1.get(0);
+                    
+                    // 만료 날짜와 현재 시간 비교
+                    calendar.setTime(latestPaychk.getRegdate());
+                    calendar.add(Calendar.MONTH, 1);
+                    Date oneMonthAfter = calendar.getTime();
+                    
+                    log.info("oneMonthAfter => {}", oneMonthAfter);
+                    log.info("currentDate => {}", currentDate);
+                    
+                    // 날짜 비교
+                    if (currentDate.after(oneMonthAfter)) { // 만료되었다면
+                        model.addAttribute("chk", "0");
+                    } else { // 아직 남아있을 때
+                        model.addAttribute("chk", "1");
+                    }
+                } else { // Paychk의 정보가 없으면
                     model.addAttribute("chk", "0");
-                } else { // 아직 남아있을 때
-                    model.addAttribute("chk", "1");
                 }
-            } else { // Paychk의 정보가 없으면
+            } else {
                 model.addAttribute("chk", "0");
             }
-
+            // model.addAttribute("defaultimage",defaultprofileimg );
             session.removeAttribute("nickname");
             session.removeAttribute("profileno");
             return "/JSH/profilelist";
@@ -178,7 +182,6 @@ public class ProfileController {
             @RequestParam("nickname") String nickname,
             HttpSession session, @AuthenticationPrincipal User user) {
         // 세션에서 멤버 ID 가져오기
-        // String memberId = (String) session.getAttribute("id");
         String memberId = user.getUsername();
 
         // 프로필 정보 설정
@@ -197,10 +200,14 @@ public class ProfileController {
     // 프로필 로그인
     @GetMapping(value = "/login.do")
     public String loginGET(@RequestParam(name = "nickname1", required = false) String nickname,
-            Model model, HttpSession session) {
+            Model model, HttpSession session, @AuthenticationPrincipal User user) {
         model.addAttribute("nickname", nickname);
+        String id = user.getUsername();
+        String role = mRepository.findById(id).get().getRole();
         Profile profile1 = pRepository.findByNickname(nickname);
         if (profile1.getProfilepw() == null) {
+            // httpSession.setAttribute("role", role);
+            session.setAttribute("role", role);
             session.setAttribute("profileno", profile1.getProfileno());
             session.setAttribute("nickname", nickname);
             return "redirect:/profile/mypage.do";
@@ -213,8 +220,11 @@ public class ProfileController {
     public String loginPOST(@RequestParam("nickname1") String nickname,
             @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session,
             @AuthenticationPrincipal User user) {
+                String id = user.getUsername();
+                String role = mRepository.findById(id).get().getRole();
         Profile profile = pRepository.findByNickname(nickname);
         try {
+            session.setAttribute("role", role);
             session.setAttribute("id", user.getUsername());
             session.setAttribute("profileno", profile.getProfileno());
             session.setAttribute("nickname", nickname);
