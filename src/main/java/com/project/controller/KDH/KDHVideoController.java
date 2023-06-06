@@ -36,11 +36,13 @@ import com.project.entity.Interestlist;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Profile;
+import com.project.entity.Review;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
 import com.project.entity.Watchlist;
 import com.project.repository.InterestRepository;
 import com.project.repository.MemberRepository;
+import com.project.repository.ReviewRepository;
 import com.project.repository.VideoimgRepository;
 import com.project.repository.WatchlistRepository;
 import com.project.repository.videolistRepository;
@@ -60,6 +62,7 @@ public class KDHVideoController {
     final MemberRepository memberRepository;
     final InterestRepository interestRepository;
     final WatchlistRepository watchlistRepository;
+    final ReviewRepository reviewRepository;
     final HttpSession httpSession;
     final DHService dhService;
     final ResourceLoader resourceLoader; // resource폴더의 파일을 읽기위한 객체 생성
@@ -153,6 +156,8 @@ public class KDHVideoController {
         VideolistView video = dhService.selectvideoOne(videocode);
         List<Videolist> list1 = videolistRepository.findByTitleOrderByEpisodeAsc(title);
         Long imgno = dhService.selectvideoimgOne(videocode.longValue());
+        List<Review> reviewlist = reviewRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
+        model.addAttribute("reviewlist", reviewlist);
         model.addAttribute("imgno", imgno);
         model.addAttribute("video", video);
         model.addAttribute("list1", list1);
