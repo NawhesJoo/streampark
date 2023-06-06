@@ -137,23 +137,27 @@ public class ProfileController {
             if (!pcRepository.findByMember_id(id).isEmpty()) { // Paychk의 정보가 있으면
 
                 List<Paychk> list1 = pMapper.selectPaychk(id);
-                Paychk latestPaychk = list1.get(0);
-
-                // 만료 날짜와 현재 시간 비교
-                calendar.setTime(latestPaychk.getRegdate());
-                calendar.add(Calendar.MONTH, 1);
-                Date oneMonthAfter = calendar.getTime();
-
-                log.info("oneMonthAfter => {}", oneMonthAfter);
-                log.info("currentDate => {}", currentDate);
-
-                // 날짜 비교
-                if (currentDate.after(oneMonthAfter)) { // 만료되었다면
+                if(!list1.isEmpty()){
+                    Paychk latestPaychk = list1.get(0);
+                    
+                    // 만료 날짜와 현재 시간 비교
+                    calendar.setTime(latestPaychk.getRegdate());
+                    calendar.add(Calendar.MONTH, 1);
+                    Date oneMonthAfter = calendar.getTime();
+                    
+                    log.info("oneMonthAfter => {}", oneMonthAfter);
+                    log.info("currentDate => {}", currentDate);
+                    
+                    // 날짜 비교
+                    if (currentDate.after(oneMonthAfter)) { // 만료되었다면
+                        model.addAttribute("chk", "0");
+                    } else { // 아직 남아있을 때
+                        model.addAttribute("chk", "1");
+                    }
+                } else { // Paychk의 정보가 없으면
                     model.addAttribute("chk", "0");
-                } else { // 아직 남아있을 때
-                    model.addAttribute("chk", "1");
                 }
-            } else { // Paychk의 정보가 없으면
+            } else {
                 model.addAttribute("chk", "0");
             }
             // model.addAttribute("defaultimage",defaultprofileimg );
