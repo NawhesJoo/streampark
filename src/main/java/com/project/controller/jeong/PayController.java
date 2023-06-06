@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.dto.Jeong.PaymentVideolist;
 import com.project.entity.Chargetoken;
 import com.project.entity.Fee;
 import com.project.entity.Member;
@@ -46,10 +47,13 @@ public class PayController {
 
     @GetMapping(value = "/havelist.do")
     public String haveGET(Model model){
-        List<Paymentlist> list = paymentlistRepository.findAll();
+        List<Paymentlist> paymentList = paymentlistRepository.findAll();
+        List<PaymentVideolist> list1 = jService.paymenstlistToPaymentVideolist(paymentList);
+        List<PaymentVideolist> list = jService.getVideoTitle(list1);        
+
+
+        model.addAttribute("list1", paymentList);
         model.addAttribute("list", list);
-
-
         return "/jeong/StreamPark_havelist";
     }
 
