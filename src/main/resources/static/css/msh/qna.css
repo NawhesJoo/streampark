@@ -3,8 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap');
 
 * {
-    /* font-family: 'IBM Plex Sans KR', sans-serif; */
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    /* font-family: 'Nanum Gothic', sans-serif; */
 
 }
 
@@ -264,6 +264,7 @@ p {
 
 /* 왼쪽 메뉴 디자인 */
 .profileName{
+    margin-left: 10px;
     font-size: 1.3rem;
 }
 .sb-sidenav-dark {

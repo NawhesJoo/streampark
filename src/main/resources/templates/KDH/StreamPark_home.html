@@ -97,12 +97,23 @@
                                 </button></a>
                             <strong class="d-inline-block text-truncate align-middle profileName"
                                 style="max-width: 139px;" th:text="${session.nickname}"></strong>
-
-                            <form th:action="@{/logout.do}" method="post" style="padding-top: 0px; text-align: right;">
-                                <input type="submit" value="로그아웃"
-                                    style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
-                            </form>
-                            <hr style="border-width: 2px;">
+                            <div class="row justify-content-between mt-3">
+                                <div class="col d-flex">
+                                    <p>coin:</p>
+                                    <a style="text-decoration-line: none;" th:href="@{/pay/token.do}">
+                                        <p style="color: white; " th:text="${session.token}"></p>
+                                    </a>
+                                    <p>c</p>
+                                </div>
+                                <div class="col">
+                                    <form th:action="@{/logout.do}" method="post"
+                                        style="padding-top: 0px; text-align: right;">
+                                        <input type="submit" value="로그아웃"
+                                            style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
+                                    </form>
+                                </div>
+                            </div>
+                            <hr style=" margin-top: 0; border-width: 2px;">
                             <!-- 사이드바 메뉴 영역 -->
                             <!-- 경로 지정에 주의할 것 -->
                             <!-- CONTENT -->
@@ -131,7 +142,7 @@
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
-                                    <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/pay/havelist.do}">소장 목록</a>
                                     <a class="nav-link" th:href="@{/kdh/interestlist.do}">관심 목록</a>
                                     <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
                                     <a class="nav-link" th:href="@{/qna/selectlist.do}">고객 문의</a>
@@ -264,10 +275,10 @@
                                     <span>
                                         부산광역시 남구 신선로 365 부경대학교 용당캠퍼스 3공학관 대표전화 : 051-629-5215
                                     </span>
-                                    <span >
+                                    <span>
                                         |
                                     </span>
-                                    <span >
+                                    <span>
                                         대표전화 : 051-629-5215
                                     </span>
                                 </div>
