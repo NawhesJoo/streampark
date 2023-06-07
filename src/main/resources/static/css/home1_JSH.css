@@ -289,6 +289,7 @@ p {
 
 /* 왼쪽 메뉴 디자인 */
 .profileName{
+    margin-left: 10px;
     font-size: 1.3rem;
 }
 .sb-sidenav-dark {
