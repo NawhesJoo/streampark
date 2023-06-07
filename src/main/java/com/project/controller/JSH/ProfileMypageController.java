@@ -165,7 +165,7 @@ public class ProfileMypageController {
     HttpSession session){
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pRepository.findByNickname(nickname);
-        profile.setProfilepw("");
+        profile.setProfilepw(null);
         pRepository.save(profile);
         return "redirect:/mypage/updatepw.do";
     }

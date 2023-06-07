@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dto.JSH.Login;
+import com.project.entity.Member;
 import com.project.entity.Profile;
+import com.project.repository.MemberRepository;
 import com.project.repository.ProfileRepository;
 import com.project.repository.ProfileimgRepository;
 
@@ -25,8 +27,41 @@ import lombok.RequiredArgsConstructor;
 public class RestProfileController {
 
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+    final MemberRepository mRepository;
     final ProfileRepository pRepository;
     final ProfileimgRepository piRepository;
+
+    // 암호 확인
+    @GetMapping(value = "/clearpw.do")
+    public Map<String,Object> clearPw(@RequestParam("clearpw_nickname") String nickname, @RequestParam("clearpw_email") String email,
+            @RequestParam("clearpw_name") String name){
+        Map<String, Object> retMap = new HashMap<>();
+        try{
+            // Member member = mRepository.findById(user.getUsername()).orElse(null);
+            Profile profile = pRepository.findByNickname(nickname);
+            Member member = mRepository.findById(profile.getMember().getId()).orElse(null);
+            if(email.isEmpty() || name.isEmpty()){
+                retMap.put("result",2);
+                retMap.put("status", 409);
+                retMap.put("message", "정보 입력하셈");
+            }
+            else if(member.getName().equals(name) && member.getEmail().equals(email)){
+                    // 일치할 경우
+                    retMap.put("status", 200);
+                    retMap.put("result", 1);
+                } else {
+                    // 일치하지 않을 경우
+                    retMap.put("status",409);
+                    retMap.put("result", 0);
+                }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            retMap.put("status", -1);
+            retMap.put("error", e.getMessage());
+        }
+        return retMap;
+    }
     
     // 닉네임 중복확인
     @GetMapping(value = "/nickname.do")
