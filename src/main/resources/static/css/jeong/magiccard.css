@@ -28,6 +28,10 @@
     /* text-decoration-color:  #191c29; */
   }
   
+.cardSec a.cardA {
+  text-decoration: none;
+}
+
   .card:hover {
     color: black;
     /* transition: color 1s; */
