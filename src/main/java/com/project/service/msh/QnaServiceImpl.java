@@ -20,8 +20,8 @@ public class QnaServiceImpl implements QnaService {
 
     // 문의글 전체 목록
     @Override
-    public Page<com.project.entity.Board> pageList(Pageable pageable) {
-        return qnaRepository.findAll(pageable);
+    public List<com.project.entity.Board> selectBoardList() {
+        return qnaRepository.findAllByOrderByNoDesc();
     }
 
     // 문의글 작성
