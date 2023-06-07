@@ -4,9 +4,11 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 
 @SpringBootApplication
 @PropertySource(value = { "classpath:global.properties" }) // 직접만든 환경설정파일위치
@@ -29,4 +31,11 @@ public class StreamparkApplication {
 		SpringApplication.run(StreamparkApplication.class, args);
 	}
 
+	@Bean
+	public PageableHandlerMethodArgumentResolverCustomizer customize() {
+	  return p -> {
+		p.setOneIndexedParameters(true);	// 1부터 시작
+	  };
+	}
+	
 }
