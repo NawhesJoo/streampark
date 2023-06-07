@@ -435,15 +435,17 @@ p {
     color: #efc900;
     cursor: pointer;
     font-family: cursive;
-    text-decoration: underline;
-    text-decoration-color:  #191c29;
+    /* text-decoration: underline; */
+    /* text-decoration-color:  #191c29; */
   }
-  
+  a.cardA{
+    text-decoration: none;
+  }
   .card:hover {
       color: black;
       /* transition: color 1s; */
-      text-decoration: underline;
-    text-decoration-color:  black;
+      /* text-decoration: underline; */
+    /* text-decoration-color:  black; */
     } 
     .card:hover:before,
     .card:hover:after {
