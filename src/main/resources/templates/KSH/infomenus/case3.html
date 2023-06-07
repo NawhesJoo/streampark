@@ -5,7 +5,7 @@
         <input type="hidden" name="menu" value="3">
         <label for="pw" class=" col-form-label">pw</label>
         <div class="">
-            <input class="form-control" type="text" name="pw1" id="pw" placeholder="비밀번호"
+            <input class="form-control" type="password" name="pw1" id="pw" placeholder="비밀번호"
                 th:onkeyup="ajaxPWCheck(this)">
         </div>
         <div>
@@ -15,8 +15,7 @@
         <br>
         <label for="chkText" class=" col-form-label">회원탈퇴</label>
         <div class="">
-            <input class="form-control" type="text" name="chkText" id="chkText" placeholder="[회원탈퇴]를 입력하세요"
-                th:onkeyup="ajaxPWCheck(this)">
+            <input class="form-control" type="text" name="chkText" id="chkText" placeholder="[회원탈퇴]를 입력하세요">
         </div>
         <div class="submit">
             <input type="button" class="btn btn-sm btn-warning" th:onclick="deleteId()" value="회원 탈퇴">
@@ -82,6 +81,47 @@
     crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
 <script th:inline="javascript">
+     (function () {
+        var pwd = document.getElementById('pwd');
+        var pw = document.getElementById('pw');
+        var chk = document.getElementById('showPwd');
+
+        addEvent(chk, 'change', function (e) {            // 체크박스의 값이 변경(change)되면  
+            var target = e.target || e.srcElement;
+            try {
+                if (target.checked) {        // 체크박스에 체크되어 있으면
+                    pw.type = 'text';       // input 요소의 타입을 text 타입으로 변경
+                } else {                     // 그렇지 않으면
+                    pw.type = 'password';   // input 요소의 타입을 password 타입으로 변경
+                }
+            }
+            catch (error) { //오류가 발생하며 경고메시지 출력
+                alert('이 브라우저는 입력의 종류를 변결할 수 없습니다.');
+            }
+        });
+    }());
+    function addEvent(el, event, callback) {
+        if ('addEventListener' in el) { // addEventListener 메서드가 지원되는지 확인
+            el.addEventListener(event, callback, false);
+        } else { // 지원하지 않으면 IE용 대체 코드를 작성
+            el['e' + event + callback] = callback;    // callback 함수를 el 요소의 메서드로 할당
+            el[event + callback] = function () {
+                el['e' + event + callback](window.event);
+            };
+            el.attachEvent('on' + event, el[event + callback]);
+        }
+    }
+
+    // 이벤트 리스너를 제거하는 핼퍼 함수
+    function removeEvent(el, event, callback) {
+        if ('removeEventListener' in el) {   // removeEventListener 메서드가 지원되는지 확인
+            el.removeEventListener(event, callback, false);
+        } else {                                                // 지원하지 않으면 
+            el.detachEvent('on' + event, el[event + callback]); // IE용 대체 코드를 작성
+            el[event + callback] = null;
+            el['e' + event + callback] = null;
+        }
+    }
     // 비밀번호 중복 검사
     var pwcheck = 0;
     async function ajaxPWCheck(e) {
@@ -92,14 +132,14 @@
         const { data } = await axios.get(url, { headers });
 
         if (data.status === 0) {
-            // document.getElementById("pw").classList.remove("is-valid");
-            // document.getElementById("pw").classList.add("is-invalid");
+            document.getElementById("pw").classList.remove("is-valid");
+            document.getElementById("pw").classList.add("is-invalid");
             pwcheck = 0;
             return false;
         }
         if (data.status === 1) {
-            // document.getElementById("pw").classList.remove("is-invalid");
-            // document.getElementById("pw").classList.add("is-valid");
+            document.getElementById("pw").classList.remove("is-invalid");
+            document.getElementById("pw").classList.add("is-valid");
             pwcheck = 1;
             return false;
         }

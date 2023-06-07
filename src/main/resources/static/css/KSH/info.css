@@ -67,6 +67,7 @@ body {
     color: #efc7009d;
 }
 .mainSec .form-control:focus{
+    color: #efc900;
     border-color: #EFC900;
 	box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
 }
