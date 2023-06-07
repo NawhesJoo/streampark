@@ -7,74 +7,149 @@
     <title>STREAM PARK</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- 1. 부트스트렙용 css CDN 추가 -->
-    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css}" rel="stylesheet"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
     <!-- 부트스트렙용 아이콘 -->
-    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-
-    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/css/msh/qna.css}">
-
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/kdh.css}'>
 
     <!-- jQuery 추가 -->
-    <script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
 
     <!-- font awesome용 스크립트 CDN -->
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js}"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <style>
-        h2 {
-            color: #efc900;
-        }
+    <script>
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
 
-        input {
-            border: 1px solid white;
-            background-color: black;
-            color: white;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
+                sidebarToggle.click(function () {
+                    console.log('숨기기');
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
 
-        #title {
-            width: 75%;
+            }
+        });
+    </script>
+    <style>html, body {
+        height: 100%;
+        overflow: hidden;
+      }
+      
+      .error-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 100%;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      }
+      .error-page h1 {
+        
+        font-size: 20vh;
+        font-weight: bold;
+        position: relative;
+        margin: -8vh 0 0;
+        margin-top: 80px;
+        padding: 0;
+      }
+      .error-page h1:after {
+        content: attr(data-h1);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        color: transparent;
+        /* webkit only for graceful degradation to IE */
+        background: -webkit-repeating-linear-gradient(-45deg, #71b7e6, #69a6ce, #b98acc, #ee8176, #b98acc, #69a6ce, #9b59b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 400%;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.25);
+        animation: animateTextBackground 10s ease-in-out infinite;
+      }
+      .error-page h1 + p {
+        color: #d6d6d6;
+        font-size: 8vh;
+        font-weight: bold;
+        line-height: 10vh;
+        max-width: 600px;
+        position: relative;
+      }
+      .error-page h1 + p:after {
+        content: attr(data-p);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        color: transparent;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        background-clip: text;
+      }
+      
+      #particles-js {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+      
+      @keyframes animateTextBackground {
+        0% {
+          background-position: 0 0;
         }
-
-        #password {
-            width: 24.5%;
+        25% {
+          background-position: 100% 0;
         }
-
-        .updateButton {
-            margin: 0.5rem 0;
-            background-color: #f4a320;
-            border-radius: 3px;
-            border-color: none;
-            border: 0;
-            color: black;
-            font-weight: 500;
+        50% {
+          background-position: 100% 100%;
         }
-
-        #btnSearch {
-            height: 37.8px;
-            background-color: #EFC900;
+        75% {
+          background-position: 0 100%;
         }
-
-        .ql-toolbar.ql-snow {
-            background-color: #efc900;
-            color: white;
-            border: 0px 3px 3px 3px solid white;
+        100% {
+          background-position: 0 0;
         }
-
-        .ql-container {
-            font-size: medium;
-            height: 400px;
-            color: white;
+      }
+      @media (max-width: 767px) {
+        .error-page h1 {
+          font-size: 32vw;
         }
-    </style>
+        .error-page h1 + p {
+          font-size: 8vw;
+          line-height: 10vw;
+          max-width: 70vw;
+        }
+      }
+      a.back {
+        position: fixed;
+        right: 40px;
+        bottom: 40px;
+        background: -webkit-repeating-linear-gradient(-45deg, #71b7e6, #69a6ce, #b98acc, #ee8176);
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 24px;
+        padding: 15px 30px;
+        text-decoration: none;
+        transition: 0.25s all ease-in-out;
+      }
+      a.back:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }</style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -95,27 +170,27 @@
             </svg>
         </button>
         <!--내비게이션 써치 -->
-        <form id="formsearch" th:action="@{/kdh/search.do}" method="get">
-            <div id="asd">
-                <div class="d-none d-md-inline-block form-inline ms-auto">
-                    <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
-                        <option id="op" value="title">제목</option>
-                        <option id="op" value="keyword">키워드</option>
-                        <option id="op" value="castactor">배우</option>
-                        <option id="op" value="pd">감독</option>
-                    </select>
-                </div>
-                <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
-                    <div class="input-group">
-                        <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text"
-                            placeholder="검색어 입력 ..." aria-label="검색어 입력 ..." aria-describedby="btnSearch">
-                        <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
-                            <i class="bi bi-search"></i>
-                        </button>
+            <form id="formsearch" th:action="@{/kdh/search.do}" method="get"  >
+                <div id="asd">
+                    <div class="d-none d-md-inline-block form-inline ms-auto" >
+                        <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
+                            <option id="op" value="title">제목</option>
+                            <option id="op" value="keyword">키워드</option>
+                            <option id="op" value="castactor">배우</option>
+                            <option id="op" value="pd">감독</option>
+                        </select>
+                    </div>
+                    <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
+                        <div class="input-group">
+                            <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..."
+                                aria-label="검색어 입력 ..." aria-describedby="btnSearch">
+                            <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
     </nav>
     <!-- 전체화면 영역-->
     <div id="layoutTotal">
@@ -236,138 +311,146 @@
             </nav>
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
-        <div id="layoutContent">
-            <main>
+        <div id="layoutContent" style="background-color: black; background-image: none;">
+            <main id="prohibit">
+               
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <div class="container">
-                                <h2>문의글수정</h2>
-                                <div style="width:100%">
-                                    <form id="updateForm" th:action="@{/qna/update.do}" method="post">
-                                        <input type="hidden" name="no" th:value="${board.no}" /><br />
-                                        <input type="hidden" name="profileno" th:value="${board.profileno}" /><br />
-                                        <div>
-                                            <input id="title" style="width: 100%;" type="text" name="title"th:value="${board.title}">
-                                        </div>
-                                        <div id="editor">
-                                            <p class="form-control" type="text" style="height:100%; width:100%;"
-                                                maxlength='1000' id="QnAcontent" name="content"
-                                                th:utext="${board.content}"></p>
-                                        </div>
-                                        <div align="right">
-                                            <input class="updateButton" type="button" onclick="updateForm()" value="수정" />
-                                            <button class="updateButton" type="button"
-                                                th:onclick="|location.href='@{/qna/selectone.do(no=${board.no})}'|">돌아가기</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            <h1 class="mainConName">컨텐츠</h1>
+                            <hr class="mainConBar" />
+
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- 여기에 원하는 컨텐츠 삽입 -->
+                            <h3 style="color: #efc900; font-weight: bold; margin-left: 100px; margin-bottom: 30px;">토큰부족</h3>
+                            <a class="navbar-brand ps-3" th:href="@{/kdh/home.do}">
+                                <strong class="insertbutton" style=" font-weight: bold;font-size: 30px; margin-left: 100px;">홈으로</strong>
+                            </a><br/>
+                            <div class="error-page">
+                                <div>
+                                  <!--h1(data-h1='400') 400-->
+                                  <!--p(data-p='BAD REQUEST') BAD REQUEST-->
+                                  <!--h1(data-h1='401') 401-->
+                                  <!--p(data-p='UNAUTHORIZED') UNAUTHORIZED-->
+                                  <!--h1(data-h1='403') 403-->
+                                  <!--p(data-p='FORBIDDEN') FORBIDDEN-->
+                                  <h1 data-h1="잔액이 부족합니다.">잔액이 부족합니다.</h1>
+                                  <!--h1(data-h1='500') 500-->
+                                  <!--p(data-p='SERVER ERROR') SERVER ERROR-->
+                                </div>
+                              </div>
+                              <div id="particles-js"></div>
+                              <!--a(href="#").back GO BACK-->
+                            <!-- --------------------------- -->
+                        </div>
+                    </div>
+                </div>
             </main>
             <footer class="  mt-auto">
-                <div class="mainFooterdiv container-fluid px-4">
+                <div class="mainFooterdiv container-fluid px-4" style="background-color: black;">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
-                            원하는 fotter 적용 css로 색 지정
+                            <div style="display: inline;">
+                            </div>
                         </div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
-
     <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
         </script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
-    <!-- Include the Quill library -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    <script th:inline="javascript">
+    <script>
+        function searchaction() {
+            const searchtag = document.getElementById("searchtag");
+            var form = document.getElementById("formsearch");
+            var search = document.getElementById("search")
+            console.log(searchtag);
 
-        const toolbarOptions = [['bold', 'italic', 'underline', 'strike'], // toggled buttons
-        ['blockquote', 'code-block'],
-        [{
-            'header': 1
-        }, {
-            'header': 2
-        }], // custom button values
-        [{
-            'list': 'ordered'
-        }, {
-            'list': 'bullet'
-        }],
-        [{
-            'size': ['small', false, 'large', 'huge']
-        }], // custom dropdown
-        [{
-            'header': [1, 2, 3, 4, 5, 6, false]
-        }],
-        [{
-            'color': ['white']
-        }, {
-            'background': []
-        }], // dropdown with defaults from theme
-        [{
-            'font': []
-        }], [{
-            'align': []
-        }],
-        ['clean'] // remove formatting button
-        ];
-        var quill = new Quill('#editor', {
-            modules: {
-                toolbar: toolbarOptions
-            },
-            theme: 'snow'
-        });
-
-        function updateForm() {
-            var title = $("#title").val()
-            var content = quill.root.innerHTML; //quill에디터를 HTML로 바꿔서 가져옴
-            var content1 = quill.getText();
-            console.log(content1.length);
-            if (title.length <= 0) {
-                alert('제목을 입력하세요.');
-                title.focus();
-                return false; // 함수 종료, 전송하지 않음
-            }
-            if (content1.length <= 10) {
-                alert('내용을 10자이상 입력하세요.');
-                content.focus();
+            if (search.value.length <= 0) {
+                alert('검색어를 입력하세요');
+                search.focus();
                 return false;
             }
-            console.log("통과");
-
-            var input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "content";
-            input.value = content;
-
-            document.getElementById("updateForm").appendChild(input);
-            $("#updateForm").submit();
+            form.submit();
         }
-
-        $(document).ready(function () {
-            const sidebarToggle = $('#sidebarToggle');
-            if (sidebarToggle) {
-
-                sidebarToggle.click(function () {
-                    console.log('숨기기');
-                    event.preventDefault();
-                    document.body.classList.toggle('sb-sidenav-toggled');
-                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-                });
-
-            }
-        });
+    </script>
+    <script>
+        particlesJS("particles-js", {
+  "particles": {
+    "number": {
+      "value": 5,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#fcfcfc"
+    },
+    "shape": {
+      "type": "circle",
+    },
+    "opacity": {
+      "value": 0.5,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.2,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 140,
+      "random": false,
+      "anim": {
+        "enable": true,
+        "speed": 10,
+        "size_min": 40,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": false,
+    },
+    "move": {
+      "enable": true,
+      "speed": 8,
+      "direction": "none",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+    "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": false
+      },
+      "onclick": {
+        "enable": false
+      },
+      "resize": true
+    }
+  },
+  "retina_detect": true
+});
     </script>
 </body>
 
-</body>
-
 </html>
+

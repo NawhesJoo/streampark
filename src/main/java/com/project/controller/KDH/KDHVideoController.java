@@ -35,6 +35,7 @@ import com.project.dto.Videolistdto;
 import com.project.entity.Interestlist;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
+import com.project.entity.Paymentlist;
 import com.project.entity.Profile;
 import com.project.entity.Review;
 import com.project.entity.Videoimg;
@@ -42,6 +43,7 @@ import com.project.entity.Videolist;
 import com.project.entity.Watchlist;
 import com.project.repository.InterestRepository;
 import com.project.repository.MemberRepository;
+import com.project.repository.PaymentlistRepository;
 import com.project.repository.ReviewRepository;
 import com.project.repository.VideoimgRepository;
 import com.project.repository.WatchlistRepository;
@@ -67,6 +69,7 @@ public class KDHVideoController {
     final DHService dhService;
     final ResourceLoader resourceLoader; // resource폴더의 파일을 읽기위한 객체 생성
     final JeongService jService;
+    final PaymentlistRepository paymentlistRepository;
     @Value("${default.image}")
     String defaultImage;
 
@@ -180,10 +183,13 @@ public class KDHVideoController {
             Watchlist watchlist = new Watchlist();
             Profile profile1 = new Profile();
             Videolist videolist = new Videolist();
+            Paymentlist paymentlist = new Paymentlist();
             profile1.setProfileno(profileno);
             videolist.setVideocode(videocode);
             watchlist.setProfile(profile);
             watchlist.setVideolist(videolist);           
+            paymentlist.setProfile(profile);
+            paymentlist.setVideolist(videolist);
 
             // member.setBirth("2007-11-09");
             memberDto.setBirth(member.getBirth());
@@ -215,17 +221,17 @@ public class KDHVideoController {
                             //보유토큰 > 가격                            
                             long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
                             member.setToken(BigInteger.valueOf(token));
-
+                            httpSession.setAttribute("token", member.getToken());
                             memberRepository.save(member);
                             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                             watchlistRepository.save(watchlist);
+                            paymentlistRepository.save(paymentlist);
                             return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
 
                         }else{
-                            //토큰 없음
                             System.out.println("토큰 없음");
                             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
-                            return "redirect:/kdh/prohibit.do?title=" + title + "&episode=" + episode;                        
+                            return "redirect:/kdh/notoken.do?title=" + title + "&episode=" + episode;                        
                         }
 
                        
@@ -240,16 +246,17 @@ public class KDHVideoController {
                         //보유토큰 > 가격
                         long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
                         member.setToken(BigInteger.valueOf(token));
-
+                        httpSession.setAttribute("token", member.getToken());
                         memberRepository.save(member);
                         title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                         watchlistRepository.save(watchlist);
+                        paymentlistRepository.save(paymentlist);
                         return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
 
                     }else{
                         System.out.println("나이체크 멤버십 없음");
                         title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
-                        return "redirect:/kdh/prohibit.do?title=" + title + "&episode=" + episode;
+                        return "redirect:/kdh/notoken.do?title=" + title + "&episode=" + episode;
                         //나이체크 멤버십 없음
                     }
                     
@@ -266,7 +273,10 @@ public class KDHVideoController {
             return "redirect:/kdh/error.do";
         }
     }
-
+    @GetMapping(value = "/notoken.do")
+    public String notokenGET() {
+        return "/KDH/notoken";
+    }
     @GetMapping(value = "/prohibit.do")
     public String prohibitGET() {
         return "/KDH/prohibit";
@@ -500,7 +510,7 @@ public class KDHVideoController {
                 obj.setImgno(imgno);
             }
             model.addAttribute("list", list);
-            return "/KDH/StreamPark_groupgenre";
+            return "/KDH/StreamPark_recent";
 
         } catch (Exception e) {
             e.printStackTrace();

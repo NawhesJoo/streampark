@@ -7,74 +7,39 @@
     <title>STREAM PARK</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- 1. 부트스트렙용 css CDN 추가 -->
-    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css}" rel="stylesheet"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
     <!-- 부트스트렙용 아이콘 -->
-    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-
-    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/css/msh/qna.css}">
-
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/kdh.css}'>
 
     <!-- jQuery 추가 -->
-    <script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
 
     <!-- font awesome용 스크립트 CDN -->
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js}"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <style>
-        h2 {
-            color: #efc900;
-        }
+    <script>
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
 
-        input {
-            border: 1px solid white;
-            background-color: black;
-            color: white;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
+                sidebarToggle.click(function () {
+                    console.log('숨기기');
+                    event.preventDefault();
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
 
-        #title {
-            width: 75%;
-        }
+            }
+        });
+    </script>
 
-        #password {
-            width: 24.5%;
-        }
-
-        .updateButton {
-            margin: 0.5rem 0;
-            background-color: #f4a320;
-            border-radius: 3px;
-            border-color: none;
-            border: 0;
-            color: black;
-            font-weight: 500;
-        }
-
-        #btnSearch {
-            height: 37.8px;
-            background-color: #EFC900;
-        }
-
-        .ql-toolbar.ql-snow {
-            background-color: #efc900;
-            color: white;
-            border: 0px 3px 3px 3px solid white;
-        }
-
-        .ql-container {
-            font-size: medium;
-            height: 400px;
-            color: white;
-        }
-    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -236,33 +201,57 @@
             </nav>
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
-        <div id="layoutContent">
+        <div id="layoutContent" style="background-image: none; background-color: black;">
             <main>
                 <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <div class="container">
-                                <h2>문의글수정</h2>
-                                <div style="width:100%">
-                                    <form id="updateForm" th:action="@{/qna/update.do}" method="post">
-                                        <input type="hidden" name="no" th:value="${board.no}" /><br />
-                                        <input type="hidden" name="profileno" th:value="${board.profileno}" /><br />
-                                        <div>
-                                            <input id="title" style="width: 100%;" type="text" name="title"th:value="${board.title}">
-                                        </div>
-                                        <div id="editor">
-                                            <p class="form-control" type="text" style="height:100%; width:100%;"
-                                                maxlength='1000' id="QnAcontent" name="content"
-                                                th:utext="${board.content}"></p>
-                                        </div>
-                                        <div align="right">
-                                            <input class="updateButton" type="button" onclick="updateForm()" value="수정" />
-                                            <button class="updateButton" type="button"
-                                                th:onclick="|location.href='@{/qna/selectone.do(no=${board.no})}'|">돌아가기</button>
-                                        </div>
-                                    </form>
+                            <h1 class="mainConName">컨텐츠</h1>
+                            <hr class="mainConBar" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                          
+                            <!-- 여기에 원하는 컨텐츠 삽입 -->
+                            <div class="container-fluid d-flex flex-wrap justify-content-center align-items-center">
+                                <div th:each="one : ${list}">
+                                    <div class="cardSec">
+                                        <a class="cardA" th:href="@{/kdh/selectone.do(title=${one.title})}">
+                                            <div class="col  justify-content-center">
+                                                <div class="card" style="width: 330px; height:530px; box-shadow: 0.1px 0.1px 4px #444444; margin-left: 20px;
+                                                    margin-bottom: 15px; z-index: 999;">
+                                                    <img th:src="@{/kdh/image(no=${one.imgno})}" style="    height: 530px;
+                                                    width: 330px;
+                                                    border-radius: 8px;
+                                                    margin-top: 8px;" alt="videoimg">
+                                                    <div class="card-body d-flex justify-content-center" style="padding: 16px 0 5px 16px;">
+                                                        <h5 class="card-title" th:text="${one.title}" style="width: 200px; margin-right: 70px;"></h5>
+                                                        <form th:action="@{/kdh/interest.do}" method="post" style="float: right;">
+                                                            <input type="hidden" name="title" th:value="${one.title}" >
+                                                            <div>
+                                                                <input type="submit" id="btnSubmit"
+                                                                    style="display:none;" />
+                                                                <label class="asd" for="btnSubmit"><svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                                                    height="35" fill="currentColor"
+                                                                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                                    <path
+                                                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                                                </svg></label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
+                            </div>
+                                <!-- --------------------------- -->
                             </div>
                         </div>
                     </div>
@@ -278,96 +267,38 @@
             </footer>
         </div>
     </div>
-
     <!-- 2. 부트스트렙 용 js는 반드시 body에 위치에 있어야 한다 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
         </script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
-    <!-- Include the Quill library -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    <script th:inline="javascript">
+    <script>
+        var changegenrevalue = function (select_obj) {
+            // 우선 selectbox에서 선택된 index를 찾고 
+            var selected_index = select_obj.selectedIndex;
+            // 선택된 index의 value를 찾고 
+            var selected_value = select_obj.options[selected_index].value;
+            var form = document.getElementById("form1");
+            var input = document.createElement("input");
+            input.setAttribute("type", "hidden")
+            input.setAttribute("name", "genre");
+            input.setAttribute("value", selected_value);
+            form.appendChild(input);
+            form.submit();
+        };
+        function searchaction() {
+            const searchtag = document.getElementById("searchtag");
+            var form = document.getElementById("formsearch");
+            var search = document.getElementById("search")
+            console.log(searchtag);
 
-        const toolbarOptions = [['bold', 'italic', 'underline', 'strike'], // toggled buttons
-        ['blockquote', 'code-block'],
-        [{
-            'header': 1
-        }, {
-            'header': 2
-        }], // custom button values
-        [{
-            'list': 'ordered'
-        }, {
-            'list': 'bullet'
-        }],
-        [{
-            'size': ['small', false, 'large', 'huge']
-        }], // custom dropdown
-        [{
-            'header': [1, 2, 3, 4, 5, 6, false]
-        }],
-        [{
-            'color': ['white']
-        }, {
-            'background': []
-        }], // dropdown with defaults from theme
-        [{
-            'font': []
-        }], [{
-            'align': []
-        }],
-        ['clean'] // remove formatting button
-        ];
-        var quill = new Quill('#editor', {
-            modules: {
-                toolbar: toolbarOptions
-            },
-            theme: 'snow'
-        });
-
-        function updateForm() {
-            var title = $("#title").val()
-            var content = quill.root.innerHTML; //quill에디터를 HTML로 바꿔서 가져옴
-            var content1 = quill.getText();
-            console.log(content1.length);
-            if (title.length <= 0) {
-                alert('제목을 입력하세요.');
-                title.focus();
-                return false; // 함수 종료, 전송하지 않음
-            }
-            if (content1.length <= 10) {
-                alert('내용을 10자이상 입력하세요.');
-                content.focus();
+            if (search.value.length <= 0) {
+                alert('검색어를 입력하세요');
+                search.focus();
                 return false;
             }
-            console.log("통과");
-
-            var input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "content";
-            input.value = content;
-
-            document.getElementById("updateForm").appendChild(input);
-            $("#updateForm").submit();
+            form.submit();
         }
-
-        $(document).ready(function () {
-            const sidebarToggle = $('#sidebarToggle');
-            if (sidebarToggle) {
-
-                sidebarToggle.click(function () {
-                    console.log('숨기기');
-                    event.preventDefault();
-                    document.body.classList.toggle('sb-sidenav-toggled');
-                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-                });
-
-            }
-        });
     </script>
-</body>
-
 </body>
 
 </html>

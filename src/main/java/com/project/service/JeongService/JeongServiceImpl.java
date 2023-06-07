@@ -55,6 +55,8 @@ public class JeongServiceImpl implements JeongService {
             long token = member.getToken().longValue() - ((fee.getPrice().longValue()/100) - (obj.getPrice().longValue()/100));
             member.setMembershipchk(obj.getFee().getGrade());
             member.setToken(BigInteger.valueOf(token));
+            httpSession.setAttribute("token", member.getToken());
+
             log.info("obj ->{}", obj.toString());
             payRepository.save(obj);
             memRepository.save(member);
@@ -102,6 +104,7 @@ public class JeongServiceImpl implements JeongService {
             long token = member.getToken().longValue() + Long.parseLong(obj.getChargetoken().getToken());
 
             member.setToken(BigInteger.valueOf(token));
+            httpSession.setAttribute("token", member.getToken());
 
             payRepository.save(obj);
             memRepository.save(member);

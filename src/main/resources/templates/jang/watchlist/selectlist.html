@@ -57,6 +57,27 @@
                 <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z" />
             </svg>
         </button>
+        <form id="formsearch" th:action="@{/kdh/search.do}" method="get" style="margin-left: auto;">
+            <div id="asd">
+                <div class="d-none d-md-inline-block form-inline ms-auto">
+                    <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
+                        <option id="op" value="title">제목</option>
+                        <option id="op" value="keyword">키워드</option>
+                        <option id="op" value="castactor">배우</option>
+                        <option id="op" value="pd">감독</option>
+                    </select>
+                </div>
+                <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text"
+                            placeholder="검색어 입력 ..." aria-label="검색어 입력 ..." aria-describedby="btnSearch">
+                        <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </nav>
     <!-- 전체화면 영역-->
     <div id="layoutTotal">
@@ -191,8 +212,6 @@
                         <div class="col">
                             <form th:action="@{/watchlist/selectlist.do}" method="post" id="form">
                                     <button class="btn btn-outline-danger" th:onclick="formAction1(1)">일괄삭제</button>
-                                    <a th:href="@{/watchlist/insert.do}"><button class="btn btn-outline-primary"
-                                            type="button">시청목록 추가</button></a>
                                     <a th:href="@{/review/selectlist.do}"><button class="btn btn-outline-success"
                                             type="button">내가 쓴 리뷰 모아보기</button></a>
                                     <table class="table">

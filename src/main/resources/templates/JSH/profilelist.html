@@ -97,7 +97,7 @@
 				<div class="row justify-content-center" th:if="${chk eq '1' and grade == 2}">
 					<div class="col-3" th:each="obj, iterStat : ${list}" style="margin-top: 25px;">
 						<a th:if="${iterStat.index lt 2}">
-							<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
+							<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal" style="background-color: #ffffff00; border: 0;"
 								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 									alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />

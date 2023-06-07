@@ -141,6 +141,23 @@ public class PayController {
         String id = user.getUsername();
         Profile profile = jService.findProfileById(profileno.longValue());
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
+        Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
+
+
+        if (paychk == null) { // 멤버쉽 결제 내역이 없을때
+            
+           
+        } else { // 멤버쉽 결제내역이 있을때
+            Date nowDate = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(paychk.getRegdate());// 등록된 날짜
+            cal.add(Calendar.DATE, 30); // 등록된 날짜 + 30일(cal)
+            if(nowDate.compareTo(cal.getTime())==-1){
+                //토큰결제 접근 못하도록 홈으로 
+                return "redirect:/kdh/home.do";
+            }                  
+
+        }
 
         model.addAttribute("id", id);
         model.addAttribute("token", member.getToken());

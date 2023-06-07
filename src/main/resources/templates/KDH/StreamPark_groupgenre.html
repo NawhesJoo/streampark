@@ -212,7 +212,13 @@
                         <div class="col">
                             <form id="form1" action="groupgenre.do" method="get">
                                 <input type="hidden" name ="group" th:value="${param.group}"/>
-                                        <select   id="comboboxvalue" onchange="changegenrevalue(this);">
+                                        <select   id="comboboxvalue" onchange="changegenrevalue(this);" style="margin-left: 136px;
+                                        margin-bottom: 5px;
+                                        background-color: #efc900;
+                                        font-weight: 500;
+                                        font-size: 18px;
+                                        text-align: center;border-radius: 5px;
+                                        width: 80px;">
                                             <option  th:text="${genre}"></option>
                                             <option name="genre" value="" >전체</option>
                                             <option name="genre" value="액션">액션</option>
