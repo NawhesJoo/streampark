@@ -67,10 +67,10 @@ public class PayController {
         member.setMembershipchk(BigInteger.valueOf(grade));
         int ret = jService.updateMembership(member);
         if (ret == 1) {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
 
         } else {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
         }
     }
 
