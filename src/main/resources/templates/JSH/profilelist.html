@@ -82,7 +82,7 @@
 							</button>
 						</a>
 					</div>
-					<div class="col-3"  id="add-button">
+					<div class="col-3" id="add-button">
 						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus"
 								viewBox="0 0 16 16">
@@ -105,7 +105,7 @@
 						</a>
 					</div>
 					<div class="col-3" id="add-button">
-						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus"
 								viewBox="0 0 16 16">
 								<path
@@ -119,7 +119,7 @@
 				<div class="row justify-content-center" th:if="${chk eq '1' and grade == 3}">
 					<div class="col-3" th:each="obj : ${list}" style="margin-top: 25px;">
 						<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
-								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
+							th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 							<!-- th:onclick="floatimage([[${obj.profileno}]])"> -->
 							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 								alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
@@ -163,9 +163,8 @@
 		<footer>
 			<div class="row">
 				<div class="col">
-					<a class="logout" th:href="@{/logout.do}">Logout</a>
-					<form th:action="@{/logout.do}" method="post">
-						<input type="submit" value="Logout">
+					<form th:action="@{/logout.do}" method="post" class="logout" id="logoutForm">
+						<a href="#" onclick="document.getElementById('logoutForm').submit()" class="logout">Logout</a>
 					</form>
 				</div>
 				<div class="col text-end">
@@ -212,6 +211,8 @@
 											name="profilepw"><br />
 									</div>
 								</form>
+								<button type="button" data-bs-toggle="modal" data-bs-dismiss="modal" id="clearpwbutton"
+									data-bs-target="#clearPwModal" class="btn btn-sm btn-warning" th:onclick="clearnickname()">암호 초기화</button>
 							</div>
 						</div>
 					</div>
@@ -280,10 +281,53 @@
 		</div>
 	</div>
 
+	<!-- 암호 초기화 모달 -->
+	<div class="modal fade" id="clearPwModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content container">
+				<div class="modal-body mb-2">
+					<div class="modalBtn text-end">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div style="display: inline-block;">
+						<p style="display: inline-block; color: #EFC900;">암호 초기화</p>
+					</div>
+					<hr style="width: 20px;" />
+					<div class="container" style="margin-left: 231px;">
+						<div class="row justify-content-center" style="width: 300px;">
+								<form th:action="@{/profile/clearpw.do}" method="post" id="clearpwform">
+									<div class="mb-3">
+										<label class="form-label">프로필 닉네임</label>
+										<input type="text" class="form-control" name="clearpw_nickname" id="clearpw_nickname"
+											th:value="${nickname1}" readonly required><br />
+									</div>
+									<div class="mb-3">
+										<label class="form-label">이메일</label>
+										<input type="text" class="form-control" id="clearpw_email"
+											name="clearpw_email"><br />
+									</div>
+									<div class="mb-3">
+										<label class="form-label">이름</label>
+										<input type="text" class="form-control" id="clearpw_name"
+											name="clearpw_name"><br />
+									</div>
+								</form>
+						</div>
+					</div>
+				</div>
+				<div class="mx-2 mb-2 text-end">
+					<button type="button" th:onclick="clearPw()" class="btn btn-sm btn-warning">초기화</button>
+					<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script th:inline="javascript">
+
+		var tmp="";
 
 		async function profilenoFunction(profileno) {
 			console.log(profileno);
@@ -292,11 +336,19 @@
 
 		}
 
-		async function profileselect(nickname,profileno) {
+		function clearnickname(){
+			console.log(tmp);
+			document.getElementById('clearpw_nickname').value = tmp;
+		}
+
+
+
+		async function profileselect(nickname, profileno) {
 			console.log(nickname);
 			floatimage(profileno);
 			const nickname1 = document.getElementById('nickname1');
 			nickname1.value = nickname;
+			tmp = nickname;
 
 			const url = /*[[@{/api/profile/login.do}]]*/"";
 			const headers = { "Content-Type": "application/json" };
@@ -307,10 +359,12 @@
 			if (data.result === 0) {
 				document.getElementById('profilepw').style.display = "none";
 				document.getElementById('profilepw1').style.display = "none";
+				document.getElementById('clearpwbutton').style.display = "none";
 			}
 			else if (data.result === 1) {
 				document.getElementById('profilepw').style.display = "inline-block";
 				document.getElementById('profilepw1').style.display = "inline-block";
+				document.getElementById('clearpwbutton').style.display = "inline-block";
 			}
 		}
 
@@ -338,6 +392,37 @@
 			}
 			else if (data.result === 0) {
 				alert("암호가 일치하지 않습니다.");
+			}
+			else {
+				alert(data.message);
+			}
+		}
+
+		async function clearPw() {
+			const clearpw_nickname = document.getElementById('clearpw_nickname').value;
+			const clearpw_email = document.getElementById('clearpw_email').value;
+			const clearpw_name = document.getElementById('clearpw_name').value;
+			// http://127.0.0.1:9090/streampark/api/profile/profilepw.do?nickname=nickname&profilepw=1
+
+			let url = /*[[@{/api/profile/clearpw.do}]]*/"";
+
+			url += "?clearpw_nickname=" + clearpw_nickname +  "&clearpw_email=" + clearpw_email + "&clearpw_name=" + clearpw_name
+			console.log(url);
+
+			const headers = { "Content-Type": "application/json" };
+			const { data } = await axios.get(url, { headers: headers });
+			
+			console.log(clearpw_nickname);
+
+			if (data.result === 1) {
+				alert("암호가 1234로 초기화되었습니다.");
+				document.getElementById('clearpwform').submit();
+			}
+			else if (data.result === 2) {
+				alert("정보를 모두 입력해주세요.");
+			}
+			else if (data.result === 0) {
+				alert("정보가 일치하지 않습니다.");
 			}
 			else {
 				alert(data.message);

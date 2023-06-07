@@ -170,6 +170,22 @@ public class ProfileController {
         }
     }
 
+    // 암호 초기화
+    @PostMapping(value ="/clearpw.do")
+    public String clearpwPOST(@RequestParam("clearpw_nickname") String nickname){
+        log.info("nickname => {}", nickname);
+        Profile profile = pRepository.findByNickname(nickname);
+        log.info("before clearpw => {}", profile.getProfilepw());
+        profile.setProfilepw(null);
+        pRepository.save(profile);
+        log.info("mid clearpw => {}", profile.getProfilepw());
+        profile.setProfilepw(bcpe.encode("1234"));
+        pRepository.save(profile);      
+        log.info("after clearpw => {}", profile.getProfilepw());
+
+    return "redirect:/profile/profilelist.do";
+    }
+
     // 프로필 생성
     @GetMapping(value = "/create.do")
     public String createGET(Model model) {
@@ -199,7 +215,7 @@ public class ProfileController {
 
     // 프로필 로그인
     @GetMapping(value = "/login.do")
-    public String loginGET(@RequestParam(name = "nickname1", required = false) String nickname,
+    public String loginGET(@RequestParam(name = "nickname1") String nickname,
             Model model, HttpSession session, @AuthenticationPrincipal User user) {
         model.addAttribute("nickname", nickname);
         String id = user.getUsername();
@@ -222,7 +238,7 @@ public class ProfileController {
             @AuthenticationPrincipal User user) {
                 String id = user.getUsername();
                 String role = mRepository.findById(id).get().getRole();
-        Profile profile = pRepository.findByNickname(nickname);
+                Profile profile = pRepository.findByNickname(nickname);
         try {
             session.setAttribute("role", role);
             session.setAttribute("id", user.getUsername());
@@ -249,4 +265,6 @@ public class ProfileController {
             return "redirect:/profile/login.do"; // 로그인되지 않은 경우 로그인 폼으로 리다이렉트
         }
     }
+
+
 }
