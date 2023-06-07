@@ -47,13 +47,13 @@ public class PayController {
 
     @GetMapping(value = "/havelist.do")
     public String haveGET(Model model){
-        List<Paymentlist> paymentList = paymentlistRepository.findAll();
-        List<PaymentVideolist> list1 = jService.paymenstlistToPaymentVideolist(paymentList);
-        List<PaymentVideolist> list = jService.getVideoTitle(list1);        
-
-
-        model.addAttribute("list1", paymentList);
-        model.addAttribute("list", list);
+        List<Paymentlist> paymentList = paymentlistRepository.findByProfile_profileno((BigInteger)httpSession.getAttribute("profileno"));
+        if(paymentList !=null){
+            List<PaymentVideolist> list1 = jService.paymenstlistToPaymentVideolist(paymentList);
+            List<PaymentVideolist> list = jService.getVideoTitle(list1);        
+            model.addAttribute("list1", paymentList);
+            model.addAttribute("list", list);
+        }
         return "/jeong/StreamPark_havelist";
     }
 
@@ -110,10 +110,10 @@ public class PayController {
         }
 
         if (ret == 1) {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
 
         } else {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
         }
 
     }

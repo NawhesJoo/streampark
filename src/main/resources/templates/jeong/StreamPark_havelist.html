@@ -192,7 +192,7 @@
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <h1 class="mainConName">BEST</h1>
+                            <h1 class="mainConName">소장목록</h1>
                             <hr class="mainConBar" style="width: 245px;" />
                             <div style="margin-left: 75px;">
                                 <button class="custom-btn btn-8" th:if="${#strings.equals(param.menu,2)}"
@@ -210,13 +210,13 @@
                         </div>
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
-                            <div th:each="obj : ${list1}" style="color: white;">
+                            <!-- <div th:each="obj : ${list1}" style="color: white;">
                                 <label th:text="${obj.paymentlistno}"></label>
                                 <label th:text="${obj.profile.profileno}"></label>
                                 <label th:text="${obj.videolist.videocode}"></label>
                                 <label th:text="${obj.regdate}"></label>
 
-                            </div>
+                            </div> -->
                             <div class="container-fluid d-flex flex-wrap justify-content-center align-items-center">
                                 <div th:each="one : ${list}">
                                     <div class="cardSec">
@@ -230,7 +230,7 @@
                                                     margin-top: 8px;" alt="videoimg">
                                                     <div class="card-body d-flex justify-content-center"
                                                         style="padding: 16px 0 5px 16px;">
-                                                        <h5 class="card-title" th:text="${one.title}"
+                                                        <h5 class="card-title" th:text="|${one.title} ${#dates.format(one.regdate, 'yyyy.MM.dd')} 소장|"
                                                             style="width: 200px;"></h5>
                                                         <form th:action="@{/kdh/interest.do}" method="post"
                                                             style="float: right;" id="interestform">
