@@ -1,6 +1,8 @@
 package com.project.controller.jang;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.entity.Review;
+import com.project.entity.Watchlist;
 import com.project.mapper.ReviewMapper;
 import com.project.repository.MemberRepository;
 import com.project.repository.ReviewRepository;
+import com.project.repository.WatchlistRepository;
+import com.project.service.KDH.DHService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +40,8 @@ public class ReviewController {
     final ReviewRepository rRepository;
     final MemberRepository memberRepository;
     final ReviewMapper rMapper;
+    final DHService dhService;
+    final WatchlistRepository watchlistRepository;
 
     @PostMapping(value = "/deletebatchmanage.do")
     public String deleteBatchManagePOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
@@ -182,7 +189,7 @@ public class ReviewController {
     }
 
     @PostMapping(value = "/delete.do")
-    public String deletePOST(@RequestParam(name = "review_no") BigInteger review_no, @RequestParam(name = "profileno") BigInteger profileno) {
+    public String deletePOST(@RequestParam(name = "review_no") BigInteger review_no, @RequestParam(name = "profileno") BigInteger profileno,@RequestParam(name = "reviewtitle") String title) {
         try {
             BigInteger profileno2 = (BigInteger) httpSession.getAttribute("profileno");
             log.info(format, review_no);
@@ -192,7 +199,8 @@ public class ReviewController {
                 log.info(format, profileno);
                 rRepository.deleteById(review_no);
             }
-            return "redirect:/review/selectlist.do";
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
+            return "redirect:/kdh/selectone.do?title="+title;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -273,11 +281,40 @@ public class ReviewController {
 
     // 127.0.0.1:9090/streampark/review/insert.do
     @PostMapping(value = "/insert.do")
-    public String insertPOST(@ModelAttribute Review review, Model model) {
+    public String insertPOST(@ModelAttribute Review review, Model model,@RequestParam(name = "reviewtitle") String title) {
         try {
-            log.info(format, review.toString());
-            rRepository.save(review);
-            return "redirect:/review/selectlist.do";
+            BigInteger profileno = (BigInteger)httpSession.getAttribute("profileno");
+            BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
+            Watchlist watchlist = new Watchlist();
+            Watchlist watchlist2 = watchlistRepository.findByProfile_profilenoAndVideolist_videocode(profileno, videocode);
+            BigInteger viewno;
+            if(watchlist2 != null){
+                viewno = watchlist2.getViewno();
+                int ret  = rRepository.countByWatchlist_viewno(viewno);
+                watchlist.setViewno(viewno);
+                review.setProfileno(profileno);
+                review.setWatchlist(watchlist);
+                if(viewno != null){
+                    if(ret == 0){
+                        rRepository.save(review);
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
+                return "redirect:/kdh/selectone.do?title="+title;
+                }
+                else{
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
+                    return "redirect:/kdh/selectone.do?title="+title;
+                }
+            }
+            else{
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
+                return "redirect:/kdh/selectone.do?title="+title;
+            }
+            
+            }
+            else{
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
+                return "redirect:/kdh/selectone.do?title="+title;
+            }
         }
         catch (Exception e) {
             e.printStackTrace();

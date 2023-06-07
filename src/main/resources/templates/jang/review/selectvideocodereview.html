@@ -244,15 +244,15 @@
                                 <input type="hidden" name="review_no" id="hidden_review_no" />
                                 <input type="hidden" name="profileno" id="hidden_profileno" />
                             </form>
+                            <form th:action="@{/review/selectlistorderbylikes.do}" method="get" id="form4" style="display:none">
+                                <input type="hidden" name="likes" id="hidden_likes" />
+                            </form>
 
                             <form th:action="@{/review/update.do}" method="get" id="form3" style="display:none">
                                 <input type="hidden" name="review_no" id="hidden_review_no" />
                                 <input type="hidden" name="profileno" id="hidden_profileno" />
                             </form>
 
-                            <form th:action="@{/review/selectlistorderbylikes.do}" method="get" id="form4" style="display:none">
-                                <input type="hidden" name="likes" id="hidden_likes" />
-                            </form>
                         </div>
                     </div>
                 </div>

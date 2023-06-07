@@ -12,6 +12,7 @@ import com.project.entity.Watchlist;
 
 @Repository
 public interface WatchlistRepository extends JpaRepository<Watchlist, BigInteger> {
+    
 
     public Watchlist findByProfile_profilenoAndVideolist_videocode(BigInteger profileno, BigInteger videocode);
 

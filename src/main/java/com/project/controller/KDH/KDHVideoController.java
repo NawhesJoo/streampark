@@ -155,6 +155,7 @@ public class KDHVideoController {
         BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
         VideolistView video = dhService.selectvideoOne(videocode);
         List<Videolist> list1 = videolistRepository.findByTitleOrderByEpisodeAsc(title);
+        BigInteger profileno = (BigInteger)httpSession.getAttribute("profileno");
         Long imgno = dhService.selectvideoimgOne(videocode.longValue());
         List<Review> reviewlist = reviewRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
         model.addAttribute("reviewlist", reviewlist);
@@ -162,6 +163,7 @@ public class KDHVideoController {
         model.addAttribute("video", video);
         model.addAttribute("list1", list1);
         model.addAttribute("role", role);
+        model.addAttribute("profileno", profileno);
         return "/KDH/StreamPark_selectone";
     }
 
