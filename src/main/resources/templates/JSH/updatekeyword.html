@@ -63,7 +63,7 @@
             </svg>
         </button>
         <!--내비게이션 써치 -->
-        <form id="formsearch" th:action="@{/kdh/search.do}" method="get">
+        <form id="formsearch" th:action="@{/kdh/search.do}" method="get" style="margin-left: auto;">
             <div id="asd">
                 <div class="d-none d-md-inline-block form-inline ms-auto">
                     <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
@@ -236,7 +236,7 @@
                                 <input type="text" class="form-control" name="keyword" id="keyword"
                                     th:value="${keyword}" readonly /><br />
                                 <label for="exampleFormControlInput1" class="form-label">선호 키워드</label>
-                                <select class="form-select SearchSLC" name="keyword1" id="keyword">
+                                <select class="form-select SearchSLC" name="keyword1" id="keyword" style="width: 150px;">
                                     <option value="애니">애니</option>
                                     <option value="액션">액션</option>
                                     <option value="범죄">범죄</option>
