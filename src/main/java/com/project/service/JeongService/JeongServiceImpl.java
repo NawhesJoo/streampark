@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.project.dto.Jeong.BestList;
+import com.project.dto.Jeong.PaymentVideolist;
 import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
@@ -195,5 +196,45 @@ public class JeongServiceImpl implements JeongService {
             return null;
         }
     }
+
+    
+    @Override
+    public List<PaymentVideolist> paymenstlistToPaymentVideolist(List<com.project.entity.Paymentlist> paymentlists) {
+        try {
+            List<PaymentVideolist> list = new ArrayList<>();
+            for(com.project.entity.Paymentlist obj : paymentlists){
+                PaymentVideolist one = new PaymentVideolist();
+                one.setPaymentlistno(obj.getPaymentlistno());
+                one.setProfileno(obj.getProfile().getProfileno());
+                one.setRegdate(obj.getRegdate());              
+                one.setVideocode(obj.getVideolist().getVideocode());              
+                list.add(one);
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<PaymentVideolist> getVideoTitle(List<PaymentVideolist> paymentVideolists) {
+        try {
+            List<PaymentVideolist> list = new ArrayList<>();
+            for(PaymentVideolist obj: paymentVideolists){      
+                Videolist vlist = vidRepository.findById(obj.getVideocode()).orElse(null);  
+                // log.info("getvideotitle {}",vlist);        
+                obj.setTitle(vlist.getTitle());
+                obj.setImgno(vlist.getVideoimgs().get(0).getNo());
+                list.add(obj);
+            }            
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    
 
 }

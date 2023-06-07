@@ -203,13 +203,17 @@
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <h1 class="mainConName">BEST</h1>
+                            <h1 class="mainConName">
+                                BEST 
+                                <label th:if="${param.menu == null or #strings.equals(param.menu,1)}">시청 많은 순</label>
+                                <label th:if="${#strings.equals(param.menu,2)}">리뷰 많은 순</label>
+                            </h1>
                             <hr class="mainConBar" style="width: 245px;" />
                             <div style="margin-left: 75px;">
-                                <button class="custom-btn btn-8" th:if="${#strings.equals(param.menu,2)}"
+                                <button class="custom-btn btn-8" th:if="${#strings.equals(param.menu,2) or param.menu == null}"
                                     th:onclick="|location.href='@{/best/best.do(menu=1)}'|"><span class="custom1">시청 많은
                                         순</span></button>
-                                <button class="custom-btn btn-8" th:if="${#strings.equals(param.menu,1)}"
+                                <button class="custom-btn btn-8" th:if="${#strings.equals(param.menu,1) or param.menu == null}"
                                     th:onclick="|location.href='@{/best/best.do(menu=2)}'|"><span class="custom1">리뷰 많은
                                         순</span></button>
                             </div>
@@ -227,7 +231,7 @@
                                 <input type="radio" name="testimonial" id="t-3">
                                 <input type="radio" name="testimonial" id="t-4">
                                 <input type="radio" name="testimonial" id="t-5">
-                                <div class="testimonials">
+                                <div class="testimonials">                                    
                                     <label class="item" th:if="${#strings.equals(param.menu,1) or param.menu == null}"  th:each="obj ,i :${watchlists}" th:for="|t-${i.index+1}|">
                                         <div class="cardSec">
                                             <a class="cardA" th:href="@{/kdh/selectone.do(title=${obj.title})}">

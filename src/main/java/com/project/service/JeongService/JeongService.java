@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Jeong.BestList;
+import com.project.dto.Jeong.PaymentVideolist;
 import com.project.entity.Fee;
 import com.project.entity.Member;
 import com.project.entity.Paychk;
@@ -17,6 +18,12 @@ import com.project.repository.Projections.MemberProjection;
 @Service
 @Component
 public interface JeongService {
+    
+    //비디오 코드로 비디오 타이틀, 이미지번호 받아오기
+    List<PaymentVideolist> getVideoTitle(List<PaymentVideolist> paymentVideolists);
+
+    //paymentlist -> paymentvideolist 변경 기본키,프로필번호,비디오코드,구매날짜 
+    List<PaymentVideolist> paymenstlistToPaymentVideolist(List<com.project.entity.Paymentlist> paymentlists);
 
     //리뷰 많은 순으로 상위5개
     List<BestList> selectTop5Review();

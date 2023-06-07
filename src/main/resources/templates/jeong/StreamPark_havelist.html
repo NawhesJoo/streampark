@@ -32,6 +32,7 @@
 
     <!-- <script src='main.js'></script> -->
 
+   
     <script>
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
@@ -195,7 +196,7 @@
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
-                            <h1 class="mainConName">BEST</h1>
+                            <h1 class="mainConName">소장목록</h1>
                             <hr class="mainConBar" style="width: 245px;" />
                             <div style="margin-left: 75px;">
                                 <button class="custom-btn btn-8" th:if="${#strings.equals(param.menu,2)}"
@@ -213,12 +214,46 @@
                         </div>
                         <div class="col">
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
-                            <div th:each="obj : ${list}" style="color: white;">
+                            <!-- <div th:each="obj : ${list1}" style="color: white;">
                                 <label th:text="${obj.paymentlistno}"></label>
                                 <label th:text="${obj.profile.profileno}"></label>
                                 <label th:text="${obj.videolist.videocode}"></label>
                                 <label th:text="${obj.regdate}"></label>
 
+                            </div> -->
+                            <div class="container-fluid d-flex flex-wrap justify-content-center align-items-center">
+                                <div th:each="one : ${list}">
+                                    <div class="cardSec">
+                                        <a class="cardA" th:href="@{/kdh/selectone.do(title=${one.title})}">
+                                            <div class="col  justify-content-center">
+                                                <div class="card" style="width: 330px; height:530px; box-shadow: 0.1px 0.1px 4px #444444; margin-left: 20px;
+                                                    margin-bottom: 15px; z-index: 999;">
+                                                    <img th:src="@{/kdh/image(no=${one.imgno})}" style="    height: 530px;
+                                                    width: 330px;
+                                                    border-radius: 8px;
+                                                    margin-top: 8px;" alt="videoimg">
+                                                    <div class="card-body d-flex justify-content-center"
+                                                        style="padding: 16px 0 5px 16px;">
+                                                        <h5 class="card-title" th:text="|${one.title} ${#dates.format(one.regdate, 'yyyy.MM.dd')} 소장|"
+                                                            style="width: 200px; text-decoration: none;"></h5>
+                                                        <form th:action="@{/kdh/interest.do}" method="post"
+                                                            style="float: right;" id="interestform">
+                                                            <input type="hidden" th:name="interesttitle"
+                                                                th:value="${one.title}">
+                                                            <div class="btn1">
+                                                                <button class="interestbutton" th:onclick="formaction()"
+                                                                    style="    border: 0px;
+                                                                    background: none;
+                                                                    color: #efc900;">                                                                    
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
