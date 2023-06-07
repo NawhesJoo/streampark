@@ -16,8 +16,11 @@
         <div class="">
             <input class="form-control" type="password" name="newpwc" id="newpwc" placeholder="변경 비밀번호 확인">
         </div>
-        <input class="joinF form-check-input" type="checkbox" id="showPwd" />
-        <label style="color: rgba(255, 255, 255, 0.774);" class=" form-check-label" for="showPwd">변경할 비밀번호 보이기</label>
+        <div>
+            <input class="joinF form-check-input" type="checkbox" id="showPwd" />
+            <label style="color: rgba(255, 255, 255, 0.774);" class="showPwdLb form-check-label" for="showPwd">변경할 비밀번호 보이기</label>
+        </div>
+        <br>
         <div class="submit">
             <input type="button" class="btn btn-sm btn-warning" th:onclick="updatepw()" value="비밀번호 변경">
         </div>

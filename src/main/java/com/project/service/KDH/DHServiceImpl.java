@@ -36,7 +36,7 @@ public class DHServiceImpl implements DHService {
         // Member member=memberRepository.findById(admin.getId()).orElse(null);
         // if(member.getRole().equals("a")){
         int episodecount = obj.getEpisode().intValue();
-        if (role.equals("a")) {
+        if (role.equals("A")) {
             for (int i = 0; i < episodecount; i++) {
                 obj.setEpisode(Long.valueOf(i + 1));
                 kdhMapper.videolistInsert(obj);

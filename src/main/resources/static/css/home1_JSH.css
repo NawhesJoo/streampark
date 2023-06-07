@@ -53,6 +53,24 @@ p {
 .sb-nav-fixed .sb-topnav {
     z-index: 1039;
 }
+.form-control{
+    color: #ffffff;
+    background-color: black;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.form-control:focus{
+    box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+    color: #EFC900;
+    background-color: black;
+    border-color: #EFC900;
+}
+.form-control:hover{
+  
+    color: #EFC900;
+    background-color: black;
+    border-color: #EFC900;
+}
+
 
 /* 사이드 바 버튼 */
 .bi_sidebarBtn{
@@ -87,11 +105,12 @@ p {
 	box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
 }
 
+
 /* 사이드 */
 .profileCle{
     width: 50px;
     height: 50px;
-    background-color: #6c757d;
+    background-color: rgba(0, 0, 0, 0);
     border-radius: 50%;
     border-style: none;
 }
@@ -342,21 +361,4 @@ p {
 
 .form-label{
     color: #EFC900;
-}
-.form-control{
-    color: #ffffff;
-    background-color: black;
-    border-color: rgba(255, 255, 255, 0.3);
-}
-.form-control:focus{
-    box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
-    color: #EFC900;
-    background-color: black;
-    border-color: #EFC900;
-}
-.form-control:hover{
-  
-    color: #EFC900;
-    background-color: black;
-    border-color: #EFC900;
 }
