@@ -249,12 +249,13 @@
                                     <div th:each="obj : ${reviewlist}" style="margin-left: 300px; margin-top: 50px;">
                                         <div style="display: flex;">
                                             <p class="text-white" th:text="${obj.watchlist.profile.nickname}"></p>
-                                            <p  style="margin-left: 225px; margin-right: 6px;" class="text-white" th:text="|좋아요:${obj.likes}|"></p>
+                                            <p  style="margin-left: 195px; margin-right: 6px;" class="text-white" th:text="|좋아요:${obj.likes}|"></p>
                                             <p  style="margin-right: 6px;" class="text-white" th:text="|신고:${obj.reportcnt}|"></p>
-                                            <p class="text-white" th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}"></p>
+                                            <p style="margin-right: 15px;" class="text-white" th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}"></p>
 
                                             <div>
-                                                <span class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
+                                                <span  style="color: red;
+                                                font-size: 25px; margin-right: 8px;" class="heart" id="hello" th:onclick="likespluscnt([[${obj.review_no}]], [[${obj.profileno}]])">❤</span>
                                                 <button type="button" class="btn btn-outline-warning" th:onclick="reportpluscnt([[${obj.review_no}]], [[${obj.profileno}]])" style="margin-bottom: 15px;">신고</button>
                                                 <span th:if="${obj.profileno} == ${profileno}">
                                                     <button type="button" class="btn btn-outline-danger" th:onclick="deleteAction([[${obj.review_no}]], [[${obj.profileno}]],[[${param.title}]])" style="margin-bottom: 15px;">삭제</button>
