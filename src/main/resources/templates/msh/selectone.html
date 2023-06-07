@@ -260,12 +260,12 @@
                                 <div id="qnaContent">
                                     <p th:utext="${board.content}"></p><br />
                                 </div>
-                                <div align="right" th:if="${reply == null}">
+                                <div align="right" th:if="${role == 'C' && reply == null}">
                                     <input type="button" value="수정" id="updateBtn" onclick="updateModal()" />
                                     <input type="button" value="삭제" id="deleteBtn" onclick="deleteModal()" />
                                 </div>
 
-                                <div align="right" th:if="${reply != null}">
+                                <div align="right" th:if="${role == 'C' && reply != null}">
                                     <input type="button" value="수정" id="updateBtn" onclick="noModal()" />
                                     <input type="button" value="삭제" id="deleteBtn" onclick="noModal()" />
                                 </div>

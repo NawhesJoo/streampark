@@ -273,7 +273,7 @@
                                 <!-- 페이지네이션 부분 -->
                                 <div class="pagination" id="pagination">
                                     <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
-                                        <a th:if="${page != nowPage}" th:href="@{/qna/selectlist.do(page=${page-1})}"
+                                        <a th:if="${page != nowPage}" th:href="@{/qna/selectlist.do(page=${page})}"
                                             th:text="${page}"></a>
                                         <p th:if="${page == nowPage}" th:text="${page}"></p>
                                     </th:block>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -45,20 +46,28 @@ public class QnAController {
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
-    public String pageListGET(Model model, @PageableDefault(page = 0, size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable) {
-        
+    public String pageListGET(Model model,
+            @PageableDefault(page = 0, size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(name="page", defaultValue = "0") int page) {
+        if(page == 0){
+            return "redirect:selectlist.do?page=1";
+        }
         Page<com.project.entity.Board> list = qnaService.pageList(pageable);
+            
+        log.info("{}", list);
+
         int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4,1); 
-        int endPage = Math.min(nowPage +5, list.getTotalPages());
-       
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+
         model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        
+
         return "/msh/selectlist";
     }
+
 
     // 문의글 등록GET
     @GetMapping(value = "/insert.do")
