@@ -207,9 +207,11 @@ public class ProfileController {
         Profile profile1 = pRepository.findByNickname(nickname);
         if (profile1.getProfilepw() == null) {
             // httpSession.setAttribute("role", role);
+            session.setAttribute("token", mRepository.findById(user.getUsername()).get().getToken());
             session.setAttribute("role", role);
             session.setAttribute("profileno", profile1.getProfileno());
             session.setAttribute("nickname", nickname);
+            log.info("{}", mRepository.findById(user.getUsername()).get().getToken());
             return "redirect:/profile/mypage.do";
         } else {
             return "/JSH/logintest";
@@ -224,10 +226,12 @@ public class ProfileController {
                 String role = mRepository.findById(id).get().getRole();
         Profile profile = pRepository.findByNickname(nickname);
         try {
+            session.setAttribute("token", mRepository.findById(user.getUsername()).get().getToken());
             session.setAttribute("role", role);
             session.setAttribute("id", user.getUsername());
             session.setAttribute("profileno", profile.getProfileno());
             session.setAttribute("nickname", nickname);
+            log.info("{}", mRepository.findById(user.getUsername()).get().getToken());
             // 로그인 후 갈 홈화면
             return "redirect:/kdh/home.do";
         } catch (Exception e) {
