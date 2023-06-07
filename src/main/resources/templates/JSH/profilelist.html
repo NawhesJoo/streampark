@@ -99,8 +99,8 @@
 						<a th:if="${iterStat.index lt 2}">
 							<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
 								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
-								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
-									alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
+								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image" 
+								alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 							</button>
 						</a>
 					</div>
@@ -120,7 +120,6 @@
 					<div class="col-3" th:each="obj : ${list}" style="margin-top: 25px;">
 						<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
 							th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
-							<!-- th:onclick="floatimage([[${obj.profileno}]])"> -->
 							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 								alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 						</button>
