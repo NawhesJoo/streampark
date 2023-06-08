@@ -201,7 +201,7 @@ public class QnAController {
             String role = memberRepository.findById(id).get().getRole(); // 계정의 id를 조회해서 role가져옴
             model.addAttribute("boardNo", no);
             model.addAttribute("role", role);
-            return "/msh/insertReply";
+            return "/msh/insertreply";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
