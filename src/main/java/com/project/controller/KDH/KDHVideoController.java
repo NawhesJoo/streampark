@@ -121,11 +121,12 @@ public class KDHVideoController {
 
     @PostMapping(value = "/videoupdate.do")
     public String videoupdatePOST(Model model, @ModelAttribute Videolistdto videolist,
-            @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle) {
+            @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle , @AuthenticationPrincipal User user) {
         try {
-            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
+            String id = user.getUsername();
+            String role = memberRepository.findById(id).get().getRole();
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
-            member.setRole("a");
+            member.setRole(role);
             dhService.videolistUpdate(member, videolist, nowtitle);
             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
 
