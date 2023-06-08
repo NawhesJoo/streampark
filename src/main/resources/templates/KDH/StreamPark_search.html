@@ -98,17 +98,12 @@
                             <strong class="d-inline-block text-truncate align-middle profileName"
                                 style="max-width: 139px;" th:text="${session.nickname}"></strong>
                             <div class="row justify-content-between mt-3">
-                                <div style="margin-left: 5px;" th:if="${session.grade == null}" class="col d-flex">
+                                <div class="col d-flex">
                                     <p>coin:</p>
                                     <a style="text-decoration-line: none;" th:href="@{/pay/token.do}">
                                         <p style="color: white; " th:text="${session.token}"></p>
                                     </a>
                                     <p>c</p>
-                                </div>
-                                <div style="margin-left: 5px;" th:if="${session.grade != null}" class="col d-flex">
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 1}">Basic</p></a>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 2}">Standard</p></a>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 3}">Premium</p></a>
                                 </div>
                                 <div class="col">
                                     <form th:action="@{/logout.do}" method="post"
@@ -227,29 +222,33 @@
                                             <div class="col  justify-content-center">
                                                 <div class="card" style="width: 330px; height:530px; box-shadow: 0.1px 0.1px 4px #444444; margin-left: 20px;
                                                     margin-bottom: 15px; z-index: 999;">
-                                                    <img th:src="@{/kdh/image(no=${one.imageNo})}" style="    height: 530px;
-                                                    width: 330px;
-                                                    border-radius: 8px;
-                                                    margin-top: 8px;" alt="videoimg">
+                                                    <img th:src="@{/kdh/image(no=${one.imageNo})}" style="  height: 470px;
+                                                        width: 330px;
+                                                        border-radius: 8px;
+                                                        margin-top: 8px;" alt="videoimg">
                                                     <div class="card-body d-flex justify-content-center"
                                                         style="padding: 16px 0 5px 16px;">
-                                                        <h5 class="card-title" th:text="${one.title}"
-                                                            style="width: 200px; margin-right: 70px;"></h5>
+                                                        <h5 class="card-title text-truncate" th:text="${one.title}"
+                                                            style=" width: 200px; max-width: 200px; margin-right: 70px;">
+                                                        </h5>
                                                         <form th:action="@{/kdh/interest.do}" method="post"
-                                                            style="float: right;">
-                                                            <input type="hidden" name="title" th:value="${one.title}">
-                                                            <div>
-                                                                <input type="submit" id="btnSubmit"
-                                                                    style="display:none;" />
-                                                                <label class="asd" for="btnSubmit"><svg
-                                                                        xmlns="http://www.w3.org/2000/svg" width="30"
+                                                            style="float: right;" id="interestform">
+                                                            <input type="hidden" th:name="interesttitle"
+                                                                th:value="${one.title}">
+                                                            <div class="btn1">
+                                                                <button class="interestbutton" th:onclick="formaction()"
+                                                                    style="    border: 0px;
+                                                                        background: none;
+                                                                        color: #efc900;">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30"
                                                                         height="35" fill="currentColor"
                                                                         class="bi bi-plus-circle" viewBox="0 0 16 16">
                                                                         <path
                                                                             d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                                                                         <path
                                                                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                                                    </svg></label>
+                                                                    </svg>
+                                                                </button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -259,6 +258,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <!-- --------------------------- -->
                         </div>
                     </div>
