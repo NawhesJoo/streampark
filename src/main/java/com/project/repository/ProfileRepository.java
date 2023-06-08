@@ -22,4 +22,7 @@ public interface ProfileRepository extends JpaRepository<Profile, BigInteger>{
 
     // 프로필 갯수 확인
     long countByMember_id(String id);
+
+    // 프로필 삭제
+    Profile deleteByNickname(String nickname);
 }

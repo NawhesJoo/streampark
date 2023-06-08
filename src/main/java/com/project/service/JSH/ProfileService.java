@@ -56,5 +56,7 @@ public interface ProfileService {
 
     // Paychk 유효 불러오기
     public List<Paychk> selectPaychk (String id);
-
+    
+    // 프로필 삭제
+    public Profile deleteByNickname(String nickname);
 }

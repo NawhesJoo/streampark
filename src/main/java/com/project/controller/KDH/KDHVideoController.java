@@ -380,6 +380,7 @@ public class KDHVideoController {
         try {
             int ret = dhService.addactorlist(actorname);
             if (ret == 1) {
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결    
                 return "redirect:/kdh/manageactor.do?title=" + title;
             } else {
                 return "redirect:/kdh/error.do";

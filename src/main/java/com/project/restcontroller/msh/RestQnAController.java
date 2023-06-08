@@ -90,18 +90,6 @@ public class RestQnAController {
         return retMap;
     }
 
-    // // 답변 작성
-    // @PostMapping("/reply.do")
-    // public String replyInsert(@RequestBody QnaReply qnaReply) {
-    // try {
-    // log.info("Body = {}", qnaReply);
-    // int ret = replyService.insertReply(qnaReply);
-    // log.info("ret = {}", ret);
-    // return null;
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // return "redirect:selectlist.do";
-    // }
-    // }
+   
 
-} // RestQnAController닫음
+} 
