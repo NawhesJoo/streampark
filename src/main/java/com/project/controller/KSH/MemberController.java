@@ -121,8 +121,7 @@ public class MemberController {
 
     // 비밀번호 찾기
     @GetMapping(value = "/findpw.do")
-    public String findPwGET(Model model) {
-        model.addAttribute("pwChangeOk", 0);
+    public String findPwGET() {      
         return "KSH/findPw";
     }
 
