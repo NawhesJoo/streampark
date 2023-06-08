@@ -36,7 +36,7 @@ public interface KDHMapper {
 	public int videolistInsert(@Param("obj") Videolistdto obj);
 
 	@Select({
-			"  SELECT  * FROM Videolist WHERE episode= 1   "
+			"  SELECT  * FROM Videolist WHERE episode= 1 order by videocode asc  "
 	})
 	public List<Videolistdto> selectvideolist();
 

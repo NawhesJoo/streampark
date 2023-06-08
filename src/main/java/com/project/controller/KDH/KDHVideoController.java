@@ -127,6 +127,8 @@ public class KDHVideoController {
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
             member.setRole("a");
             dhService.videolistUpdate(member, videolist, nowtitle);
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
+
             return "redirect:/kdh/selectone.do?title=" + title;
             // return "redirect:/kdh/home.do";
         } catch (Exception e) {
@@ -438,9 +440,13 @@ public class KDHVideoController {
             if (img != null) {
                 dhService.deletevideoimg(img);
                 dhService.insertvideoimg(file, vl);
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
+
                 return "redirect:/kdh/videoupdate.do?title=" + title;
             } else {
                 dhService.insertvideoimg(file, vl);
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
+
                 return "redirect:/kdh/videoupdate.do?title=" + title;
             }
         } catch (Exception e) {
