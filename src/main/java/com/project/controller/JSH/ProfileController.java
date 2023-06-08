@@ -244,19 +244,19 @@ public class ProfileController {
                 String role = mRepository.findById(id).get().getRole();
                 Profile profile = pRepository.findByNickname(nickname);
                 Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
-                Paychk paychk1 = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "T");
-                log.info("{}",paychk1.toString());
+                // log.info("{}",paychk.getFee().getGrade());
                 // log.info("{}",paychk1.toString());
                 
         try {
-
-            session.setAttribute("grade", paychk.getFee().getGrade());
+            if(paychk != null){
+                session.setAttribute("grade", paychk.getFee().getGrade());
+            }
             session.setAttribute("token", mRepository.findById(user.getUsername()).get().getToken());
             session.setAttribute("role", role);
             session.setAttribute("id", user.getUsername());
             session.setAttribute("profileno", profile.getProfileno());
             session.setAttribute("nickname", nickname);
-            log.info("{}", mRepository.findById(user.getUsername()).get().getToken());
+            // log.info("{}", mRepository.findById(user.getUsername()).get().getToken());
             // 로그인 후 갈 홈화면
             return "redirect:/kdh/home.do";
         } catch (Exception e) {
