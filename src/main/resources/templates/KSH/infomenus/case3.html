@@ -132,14 +132,14 @@
         const { data } = await axios.get(url, { headers });
 
         if (data.status === 0) {
-            document.getElementById("pw").classList.remove("is-valid");
-            document.getElementById("pw").classList.add("is-invalid");
+            // document.getElementById("pw").classList.remove("is-valid");
+            // document.getElementById("pw").classList.add("is-invalid");
             pwcheck = 0;
             return false;
         }
         if (data.status === 1) {
-            document.getElementById("pw").classList.remove("is-invalid");
-            document.getElementById("pw").classList.add("is-valid");
+            // document.getElementById("pw").classList.remove("is-invalid");
+            // document.getElementById("pw").classList.add("is-valid");
             pwcheck = 1;
             return false;
         }

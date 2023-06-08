@@ -37,6 +37,7 @@ import com.project.repository.PaychkRepository;
 import com.project.repository.ProfileRepository;
 import com.project.repository.ProfileimgRepository;
 import com.project.service.JSH.ProfileService;
+import com.project.service.JeongService.JeongService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,7 @@ public class ProfileController {
     final ProfileService pService;
     final ProfileMapper pMapper;
     final MemberRepository mRepository;
-    
+    final JeongService jService;
     final ProfileRepository pRepository;
     final PaychkRepository pcRepository;
     final ProfileimgRepository piRepository;
@@ -221,6 +222,7 @@ public class ProfileController {
         String id = user.getUsername();
         String role = mRepository.findById(id).get().getRole();
         Profile profile1 = pRepository.findByNickname(nickname);
+        
         if (profile1.getProfilepw() == null) {
             // httpSession.setAttribute("role", role);
             session.setAttribute("token", mRepository.findById(user.getUsername()).get().getToken());
@@ -241,7 +243,14 @@ public class ProfileController {
                 String id = user.getUsername();
                 String role = mRepository.findById(id).get().getRole();
                 Profile profile = pRepository.findByNickname(nickname);
+                Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
+                Paychk paychk1 = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "T");
+                log.info("{}",paychk1.toString());
+                // log.info("{}",paychk1.toString());
+                
         try {
+
+            session.setAttribute("grade", paychk.getFee().getGrade());
             session.setAttribute("token", mRepository.findById(user.getUsername()).get().getToken());
             session.setAttribute("role", role);
             session.setAttribute("id", user.getUsername());
