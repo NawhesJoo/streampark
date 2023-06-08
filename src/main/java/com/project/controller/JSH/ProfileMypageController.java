@@ -184,12 +184,16 @@ public class ProfileMypageController {
 
 
     @PostMapping(value = "/delete.do")
-    public String deleteNoPwPOST(HttpSession session){
+    public String deleteNoPwPOST(HttpSession session, @RequestParam("profilepw") String profilepw){
         try{
             String nickname = (String) session.getAttribute("nickname");
             Profile profile = pRepository.findByNickname(nickname);
-            pMapper.deleteProfileNoPw(nickname);
-            pRepository.save(profile);
+            log.info("delete nickname => {}", nickname);
+            log.info("delete profilepw => {}", profilepw);
+
+            // pRepository.deleteByNickname(nickname);
+            pRepository.deleteById(profile.getProfileno());
+            // pRepository.save(profile);
             session.removeAttribute("nickname");
             return "redirect:/profile/profilelist.do";
         } catch (Exception e){

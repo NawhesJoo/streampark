@@ -273,7 +273,7 @@
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
 
-            if (data.result === 1 || data.result === 2) {
+            if (data.result === 1 || data.result === 4) {
                 alert("프로필이 삭제되었습니다.");
                 document.getElementById('deleteForm').submit();
             }

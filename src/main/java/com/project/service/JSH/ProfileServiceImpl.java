@@ -96,4 +96,9 @@ public class ProfileServiceImpl implements ProfileService{
         return pMapper.selectPaychk(id);
     }
 
+    @Override
+    public Profile deleteByNickname(String nickname) {
+        return pRepository.deleteByNickname(nickname);
+    }
+
 }
