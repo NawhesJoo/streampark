@@ -256,7 +256,7 @@
                                 <h2>답변 작성</h2>
                                 <div>
                                     <form id="insertForm" th:action="@{/qna/reply/insert}" method="post">
-                                        <input type="hidden" name="profileno" value="93" /><br /> 
+                                        <input type="hidden" name="profileno" th:value="${session.profileno}" /><br /> 
                                         <input type="hidden" name="no" th:value="${boardNo}"/><br />
                                         <div id="editor">
                                             <textarea class="form-control" style="height:100%; width:100%;"
