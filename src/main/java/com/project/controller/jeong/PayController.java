@@ -92,6 +92,7 @@ public class PayController {
             member.setId(id);
             fee.setGrade(BigInteger.valueOf(grade));
             obj.setFee(fee);
+            httpSession.setAttribute("grade", obj.getFee().getGrade());
             obj.setMember(member);
             obj.setType("M");
             obj.setChargetoken(chargetoken);
