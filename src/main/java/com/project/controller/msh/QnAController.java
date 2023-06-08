@@ -194,6 +194,9 @@ public class QnAController {
     @GetMapping(value = "/reply/insert")
     public String insertReplyGET(Model model, @RequestParam(name = "no") Long no, @AuthenticationPrincipal User user) {
         try {
+            BigInteger profileno1 = (BigInteger) httpSession.getAttribute("profileno");
+            Long profileno = profileno1.longValue();
+            log.info("profileno = {}", profileno);
             String id = user.getUsername();
             String role = memberRepository.findById(id).get().getRole(); // 계정의 id를 조회해서 role가져옴
             model.addAttribute("boardNo", no);
