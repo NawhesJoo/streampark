@@ -188,6 +188,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer">
             </script>
         <script th:inline="javascript">
+            // 패스워드 확인
             (function () {
                 var pwd = document.getElementById('pwd');
                 var changePw = document.getElementById('changePw');
@@ -232,6 +233,7 @@
                     el['e' + event + callback] = null;
                 }
             }
+
             var cnt = 0;
             var emailChk = 0;
             async function confirmEmail() { //함수는 자동으로 호출되지 않음
@@ -265,17 +267,17 @@
                 spinner.classList.remove("hidden");
                 email1.classList.add("is-valid");
                 email1.classList.remove("is-invalid");
-                document.getElementById("idlist").innerText = '';
-                document.getElementById("alertMsg").innerText = '이메일로 확인 코드가 전송되었습니다';
                 const url = /*[[@{/api/test1/emailconfirm.do}]]*/"";
                 const headers = { "Content-Type": "application/json" };
                 const body = { email: email1.value };
                 const { data } = await axios.post(url, body, { headers: headers });
+                document.getElementById("idlist").innerText = '';
+                document.getElementById("alertMsg").innerText = '이메일로 확인 코드가 전송되었습니다';
                 $('#alertModal').modal('show');
                 console.log('반환되는 결과', data);
+                spinner.classList.add("hidden");
                 timer(300);
                 email1.readOnly = true;
-                spinner.classList.add("hidden");
             }
             var codeChk = 0;
             async function chkemail() { //함수는 자동으로 호출되지 않음
