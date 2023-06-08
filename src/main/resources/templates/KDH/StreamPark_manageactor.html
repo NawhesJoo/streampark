@@ -206,6 +206,7 @@
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">
                             <!-- 사이드바 프로필 영역 -->
+
                             <a th:href="@{/profile/profilelist.do}"><button class="align-middle profileCle">
                                     <img th:src="@{/mypage/profileimage(profileno=${session.profileno})}"
                                         style="height: 50px; width: 50px; margin-left: -6px; border-radius: 50%;">
@@ -299,24 +300,11 @@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <!-- <div style="display: flex; margin-bottom: 20px; margin-left: 10px; ">
-                            <div style="background-color: white; width: 60px; margin-right: 30px; border-radius: 2px;">
-                                <a href="https://github.com/pknugroup3/streampark" title="편지 n 아이콘"> <img width="60px" height="60px" th:src="@{/images/github.png}"></a>
-                            </div>
-                            <div style="background-color: white; width: 60px; border-radius: 2px;">
-                                <a href="https://www.notion.so/de7fd15714c14358b262577f04041b03" title="편지 n 아이콘"> <img width="60px" height="60px" th:src="@{/images/notion.png}"></a>
-                            </div>
-                        </div> -->
-                    <div style="display: flex; justify-content: space-between;">
-                        <p>로그인 중인 아이디 :</p>
-                        <div class="small text-truncate" style="  max-width: 60px; margin-right: 10px;"
-                            th:text="${session.id}"></div>
-                    </div>
                 </div>
             </nav>
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
-        <div id="layoutContent">
+        <div id="layoutContent" style="background-color: black;">
             <main>
                 <div class="container-fluid px-4">
                     <div class="row">
