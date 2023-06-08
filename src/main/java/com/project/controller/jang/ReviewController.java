@@ -211,6 +211,25 @@ public class ReviewController {
             return "redirect:/home.do";
         }
     }
+
+    @PostMapping(value = "/delete1.do")
+    public String delete1POST(@RequestParam(name = "review_no") BigInteger review_no, @RequestParam(name = "profileno") BigInteger profileno) {
+        try {
+            BigInteger profileno2 = (BigInteger) httpSession.getAttribute("profileno");
+            log.info(format, review_no);
+            log.info(format, profileno);
+            log.info(format, profileno2);
+            if(profileno.longValue() == profileno2.longValue()) {
+                log.info(format, profileno);
+                rRepository.deleteById(review_no);
+            }
+            return "redirect:/review/selectlist.do";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
     
     // @PostMapping(value = "/selectlist.do")
     // public String selectlistPOST(@RequestParam(name="menu", required = false, defaultValue = "1") int menu) {
@@ -319,6 +338,20 @@ public class ReviewController {
                 title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                 return "redirect:/kdh/selectone.do?title="+title;
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    // 127.0.0.1:9090/streampark/review/insert.do
+    @PostMapping(value = "/insert1.do")
+    public String insert1POST(@ModelAttribute Review review, Model model) {
+        try {
+            // log.info(format, review.toString());
+            rRepository.save(review);
+            return "redirect:/review/selectlist.do";
         }
         catch (Exception e) {
             e.printStackTrace();
