@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
     public Member updateMember(Member obj1) {
         return mRepository.save(obj1);
     }
-
+    
     @Override
     public void deleteById(String id) {
         mRepository.deleteById(id);

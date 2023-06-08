@@ -9,5 +9,7 @@ import com.project.entity.Videoimg;
 
 @Repository
 public interface VideoimgRepository extends JpaRepository<Videoimg, BigInteger>{
+
+    
     
 }

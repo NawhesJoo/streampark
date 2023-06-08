@@ -49,7 +49,7 @@
     <!-- 내비게이션 영역 -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark ">
         <!-- 내비게이션 브랜드 -->
-        <a class="navbar-brand ps-3" href="#">
+        <a class="navbar-brand ps-3" th:href="@{/kdh/home.do}">
             <strong>STREAM PARK</strong>
         </a>
         <!-- 내비게이션 사이드바 버튼 -->
@@ -90,14 +90,17 @@
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">
                             <!-- 사이드바 프로필 영역 -->
-                            <button class="align-middle profileCle"><a href="#">
-                                    <img th:src="@{/mypage/profileimage(profileno=${session.profileno})}"
-                                        style="height: 50px; width: 50px; margin-left: -6px; border-radius: 50%;">
-                                </a></button>
+                            <a th:href="@{/profile/profilelist.do}"><button class="align-middle profileCle">
+                                <img th:src="@{/mypage/profileimage(profileno=${session.profileno})}"
+                                    style="height: 50px; width: 50px; margin-left: -6px; border-radius: 50%;">
+                            </button></a>
                             <strong class="d-inline-block text-truncate align-middle profileName"
                                 style="max-width: 139px;" th:text="${session.nickname}"></strong>
-                            <a class="logoutBtn " th:href="@{/profile/profilelist.do}">로그아웃</a>
-                            <!-- <a class="logoutBtn" th:href="@{/profile/profilelist.do}"><button></button></a> -->
+    
+                            <form th:action="@{/logout.do}" method="post" style="padding-top: 0px; text-align: right;">
+                                <input type="submit" value="로그아웃"
+                                    style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
+                            </form>
                             <hr style="border-width: 2px;">
                             <!-- 사이드바 메뉴 영역 -->
                             <!-- 경로 지정에 주의할 것 -->
@@ -110,11 +113,11 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">시청 목록</a>
-                                    <a class="nav-link" href="#">소장 목록</a>
-                                    <a class="nav-link" href="#">관심 목록</a>
-                                    <a class="nav-link" href="#">리뷰 내역</a>
-                                    <a class="nav-link" href="#">프로필</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
+                                    <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
+                                    <a class="nav-link" th:href="@{/best/best.do}">best</a>
                                 </nav>
                             </div>
                             <!-- MYPAGE -->
@@ -126,11 +129,11 @@
                             <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">시청 목록</a>
-                                    <a class="nav-link" href="#">소장 목록</a>
-                                    <a class="nav-link" href="#">관심 목록</a>
-                                    <a class="nav-link" href="#">리뷰 내역</a>
-                                    <a class="nav-link" href="#">고객 문의</a>
+                                    <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/interestlist.do}">관심 목록</a>
+                                    <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
+                                    <a class="nav-link" th:href="@{/qna/selectlist.do}">고객 문의</a>
                                     <a class="nav-link" th:href="@{/mypage/mypage.do}">프로필</a>
                                 </nav>
                             </div>
@@ -143,30 +146,36 @@
                             <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">멤버쉽 가입,변경</a>
-                                    <a class="nav-link" href="#">토큰 결제</a>
-                                    <a class="nav-link" href="#">결제 내역</a>
+                                    <a class="nav-link" th:href="@{/pay/membership.do}">멤버쉽 가입,변경</a>
+                                    <a class="nav-link" th:href="@{/pay/token.do}">토큰 결제</a>
+                                    <a class="nav-link" th:href="@{/pay/paychk.do}">결제 내역</a>
                                 </nav>
                             </div>
                             <!-- MANAGE -->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages3">
-                                MANAGE
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
-                                data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">문의 목록</a>
-                                    <a class="nav-link" href="#">리뷰 관리</a>
-                                    <a class="nav-link" href="#">작품 등록</a>
-                                </nav>
+                            
+                            <div th:if="${session.role == 'A'}">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePages3" aria-expanded="false"
+                                    aria-controls="collapsePages3">
+                                    MANAGE
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+    
+                                <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">로그인 중 : 여기에 로그인 된 아이디</div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <p>로그인 중인 아이디 :</p>
+                        <div class="small" th:text="${session.id}"></div>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -226,7 +235,7 @@
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
-                            원하는 fotter 적용 css로 색 지정
+                            <!-- 원하는 fotter 적용 css로 색 지정 -->
                         </div>
                     </div>
                 </div>

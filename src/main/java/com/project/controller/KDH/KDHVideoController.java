@@ -37,12 +37,14 @@ import com.project.entity.Member;
 import com.project.entity.Paychk;
 import com.project.entity.Paymentlist;
 import com.project.entity.Profile;
+import com.project.entity.Review;
 import com.project.entity.Videoimg;
 import com.project.entity.Videolist;
 import com.project.entity.Watchlist;
 import com.project.repository.InterestRepository;
 import com.project.repository.MemberRepository;
 import com.project.repository.PaymentlistRepository;
+import com.project.repository.ReviewRepository;
 import com.project.repository.VideoimgRepository;
 import com.project.repository.WatchlistRepository;
 import com.project.repository.videolistRepository;
@@ -61,12 +63,13 @@ public class KDHVideoController {
     final VideoimgRepository videoimgRepository;
     final MemberRepository memberRepository;
     final InterestRepository interestRepository;
-    final PaymentlistRepository paymentlistRepository;
     final WatchlistRepository watchlistRepository;
+    final ReviewRepository reviewRepository;
     final HttpSession httpSession;
     final DHService dhService;
     final ResourceLoader resourceLoader; // resource폴더의 파일을 읽기위한 객체 생성
     final JeongService jService;
+    final PaymentlistRepository paymentlistRepository;
     @Value("${default.image}")
     String defaultImage;
 
@@ -155,11 +158,15 @@ public class KDHVideoController {
         BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
         VideolistView video = dhService.selectvideoOne(videocode);
         List<Videolist> list1 = videolistRepository.findByTitleOrderByEpisodeAsc(title);
+        BigInteger profileno = (BigInteger)httpSession.getAttribute("profileno");
         Long imgno = dhService.selectvideoimgOne(videocode.longValue());
+        List<Review> reviewlist = reviewRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
+        model.addAttribute("reviewlist", reviewlist);
         model.addAttribute("imgno", imgno);
         model.addAttribute("video", video);
         model.addAttribute("list1", list1);
         model.addAttribute("role", role);
+        model.addAttribute("profileno", profileno);
         return "/KDH/StreamPark_selectone";
     }
 
@@ -214,17 +221,17 @@ public class KDHVideoController {
                             //보유토큰 > 가격                            
                             long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
                             member.setToken(BigInteger.valueOf(token));
+                            httpSession.setAttribute("token", member.getToken());
                             memberRepository.save(member);
-                            paymentlistRepository.save(paymentlist);
                             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                             watchlistRepository.save(watchlist);
+                            paymentlistRepository.save(paymentlist);
                             return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
 
                         }else{
-                            //토큰 없음
                             System.out.println("토큰 없음");
                             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
-                            return "redirect:/kdh/prohibit.do?title=" + title + "&episode=" + episode;                        
+                            return "redirect:/kdh/notoken.do?title=" + title + "&episode=" + episode;                        
                         }
 
                        
@@ -239,16 +246,17 @@ public class KDHVideoController {
                         //보유토큰 > 가격
                         long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
                         member.setToken(BigInteger.valueOf(token));
-                        paymentlistRepository.save(paymentlist);
+                        httpSession.setAttribute("token", member.getToken());
                         memberRepository.save(member);
                         title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                         watchlistRepository.save(watchlist);
+                        paymentlistRepository.save(paymentlist);
                         return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
 
                     }else{
                         System.out.println("나이체크 멤버십 없음");
                         title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
-                        return "redirect:/kdh/prohibit.do?title=" + title + "&episode=" + episode;
+                        return "redirect:/kdh/notoken.do?title=" + title + "&episode=" + episode;
                         //나이체크 멤버십 없음
                     }
                     
@@ -265,7 +273,10 @@ public class KDHVideoController {
             return "redirect:/kdh/error.do";
         }
     }
-
+    @GetMapping(value = "/notoken.do")
+    public String notokenGET() {
+        return "/KDH/notoken";
+    }
     @GetMapping(value = "/prohibit.do")
     public String prohibitGET() {
         return "/KDH/prohibit";
@@ -286,6 +297,8 @@ public class KDHVideoController {
     @GetMapping(value = "/manageactor.do")
     public String manageactorGET(@RequestParam(name = "title") String title, Model model) {
         try {
+            System.out.println(title);
+            System.out.println(dhService.selectnofromtitle(title));
             BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
             List<Actorsdto> actorlist = dhService.selectactors();
             List<Long> actorsinvideolist = dhService.selectactorsinvideo(videocode);
@@ -497,7 +510,7 @@ public class KDHVideoController {
                 obj.setImgno(imgno);
             }
             model.addAttribute("list", list);
-            return "/KDH/StreamPark_groupgenre";
+            return "/KDH/StreamPark_recent";
 
         } catch (Exception e) {
             e.printStackTrace();

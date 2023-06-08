@@ -2,6 +2,7 @@ package com.project.entity;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,7 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -55,6 +56,7 @@ public class Watchlist {
 
     // 리뷰
     @ToString.Exclude
-    @OneToOne(mappedBy = "watchlist", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private Review review;
+    @OneToMany(mappedBy = "watchlist", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Review> review;
+    
 }

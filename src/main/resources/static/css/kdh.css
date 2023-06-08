@@ -57,7 +57,6 @@ p {
 
 /* 사이드 바 버튼 */
 .bi_sidebarBtn{
-
     color: #EFC900;
 }
 /* 검색창과 버튼 */
@@ -69,6 +68,7 @@ p {
     /* margin-right: 10px; */
     /* box-shadow: 0 0 0 2rem rgba(239, 201, 0, 0.3); */
 }
+
 .SearchSLC{
     color: #EFC900;
     border-color: #efc900;
@@ -191,9 +191,10 @@ p {
 
 /* 사이드 */
 .profileCle{
+
     width: 50px;
     height: 50px;
-    background-color: #6c757d;
+    background-color: rgba(0, 0, 0, 0);
     border-radius: 50%;
     border-style: none;
 }
@@ -264,10 +265,12 @@ p {
 }
 
 .sb-sidenav-toggled #sidebarToggle {
-  
+
     transform: rotate(-180deg); /* 메뉴가 들거갈때 아이콘이 180도 돌아감 */
 }
-
+.sb-sidenav-toggled #sidebarToggle:hover{
+    color: #EFC900;
+}
 #layoutTotal #layoutContent {
     position: relative;
     display: flex;
@@ -309,13 +312,6 @@ p {
     margin: 0;
 }
 
-.sb-topnav.navbar-dark #sidebarToggle {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.sb-topnav.navbar-light #sidebarToggle {
-    color: #212529;
-}
 
 /* 왼쪽메뉴 */
 .sb-sidenav {
@@ -382,6 +378,7 @@ p {
 
 /* 왼쪽 메뉴 디자인 */
 .profileName{
+    margin-left: 10px;
     font-size: 1.3rem;
 }
 .sb-sidenav-dark {
@@ -438,15 +435,17 @@ p {
     color: #efc900;
     cursor: pointer;
     font-family: cursive;
-    text-decoration: underline;
-    text-decoration-color:  #191c29;
+    /* text-decoration: underline; */
+    /* text-decoration-color:  #191c29; */
   }
-  
+  a.cardA{
+    text-decoration: none;
+  }
   .card:hover {
       color: black;
       /* transition: color 1s; */
-      text-decoration: underline;
-    text-decoration-color:  black;
+      /* text-decoration: underline; */
+    /* text-decoration-color:  black; */
     } 
     .card:hover:before,
     .card:hover:after {
@@ -515,4 +514,10 @@ p {
   }
   .bi:hover{
     fill: white;
+}
+
+/* iframe */
+.iframe{
+    border-color: #EFC900;
+    border-width: 2px;
 }

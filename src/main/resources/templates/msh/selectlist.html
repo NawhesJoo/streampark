@@ -90,6 +90,23 @@
             background-color: #f4a320;
             color: black;
         }
+
+        #pagination a {
+            color: #EFC900;
+            text-decoration-line: none;
+            padding: 0px 5px;
+        }
+
+        #pagination p {
+            color: #000000;
+            padding: 0px 5px;
+            background-color: #EFC900;
+            font-weight: 500;
+        }
+
+        div .pagination {
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -97,13 +114,13 @@
     <!-- 내비게이션 영역 -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark ">
         <!-- 내비게이션 브랜드 -->
-        <a class="navbar-brand ps-3" href="#">
+        <a class="navbar-brand ps-3" th:href="@{/kdh/home.do}">
             <strong>STREAM PARK</strong>
         </a>
         <!-- 내비게이션 사이드바 버튼 -->
         <button style="width: 50px; height: 50px;" class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0"
             id="sidebarToggle" type="button">
-            <svg th:xmlns="@{http://www.w3.org/2000/svg}" width="30" height="30" fill="currentColor"
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                 class="bi_sidebarBtn bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
                 <path
                     d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z" />
@@ -111,21 +128,25 @@
             </svg>
         </button>
         <!--내비게이션 써치 -->
-        <div class="d-none d-md-inline-block form-inline ms-auto ">
-            <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
-                <option id="op" value="title">제목</option>
-                <option id="op" value="keyword">키워드</option>
-                <option id="op" value="castactor">배우</option>
-                <option id="op" value="pd">감독</option>
-            </select>
-        </div>
-        <form class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input id="searchInput" class="UdtFC searchInput form-control" type="text" placeholder="검색어 입력 ..."
-                    aria-label="검색어 입력 ..." aria-describedby="btnSearch">
-                <button class="btn" id="btnSearch" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
+        <form id="formsearch" th:action="@{/kdh/search.do}" method="get">
+            <div id="asd">
+                <div class="d-none d-md-inline-block form-inline ms-auto">
+                    <select class="SearchSLC mx-3" name="searchtag" id="searchtag">
+                        <option id="op" value="title">제목</option>
+                        <option id="op" value="keyword">키워드</option>
+                        <option id="op" value="castactor">배우</option>
+                        <option id="op" value="pd">감독</option>
+                    </select>
+                </div>
+                <div class="d-none d-md-inline-block form-inline  me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input id="searchInput" name="search" class="UdtFC searchInput form-control" type="text"
+                            placeholder="검색어 입력 ..." aria-label="검색어 입력 ..." aria-describedby="btnSearch">
+                        <button class="btn btn-warning" id="btnSearch" type="submit" onclick="searchaction()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
     </nav>
@@ -138,11 +159,29 @@
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">
                             <!-- 사이드바 프로필 영역 -->
-                            <button class="align-middle profileCle"><a href="#"></a></button>
+                            <a th:href="@{/profile/profilelist.do}"><button class="align-middle profileCle">
+                                    <img th:src="@{/mypage/profileimage(profileno=${session.profileno})}"
+                                        style="height: 50px; width: 50px; margin-left: -6px; border-radius: 50%;">
+                                </button></a>
                             <strong class="d-inline-block text-truncate align-middle profileName"
-                                style="max-width: 139px;">프로필 닉네임1sad2</strong>
-                            <a class="logoutBtn " href="#">로그아웃</a>
-                            <hr style="border-width: 2px;">
+                                style="max-width: 139px;" th:text="${session.nickname}"></strong>
+                            <div class="row justify-content-between mt-3">
+                                <div class="col d-flex">
+                                    <p>coin:</p>
+                                    <a style="text-decoration-line: none;" th:href="@{/pay/token.do}">
+                                        <p style="color: white; " th:text="${session.token}"></p>
+                                    </a>
+                                    <p>c</p>
+                                </div>
+                                <div class="col">
+                                    <form th:action="@{/logout.do}" method="post"
+                                        style="padding-top: 0px; text-align: right;">
+                                        <input type="submit" value="로그아웃"
+                                            style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
+                                    </form>
+                                </div>
+                            </div>
+                            <hr style=" margin-top: 0; border-width: 2px;">
                             <!-- 사이드바 메뉴 영역 -->
                             <!-- 경로 지정에 주의할 것 -->
                             <!-- CONTENT -->
@@ -154,11 +193,11 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">시청 목록</a>
-                                    <a class="nav-link" href="#">소장 목록</a>
-                                    <a class="nav-link" href="#">관심 목록</a>
-                                    <a class="nav-link" href="#">리뷰 내역</a>
-                                    <a class="nav-link" href="#">프로필</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=영화)}">영화</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=드라마)}">드라마</a>
+                                    <a class="nav-link" th:href="@{/kdh/group.do(group=애니)}">애니</a>
+                                    <a class="nav-link" th:href="@{/kdh/recent.do}">최신</a>
+                                    <a class="nav-link" th:href="@{/best/best.do}">best</a>
                                 </nav>
                             </div>
                             <!-- MYPAGE -->
@@ -170,12 +209,12 @@
                             <div class="collapse" id="collapsePages1" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">시청 목록</a>
-                                    <a class="nav-link" href="#">소장 목록</a>
-                                    <a class="nav-link" href="#">관심 목록</a>
-                                    <a class="nav-link" href="#">리뷰 내역</a>
-                                    <a class="nav-link" href="#">고객 문의</a>
-                                    <a class="nav-link" href="#">프로필</a>
+                                    <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
+                                    <a class="nav-link" th:href="@{/pay/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/interestlist.do}">관심 목록</a>
+                                    <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
+                                    <a class="nav-link" th:href="@{/qna/selectlist.do}">고객 문의</a>
+                                    <a class="nav-link" th:href="@{/mypage/mypage.do}">프로필</a>
                                 </nav>
                             </div>
                             <!-- PAY -->
@@ -187,30 +226,45 @@
                             <div class="collapse" id="collapsePages2" aria-labelledby="headingOne"
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">멤버쉽 가입,변경</a>
-                                    <a class="nav-link" href="#">토큰 결제</a>
-                                    <a class="nav-link" href="#">결제 내역</a>
+                                    <a class="nav-link" th:href="@{/pay/membership.do}">멤버쉽 가입,변경</a>
+                                    <a class="nav-link" th:href="@{/pay/token.do}">토큰 결제</a>
+                                    <a class="nav-link" th:href="@{/pay/paychk.do}">결제 내역</a>
                                 </nav>
                             </div>
                             <!-- MANAGE -->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages3">
-                                MANAGE
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
-                                data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">문의 목록</a>
-                                    <a class="nav-link" href="#">리뷰 관리</a>
-                                    <a class="nav-link" href="#">작품 등록</a>
-                                </nav>
+
+                            <div th:if="${session.role == 'A'}">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsePages3" aria-expanded="false"
+                                    aria-controls="collapsePages3">
+                                    MANAGE
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+
+                                <div class="collapse" id="collapsePages3" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" th:href="@{/kdh/videoinsert.do}">작품 등록</a>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">로그인 중 : 여기에 로그인 된 아이디</div>
+                    <!-- <div style="display: flex; margin-bottom: 20px; margin-left: 10px; ">
+                            <div style="background-color: white; width: 60px; margin-right: 30px; border-radius: 2px;">
+                                <a href="https://github.com/pknugroup3/streampark" title="편지 n 아이콘"> <img width="60px" height="60px" th:src="@{/images/github.png}"></a>
+                            </div>
+                            <div style="background-color: white; width: 60px; border-radius: 2px;">
+                                <a href="https://www.notion.so/de7fd15714c14358b262577f04041b03" title="편지 n 아이콘"> <img width="60px" height="60px" th:src="@{/images/notion.png}"></a>
+                            </div>
+                        </div> -->
+                    <div style="display: flex; justify-content: space-between;">
+                        <p>로그인 중인 아이디 :</p>
+                        <div class="small text-truncate" style="  max-width: 60px; margin-right: 10px;"
+                            th:text="${session.id}"></div>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -223,7 +277,8 @@
                             <!-- 컨텐츠 이름 넣기 -->
                             <div class="container">
                                 <h1 class="mainConName">1:1문의</h1>
-                                <div align="right"><button id="insertBtn" type="button" th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
+                                <div align="right"><button id="insertBtn" type="button"
+                                        th:onclick="|location.href='@{/qna/insert.do}'|">글쓰기</button></div>
                                 <form>
                                     <table class="table table-fixed">
                                         <thead>
@@ -236,17 +291,30 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="obj : ${list} "><!--  model.addAttribute("list", list)에서 보낸 "list"를 ${}로 받아옴 -->
+                                            <tr th:each="obj : ${list} ">
+                                                <!--  model.addAttribute("list", list)에서 보낸 "list"를 ${}로 받아옴 -->
                                                 <td th:text="${obj.no}"></td>
-                                                <td id="title"><a th:href="@{/qna/selectone.do(no=${obj.no})}" th:text="${obj.title}"></a></td>
+                                                <td id="title"><a th:href="@{/qna/selectone.do(no=${obj.no})}"
+                                                        th:text="${obj.title}"></a></td>
                                                 <td th:text="${obj.profile.nickname}"></td>
                                                 <td class="regdate1" th:text="${obj.regdate}"></td>
-                                                <td th:if="${obj.qnareply.size()>=1}"><div id="reply">답변완료</div></td>
+                                                <td th:if="${obj.qnareply.size()>=1}">
+                                                    <div id="reply">답변완료</div>
+                                                </td>
                                                 <td th:if="${obj.qnareply.size()<1}">답변대기</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </form>
+
+                                <!-- 페이지네이션 부분 -->
+                                <div class="pagination" id="pagination">
+                                    <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
+                                        <a th:if="${page != nowPage}" th:href="@{/qna/selectlist.do(page=${page})}"
+                                            th:text="${page}"></a>
+                                        <p th:if="${page == nowPage}" th:text="${page}"></p>
+                                    </th:block>
+                                </div>
                             </div>
                         </div>
                     </div>

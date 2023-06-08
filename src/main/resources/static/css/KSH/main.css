@@ -14,7 +14,12 @@ body{
     /* background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)) ,url("../../images/KSH/donald-duck-4985121.jpg"); */
     /* background-repeat: no-repeat; */
 }
-
+h1{
+    margin: 0%;
+}
+p{
+    margin: 0%;
+}
 /* 메인타이틀 */
 .mainTitleSec{
     margin-top: 0px;
@@ -33,9 +38,10 @@ body{
     font-weight: 600;
 }
 .mainTextSec .mainText p {
-    margin-bottom: 6px;
+    padding-bottom: 10px;
 }
 /* 메인버튼 */
+
 .mainBtnSec .loginBtn{
     width: 600px;
     height: 60px;
@@ -51,6 +57,7 @@ body{
     color: #504300;  
 }
 .mainBtnSec p{
+    margin: 0%;
     color: white;
     display: inline-block;
 }

@@ -102,7 +102,7 @@ p {
 .profileCle{
     width: 50px;
     height: 50px;
-    background-color: #6c757d;
+    background-color: rgba(0, 0, 0, 0);
     border-radius: 50%;
     border-style: none;
 }
@@ -418,8 +418,38 @@ h2 {
   }
 }
 
+.table thead tr th{
+  color: #EFC900;
+}
+
 th, td {
   text-align: center;
 }
+.form-check-input{
+  background-color: #000000;
+  border-color: #EFC900;
+}
+.form-check-input:focus{
+  border-color: #EFC900;
+box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+}
+.form-check-input:checked {
+  background-color: #EFC900;
+  border-color: #EFC900;
+}
+.form-check-label{
+  color: #EFC900;
+}
+.btn{
+  font-weight: 500;
+}
+.input-group input:focus{
 
-  
+	border-color: #EFC900;
+	box-shadow: 0 0 0 0.2rem rgba(239, 201, 0, 0.3);
+  color: #EFC900;
+  background-color: #000000;
+}
+.input-group button{
+  border-radius: 0px 16px  16px 0px; 
+}

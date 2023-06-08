@@ -47,7 +47,7 @@ a:hover{
 .subMainTitle{
     font-size: 25px;
     font-weight: 400;
-    width: 300px;
+    width: 304px;
 }
 /* 메인 입력 구간 */
 .joinInputSec{
@@ -124,7 +124,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #EFC900;
 }
 .SIGNbtn{
-    width: 300px;
+    width: 304px;
 }
 #idLb{
     color:rgba(0, 0, 0, 0.01);
@@ -160,13 +160,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: rgba(255, 255, 255, 0.479);
     background-color: rgba(239, 201, 0, 0.3);
     margin-top: 5px;
-    width: 300px;
+    width: 304px;
 }
 .loginBtn{
-    width: 300px;
+    width: 304px;
 }
 .aSec{
-  width: 300px;
+  width: 304px;
 }
 .a111{
     padding: 0;

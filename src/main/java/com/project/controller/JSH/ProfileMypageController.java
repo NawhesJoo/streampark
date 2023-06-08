@@ -102,7 +102,7 @@ public class ProfileMypageController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/profile/profilelist.do";
+        return "redirect:/mypage/updatenickname.do";
     }
     
 
@@ -126,7 +126,7 @@ public class ProfileMypageController {
             Profile profile = pRepository.findByNickname(nickname);
             profile.setProfilepw(bcpe.encode(newprofilepw));
             pRepository.save(profile);
-            return "redirect:/mypage/updatenickname.do";
+            return "redirect:/mypage/updatepw.do";
         } catch (Exception e){
             e.printStackTrace();
             return "redirect:/mypage/updatepw.do";
@@ -150,7 +150,7 @@ public class ProfileMypageController {
         profile1.setNickname(nickname);
         profile1.setProfilepw(bcpe.encode(profilepw));
         pRepository.save(profile1);
-        return "redirect:/profile/profilelist.do";
+        return "redirect:/mypage/updatepw.do";
     }
 
     // 프로필 암호 삭제
@@ -165,7 +165,7 @@ public class ProfileMypageController {
     HttpSession session){
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pRepository.findByNickname(nickname);
-        profile.setProfilepw("");
+        profile.setProfilepw(null);
         pRepository.save(profile);
         return "redirect:/mypage/updatepw.do";
     }
@@ -234,7 +234,7 @@ public class ProfileMypageController {
 
         pRepository.save(profile);
     
-        return "redirect:/mypage/updatenickname.do";
+        return "redirect:/mypage/updatekeyword.do";
     } // 완료
 
 

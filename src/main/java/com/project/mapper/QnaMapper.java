@@ -18,5 +18,4 @@ public interface QnaMapper {
 
     // 게시글삭제
     public int deleteBoard(Board board);
-
 }

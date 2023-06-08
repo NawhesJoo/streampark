@@ -39,12 +39,10 @@
             }
         });
     </script>
-    <style>
 
-        </style>
 </head>
 
-<body class="sb-nav-fixed" style="overflow:hidden;">
+<body class="sb-nav-fixed">
     <!-- 내비게이션 영역 -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark ">
         <!-- 내비게이션 브랜드 -->
@@ -203,71 +201,66 @@
             </nav>
         </div>
         <!-- 전체화면 오른쪽메인화면 영역 -->
-        <div id="layoutContent" >
+        <div id="layoutContent" style="background-image: none; background-color: black;">
             <main>
-                <div>
+                <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col">
                             <!-- 컨텐츠 이름 넣기 -->
                             <h1 class="mainConName">컨텐츠</h1>
                             <hr class="mainConBar" />
-
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col">
+                          
                             <!-- 여기에 원하는 컨텐츠 삽입 -->
-
-                            <form th:action="@{/kdh/videoinsert.do}" method="post" id="forminsert"style="margin-left:-90px">
-                                <div class="inputs">
-                                    <input class="insertinput" type="text" name="title"><br />
-                                    <label class="inputlabel">제목</label>
+                            <div class="container-fluid d-flex flex-wrap justify-content-center align-items-center">
+                                <div th:each="one : ${list}">
+                                    <div class="cardSec">
+                                        <a class="cardA" th:href="@{/kdh/selectone.do(title=${one.title})}">
+                                            <div class="col  justify-content-center">
+                                                <div class="card" style="width: 330px; height:530px; box-shadow: 0.1px 0.1px 4px #444444; margin-left: 20px;
+                                                    margin-bottom: 15px; z-index: 999;">
+                                                    <img th:src="@{/kdh/image(no=${one.imgno})}" style="    height: 530px;
+                                                    width: 330px;
+                                                    border-radius: 8px;
+                                                    margin-top: 8px;" alt="videoimg">
+                                                    <div class="card-body d-flex justify-content-center" style="padding: 16px 0 5px 16px;">
+                                                        <h5 class="card-title" th:text="${one.title}" style="width: 200px; margin-right: 70px;"></h5>
+                                                        <form th:action="@{/kdh/interest.do}" method="post" style="float: right;">
+                                                            <input type="hidden" name="title" th:value="${one.title}" >
+                                                            <div>
+                                                                <input type="submit" id="btnSubmit"
+                                                                    style="display:none;" />
+                                                                <label class="asd" for="btnSubmit"><svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                                                    height="35" fill="currentColor"
+                                                                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                                    <path
+                                                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                                                </svg></label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="inputs">
-                                    <input class="insertinput" type="text" name="keyword" ><br />
-                                    <label class="inputlabel">키워드( (ex)영화_코미디(치킨,키워드1,키워드2) )</label>
-                                </div>
-                                <div class="inputs"> 
-                                    <input class="insertinput" type="text" name="pd"><br />
-                                    <label class="inputlabel">PD</label>
-
-                                </div>
-                                <div class="inputs">
-                                    <input class="insertinput" type="text" name="chkage"><br />
-                                    <label class="inputlabel">연령제한</label>
-
-                                </div>
-                                <div class="inputs">
-                                    <input class="insertinput" type="text" name="opendate" ><br />
-                                    <label class="inputlabel">개봉일자(xxxx.xx.xx)</label>
-
-                                </div>
-                                <div class="inputs">
-                                    <input class="insertinput" type="number" name="episode"><br />
-                                    <label class="inputlabel">회차</label>
-                                </div>
-                                <div class="inputs">
-                                    <input class="insertinput" type="number" name="price" ><br />
-                                    <label class="inputlabel">가격</label>
-                                </div>
-                                <div class="inputs">
-                                    <input class="insertinput" type="text" name="linkurl"><br />
-                                    <label class="inputlabel">링크주소</label>
-                                </div>
-                                <input class="insertbutton" type="submit" value="등록">
-                            </form>
-                            <!-- --------------------------- -->
+                            </div>
+                                <!-- --------------------------- -->
+                            </div>
                         </div>
                     </div>
-                </div>
             </main>
             <footer class="  mt-auto">
                 <div class="mainFooterdiv container-fluid px-4">
                     <div class="d-flex justify-content-between align-items-center small">
                         <div style=" color: rgba(255, 255, 255, 0.5);;">
-                            <div style="display: inline;">
-                                <a class="btn" style="background-color: #efc900;" th:href="@{/kdh/home.do}">뒤로가기</a>
-                            </div>
+                            원하는 fotter 적용 css로 색 지정
                         </div>
                     </div>
                 </div>
@@ -278,6 +271,34 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
         </script>
+    <script>
+        var changegenrevalue = function (select_obj) {
+            // 우선 selectbox에서 선택된 index를 찾고 
+            var selected_index = select_obj.selectedIndex;
+            // 선택된 index의 value를 찾고 
+            var selected_value = select_obj.options[selected_index].value;
+            var form = document.getElementById("form1");
+            var input = document.createElement("input");
+            input.setAttribute("type", "hidden")
+            input.setAttribute("name", "genre");
+            input.setAttribute("value", selected_value);
+            form.appendChild(input);
+            form.submit();
+        };
+        function searchaction() {
+            const searchtag = document.getElementById("searchtag");
+            var form = document.getElementById("formsearch");
+            var search = document.getElementById("search")
+            console.log(searchtag);
+
+            if (search.value.length <= 0) {
+                alert('검색어를 입력하세요');
+                search.focus();
+                return false;
+            }
+            form.submit();
+        }
+    </script>
 </body>
 
 </html>

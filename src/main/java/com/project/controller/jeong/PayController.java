@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.dto.Jeong.PaymentVideolist;
 import com.project.entity.Chargetoken;
 import com.project.entity.Fee;
 import com.project.entity.Member;
@@ -46,10 +47,13 @@ public class PayController {
 
     @GetMapping(value = "/havelist.do")
     public String haveGET(Model model){
-        List<Paymentlist> list = paymentlistRepository.findAll();
-        model.addAttribute("list", list);
-
-
+        List<Paymentlist> paymentList = paymentlistRepository.findByProfile_profileno((BigInteger)httpSession.getAttribute("profileno"));
+        if(paymentList !=null){
+            List<PaymentVideolist> list1 = jService.paymenstlistToPaymentVideolist(paymentList);
+            List<PaymentVideolist> list = jService.getVideoTitle(list1);        
+            model.addAttribute("list1", paymentList);
+            model.addAttribute("list", list);
+        }
         return "/jeong/StreamPark_havelist";
     }
 
@@ -63,10 +67,10 @@ public class PayController {
         member.setMembershipchk(BigInteger.valueOf(grade));
         int ret = jService.updateMembership(member);
         if (ret == 1) {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
 
         } else {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
         }
     }
 
@@ -106,10 +110,10 @@ public class PayController {
         }
 
         if (ret == 1) {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
 
         } else {
-            return "redirect:/jeong/index.do";
+            return "redirect:/kdh/home.do";
         }
 
     }
@@ -137,6 +141,23 @@ public class PayController {
         String id = user.getUsername();
         Profile profile = jService.findProfileById(profileno.longValue());
         MemberProjection member = jService.findMemberById(profile.getMember().getId());
+        Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
+
+
+        if (paychk == null) { // 멤버쉽 결제 내역이 없을때
+            
+           
+        } else { // 멤버쉽 결제내역이 있을때
+            Date nowDate = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(paychk.getRegdate());// 등록된 날짜
+            cal.add(Calendar.DATE, 30); // 등록된 날짜 + 30일(cal)
+            if(nowDate.compareTo(cal.getTime())==-1){
+                //토큰결제 접근 못하도록 홈으로 
+                return "redirect:/kdh/home.do";
+            }                  
+
+        }
 
         model.addAttribute("id", id);
         model.addAttribute("token", member.getToken());
