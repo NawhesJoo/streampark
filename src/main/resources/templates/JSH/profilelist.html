@@ -73,14 +73,13 @@
 				<!-- <div class="col" style="display: inline-block;"> -->
 				<!-- chk가 1이면서 grade가 0 또는 1일 때 -->
 				<div class="row justify-content-center" th:if="${chk eq '1' and (grade == 0 or grade == 1)}">
-					<div class="col-3" th:each="obj, iterStat : ${list}" style="margin-top: 25px;">
-						<a th:if="${iterStat.index == 0}">
-							<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
+					<div class="col-3" th:each="obj, iterStat : ${list}" style="margin-top: 25px;" th:if="${iterStat.index == 0}">
+							<button type="button" style="background-color: #ffffff00; border-color: #ffffff00;"
+								data-bs-toggle="modal" data-bs-target="#profileModal"
 								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 									alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 							</button>
-						</a>
 					</div>
 					<div class="col-3" id="add-button">
 						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -95,14 +94,13 @@
 
 				<!-- chk가 1이면서 grade가 2일 때 -->
 				<div class="row justify-content-center" th:if="${chk eq '1' and grade == 2}">
-					<div class="col-3" th:each="obj, iterStat : ${list}" style="margin-top: 25px;">
-						<a th:if="${iterStat.index lt 2}">
-							<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
+					<div class="col-3" th:each="obj, iterStat : ${list}" style="margin-top: 25px;" th:if="${iterStat.index lt 2}">
+							<button type="button" style="background-color: #ffffff00; border-color: #ffffff00;"
+								data-bs-toggle="modal" data-bs-target="#profileModal"
 								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image" 
 								alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 							</button>
-						</a>
 					</div>
 					<div class="col-3" id="add-button">
 						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -118,7 +116,8 @@
 				<!-- chk가 1이면서 grade가 3일 때 -->
 				<div class="row justify-content-center" th:if="${chk eq '1' and grade == 3}">
 					<div class="col-3" th:each="obj : ${list}" style="margin-top: 25px;">
-						<button type="button" data-bs-toggle="modal" data-bs-target="#profileModal"
+						<button type="button" style="background-color: #ffffff00; border-color: #ffffff00;"
+							data-bs-toggle="modal" data-bs-target="#profileModal"
 							th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 							<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 								alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
@@ -137,15 +136,13 @@
 
 				<!-- chk가 0일 때 -->
 				<div class="row justify-content-center" th:if="${chk eq '0'}">
-					<div class="col-3" th:each="obj, iterStat : ${list}">
-						<a th:if="${iterStat.index == 0}">
+					<div class="col-3" th:each="obj, iterStat : ${list}" th:if="${iterStat.index == 0}">
 							<button type="button" style="background-color: #ffffff00; border-color: #ffffff00;"
 								data-bs-toggle="modal" data-bs-target="#profileModal"
 								th:onclick="profileselect([[${obj.nickname}]],[[${obj.profileno}]])">
 								<img th:src="@{/mypage/profileimage(profileno=${obj.profileno})}" class="profile-image"
 									alt="프로필 이미지" data-toggle="modal" data-target="#profileModal" />
 							</button>
-						</a>
 					</div>
 					<div class="col-3" id="add-button">
 						<button class="plus" data-bs-toggle="modal" data-bs-target="#exampleModal">
