@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Board;
+import com.project.dto.msh.SearchDto;
 import com.project.mapper.QnaMapper;
 import com.project.repository.QnaRepository;
 
@@ -22,6 +23,18 @@ public class QnaServiceImpl implements QnaService {
     @Override
     public Page<com.project.entity.Board> pageList(Pageable pageable) {
         return qnaRepository.findAll(pageable);
+    }
+
+    // 문의글 전체 목록
+    @Override
+    public List<Board> findAllPost(SearchDto params) {
+        return qnaMapper.findAll(params);
+    }
+
+    // 문의글 전체 목록
+    @Override
+    public List<com.project.entity.Board> selectBoardList() {
+        return qnaRepository.findAllByOrderByNoDesc();
     }
 
     // 문의글 작성

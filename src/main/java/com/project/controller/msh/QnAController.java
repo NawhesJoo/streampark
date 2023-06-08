@@ -1,6 +1,7 @@
 package com.project.controller.msh;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -46,28 +47,41 @@ public class QnAController {
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
-    public String pageListGET(Model model,
-            @PageableDefault(page = 0, size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(name="page", defaultValue = "0") int page) {
-        if(page == 0){
+    public String selectlistGET(Model model, @RequestParam(name = "page", defaultValue = "0") int page,@PageableDefault(page = 0, size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable) {
+        if (page == 0) {
             return "redirect:selectlist.do?page=1";
         }
+        List<com.project.entity.Board> list1 = qnaService.selectBoardList();
         Page<com.project.entity.Board> list = qnaService.pageList(pageable);
-            
-        log.info("{}", list);
 
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int pageSize = 10;      // 한페이지에 나오는 아이템갯수
+        int ret = list1.size();  //전체 게시글 수
+        int totalPages = (int) Math.ceil((double) ret / pageSize);
+        int maxVisiblePages = 5; // 한 번에 보이는 최대 페이지 수
 
+        // 현재 페이지를 기준으로 시작 페이지와 끝 페이지 계산
+        int startPage = Math.max(1, page - maxVisiblePages / 2);
+        int endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+        PageRequest pageRequest = PageRequest.of((page - 1), pageSize);
+
+        String formattedRet;
+        if (ret < 10) {
+            formattedRet = "0" + ret;
+        } else {
+            formattedRet = String.valueOf(ret);
+        }
+
+        model.addAttribute("pages", (ret-1)/pageSize+1);
         model.addAttribute("list", list);
-        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("ret", formattedRet);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
         return "/msh/selectlist";
     }
-
 
     // 문의글 등록GET
     @GetMapping(value = "/insert.do")

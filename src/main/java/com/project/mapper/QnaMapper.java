@@ -1,8 +1,11 @@
 package com.project.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.dto.Board;
+import com.project.dto.msh.SearchDto;
 
 @Mapper
 public interface QnaMapper {
@@ -18,4 +21,7 @@ public interface QnaMapper {
 
     // 게시글삭제
     public int deleteBoard(Board board);
+
+    //페이지네이션
+    List<Board> findAll(SearchDto params);
 }

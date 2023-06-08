@@ -25,4 +25,16 @@
         DELETE FROM BOARD WHERE no=#{no} AND profileno=#{profileno}
     </delete>
 
+    <!-- 게시글 리스트 조회 -->
+    <select id="findAll" parameterType="com.project.dto.msh.SearchDto" resultType="com.project.dto.Board">
+        SELECT
+            *
+        FROM
+            BOARD
+        ORDER BY
+            no DESC
+        LIMIT #{offset}, #{recordSize}
+    </select>
+
+
 </mapper>
