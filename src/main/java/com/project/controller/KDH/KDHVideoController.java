@@ -346,6 +346,7 @@ public class KDHVideoController {
                     }
                 }
             }
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결    
             return "redirect:/kdh/manageactor.do?title=" + title;
         } catch (Exception e) {
             e.printStackTrace();
@@ -365,6 +366,7 @@ public class KDHVideoController {
                 actors.setActors_No(Long.parseLong(chk[i]));
                 dhService.removeactorinvideo(videolist, actors);
             }
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결    
             return "redirect:/kdh/manageactor.do?title=" + title;
         } catch (Exception e) {
             e.printStackTrace();
