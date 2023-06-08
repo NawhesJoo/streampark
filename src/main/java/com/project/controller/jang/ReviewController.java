@@ -1,6 +1,5 @@
 package com.project.controller.jang;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.entity.Review;
 import com.project.entity.Watchlist;
@@ -44,10 +44,11 @@ public class ReviewController {
     final WatchlistRepository watchlistRepository;
 
     @PostMapping(value = "/deletebatchmanage.do")
-    public String deleteBatchManagePOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
+    public String deleteBatchManagePOST(RedirectAttributes redirectAttributes, @RequestParam(name = "videocode", required = false) BigInteger videocode, @RequestParam(name = "chk[]") List<BigInteger> chk) {
         try {
             // log.info(format,chk.toString());
             rRepository.deleteAllById(chk);
+            redirectAttributes.addAttribute("videocode", BigInteger.valueOf(videocode.longValue()));
             return "redirect:/review/reviewmanage.do";
         }
         catch (Exception e) {
@@ -57,7 +58,7 @@ public class ReviewController {
     }
 
     @PostMapping(value = "/deletemanage.do")
-    public String deletemanagePOST(@RequestParam(name = "review_no") BigInteger review_no, @RequestParam(name = "profileno") BigInteger profileno, @AuthenticationPrincipal User user) {
+    public String deletemanagePOST(Model model, RedirectAttributes redirectAttributes, @RequestParam(name = "videocode", required = false) BigInteger videocode, @RequestParam(name = "review_no") BigInteger review_no, @RequestParam(name = "profileno") BigInteger profileno, @AuthenticationPrincipal User user) {
         try {
             String id = user.getUsername();
             String role = memberRepository.findById(id).get().getRole();
@@ -65,6 +66,8 @@ public class ReviewController {
             if(role.equals("A")) {
                 rRepository.deleteById(review_no);
             }
+            redirectAttributes.addAttribute("videocode", BigInteger.valueOf(videocode.longValue()));
+            model.addAttribute("videocode", videocode);
             return "redirect:/review/reviewmanage.do";
         }
         catch (Exception e) {
@@ -89,6 +92,7 @@ public class ReviewController {
                 model.addAttribute("list", list);
                 model.addAttribute("role", role);
             }
+            model.addAttribute("videocode", videocode);
             return "/jang/review/reviewmanage";
         }
         catch (Exception e) {
