@@ -1,7 +1,9 @@
 package com.project.controller.KSH;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,7 +26,6 @@ import com.project.service.KSH.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @Slf4j
@@ -42,7 +44,15 @@ public class MemberController {
 
     // 메인 페이지
     @GetMapping(value = "/main.do")
-    public String mainGET() {
+    public String mainGET(Model model) {
+        List<String> imageUrls = Arrays.asList(
+        "/streampark/images/KSH/backgroundImg1.jpg",
+        "/streampark/images/KSH/backgroundImg2.jpg",
+        "/streampark/images/KSH/backgroundImg3.jpg",
+        "/streampark/images/KSH/backgroundImg4.jpg",
+        "/streampark/images/KSH/backgroundImg5.jpg"
+        );
+        model.addAttribute("imageUrls", imageUrls);
         return "/KSH/main";
     }
 
