@@ -96,7 +96,9 @@ public class KDHVideoController {
             log.info("{}", videolist.toString());
             log.info("{}회", videolist.getEpisode().intValue());
             dhService.videolistInsert(role, videolist);
-            return "redirect:/kdh/manageactor.do?title=" + videolist.getTitle();
+         String   title = URLEncoder.encode(videolist.getTitle(), "UTF-8");// redirect 한글깨짐현상 해결     
+
+            return "redirect:/kdh/manageactor.do?title=" + title;
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/kdh/error.do";
