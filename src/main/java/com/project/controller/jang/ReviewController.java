@@ -92,6 +92,7 @@ public class ReviewController {
                 model.addAttribute("list", list);
                 model.addAttribute("role", role);
             }
+            model.addAttribute("videocode", videocode);
             return "/jang/review/reviewmanage";
         }
         catch (Exception e) {
