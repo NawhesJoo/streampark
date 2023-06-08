@@ -8,6 +8,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,13 +47,15 @@ public class QnAController {
 
     // 문의글 목록
     @GetMapping(value = "/selectlist.do")
-    public String selectlistGET(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+    public String selectlistGET(Model model, @RequestParam(name = "page", defaultValue = "0") int page,@PageableDefault(page = 0, size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable) {
         if (page == 0) {
             return "redirect:selectlist.do?page=1";
         }
-        List<com.project.entity.Board> list = qnaService.selectBoardList();
-        int pageSize = 10; // 한페이지에 나오는 아이템갯수
-        int ret = list.size();
+        List<com.project.entity.Board> list1 = qnaService.selectBoardList();
+        Page<com.project.entity.Board> list = qnaService.pageList(pageable);
+
+        int pageSize = 10;      // 한페이지에 나오는 아이템갯수
+        int ret = list1.size();  //전체 게시글 수
         int totalPages = (int) Math.ceil((double) ret / pageSize);
         int maxVisiblePages = 5; // 한 번에 보이는 최대 페이지 수
 
@@ -67,6 +72,7 @@ public class QnAController {
             formattedRet = String.valueOf(ret);
         }
 
+        model.addAttribute("pages", (ret-1)/pageSize+1);
         model.addAttribute("list", list);
         model.addAttribute("ret", formattedRet);
         model.addAttribute("totalPages", totalPages);
