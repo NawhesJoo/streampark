@@ -37,6 +37,8 @@ public class ProfileImgController {
     private String defaultprofileimg;
     final ResourceLoader resourceLoader;
 
+    
+
     @GetMapping(value = "/profileimage")
     public ResponseEntity<byte[]> image(@RequestParam(name = "profileno", defaultValue = "0") BigInteger profileno) throws IOException{
         Profileimg obj = piRepository.findByProfile_Profileno(profileno);
