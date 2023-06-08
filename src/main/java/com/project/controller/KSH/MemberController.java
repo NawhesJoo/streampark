@@ -120,7 +120,7 @@ public class MemberController {
     // 비밀번호 찾기
     @GetMapping(value = "/findpw.do")
     public String findPwGET() {
-        return "KSH/findPw";
+        return "KSH/findpw";
     }
 
     @PostMapping(value = "/findpw.do")
