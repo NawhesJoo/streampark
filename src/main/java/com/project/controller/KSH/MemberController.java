@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -88,7 +86,7 @@ public class MemberController {
 
     // 로그인 페이지
     @GetMapping(value = "/login.do")
-    public String loginGET(HttpServletRequest request, HttpServletResponse response) {
+    public String loginGET() {
         return "KSH/login";
     }
 
@@ -121,7 +119,7 @@ public class MemberController {
 
     // 비밀번호 찾기
     @GetMapping(value = "/findpw.do")
-    public String findPwGET() {      
+    public String findPwGET() {
         return "KSH/findPw";
     }
 
