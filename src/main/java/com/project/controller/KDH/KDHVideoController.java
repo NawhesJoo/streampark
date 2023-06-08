@@ -546,7 +546,11 @@ public class KDHVideoController {
             videolist.setVideocode(videocode);
             interestlist.setProfile(profile);
             interestlist.setVideolist(videolist);
-            interestRepository.save(interestlist);
+            Interestlist one = interestRepository.findByProfile_profilenoAndVideolist_videocode(profileno, videocode);
+            if(one == null){
+                interestRepository.save(interestlist);                
+            }else{
+            }
             return "redirect:/kdh/home.do";
         } catch (Exception e) {
             e.printStackTrace();

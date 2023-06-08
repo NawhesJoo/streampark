@@ -12,5 +12,7 @@ import com.project.entity.Interestlist;
 public interface InterestRepository  extends JpaRepository<Interestlist,BigInteger>{
     
     List<Interestlist> findByProfile_profileno(BigInteger profileno);
+
     Interestlist findByProfile_profilenoAndVideolist_videocode( BigInteger profileno,BigInteger videocode);
+    
 }
