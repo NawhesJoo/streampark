@@ -110,9 +110,15 @@
                                     <p>c</p>
                                 </div>
                                 <div style="margin-left: 5px;" th:if="${session.grade != null}" class="col d-flex">
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 1}">Basic</p></a>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 2}">Standard</p></a>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 3}">Premium</p></a>
+                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}">
+                                        <p style="color: #efc900;" th:if="${session.grade == 1}">Basic</p>
+                                    </a>
+                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}">
+                                        <p style="color: #efc900;" th:if="${session.grade == 2}">Standard</p>
+                                    </a>
+                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}">
+                                        <p style="color: #efc900;" th:if="${session.grade == 3}">Premium</p>
+                                    </a>
                                 </div>
                                 <div class="col">
                                     <form th:action="@{/logout.do}" method="post"
@@ -315,8 +321,7 @@
                                 <!-- 현재 멤버쉽 -->
                                 <!-- <label th:text="${cal}"></label> -->
 
-                                <div class="row"
-                                    style="border: 2px solid aliceblue;margin-right: 280px;
+                                <div class="row" style="border: 2px solid aliceblue;margin-right: 280px;
                                     margin-left: 755px; height: 230px; width: 700px;">
                                     <div class="card10" th:if="${cal == -1}"
                                         style="margin-left: 20px ;margin-right: 50px; margin-top: 10px;">
@@ -328,22 +333,27 @@
                                                 9500
                                                 <!-- <span>2023.06.22 만료</span> -->
                                             </h2>
-                                            <span class="btncustom" th:text="${expired}"></span>
+                                            <span class="btncustom" th:text="|${expired} 만료|"></span>
                                         </label>
                                     </div>
                                     <div style="display: contents;">
-                                        <i class="bi bi-arrow-right" style="color: #efc900; width: 40px;height: 40px;margin-top: 110px; font-size: 30px;"></i>
+                                        <i class="bi bi-arrow-right"
+                                            style="color: #efc900; width: 40px;height: 40px;margin-top: 110px; font-size: 30px;"></i>
                                     </div>
                                     <div class="card10" th:if="${cal == -1}"
                                         style="margin-left: 20px;margin-right: 50px; margin-top: 10px;">
                                         <h2 style="color: #efc900;">다음 결제 멤버쉽</h2>
+                                        <!-- <h2 th:text="${nextgrade}"></h2> -->
                                         <input type="text" class="card10" id="card10" name="nowmembership" readonly>
-                                        <label class="label1" for="card10">
-                                            <h5 th:text="${fee.name}"></h5>
-                                            <h2 th:text="${fee.price}">
+                                        <label th:if="${nextfee.price != 0 }" class="label1" for="card10">
+                                            <h5 th:text="${nextfee.name}"></h5>
+                                            <h2 th:text="${nextfee.price}">
                                                 <!-- <span>2023.06.22 만료</span> -->
                                             </h2>
-                                            <span class="btncustom" th:text="${expired}"></span>
+                                            <span class="btncustom" th:text="|${expired} 결제|"></span>
+                                        </label>
+                                        <label th:if="${nextfee.price == 0 }" class="label1" for="card10">
+                                            <h5>멤버쉽 해지</h5>
                                         </label>
 
                                     </div>
@@ -354,8 +364,7 @@
 
 
                                 <!-- 멤버쉽 목록 -->
-                                <div
-                                    style="border: 2px solid aliceblue;margin-top: 90px;
+                                <div style="border: 2px solid aliceblue;margin-top: 90px;
                                     margin-left: 167px;
                                     margin-right: 275px; width: 1300px;">
                                     <form th:action="@{/pay/update.do}" method="post" id="form1">
@@ -410,7 +419,7 @@
                                 <div align="right" style="margin-right: 170px; margin-top: 50px;">
                                     <input type="button" class="btn btn-warning" value="변경" onclick="change();">
                                 </div>
-                                
+
 
 
                             </div>
@@ -534,21 +543,21 @@
         function chkconfirm() {
             // alert('chkconfirm');
             // console.log('chkconfirm');
-            if (/*[[${ cal == -1} ]]*/) {
+            if (/*[[${ cal == -1} ]]*/"") {
                 //멤버십 유효기간 내
                 alert('이미 멤버십을 사용중입니다.');
-                window.location.href = /*[[@{/jeong/index.do}]]*/;
+                window.location.href = /*[[@{/jeong/index.do}]]*/"";
                 return;
 
             }
-            else if (/*[[${ cal == 0 or cal == 1}]]*/) {
+            else if (/*[[${ cal == 0 or cal == 1}]]*/"") {
                 //멤버십 만료
-                if (/*[[${token >=0 }]]*/) {
+                if (/*[[${token >=0 }]]*/"") {
                     if (confirm("이미 토큰이 있습니다 멤버십으로 전환 하시겠습니까?")) {
 
                     }
                     else {
-                        window.location.href = /*[[@{/jeong/index.do}]]*/;
+                        window.location.href = /*[[@{/jeong/index.do}]]*/"";
                         return;
                     }
                 }
@@ -572,25 +581,25 @@
             if (chk + 1 == 1) {
                 //수정?
                 grade.value = chk + 1;
-                if (/*[[${ currentTokens * 100  > 9500 }]]*/) {
+                if (/*[[${ currentTokens * 100  > 9500 }]]*/"") {
                     price.value = 0;
                 } else {
-                    price.value = 9500 - (/*[[${ currentTokens * 100 }]]*/);
+                    price.value = 9500 - (/*[[${ currentTokens * 100 }]]*/"");
                 }
 
             } else if (chk + 1 == 2) {
                 grade.value = chk + 1;
-                if (/*[[${ currentTokens * 100  > 12000 }]]*/) {
+                if (/*[[${ currentTokens * 100  > 12000 }]]*/"") {
                     price.value = 0;
                 } else {
-                    price.value = 12000 - (/*[[${ currentTokens * 100 }]]*/);
+                    price.value = 12000 - (/*[[${ currentTokens * 100 }]]*/"");
                 }
             } else if (chk + 1 == 3) {
                 grade.value = chk + 1;
-                if (/*[[${ currentTokens * 100  > 14500 }]]*/) {
+                if (/*[[${ currentTokens * 100  > 14500 }]]*/"") {
                     price.value = 0;
                 } else {
-                    price.value = 14500 - (/*[[${ currentTokens * 100 }]]*/);
+                    price.value = 14500 - (/*[[${ currentTokens * 100 }]]*/"");
                 }
             }
             console.log(grade.value);
@@ -631,7 +640,7 @@
             console.log(price.value);
         }
         function chkpay() {
-            if (/*[[token]]*/> 0) {
+            if (/*[[token]]*/"" > 0) {
                 if (confirm('토큰을 사용하시겠습니까? 토큰은 1개당 100원으로 계산합니다')) {
                     memberships();
                 } else {
@@ -656,9 +665,18 @@
         function blockMemberships() {
             const radio = document.getElementsByName('pricing');
 
-            if (/*[[${not #strings.isEmpty(grade)}]]*/) {
-                const i =/*[[${grade-1}]]*/;
-                radio[i].disabled = true;
+            if (/*[[${not #strings.isEmpty(grade)}]]*/"") {
+                const i =/*[[${grade-1}]]*/"";
+                const j = /*[[${nextgrade}]]*/"";
+                if (i != j) {
+                    if (j == 0) {
+                        radio[3].disabled = true;
+                    }else{
+                        radio[j - 1].disabled = true;
+                    }
+                } else {
+                    radio[i].disabled = true;
+                }
             } else {
 
             }
