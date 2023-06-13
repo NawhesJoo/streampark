@@ -197,28 +197,12 @@
                                 </button></a>
                             <strong class="d-inline-block text-truncate align-middle profileName"
                                 style="max-width: 139px;" th:text="${session.nickname}"></strong>
-                            <div class="row justify-content-between mt-3">
-                                <div style="margin-left: 5px;" th:if="${session.grade == null}" class="col d-flex">
-                                    <p>coin:</p>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/token.do}">
-                                        <p style="color: white; " th:text="${session.token}"></p>
-                                    </a>
-                                    <p>c</p>
-                                </div>
-                                <div style="margin-left: 5px;" th:if="${session.grade != null}" class="col d-flex">
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 1}">Basic</p></a>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 2}">Standard</p></a>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 3}">Premium</p></a>
-                                </div>
-                                <div class="col">
-                                    <form th:action="@{/logout.do}" method="post"
-                                        style="padding-top: 0px; text-align: right;">
-                                        <input type="submit" value="로그아웃"
-                                            style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
-                                    </form>
-                                </div>
-                            </div>
-                            <hr style=" margin-top: 0; border-width: 2px;">
+
+                            <form th:action="@{/logout.do}" method="post" style="padding-top: 0px; text-align: right;">
+                                <input type="submit" value="로그아웃"
+                                    style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
+                            </form>
+                            <hr style="border-width: 2px;">
                             <!-- 사이드바 메뉴 영역 -->
                             <!-- 경로 지정에 주의할 것 -->
                             <!-- CONTENT -->
@@ -247,7 +231,7 @@
                                 data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" th:href="@{/watchlist/selectlist.do}">시청 목록</a>
-                                    <a class="nav-link" th:href="@{/pay/havelist.do}">소장 목록</a>
+                                    <a class="nav-link" th:href="@{/kdh/havelist.do}">소장 목록</a>
                                     <a class="nav-link" th:href="@{/kdh/interestlist.do}">관심 목록</a>
                                     <a class="nav-link" th:href="@{/review/selectlist.do}">리뷰 내역</a>
                                     <a class="nav-link" th:href="@{/qna/selectlist.do}">고객 문의</a>
@@ -327,7 +311,7 @@
                                                 <td id="title"><a th:href="@{/qna/selectone.do(no=${obj.no})}"
                                                         th:text="${obj.title}"></a></td>
                                                 <td th:text="${obj.profile.nickname}"></td>
-                                                <td class="regdate1" th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}"></td>
+                                                <td class="regdate1" th:text="${obj.regdate}"></td>
                                                 <td th:if="${obj.qnareply.size()>=1}">
                                                     <div id="reply">답변완료</div>
                                                 </td>
@@ -350,6 +334,7 @@
         <div class="mainFooterdiv container-fluid px-4">
             <div class="d-flex justify-content-between align-items-center small">
                 <div style=" color: rgba(255, 255, 255, 0.5);;">
+                    원하는 fotter 적용 css로 색 지정
                 </div>
             </div>
         </div>
@@ -425,13 +410,13 @@
                 else if (days < 7) {
                     value1[i].innerHTML = `${Math.floor(days)}일 전`;
                 }
-                // else if (weeks < 5) {
-                //     value1[i].innerHTML = `${Math.floor(weeks)}주 전`;
-                // }
-                // else if (months < 12) {
-                //     value1[i].innerHTML = `${Math.floor(months)}개월 전`;
-                // }
+                else {
+                    value1[i].innerHTML = new Intl.DateTimeFormat('kr').format(new Date(regdate));
+                }
             }
+            // else if (months < 12) {
+            //     value1[i].innerHTML = `${Math.floor(months)}개월 전`;
+            // }
         }
         displayedAt();
         // console.log(displayedAt());
