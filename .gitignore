@@ -19,4 +19,4 @@ resoures/
 application.properties
 
 
-application.properties
+**/application.properties
