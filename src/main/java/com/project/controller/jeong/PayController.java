@@ -47,7 +47,7 @@ public class PayController {
 
     @GetMapping(value = "/havelist.do")
     public String haveGET(Model model){
-        List<Paymentlist> paymentList = paymentlistRepository.findByProfile_profileno((BigInteger)httpSession.getAttribute("profileno"));
+        List<Paymentlist> paymentList = paymentlistRepository.findByProfile_profilenoOrderByRegdateDesc((BigInteger)httpSession.getAttribute("profileno"));
         if(paymentList !=null){
             List<PaymentVideolist> list1 = jService.paymenstlistToPaymentVideolist(paymentList);
             List<PaymentVideolist> list = jService.getVideoTitle(list1);        
