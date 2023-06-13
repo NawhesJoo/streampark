@@ -311,9 +311,13 @@
                                             name="memberships"></div>
                                     <br>
                                 </div>
-                                <div align="right">
-                                    <input type="button" class="btn btn-warning" value="Join!" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" onclick="chkpay();">
+                                <div class="frame" style="margin-top: 40px;margin-left: 1300px;">
+                                        <!-- <button class="custom-btn btn-8"
+                                            th:onclick="|location.href='@{/pay/membership.do(menu=1)}'|"><span
+                                                class="custom1">멤버쉽 가입</span></button> -->
+                                    <button class="custom-btn btn-8 "  data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" onclick="chkpay();"><span
+                                        class="custom1">join!</span></button>
                                 </div>
                             </div>
                             <!-- 멤버쉽 변경 -->
@@ -443,11 +447,11 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">멤버십 결제</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">멤버쉽 결제</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        현재 토큰 : <label th:text="${token}"></label>
+                        현재 토큰 : <label th:text="${session.token}"></label>
                         <br>
 
                         <br>
@@ -531,9 +535,11 @@
 
                 } else {
                     // 결제 실패 시 로직
-                    console.log('결제실패' + rsp);
-                    const form = document.getElementById('payform');
-                    form.submit();
+                    console.log('결제실패' + rsp);                    
+                    alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
+                    return;
+                    // const form = document.getElementById('payform');
+                    // form.submit();
 
                 }
                 console.log('test' + rsp);
