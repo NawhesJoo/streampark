@@ -16,7 +16,7 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 resoures/
-application.properties
+# application.properties
 
 
 # **/application.properties
