@@ -94,27 +94,32 @@
                         <div class="sb-sidenav-menu-heading">
                             <!-- 사이드바 프로필 영역 -->
                             <a th:href="@{/profile/profilelist.do}"><button class="align-middle profileCle">
-                                    <img th:src="@{/mypage/profileimage(profileno=${session.profileno})}"
-                                        style="height: 50px; width: 50px; margin-left: -6px; border-radius: 50%;">
-                                </button></a>
-                            <strong class="d-inline-block text-truncate align-middle profileName"
-                                style="max-width: 139px;" th:text="${session.nickname}"></strong>
-                            <div class="row justify-content-between mt-3">
-                                <div class="col d-flex">
-                                    <p>coin:</p>
-                                    <a style="text-decoration-line: none;" th:href="@{/pay/token.do}">
-                                        <p style="color: white; " th:text="${session.token}"></p>
-                                    </a>
-                                    <p>c</p>
-                                </div>
-                                <div class="col">
-                                    <form th:action="@{/logout.do}" method="post"
-                                        style="padding-top: 0px; text-align: right;">
-                                        <input type="submit" value="로그아웃"
-                                            style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
-                                    </form>
-                                </div>
+                                <img th:src="@{/mypage/profileimage(profileno=${session.profileno})}"
+                                    style="height: 50px; width: 50px; margin-left: -6px; border-radius: 50%;">
+                            </button></a>
+                        <strong class="d-inline-block text-truncate align-middle profileName"
+                            style="max-width: 139px;" th:text="${session.nickname}"></strong>
+                        <div class="row justify-content-between mt-3">
+                            <div style="margin-left: 5px;" th:if="${session.grade == null}" class="col d-flex">
+                                <p>coin:</p>
+                                <a style="text-decoration-line: none;" th:href="@{/pay/token.do}">
+                                    <p style="color: white; " th:text="${session.token}"></p>
+                                </a>
+                                <p>c</p>
                             </div>
+                            <div style="margin-left: 5px;" th:if="${session.grade != null}" class="col d-flex">
+                                <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 1}">Basic</p></a>
+                                <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 2}">Standard</p></a>
+                                <a style="text-decoration-line: none;" th:href="@{/pay/membership.do}"><p style="color: #efc900;" th:if="${session.grade == 3}">Premium</p></a>
+                            </div>
+                            <div class="col">
+                                <form th:action="@{/logout.do}" method="post"
+                                    style="padding-top: 0px; text-align: right;">
+                                    <input type="submit" value="로그아웃"
+                                        style="border-style: none; color: rgba(239, 201, 0, 1);  background-color: rgba(0, 0, 0, 0);">
+                                </form>
+                            </div>
+                        </div>
                             <hr style=" margin-top: 0; border-width: 2px;">
                             <!-- 사이드바 메뉴 영역 -->
                             <!-- 경로 지정에 주의할 것 -->
