@@ -73,7 +73,15 @@ public class MemberController {
 
     // 웰컴 페이지
     @GetMapping(value = "/wellcome.do")
-    public String wellcomeGET() {
+    public String wellcomeGET(Model model) {
+        List<String> imageUrls = Arrays.asList(
+        "/streampark/images/KSH/backgroundImg1.jpg",
+        "/streampark/images/KSH/backgroundImg2.jpg",
+        "/streampark/images/KSH/backgroundImg3.jpg",
+        "/streampark/images/KSH/backgroundImg4.jpg",
+        "/streampark/images/KSH/backgroundImg5.jpg"
+        );
+        model.addAttribute("imageUrls", imageUrls);
         return "KSH/wellcome";
     }
 
