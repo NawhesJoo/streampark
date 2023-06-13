@@ -84,8 +84,8 @@ public class ProfileController {
     // 현재 멤버쉽은 GRADE 값
     @GetMapping(value = "/profilelist.do")
     public String profilelistGET(@AuthenticationPrincipal User user, Model model, HttpSession session) {
-        session.removeAttribute("profileno");
-        session.removeAttribute("nickname");
+        // session.removeAttribute("profileno");
+        // session.removeAttribute("nickname");
         try {
             String id = user.getUsername();
             log.info("list id => {}", id);
@@ -162,8 +162,8 @@ public class ProfileController {
                 model.addAttribute("chk", "0");
             }
             // model.addAttribute("defaultimage",defaultprofileimg );
-            session.removeAttribute("nickname");
-            session.removeAttribute("profileno");
+            // session.removeAttribute("nickname");
+            // session.removeAttribute("profileno");
             return "/JSH/profilelist";
         } catch (Exception e) {
             e.printStackTrace();

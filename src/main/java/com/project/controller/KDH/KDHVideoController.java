@@ -96,7 +96,9 @@ public class KDHVideoController {
             log.info("{}", videolist.toString());
             log.info("{}회", videolist.getEpisode().intValue());
             dhService.videolistInsert(role, videolist);
-            return "redirect:/kdh/manageactor.do?title=" + videolist.getTitle();
+         String   title = URLEncoder.encode(videolist.getTitle(), "UTF-8");// redirect 한글깨짐현상 해결     
+
+            return "redirect:/kdh/manageactor.do?title=" + title;
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/kdh/error.do";
@@ -121,11 +123,12 @@ public class KDHVideoController {
 
     @PostMapping(value = "/videoupdate.do")
     public String videoupdatePOST(Model model, @ModelAttribute Videolistdto videolist,
-            @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle) {
+            @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle , @AuthenticationPrincipal User user) {
         try {
-            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
+            String id = user.getUsername();
+            String role = memberRepository.findById(id).get().getRole();
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
-            member.setRole("a");
+            member.setRole(role);
             dhService.videolistUpdate(member, videolist, nowtitle);
             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
 
@@ -543,7 +546,11 @@ public class KDHVideoController {
             videolist.setVideocode(videocode);
             interestlist.setProfile(profile);
             interestlist.setVideolist(videolist);
-            interestRepository.save(interestlist);
+            Interestlist one = interestRepository.findByProfile_profilenoAndVideolist_videocode(profileno, videocode);
+            if(one == null){
+                interestRepository.save(interestlist);                
+            }else{
+            }
             return "redirect:/kdh/home.do";
         } catch (Exception e) {
             e.printStackTrace();

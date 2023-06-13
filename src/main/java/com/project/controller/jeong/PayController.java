@@ -47,7 +47,7 @@ public class PayController {
 
     @GetMapping(value = "/havelist.do")
     public String haveGET(Model model){
-        List<Paymentlist> paymentList = paymentlistRepository.findByProfile_profileno((BigInteger)httpSession.getAttribute("profileno"));
+        List<Paymentlist> paymentList = paymentlistRepository.findByProfile_profilenoOrderByRegdateDesc((BigInteger)httpSession.getAttribute("profileno"));
         if(paymentList !=null){
             List<PaymentVideolist> list1 = jService.paymenstlistToPaymentVideolist(paymentList);
             List<PaymentVideolist> list = jService.getVideoTitle(list1);        
@@ -183,10 +183,13 @@ public class PayController {
         // httpSession.setAttribute("role", "C");
 
         log.info("{}", feelist);
+        
         // log.info("membershipGET profile -> {}", profile);
         // log.info("membershipGET paychk -> {}", paychk);
         // log.info("membershipGET paychk2 -> {}", paychk2);
         if ((member.getMembershipchk() != null )) {// null이 아닐 때
+            log.info("next membership {}", member.getMembershipchk());
+            model.addAttribute("nextfee", feelist.get(member.getMembershipchk().intValue()));
             model.addAttribute("nextgrade", member.getMembershipchk());
 
         }
@@ -194,27 +197,33 @@ public class PayController {
         if (paychk == null) { // 멤버쉽 결제 내역이 없을때
             model.addAttribute("cal", 0); // cal이 현재 날짜보다 과거면 1 미래면 -1 -> -1이면 유효 1이면 만료
             model.addAttribute("grade", 0);
-            if(menu == 2){
-                return "redirect:/pay/membership.do";
+            if(menu != 1){
+                return "redirect:/pay/membership.do?menu=1";
             }
         } else { // 멤버쉽 결제내역이 있을때
             Date nowDate = new Date();
             Calendar cal = Calendar.getInstance();
             cal.setTime(paychk.getRegdate());// 등록된 날짜
             cal.add(Calendar.DATE, 30); // 등록된 날짜 + 30일(cal)
-            model.addAttribute("expired", fmt.format(cal.getTime()) + " 만료");
+            model.addAttribute("expired", fmt.format(cal.getTime()) );
             model.addAttribute("cal", nowDate.compareTo(cal.getTime())); // cal이 현재 날짜보다 과거면 1 미래면 -1 -> -1이면 유효 1이면 만료
             log.info("멤버십 구매 날짜 : {} ", paychk.getRegdate().toString());
             model.addAttribute("grade", paychk.getFee().getGrade());
             Fee nowFee = jService.findFeeById(paychk.getFee().getGrade());
-            if (menu != 0) {
-                if (menu == 1 && (nowDate.compareTo(cal.getTime()) == -1)) {
-                    //멤버쉽이 유효할 때 멤버쉽 가입으로 가면 가입,변경 버튼만 있는 페이지로
-                    return "redirect:/pay/membership.do";
-                }
-                
-
+            if(menu !=2 && nowDate.compareTo(cal.getTime()) == -1){
+                //멤버쉽이 유효 하면
+                return "redirect:/pay/membership.do?menu=2";
+            }else if(menu !=1 && nowDate.compareTo(cal.getTime()) != -1){
+                return "redirect:/pay/membership.do?menu=1";
             }
+            // if (menu != 0) {
+                
+            //     if (menu == 1 && (nowDate.compareTo(cal.getTime()) == -1)) {
+            //         //멤버쉽이 유효할 때 멤버쉽 가입으로 가면 가입,변경 버튼만 있는 페이지로
+            //         return "redirect:/pay/membership.do";
+            //     }                
+
+            // }
             model.addAttribute("fee", nowFee);
         }
 

@@ -23,14 +23,20 @@
     color: #efc900;
     cursor: pointer;
     font-family: cursive;
-    text-decoration: underline;
-    text-decoration-color:  #191c29;
+    /* text-decoration: underline; */
+    text-decoration: none;
+    /* text-decoration-color:  #191c29; */
   }
   
+.cardSec a.cardA {
+  text-decoration: none;
+}
+
   .card:hover {
-      color: black;
-      /* transition: color 1s; */
-      text-decoration: underline;
+    color: black;
+    /* transition: color 1s; */
+    /* text-decoration: underline; */
+    /* text-decoration: none; */
     text-decoration-color:  black;
     } 
     .card:hover:before,
