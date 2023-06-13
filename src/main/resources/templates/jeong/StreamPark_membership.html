@@ -519,7 +519,7 @@
                 pay_method: "card",
                 merchant_uid: `/*[[${id}]]*/_${new Date().getTime()} `,
                 name: "결제 테스트",
-                amount: price,
+                amount: 100,
                 buyer_email: "gildong@gmail.com",
                 buyer_name: "홍길동",
                 buyer_tel: "010-0000-0000",
@@ -681,7 +681,7 @@
                         radio[j - 1].disabled = true;
                     }
                 } else {
-                    radio[i].disabled = true;
+                    radio[i-1].disabled = true;
                 }
             } else {
 
