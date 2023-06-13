@@ -74,7 +74,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
         </script>
     <script th:inline="javascript">
-       const imageUrls = /*[[${imageUrls}]]*/ [];
+        const imageUrls = /*[[${imageUrls}]]*/ [];
         const body = document.querySelector('body');
         function changeBackgroundImage() {
             const randomIndex = Math.floor(Math.random() * imageUrls.length);
@@ -82,6 +82,15 @@
             body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('${imageUrl}')`;
         }
         changeBackgroundImage();
+        // const bgImages = [
+        //     "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg1.jpg')",
+        //     "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg2.jpg')",
+        //     "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg3.jpg')",
+        //     "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg4.jpg')",
+        //     "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('http://127.0.0.1:9090/streampark/images/KSH/backgroundImg5.jpg')"
+        // ];
+        // const body = document.querySelector('body');
+        // body.style.backgroundImage = bgImages[Math.floor(Math.random() * bgImages.length)];
     </script>
 </body>
 
