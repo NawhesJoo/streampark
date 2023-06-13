@@ -320,7 +320,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">멤버십 결제</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">토큰 결제</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -378,9 +378,11 @@
 
                 } else {
                     // 결제 실패 시 로직
-                    console.log('결제실패' + rsp);
-                    const form = document.getElementById('payform');
-                    form.submit();
+                    console.log('결제실패' + rsp);                    
+                    alert("실패 : 코드("+rsp.error_code+") / 메세지(" + rsp.error_msg + ")");
+                    return;
+                    // const form = document.getElementById('payform');
+                    // form.submit();
 
                 }
                 console.log('test' + rsp);
