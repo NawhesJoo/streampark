@@ -297,7 +297,7 @@
                                 <div style="padding-bottom: 5px;">
                                     <span>제목: </span><span th:text="${board.title}"></span><br />
                                     <span style="margin-right: 2px;">글번호 </span><span th:text="${board.no}"></span>
-                                    <span>┃ 작성자 </span><span th:text="${board.profileno}"></label></span>
+                                    <span>┃ 작성자 </span><span th:text="${session.nickname}"></label></span>
                                     <span>┃ 작성일 </span>
                                     <span th:text="${#dates.format(board.regdate, 'yyyy.MM.dd')}"></span>
                                 </div>
@@ -318,6 +318,8 @@
                                 <div style="padding-bottom: 5px;">
                                     <span>제목: </span><span th:if="${reply != null}"
                                         th:text="|'${board.title}'문의에 대한 답변입니다.|"></span>
+                                    <span style="margin-right: 2px;">┃ 답변자: <span th:if="${reply != null}"
+                                            th:text="${session.nickname}"></span>
                                     <span style="margin-right: 2px;">┃ 처리일자: <span th:if="${reply != null}"
                                             th:text="${#dates.format(reply.regdate, 'yyyy.MM.dd')}"></span>
                                 </div>
