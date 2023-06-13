@@ -326,7 +326,7 @@
                                                 <td id="title"><a th:href="@{/qna/selectone.do(no=${obj.no})}"
                                                         th:text="${obj.title}"></a></td>
                                                 <td th:text="${obj.profile.nickname}"></td>
-                                                <td class="regdate1" th:text="${obj.regdate}"></td>
+                                                <td class="regdate1" th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}"></td>
                                                 <td th:if="${obj.qnareply.size()>=1}">
                                                     <div id="reply">답변완료</div>
                                                 </td>
@@ -349,7 +349,6 @@
         <div class="mainFooterdiv container-fluid px-4">
             <div class="d-flex justify-content-between align-items-center small">
                 <div style=" color: rgba(255, 255, 255, 0.5);;">
-                    원하는 fotter 적용 css로 색 지정
                 </div>
             </div>
         </div>
@@ -425,12 +424,12 @@
                 else if (days < 7) {
                     value1[i].innerHTML = `${Math.floor(days)}일 전`;
                 }
-                else if (weeks < 5) {
-                    value1[i].innerHTML = `${Math.floor(weeks)}주 전`;
-                }
-                else if (months < 12) {
-                    value1[i].innerHTML = `${Math.floor(months)}개월 전`;
-                }
+                // else if (weeks < 5) {
+                //     value1[i].innerHTML = `${Math.floor(weeks)}주 전`;
+                // }
+                // else if (months < 12) {
+                //     value1[i].innerHTML = `${Math.floor(months)}개월 전`;
+                // }
             }
         }
         displayedAt();
